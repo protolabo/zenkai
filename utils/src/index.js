@@ -3,4 +3,4 @@ import { UTIL as UTILS } from './utils.js';
 import './html-element-helper.js';
 import './effects.js';
 
-export { UTILS, HELPER };
+const PROTOLABO = { UTILS, HELPER };
