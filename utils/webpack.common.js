@@ -7,7 +7,7 @@ module.exports = {
     output: {
         filename: 'jslib-utils.js',
         path: path.resolve(__dirname, 'dist'),
-        library: 'jslabo',
+        library: 'jsLabo',
         libraryTarget: 'umd'
     },
     resolve: {

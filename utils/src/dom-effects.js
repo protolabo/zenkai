@@ -1,4 +1,4 @@
-import { DOMUtils as $ } from './dom-utils.js';
+import { removeClass, addClass } from './dom-utils.js';
 
 const Elements = ['BUTTON', 'COMMAND', 'FIELDSET', 'INPUT', 'KEYGEN', 'OPTGROUP', 'OPTION', 'SELECT', 'TEXTAREA'];
 
@@ -9,19 +9,19 @@ const UI = {
     EMPTY: 'empty',
     HIDDEN: 'hidden',
     SELECTED: 'selected',
-}
+};
 
 /**
  * Shows an element
  * @param {Element} el Element
  */
-export const show = function (el) { $.removeClass(el, UI.HIDDEN); };
+export const show = function (el) { removeClass(el, UI.HIDDEN); };
 
 /**
  * Hides an element
  * @param {Element} el element
  */
-export const hide = function (el) { $.addClass(el, UI.HIDDEN); };
+export const hide = function (el) { addClass(el, UI.HIDDEN); };
 
 /**
  * Moves an element out of screen
@@ -33,13 +33,13 @@ export const fakeHide = function (el) { return Object.assign(el, { position: 'ab
  * Applies highlighting style to an element
  * @param {HTMLElement} el Element
  */
-export const highlight = function (el) { $.addClass(el, UI.SELECTED); };
+export const highlight = function (el) { addClass(el, UI.SELECTED); };
 
 /**
  * Removes highlighting style of an element
  * @param {HTMLElement} el Element
  */
-export const unhighlight = function (el) { $.removeClass(el, UI.SELECTED); };
+export const unhighlight = function (el) { removeClass(el, UI.SELECTED); };
 
 /**
  * Enable an element

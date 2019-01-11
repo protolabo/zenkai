@@ -1,4 +1,4 @@
-import { DOMUtils as $ } from './dom-utils.js';
+import { addClass } from './dom-utils.js';
 
 /** @type {document} */
 const DOC = typeof module !== 'undefined' && module.exports ? {} : document;
@@ -15,8 +15,9 @@ export const DOMCreate = {
             el.id = eId;
         }
         if (eClass) {
-            $.addClass(el, eClass);
+            addClass(el, eClass);
         }
+        
         return el;
     },
     /**
@@ -307,7 +308,7 @@ export const DOMCreate = {
             html: [assign, 'innerHTML'],
             accept: [assign],
             disabled: [this.disable, el],
-            class: [$.addClass, el],
+            class: [addClass, el],
             value: [assign],
             placeholder: [assign],
             readonly: [assign, 'readOnly'],
