@@ -6,7 +6,9 @@ module.exports = {
     },
     output: {
         filename: 'jslib-utils.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        library: 'jslabo',
+        libraryTarget: 'umd'
     },
     resolve: {
         alias: {
@@ -14,15 +16,18 @@ module.exports = {
             '@src': path.resolve(__dirname, 'src')
         }
     },
-    module: {
-        rules: [
-            {
-                test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000
-                }
-            }
-        ]
-    }
+    // module: {
+    //     rules: [
+    //         {
+    //             test: /\.m?js$/,
+    //             exclude: /(node_modules|bower_components)/,
+    //             use: {
+    //                 loader: 'babel-loader',
+    //                 options: {
+    //                     presets: ['@babel/preset-env']
+    //                 }
+    //             }
+    //         }
+    //     ]
+    // }
 };

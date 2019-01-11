@@ -1,8 +1,11 @@
-﻿import { HELPER as _ } from './helpers.js';
+﻿import { Helper } from './helpers.js';
+import { StringHelper } from './string-helper';
+
+const _ = Object.assign({}, Helper, StringHelper);
 
 const DOC = document;
 
-export const UTIL = {
+export const DOMUtils = {
     /**
      * Gets the window's width
      */

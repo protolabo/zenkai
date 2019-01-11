@@ -1,6 +1,10 @@
-import { HELPER } from './helpers.js';
-import { UTIL as UTILS } from './utils.js';
-import './html-element-helper.js';
-import './effects.js';
+import { Helper } from './helpers.js';
+import { DOMUtils } from './dom-utils.js';
+import { DOMCreate } from './dom-create.js';
+import { DataTypeManip } from './datatype-manip.js';
+import { DateTimeHelper } from './datetime-helper.js';
+import { ObjectHelper } from './object-helper';
+import { StringHelper } from './string-helper';
+import * as DomEffects from './dom-effects.js';
 
-const PROTOLABO = { UTILS, HELPER };
+export { Helper, DOMUtils, DataTypeManip, DateTimeHelper, ObjectHelper, StringHelper, DOMCreate, DomEffects };
