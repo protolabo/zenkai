@@ -1,13 +1,13 @@
 {
   "name": "protolabo-jsutils",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Javascript utility and helper methods",
   "private": true,
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --open --config webpack.dev.js",
     "build": "rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require @babel/register"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,11 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/register": "^7.0.0",
     "babel-plugin-module-resolver": "^3.1.1",
+    "chai": "^4.2.0",
+    "coffeescript": "^2.3.2",
+    "jsdom": "^13.1.0",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^5.2.0",
     "rollup-plugin-babel": "^4.3.0",
     "rollup-plugin-uglify": "^6.0.1"
   },

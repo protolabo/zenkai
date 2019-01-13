@@ -1,5 +1,5 @@
-﻿import { valOrDefault } from './helpers.js';
-import { isNullOrWhiteSpace } from './string-helper';
+﻿import { valOrDefault } from './../datatype/type-manip.js';
+import { isNullOrWhiteSpace } from './../datatype/type-string.js';
 
 const DOC = document;
 
@@ -9,7 +9,7 @@ const DOC = document;
  * @param {HTMLElement} [el] Container queried
  * @returns {HTMLElement|null} The first Element matches that matches the specified set of CSS selectors.
  */
-export const getElement = function (selector, el) {
+export function getElement(selector, el) {
     el = valOrDefault(el, DOC);
 
     if (/^#[a-zA-Z0-9_-]+$/.test(selector)) {
@@ -28,7 +28,7 @@ export const getElement = function (selector, el) {
  * @param {HTMLElement} [el] Container queried
  * @returns {HTMLCollection|NodeList} A live or *static* (not live) collection of the `container`'s children Element that match the `selector`.
  */
-export const getElements = function (selector, el) {
+export function getElements(selector, el) {
     el = valOrDefault(el, DOC);
 
     return /^\.[a-zA-Z0-9_-]+$/.test(selector) ?
@@ -37,69 +37,54 @@ export const getElements = function (selector, el) {
 }
 
 /**
- * Gets the previous or next element of the specified element
- * @param {HTMLElement} el element
- * @param {string} dir sibling direction
- * @returns {(Element|null)} Element or null
- */
-export const getElementSibling = function (el, dir) {
-    var sibling = el[dir];
-
-    while (sibling && this.hasClass(sibling, "autocomplete")) {
-        sibling = sibling[dir];
-    }
-
-    return sibling;
-}
-
-/**
  * Gets the window's width
  */
-export const windowWidth = function () { return window.innerWidth || DOC.documentElement.clientWidth || DOC.body.clientWidth; }
+export function windowWidth() { return window.innerWidth || DOC.documentElement.clientWidth || DOC.body.clientWidth; }
 
 /**
  * Gets the previous element of the specified one in its parent's children list
  * @param {HTMLElement} el element
  * @returns {(Element|null)} Element or null if the specified element is the first one in the list
  */
-export const getPreviousElementSibling = function (el) { return this.getElementSibling(el, "previousElementSibling"); }
+export function getPreviousElementSibling(el) { return getElementSibling(el, "previousElementSibling"); }
 /**
  * Gets the element following the specified one in its parent's children list
  * @param {HTMLElement} el element
  * @returns {(Element|null)} Element or null if the specified element is the last one in the list
  */
-export const getNextElementSibling = function (el) { return this.getElementSibling(el, "nextElementSibling"); }
+export function getNextElementSibling(el) { return getElementSibling(el, "nextElementSibling"); }
 /**
  * Inserts a given element before the targetted element
  * @param {HTMLElement} target 
  * @param {HTMLElement} el 
  */
-export const insertBeforeElement = function (target, el) { target.insertAdjacentElement('beforebegin', el); }
+export function insertBeforeElement(target, el) { target.insertAdjacentElement('beforebegin', el); }
 /**
  * Inserts a given element after the targetted element
  * @param {HTMLElement} target 
  * @param {HTMLElement} el 
  */
-export const insertAfterElement = function (target, el) { target.insertAdjacentElement('afterend', el); }
+export function insertAfterElement(target, el) { target.insertAdjacentElement('afterend', el); }
 /**
  * Inserts a givern element as the first children of the targetted element
  * @param {HTMLElement} target 
  * @param {HTMLElement} el 
  */
-export const preprendChild = function (target, el) { target.insertAdjacentElement('afterbegin', el); }
+export function preprendChild(target, el) { target.insertAdjacentElement('afterbegin', el); }
 
 /**
  * Append a list of elements to a node.
  * @param {HTMLElement} parent
  * @param {HTMLElement[]} children
  */
-export const appendChildren = function (parent, children) {
-    var fragment = this.createDocFragment();
+export function appendChildren(parent, children) {
+    var fragment = createDocFragment();
     children.forEach(element => {
         fragment.appendChild(element);
     });
     parent.appendChild(fragment);
     fragment = null;
+
     return parent;
 }
 
@@ -108,7 +93,7 @@ export const appendChildren = function (parent, children) {
  * @param {HTMLElement} e element
  * @param {string} c class
  */
-export const hasClass = function (e, c) {
+export function hasClass(e, c) {
     var classes = e.className.split(" ");
     for (let i = 0, len = classes.length; i < len; i++) {
         if (c == classes[i])
@@ -122,8 +107,8 @@ export const hasClass = function (e, c) {
  * @param {HTMLElement} e element
  * @param {string} c class
  */
-export const removeClass = function (e, c) {
-    if (this.hasClass(e, c)) {
+export function removeClass(e, c) {
+    if (hasClass(e, c)) {
         var classes = e.className.split(" ");
         var classes2 = "";
         for (let i = 0, len = classes.length; i < len; i++) {
@@ -139,7 +124,7 @@ export const removeClass = function (e, c) {
  * @param {HTMLElement} el Element
  * @param {string} c classes
  */
-export const addClass = function (el, c) {
+export function addClass(el, c) {
     // If c is an Array => Format c as a space-separated string
     if (Array.isArray(c)) {
         c = c.map(function (c) { return valOrDefault(c.class, c); }).join(' ');
@@ -148,7 +133,7 @@ export const addClass = function (el, c) {
 
     if (isNullOrWhiteSpace(el.className))
         el.className = strClass;
-    else if (!this.hasClass(el, c))
+    else if (!hasClass(el, c))
         el.className += " " + strClass;
 }
 
@@ -157,18 +142,34 @@ export const addClass = function (el, c) {
  * @param {HTMLElement} el 
  * @param {string} c ClassName
  */
-export const toggleClass = function (el, c) {
-    if (this.hasClass(el, c))
-        this.removeClass(el, c);
+export function toggleClass(el, c) {
+    if (hasClass(el, c))
+        removeClass(el, c);
     else
-        this.addClass(el, c);
+        addClass(el, c);
 }
 
 /**
  * Removes all children of a node from the DOM
  * @param {Node} node 
  */
-export const removeChildren = function (node) {
+export function removeChildren(node) {
     while (node.hasChildNodes())
         node.removeChild(node.lastChild);
+}
+
+/**
+ * Gets the previous or next element of the specified element
+ * @param {HTMLElement} el element
+ * @param {string} dir sibling direction
+ * @returns {(Element|null)} Element or null
+ */
+export function getElementSibling(el, dir) {
+    var sibling = el[dir];
+
+    while (sibling && hasClass(sibling, "autocomplete")) {
+        sibling = sibling[dir];
+    }
+
+    return sibling;
 }
