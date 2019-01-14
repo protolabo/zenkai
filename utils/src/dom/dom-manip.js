@@ -173,3 +173,36 @@ export function getElementSibling(el, dir) {
 
     return sibling;
 }
+
+/**
+ * This function changes the selected option
+ * @param {HTMLSelectElement} select
+ * @param {string} val option value to select
+ * @returns {boolean} value indicating whether the option was found and selected
+ */
+function changeSelectValue(select, val) {
+    var found = false;
+    for (let i = 0, len = select.options.length; !found && i < len; i++) {
+        let option = select.options[i];
+        if (option.value == val) {
+            option.selected = true;
+            found = true;
+        }
+    }
+    return found;
+}
+
+function stickyHeader(header, target) {
+    const css_sticky = 'sticky'
+    var sticky = target.offsetTop + target.clientHeight;
+    var timeout;
+    window.addEventListener('scroll', function (e) {
+        if (timeout) window.cancelAnimationFrame(timeout);
+        timeout = window.requestAnimationFrame(function () {
+            if (window.pageYOffset >= sticky)
+                addClass(header, css_sticky);
+            else
+                removeClass(header, css_sticky);
+        });
+    }, false);
+}

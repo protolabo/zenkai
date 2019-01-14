@@ -1,4 +1,4 @@
-import { addClass } from './dom-manip.js';
+import { addClass, appendChildren } from './dom-manip.js';
 import { disable } from './dom-effects.js';
 
 /** @type {document} */
@@ -26,7 +26,7 @@ export function createElement(tagName, eId, eClass) {
  */
 export function createDocFragment() { return DOC.createDocumentFragment(); }
 
-export function createLineBreak() { return this.createElement('br'); }
+export function createLineBreak() { return createElement('br'); }
 
 export function createTextNode(str) { return DOC.createTextNode(str); }
 /**
@@ -36,12 +36,12 @@ export function createTextNode(str) { return DOC.createTextNode(str); }
  * @param {object} attr 
  */
 export function createLink(rel, href, attr) {
-    var link = this.createElement("link");
+    var link = createElement("link");
     link.rel = rel;
     link.href = href;
 
     if (attr) {
-        this.addAttributes(link, attr);
+        addAttributes(link, attr);
     }
 
     return link;
@@ -54,15 +54,38 @@ export function createLink(rel, href, attr) {
  * @returns {HTMLAnchorElement}
  */
 export function createAnchor(href, attr) {
-    var a = this.createElement('a');
+    var a = createElement('a');
     if (href) {
         a.href = href;
     }
     if (attr) {
-        this.addAttributes(a, attr);
+        addAttributes(a, attr);
     }
 
     return a;
+}
+
+/**
+  * Creates a <img> element with some attributes
+  * @param {string} src
+  * @param {string} alt
+  * @param {Object} [attr] attributes
+  * @returns {HTMLImageElement}
+  */
+export function createImage(src, alt, attr) {
+    var img = createElement('img');
+
+    if (src) {
+        img.src = src;
+    }
+    if (alt) {
+        img.alt = alt;
+    }
+    if (attr) {
+        addAttributes(img, attr);
+    }
+
+    return img;
 }
 
 /**
@@ -71,10 +94,26 @@ export function createAnchor(href, attr) {
  * @returns {HTMLDivElement}
  */
 export function createDiv(attr) {
-    var div = this.createElement("div");
+    var div = createElement("div");
 
     if (attr) {
-        this.addAttributes(div, attr);
+        addAttributes(div, attr);
+    }
+
+    return div;
+}
+
+/**
+ * Creates a <div> element with some attributes
+ * @param {Object} [attr] attributes
+ */
+function createDivX(attr, children) {
+    var div = createDiv(attr);
+
+    if (Array.isArray(children)) {
+        appendChildren(div, el);
+    } else if (children instanceof Element) {
+        div.appendChild(children);
     }
 
     return div;
@@ -87,10 +126,10 @@ export function createDiv(attr) {
  * @returns {HTMLHeadingElement}
  */
 export function createHeading(lvl, attr) {
-    var h = this.createElement(lvl);
+    var h = createElement(lvl);
 
     if (attr) {
-        this.addAttributes(h, attr);
+        addAttributes(h, attr);
     }
 
     return h;
@@ -102,10 +141,10 @@ export function createHeading(lvl, attr) {
  * @returns {HTMLElement}
  */
 export function createAside(attr) {
-    var aside = this.createElement('aside');
+    var aside = createElement('aside');
 
     if (attr) {
-        this.addAttributes(aside, attr);
+        addAttributes(aside, attr);
     }
 
     return aside;
@@ -117,13 +156,33 @@ export function createAside(attr) {
  * @returns {HTMLUListElement}
  */
 export function createUl(attr) {
-    var ul = this.createElement("ul");
+    var ul = createElement("ul");
 
     if (attr) {
-        this.addAttributes(ul, attr);
+        addAttributes(ul, attr);
     }
 
     return ul;
+}
+
+/**
+ * Creates a <li> element with some attributes
+ * @param {Object} [attr] attributes
+ */
+export function createLi(attr, el) {
+    var li = this.createElement('li');
+
+    if (attr) {
+        this.addAttributes(li, attr);
+    }
+
+    if (Array.isArray(el)) {
+        appendChildren(li, el);
+    } else if (el instanceof Element) {
+        li.appendChild(el);
+    }
+
+    return li;
 }
 
 /**
@@ -132,20 +191,20 @@ export function createUl(attr) {
  * @returns {HTMLParagraphElement}
  */
 export function createP(attr) {
-    var p = this.createElement("p");
+    var p = createElement("p");
 
     if (attr) {
-        this.addAttributes(p, attr);
+        addAttributes(p, attr);
     }
 
     return p;
 }
 
 export function createHeader(attr) {
-    var header = this.createElement('header');
+    var header = createElement('header');
 
     if (attr) {
-        this.addAttributes(header, attr);
+        addAttributes(header, attr);
     }
 
     return header;
@@ -154,21 +213,39 @@ export function createHeader(attr) {
 /**
  * Creates a <input.checkbox> element with some attributes
  * @param {Object} [attr] attributes
+ * @returns {HTMLInputElement}
  */
 export function createCheckbox(attr) {
-    var chk = this.createElement("input");
+    var chk = createElement("input");
     chk.type = "checkbox";
 
     if (attr) {
-        this.addAttributes(chk, attr);
+        addAttributes(chk, attr);
     }
 
     return chk;
 }
 
 /**
+ * Creates a <input:hidden> element with some attributes
+ * @param {Object} [attr] attributes
+ * @returns {HTMLInputElement}
+ */
+export function createHiddenInput(attr) {
+    var input = createElement('input');
+    input.type = 'hidden';
+
+    if (attr) {
+        addAttributes(input, attr);
+    }
+
+    return input;
+}
+
+/**
  * Creates a <input.file> element with some attributes
  * @param {Object} [attr] attributes
+ * @returns {HTMLInputElement}
  */
 export function createFileInput(attr) {
     var fileInput = this.createElement('input');
@@ -209,26 +286,6 @@ export function createTextArea(attr) {
     }
 
     return textArea;
-}
-
-/**
- * Creates a <li> element with some attributes
- * @param {Object} [attr] attributes
- */
-export function createLi(attr, el) {
-    var li = this.createElement('li');
-
-    if (attr) {
-        this.addAttributes(li, attr);
-    }
-
-    if (Array.isArray(el)) {
-        this.appendChildren(li, el);
-    } else if (el) {
-        li.appendChild(el);
-    }
-
-    return li;
 }
 
 /**

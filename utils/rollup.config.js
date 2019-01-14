@@ -9,6 +9,7 @@ export default [
             name: 'jsLabo',
             format: 'iife',
             interop: false,
+            sourcemap: true,
         },
         plugins: [babel({
             exclude: 'node_modules/**'
@@ -21,6 +22,7 @@ export default [
             name: 'jsDOM',
             format: 'iife',
             interop: false,
+            sourcemap: true,
         },
         plugins: [babel({
             exclude: 'node_modules/**'
@@ -33,6 +35,7 @@ export default [
             name: 'jsType',
             format: 'iife',
             interop: false,
+            sourcemap: true,
         },
         plugins: [babel({
             exclude: 'node_modules/**'
