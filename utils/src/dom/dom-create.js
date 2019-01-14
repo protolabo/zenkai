@@ -111,7 +111,7 @@ function createDivX(attr, children) {
     var div = createDiv(attr);
 
     if (Array.isArray(children)) {
-        appendChildren(div, el);
+        appendChildren(div, children);
     } else if (children instanceof Element) {
         div.appendChild(children);
     }

@@ -9,11 +9,11 @@ export function getUrlPrams(prop) {
     var params = {};
     defs.forEach((val) => {
         var parts = val.split('=', 2);
-        params[parts[0]] = parts[1]
+        params[parts[0]] = parts[1];
     });
 
     if (prop) {
-        return params[prop]
+        return params[prop];
     }
     return params;
 }

@@ -16,4 +16,4 @@ export function find(obj, value) {
     }
 
     return undefined;
-};
+}

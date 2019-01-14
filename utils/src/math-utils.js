@@ -3,7 +3,7 @@
  * @param {number} min 
  * @param {number} max 
 */
-export const random = function (min, max) {
+export function random  (min, max) {
     if (max == null) {
         max = min;
         min = 0;

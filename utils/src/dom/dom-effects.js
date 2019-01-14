@@ -15,31 +15,31 @@ const UI = {
  * Shows an element
  * @param {Element} el Element
  */
-export function show(el) { removeClass(el, UI.HIDDEN); };
+export function show(el) { removeClass(el, UI.HIDDEN); }
 
 /**
  * Hides an element
  * @param {Element} el element
  */
-export function hide(el) { addClass(el, UI.HIDDEN); };
+export function hide(el) { addClass(el, UI.HIDDEN); }
 
 /**
  * Moves an element out of screen
  * @param {HTMLElement} el Element
  */
-export function fakeHide(el) { return Object.assign(el, { position: 'absolute', top: '-9999px', left: '-9999px' }); };
+export function fakeHide(el) { return Object.assign(el, { position: 'absolute', top: '-9999px', left: '-9999px' }); }
 
 /**
  * Applies highlighting style to an element
  * @param {HTMLElement} el Element
  */
-export function highlight(el) { addClass(el, UI.SELECTED); };
+export function highlight(el) { addClass(el, UI.SELECTED); }
 
 /**
  * Removes highlighting style of an element
  * @param {HTMLElement} el Element
  */
-export function unhighlight(el) { removeClass(el, UI.SELECTED); };
+export function unhighlight(el) { removeClass(el, UI.SELECTED); }
 
 /**
  * Enable an element
@@ -51,7 +51,7 @@ export function enable(el, val) {
     }
 
     el.dataset.disabled = val === false;
-};
+}
 
 /**
  * Disable an element
@@ -63,4 +63,4 @@ export function disable(el, val) {
     }
 
     el.dataset.disabled = val !== false;
-};
+}

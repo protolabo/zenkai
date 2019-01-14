@@ -1,5 +1,6 @@
 ﻿import { valOrDefault } from './../datatype/type-manip.js';
 import { isNullOrWhiteSpace } from './../datatype/type-string.js';
+import { createDocFragment } from './dom-create';
 
 const DOC = document;
 
@@ -193,7 +194,7 @@ function changeSelectValue(select, val) {
 }
 
 function stickyHeader(header, target) {
-    const css_sticky = 'sticky'
+    const css_sticky = 'sticky';
     var sticky = target.offsetTop + target.clientHeight;
     var timeout;
     window.addEventListener('scroll', function (e) {

@@ -3,11 +3,13 @@ const isPrototypeOf = Object.prototype.isPrototypeOf;
 
 export const defProp = Object.defineProperty;
 
-export const hasOwn = function (obj, key) { return hasOwnProperty.call(obj, key); }
+export const hasOwn = function (obj, key) { return hasOwnProperty.call(obj, key); };
 
-export const isDerivedOf = function (child, parent) { return Object.getPrototypeOf(child) !== parent && isPrototypeOf.call(parent, child); }
+export const isDerivedOf = function (child, parent) {
+    return Object.getPrototypeOf(child) !== parent && isPrototypeOf.call(parent, child);
+};
 
-export function cloneObject (obj) {
+export function cloneObject(obj) {
     if (obj === null || typeof (obj) !== 'object') {
         return obj;
     }
@@ -20,6 +22,6 @@ export function cloneObject (obj) {
             delete obj['isActiveClone'];
         }
     }
-    
+
     return temp;
 }

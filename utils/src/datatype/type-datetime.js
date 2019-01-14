@@ -109,7 +109,7 @@ const DICT = {
         'month': 'mois',
         'year': 'année(s)',
     },
-}
+};
 
 const trans = function translation(lang, key, isPlural) {
     var value = DICT[lang][key];
@@ -123,7 +123,7 @@ const trans = function translation(lang, key, isPlural) {
     }
 
     return value.replace(/\([a-z]+\)/g, '');
-}
+};
 
 const timeAgoResponse = function timeAgoResponseBuilder(time, unit, _lang) {
     var lang = valOrDefault(_lang, 'en');
@@ -131,10 +131,10 @@ const timeAgoResponse = function timeAgoResponseBuilder(time, unit, _lang) {
     var msg = {
         en: `${time} ${trans('en', unit, isPlural)} ago`,
         fr: `il y a ${time} ${trans('fr', unit, isPlural)}`,
-    }
+    };
 
     return msg[lang];
-}
+};
 
 export function timeAgo(time, callback) {
     callback = valOrDefault(callback, timeAgoResponse);

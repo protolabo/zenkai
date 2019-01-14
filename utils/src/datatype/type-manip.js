@@ -1,4 +1,4 @@
-export function valOrDefault(arg, val) { return typeof arg !== 'undefined' ? arg : val; };
+export function valOrDefault(arg, val) { return typeof arg !== 'undefined' ? arg : val; }
 
 /**
  * Converts a boolean to an integer
