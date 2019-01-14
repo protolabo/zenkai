@@ -1,3 +1,5 @@
+/** @module type/manip */
+
 export function valOrDefault(arg, val) { return typeof arg !== 'undefined' ? arg : val; }
 
 /**

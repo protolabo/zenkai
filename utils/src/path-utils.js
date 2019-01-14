@@ -1,3 +1,5 @@
+/** @module path */
+
 import { isNullOrWhiteSpace } from './datatype/type-string.js';
 
 /**

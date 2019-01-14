@@ -1,3 +1,5 @@
+/** @module type/string */
+
 /**
  * Returns a value indicating whether a string is null or made of whitespace.
  * @param {string} str string
@@ -30,11 +32,12 @@ export function removeAccents(str) {
         .replace(/[ùûü]/gi, 'u');
 }
 
-
+/** @ignore */
 function compare(str1, str2) {
     return str1.toUpperCase().indexOf(str2.toUpperCase()) > -1;
 }
 
+/** @ignore */
 function replacein(str, searchVal, newValue) {
     return str.toLowerCase().replace(searchVal, newValue);
 }

@@ -1,3 +1,9 @@
+/** @module uri */
+
+/**
+ * Extracts and returns the parameters of a URL
+ * @param {string} [prop] Searched parameter
+ */
 export function getUrlPrams(prop) {
     var href = window.location.href;
     var search = decodeURIComponent(href.slice(href.indexOf('?') + 1));

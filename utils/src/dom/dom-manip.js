@@ -1,4 +1,6 @@
-﻿import { valOrDefault } from './../datatype/type-manip.js';
+﻿/** @module dom/dom-manip */
+
+import { valOrDefault } from './../datatype/type-manip.js';
 import { isNullOrWhiteSpace } from './../datatype/type-string.js';
 import { createDocFragment } from './dom-create';
 

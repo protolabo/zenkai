@@ -1,7 +1,10 @@
+/** @module dom/dom-effects */
+
 import { removeClass, addClass } from './dom-manip.js';
 
 const Elements = ['BUTTON', 'COMMAND', 'FIELDSET', 'INPUT', 'KEYGEN', 'OPTGROUP', 'OPTION', 'SELECT', 'TEXTAREA'];
 
+/** @enum */
 const UI = {
     COLLAPSE: 'collapse',
     CHECKED: 'checked',

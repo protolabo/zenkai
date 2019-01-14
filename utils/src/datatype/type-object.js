@@ -1,4 +1,8 @@
+/** @module type/object */
+
+/** @private */
 const hasOwnProperty = Object.prototype.hasOwnProperty;
+/** @private */
 const isPrototypeOf = Object.prototype.isPrototypeOf;
 
 export const defProp = Object.defineProperty;

@@ -1,3 +1,5 @@
+/** @module type/iterable */
+
 /**
  * Returns the index or value of the first element in the object
  * @param {Object|Array} obj 

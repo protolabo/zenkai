@@ -1,3 +1,5 @@
+/** @module type/datetime */
+
 import { isInt, valOrDefault } from './type-manip.js';
 
 /**

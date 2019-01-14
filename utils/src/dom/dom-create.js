@@ -1,3 +1,5 @@
+/** @module dom/dom-create */
+
 import { addClass, appendChildren } from './dom-manip.js';
 import { disable } from './dom-effects.js';
 
@@ -106,6 +108,7 @@ export function createDiv(attr) {
 /**
  * Creates a <div> element with some attributes
  * @param {Object} [attr] attributes
+ * @ignore
  */
 function createDivX(attr, children) {
     var div = createDiv(attr);

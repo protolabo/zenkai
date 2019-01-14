@@ -1,7 +1,9 @@
+/** @module math */
+
 /**
  * Return a random integer between min and max (inclusive).
  * @param {number} min 
- * @param {number} max 
+ * @param {number} [max] 
 */
 export function random  (min, max) {
     if (max == null) {

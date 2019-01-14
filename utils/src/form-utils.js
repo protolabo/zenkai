@@ -1,6 +1,7 @@
 /**
  * Return form parameters
  * @returns {object|undefined}
+ * @ignore
  */
 function getFormParameters(form) {
     var formData = new FormData(form);

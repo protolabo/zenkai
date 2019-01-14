@@ -1,3 +1,5 @@
+/** @module ajax */
+
 export const XHR = function (file, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
