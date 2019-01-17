@@ -13,3 +13,10 @@ export {
     AJAX,
     URI
 };
+
+// export * from './dom/index.js';
+// export * from './datatype/index.js';
+// export * from './ajax-utils.js';
+// export * from './math-utils.js';
+// export * from './path-utils.js';
+// export * from './uri-utils.js';

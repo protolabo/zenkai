@@ -18,7 +18,12 @@ export function capitalize(str) { return str.replace(/\b\w/, function (s) { retu
  * @param {string} str Sequence
  * @returns {string} Sequence with its first letter capitalized
  */
-export function capitalizeFirstLetter(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
+export function capitalizeFirstLetter(str) { 
+    if(isNullOrWhiteSpace(str)){
+        return str;
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1); 
+}
 
 export function removeAccents(str) {
     if (String.prototype.normalize) {

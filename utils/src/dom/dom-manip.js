@@ -1,10 +1,9 @@
-﻿/** @module dom/dom-manip */
+﻿/** @module dom/manip */
 
 import { valOrDefault } from './../datatype/type-manip.js';
 import { isNullOrWhiteSpace } from './../datatype/type-string.js';
 import { createDocFragment } from './dom-create';
 
-const DOC = document;
 
 /**
  * Returns the first Element within the specified container that matches the specified selector, group or selectors.
@@ -13,10 +12,10 @@ const DOC = document;
  * @returns {HTMLElement|null} The first Element matches that matches the specified set of CSS selectors.
  */
 export function getElement(selector, el) {
-    el = valOrDefault(el, DOC);
+    el = valOrDefault(el, document);
 
     if (/^#[a-zA-Z0-9_-]+$/.test(selector)) {
-        return DOC.getElementById(selector.substring(1));
+        return document.getElementById(selector.substring(1));
     }
     if (/^\.[a-zA-Z0-9_-]+$/.test(selector)) {
         return el.getElementsByClassName(selector.substring(1))[0];
@@ -32,7 +31,7 @@ export function getElement(selector, el) {
  * @returns {HTMLCollection|NodeList} A live or *static* (not live) collection of the `container`'s children Element that match the `selector`.
  */
 export function getElements(selector, el) {
-    el = valOrDefault(el, DOC);
+    el = valOrDefault(el, document);
 
     return /^\.[a-zA-Z0-9_-]+$/.test(selector) ?
         el.getElementsByClassName(selector.substring(1)) :
@@ -42,7 +41,9 @@ export function getElements(selector, el) {
 /**
  * Gets the window's width
  */
-export function windowWidth() { return window.innerWidth || DOC.documentElement.clientWidth || DOC.body.clientWidth; }
+export function windowWidth() { 
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth; 
+}
 
 /**
  * Gets the previous element of the specified one in its parent's children list
@@ -178,12 +179,12 @@ export function getElementSibling(el, dir) {
 }
 
 /**
- * This function changes the selected option
+ * Changes the selected option of a <select> element
  * @param {HTMLSelectElement} select
  * @param {string} val option value to select
  * @returns {boolean} value indicating whether the option was found and selected
  */
-function changeSelectValue(select, val) {
+export function changeSelectValue(select, val) {
     var found = false;
     for (let i = 0, len = select.options.length; !found && i < len; i++) {
         let option = select.options[i];

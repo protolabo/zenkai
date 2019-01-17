@@ -24,6 +24,10 @@ export function toBoolean(val) {
  */
 export function isInt(n) { return n % 1 === 0; }
 
+export function isDate(value) {
+    return value instanceof Date || (typeof value === 'object' && Object.prototype.toString.call(value) === '[object Date]');
+}
+
 /**
  * Returns a value indicating whether the variable is a String
  * @returns {boolean}

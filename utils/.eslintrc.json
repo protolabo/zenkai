@@ -31,7 +31,4 @@
         "no-unused-vars": "off",
         "no-useless-escape": "warn"
     },
-    "globals": {
-        "DOC": false
-    }
 }

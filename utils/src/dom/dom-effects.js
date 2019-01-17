@@ -1,4 +1,4 @@
-/** @module dom/dom-effects */
+/** @module dom/effects */
 
 import { removeClass, addClass } from './dom-manip.js';
 
