@@ -2,22 +2,27 @@
 
 import { valOrDefault } from './../datatype/type-manip.js';
 import { isNullOrWhiteSpace } from './../datatype/type-string.js';
-import { createDocFragment } from './dom-create';
+import { createDocFragment, createElement } from './dom-create';
 
+const isClassName = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
 
 /**
  * Returns the first Element within the specified container that matches the specified selector, group or selectors.
  * @param {string} selector A DOMString containing one or more selectors to match
- * @param {HTMLElement} [el] Container queried
+ * @param {HTMLElement|DocumentFragment} [el] Container queried
  * @returns {HTMLElement|null} The first Element matches that matches the specified set of CSS selectors.
  */
 export function getElement(selector, el) {
     el = valOrDefault(el, document);
 
+    if (el instanceof DocumentFragment) {
+        el.querySelector(selector);
+    }
+
     if (/^#[a-zA-Z0-9_-]+$/.test(selector)) {
         return document.getElementById(selector.substring(1));
     }
-    if (/^\.[a-zA-Z0-9_-]+$/.test(selector)) {
+    if (isClassName(selector)) {
         return el.getElementsByClassName(selector.substring(1))[0];
     }
 
@@ -27,22 +32,46 @@ export function getElement(selector, el) {
 /**
  * Returns all elements that match the selector query.
  * @param {string} selector A DOMString containing one or more selectors to match
- * @param {HTMLElement} [el] Container queried
+ * @param {HTMLElement|DocumentFragment} [el] Container queried
  * @returns {HTMLCollection|NodeList} A live or *static* (not live) collection of the `container`'s children Element that match the `selector`.
  */
 export function getElements(selector, el) {
     el = valOrDefault(el, document);
 
-    return /^\.[a-zA-Z0-9_-]+$/.test(selector) ?
+    if (el instanceof DocumentFragment) {
+        el.querySelectorAll(selector);
+    }
+
+    return isClassName(selector) ?
         el.getElementsByClassName(selector.substring(1)) :
         el.querySelectorAll(selector);
 }
 
 /**
+ * Returns the first Template within the specified container that matches the specified selector, group or selectors.
+ * @param {string} selector A DOMString containing one or more selectors to match
+ * @param {HTMLElement} [el] Container queried
+ * @returns {HTMLTemplateElement|null} The first Template matches that matches the specified set of CSS selectors.
+ */
+export function getTemplate(selector, el) {
+    return 'content' in createElement('template') ? getElement(selector, el) : null;
+}
+
+/**
+ * Returns a duplicate of the template.
+ * @param {HTMLTemplateElement} template 
+ * @param {boolean} deep used to decide whether the children of the template should also be clone
+ * @returns {HTMLElement} The template's clone.
+ */
+export function cloneTemplate(template, deep) {
+    return template ? document.importNode(template.content, valOrDefault(deep, true)) : template;
+}
+
+/**
  * Gets the window's width
  */
-export function windowWidth() { 
-    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth; 
+export function windowWidth() {
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 }
 
 /**
@@ -51,24 +80,28 @@ export function windowWidth() {
  * @returns {(Element|null)} Element or null if the specified element is the first one in the list
  */
 export function getPreviousElementSibling(el) { return getElementSibling(el, "previousElementSibling"); }
+
 /**
  * Gets the element following the specified one in its parent's children list
  * @param {HTMLElement} el element
  * @returns {(Element|null)} Element or null if the specified element is the last one in the list
  */
 export function getNextElementSibling(el) { return getElementSibling(el, "nextElementSibling"); }
+
 /**
  * Inserts a given element before the targetted element
  * @param {HTMLElement} target 
  * @param {HTMLElement} el 
  */
 export function insertBeforeElement(target, el) { target.insertAdjacentElement('beforebegin', el); }
+
 /**
  * Inserts a given element after the targetted element
  * @param {HTMLElement} target 
  * @param {HTMLElement} el 
  */
 export function insertAfterElement(target, el) { target.insertAdjacentElement('afterend', el); }
+
 /**
  * Inserts a givern element as the first children of the targetted element
  * @param {HTMLElement} target 
