@@ -1,7 +1,7 @@
 ﻿/** @module dom/manip */
 
 import { valOrDefault } from './../datatype/type-manip.js';
-import { isNullOrWhiteSpace } from './../datatype/type-string.js';
+import { isNullOrWhitespace } from './../datatype/type-string.js';
 import { createDocFragment, createElement } from './dom-create';
 
 const isClassName = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
@@ -168,7 +168,7 @@ export function addClass(el, c) {
     }
     var strClass = valOrDefault(c.class, c);
 
-    if (isNullOrWhiteSpace(el.className))
+    if (isNullOrWhitespace(el.className))
         el.className = strClass;
     else if (!hasClass(el, c))
         el.className += " " + strClass;

@@ -4,7 +4,7 @@
  * Returns a value indicating whether a string is null or made of whitespace.
  * @param {string} str string
  */
-export function isNullOrWhiteSpace(str) { return (!str || str.length === 0 || /^\s*$/.test(str)); }
+export function isNullOrWhitespace(str) { return (!str || str.length === 0 || /^\s*$/.test(str)); }
 
 /**
  * Capitalizes all words in a sequence
@@ -19,7 +19,7 @@ export function capitalize(str) { return str.replace(/\b\w/, function (s) { retu
  * @returns {string} Sequence with its first letter capitalized
  */
 export function capitalizeFirstLetter(str) { 
-    if(isNullOrWhiteSpace(str)){
+    if(isNullOrWhitespace(str)){
         return str;
     }
     return str.charAt(0).toUpperCase() + str.slice(1); 

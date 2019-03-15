@@ -1,6 +1,6 @@
 /** @module type/manip */
 
-export function valOrDefault(arg, val) { return typeof arg !== 'undefined' ? arg : val; }
+export function valOrDefault(arg, val) { return isUndefined(arg) ? val : arg; }
 
 /**
  * Converts a boolean to an integer
@@ -43,3 +43,27 @@ export function isString(str) { return typeof str === 'string' || str instanceof
  * @returns {boolean}
  */
 export function isFunction(value) { return typeof value === 'function'; }
+
+/**
+ * Returns a value indicating whether the value is null
+ * @returns {boolean}
+ */
+export function isNull(value) {
+    return value === null;
+}
+
+/**
+ * Returns a value indicating whether the value is undefined
+ * @returns {boolean}
+ */
+export function isUndefined(value) {
+    return typeof value === 'undefined';
+}
+
+/**
+ * Returns a value indicating whether the value is null or undefined
+ * @returns {boolean}
+ */
+export function isNullOrUndefined(value) {
+    return isNull(value) || isUndefined(value);
+}
