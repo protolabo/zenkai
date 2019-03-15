@@ -1,11 +1,9 @@
 /** @module dom/create */
 
-import { addClass, appendChildren } from './dom-manip.js';
+import { addClass } from './dom-manip.js';
 import { disable } from './dom-effects.js';
 
-
 const create = (tagName) => document.createElement(tagName);
-
 
 /**
  * Creates the element for the specified tagName
@@ -456,6 +454,22 @@ function addChildren(el, children) {
     }
 
     return el;
+}
+
+/**
+ * Append a list of elements to a node.
+ * @param {HTMLElement} parent
+ * @param {HTMLElement[]} children
+ */
+export function appendChildren(parent, children) {
+    var fragment = createDocFragment();
+    children.forEach(element => {
+        fragment.appendChild(element);
+    });
+    parent.appendChild(fragment);
+    fragment = null;
+
+    return parent;
 }
 
 function echo(o) { o; }

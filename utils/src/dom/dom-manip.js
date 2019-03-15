@@ -2,7 +2,6 @@
 
 import { valOrDefault } from './../datatype/type-manip.js';
 import { isNullOrWhitespace } from './../datatype/type-string.js';
-import { createDocFragment, createElement } from './dom-create';
 
 const isClassName = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
 
@@ -54,7 +53,7 @@ export function getElements(selector, el) {
  * @returns {HTMLTemplateElement|null} The first Template matches that matches the specified set of CSS selectors.
  */
 export function getTemplate(selector, el) {
-    return 'content' in createElement('template') ? getElement(selector, el) : null;
+    return 'content' in document.createElement('template') ? getElement(selector, el) : null;
 }
 
 /**
@@ -108,22 +107,6 @@ export function insertAfterElement(target, el) { target.insertAdjacentElement('a
  * @param {HTMLElement} el 
  */
 export function preprendChild(target, el) { target.insertAdjacentElement('afterbegin', el); }
-
-/**
- * Append a list of elements to a node.
- * @param {HTMLElement} parent
- * @param {HTMLElement[]} children
- */
-export function appendChildren(parent, children) {
-    var fragment = createDocFragment();
-    children.forEach(element => {
-        fragment.appendChild(element);
-    });
-    parent.appendChild(fragment);
-    fragment = null;
-
-    return parent;
-}
 
 /**
  * Verifies that an element has a class

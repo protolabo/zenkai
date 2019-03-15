@@ -27,14 +27,6 @@ function findByIndex(obj, match, prop) {
     return obj[prop][index];
 }
 
-function findByName(obj, match, prop) {
-    const REGEX_WORD = /\w+/g;
-    var name = match[0].match(REGEX_WORD);
-    return obj[prop].find(function (x) {
-        return x.name == name;
-    });
-}
-
 /**
  * Returns an element in an object using its path
  * @param {Object} obj
@@ -57,11 +49,9 @@ export function findByPath(obj, path, _separator) {
     var parts = path.split(separator);
     for (let i = 0, len = parts.length; i < len; i++) {
         let part = parts[i];
-        
+
         if (REGEX_BRACKET_DIGIT.test(part)) {
             me = findHandler(part, REGEX_BRACKET_DIGIT, findByIndex);
-        } else if (REGEX_BRACKET_WORD.test(part)) {
-            me = findHandler(part, REGEX_BRACKET_WORD, findByName);
         } else {
             me = me[part];
         }
