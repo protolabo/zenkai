@@ -1,3 +1,8 @@
+/** 
+ * Ajax namespace
+ * @namespace AJAX 
+ */
+
 import { isFunction } from "./datatype/index.js";
 
 const HttpResponse = {
@@ -50,21 +55,48 @@ const xhrHandler = function (type, file, callback) {
     return xhr;
 };
 
+/**
+ * 
+ * @param {*} file 
+ * @param {*} callback 
+ * @memberof AJAX
+ */
 export function GET(file, callback) {
     var xhr = xhrHandler('GET', file, callback);
     xhr.send();
 }
 
+/**
+ * 
+ * @param {*} file 
+ * @param {*} form 
+ * @param {*} callback 
+ * @memberof AJAX
+ */
 export function POST(file, form, callback) {
     var xhr = xhrHandler('POST', file, callback);
     xhr.send(form);
 }
 
+/**
+ * 
+ * @param {*} file 
+ * @param {*} form 
+ * @param {*} callback 
+ * @memberof AJAX
+ */
 export function PUT(file, form, callback) {
     var xhr = xhrHandler('PUT', file, callback);
     xhr.send(form);
 }
 
+/**
+ * 
+ * @param {*} file 
+ * @param {*} form 
+ * @param {*} callback 
+ * @memberof AJAX
+ */
 export function DELETE(file, form, callback) {
     var xhr = xhrHandler('DELETE', file, callback);
     xhr.send(form);

@@ -1,5 +1,3 @@
-/** @module dom/create */
-
 import { addClass } from './dom-manip.js';
 import { disable } from './dom-effects.js';
 
@@ -9,6 +7,7 @@ const create = (tagName) => document.createElement(tagName);
  * Creates the element for the specified tagName
  * @param {string} tagName element
  * @returns {HTMLElement}
+ * @memberof DOM
  */
 export function createElement(tagName, eId, eClass) {
     var el = document.createElement(tagName);
@@ -24,16 +23,18 @@ export function createElement(tagName, eId, eClass) {
 
 /**
  * Creates a document fragment
+ * @memberof DOM
  */
 export function createDocFragment() { return document.createDocumentFragment(); }
 
 export function createTextNode(str) { return document.createTextNode(str); }
 
 /**
- * Creates a <link> element with some attributes
+ * Creates a `<link>` element with some attributes
  * @param {string} rel 
  * @param {string} href 
  * @param {object} attr 
+ * @memberof DOM
  */
 export function createLink(rel, href, attr) {
     var link = create("link");
@@ -59,9 +60,10 @@ export function createHeader(attr) {
 }
 
 /**
- * Creates a <div> element with some attributes
+ * Creates a `<div>` element with some attributes
  * @param {Object} [attr] attributes
  * @returns {HTMLDivElement}
+ * @memberof DOM
  */
 export function createDiv(attr, children) {
     var div = create("div");
@@ -80,6 +82,7 @@ export function createDiv(attr, children) {
  * Creates an `<aside>` element with some attributes
  * @param {Object} [attr] attributes
  * @returns {HTMLElement}
+ * @memberof DOM
  */
 export function createAside(attr) {
     var aside = create('aside');
@@ -94,10 +97,11 @@ export function createAside(attr) {
 export function createLineBreak() { return create('br'); }
 
 /**
- * Creates a <h[1..6]> (heading) element with some attributes
+ * Creates a `<h[1..6]>` (heading) element with some attributes
  * @param {string} lvl Level
  * @param {Object} [attr] attributes
  * @returns {HTMLHeadingElement}
+ * @memberof DOM
  */
 export function createHeading(lvl, attr) {
     var h = create(lvl);
@@ -110,9 +114,10 @@ export function createHeading(lvl, attr) {
 }
 
 /**
- * Creates a <p> element with some attributes
+ * Creates a `<p>` element with some attributes
  * @param {Object} [attr] attributes
  * @returns {HTMLParagraphElement}
+ * @memberof DOM
  */
 export function createP(attr) {
     var p = create("p");
@@ -125,9 +130,10 @@ export function createP(attr) {
 }
 
 /**
- * Creates a <ul> element with some attributes
+ * Creates a `<ul>` element with some attributes
  * @param {Object} [attr] attributes
  * @returns {HTMLUListElement}
+ * @memberof DOM
  */
 export function createUl(attr) {
     var ul = create("ul");
@@ -140,8 +146,9 @@ export function createUl(attr) {
 }
 
 /**
- * Creates a <li> element with some attributes
+ * Creates a `<li>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createLi(attr, el) {
     var li = create('li');
@@ -160,10 +167,11 @@ export function createLi(attr, el) {
 // Inline Element
 
 /**
- * Creates an <a> (hyperlink) element with some attributes
+ * Creates an `<a>` element with some attributes
  * @param {string} href URL or a URL fragment that the hyperlink points to
  * @param {Object} [attr] attributes
  * @returns {HTMLAnchorElement}
+ * @memberof DOM
  */
 export function createAnchor(href, attr) {
     var a = create('a');
@@ -178,11 +186,12 @@ export function createAnchor(href, attr) {
 }
 
 /**
-  * Creates a <img> element with some attributes
+  * Creates a `<img>` element with some attributes
   * @param {string} src
   * @param {string} alt
   * @param {Object} [attr] attributes
   * @returns {HTMLImageElement}
+  * @memberof DOM
   */
 export function createImage(src, alt, attr) {
     var img = create('img');
@@ -201,8 +210,9 @@ export function createImage(src, alt, attr) {
 }
 
 /**
- * Creates a <span> element with some attributes
+ * Creates a `<span>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createSpan(attr) {
     var span = create("span");
@@ -215,8 +225,9 @@ export function createSpan(attr) {
 }
 
 /**
- * Creates a <strong> element with some attributes
+ * Creates a `<strong>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createStrong(attr) {
     var strong = create("strong");
@@ -229,8 +240,9 @@ export function createStrong(attr) {
 }
 
 /**
- * Creates a <em> element with some attributes
+ * Creates a `<em>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createEm(attr) {
     var em = create("em");
@@ -245,9 +257,10 @@ export function createEm(attr) {
 // Form Element
 
 /**
- * Creates a <input> element with some attributes
+ * Creates a `<input>` element with some attributes
  * @param {Object} [attr] attributes
  * @returns {HTMLInputElement}
+ * @memberof DOM
  */
 export function createInput(attr) {
     var input = create('input');
@@ -268,9 +281,10 @@ export function createInput(attr) {
 });
 
 /**
- * Creates a <label> element with some attributes
+ * Creates a `<label>` element with some attributes
  * @param {Object} [attr] attributes
  * @returns {HTMLLabelElement}
+ * @memberof DOM
  */
 export function createLabel(attr) {
     var label = create('label');
@@ -283,9 +297,10 @@ export function createLabel(attr) {
 }
 
 /**
- * Creates a <textarea> element with some attributes
+ * Creates a `<textarea>` element with some attributes
  * @param {Object} [attr] attributes
  * @returns {HTMLTextAreaElement}
+ * @memberof DOM
  */
 export function createTextArea(attr) {
     var textArea = create('textarea');
@@ -298,8 +313,9 @@ export function createTextArea(attr) {
 }
 
 /**
- * Creates a <button> element with some attributes
+ * Creates a `<button>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createButton(attr) {
     var btn = create("button");
@@ -313,8 +329,9 @@ export function createButton(attr) {
 }
 
 /**
- * Creates a <table> element with some attributes
+ * Creates a `<table>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createTable(attr) {
     var table = create("table");
@@ -327,8 +344,9 @@ export function createTable(attr) {
 }
 
 /**
- * Creates a <thead> element with some attributes
+ * Creates a `<thead>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createTableHeader(attr) {
     var thead = create("thead");
@@ -341,8 +359,9 @@ export function createTableHeader(attr) {
 }
 
 /**
- * Creates a <tbody> element with some attributes
+ * Creates a `<tbody>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createTableBody(attr) {
     var tbody = create("tbody");
@@ -355,8 +374,9 @@ export function createTableBody(attr) {
 }
 
 /**
- * Creates a <tfoot> element with some attributes
+ * Creates a `<tfoot>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createTableFooter(attr) {
     var tfoot = create("tfoot");
@@ -369,8 +389,9 @@ export function createTableFooter(attr) {
 }
 
 /**
- * Creates a <tr> element with some attributes
+ * Creates a `<tr>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createTableRow(attr) {
     var tr = create("tr");
@@ -383,8 +404,9 @@ export function createTableRow(attr) {
 }
 
 /**
- * Creates a <th> element with some attributes
+ * Creates a `<th>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createTableHeaderCell(attr) {
     var th = create("th");
@@ -397,8 +419,9 @@ export function createTableHeaderCell(attr) {
 }
 
 /**
- * Creates a <td> element with some attributes
+ * Creates a `<td>` element with some attributes
  * @param {Object} [attr] attributes
+ * @memberof DOM
  */
 export function createTableCell(attr) {
     var td = create("td");
@@ -414,6 +437,7 @@ export function createTableCell(attr) {
  * Sets the attributes of an element
  * @param {HTMLElement} el element
  * @param {Object} attr attribute
+ * @memberof DOM
  */
 export function addAttributes(el, attr) {
     const ATTR_MAP = {
@@ -445,6 +469,7 @@ export function addAttributes(el, attr) {
  * Appends the children to the element
  * @param {HTMLElement} el element
  * @param {HTMLCollection} children children elements
+ * @memberof DOM
  */
 function addChildren(el, children) {
     if (Array.isArray(children)) {
@@ -460,6 +485,7 @@ function addChildren(el, children) {
  * Append a list of elements to a node.
  * @param {HTMLElement} parent
  * @param {HTMLElement[]} children
+ * @memberof DOM
  */
 export function appendChildren(parent, children) {
     var fragment = createDocFragment();

@@ -1,4 +1,6 @@
-/** @module uri */
+/**
+ * @namespace URI
+ */
 
 import { hasOwn } from './datatype/index.js';
 
@@ -7,6 +9,7 @@ const encode = encodeURIComponent;
 /**
  * Extracts and returns the parameters of a URL
  * @param {string} [prop] Searched parameter
+ * @memberof URI
  */
 export function getUrlPrams(prop) {
     var href = window.location.href;
@@ -32,6 +35,7 @@ export function getUrlPrams(prop) {
  * Creates a query string
  * @param {Object} query 
  * @returns {string} Query string
+ * @memberof URI
  */
 export function queryBuilder(query) {
     var str = [];

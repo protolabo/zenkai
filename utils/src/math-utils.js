@@ -1,9 +1,12 @@
-/** @module math */
+/**
+ * @namespace MATH
+ */
 
 /**
  * Return a random integer between min and max (inclusive).
  * @param {number} min 
  * @param {number} [max] 
+ * @memberof MATH
 */
 export function random  (min, max) {
     if (max == null) {

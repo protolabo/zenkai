@@ -1,6 +1,4 @@
-﻿/** @module dom/manip */
-
-import { valOrDefault } from './../datatype/type-manip.js';
+﻿import { valOrDefault } from './../datatype/type-manip.js';
 import { isNullOrWhitespace } from './../datatype/type-string.js';
 
 const isClassName = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
@@ -10,6 +8,7 @@ const isClassName = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
  * @param {string} selector A DOMString containing one or more selectors to match
  * @param {HTMLElement|DocumentFragment} [el] Container queried
  * @returns {HTMLElement|null} The first Element matches that matches the specified set of CSS selectors.
+ * @memberof DOM
  */
 export function getElement(selector, el) {
     el = valOrDefault(el, document);
@@ -33,6 +32,7 @@ export function getElement(selector, el) {
  * @param {string} selector A DOMString containing one or more selectors to match
  * @param {HTMLElement|DocumentFragment} [el] Container queried
  * @returns {HTMLCollection|NodeList} A live or *static* (not live) collection of the `container`'s children Element that match the `selector`.
+ * @memberof DOM
  */
 export function getElements(selector, el) {
     el = valOrDefault(el, document);
@@ -51,6 +51,7 @@ export function getElements(selector, el) {
  * @param {string} selector A DOMString containing one or more selectors to match
  * @param {HTMLElement} [el] Container queried
  * @returns {HTMLTemplateElement|null} The first Template matches that matches the specified set of CSS selectors.
+ * @memberof DOM
  */
 export function getTemplate(selector, el) {
     return 'content' in document.createElement('template') ? getElement(selector, el) : null;
@@ -61,6 +62,7 @@ export function getTemplate(selector, el) {
  * @param {HTMLTemplateElement} template 
  * @param {boolean} deep used to decide whether the children of the template should also be clone
  * @returns {HTMLElement} The template's clone.
+ * @memberof DOM
  */
 export function cloneTemplate(template, deep) {
     return template ? document.importNode(template.content, valOrDefault(deep, true)) : template;
@@ -68,6 +70,7 @@ export function cloneTemplate(template, deep) {
 
 /**
  * Gets the window's width
+ * @memberof DOM
  */
 export function windowWidth() {
     return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -77,6 +80,7 @@ export function windowWidth() {
  * Gets the previous element of the specified one in its parent's children list
  * @param {HTMLElement} el element
  * @returns {(Element|null)} Element or null if the specified element is the first one in the list
+ * @memberof DOM
  */
 export function getPreviousElementSibling(el) { return getElementSibling(el, "previousElementSibling"); }
 
@@ -84,6 +88,7 @@ export function getPreviousElementSibling(el) { return getElementSibling(el, "pr
  * Gets the element following the specified one in its parent's children list
  * @param {HTMLElement} el element
  * @returns {(Element|null)} Element or null if the specified element is the last one in the list
+ * @memberof DOM
  */
 export function getNextElementSibling(el) { return getElementSibling(el, "nextElementSibling"); }
 
@@ -91,6 +96,7 @@ export function getNextElementSibling(el) { return getElementSibling(el, "nextEl
  * Inserts a given element before the targetted element
  * @param {HTMLElement} target 
  * @param {HTMLElement} el 
+ * @memberof DOM
  */
 export function insertBeforeElement(target, el) { target.insertAdjacentElement('beforebegin', el); }
 
@@ -98,6 +104,7 @@ export function insertBeforeElement(target, el) { target.insertAdjacentElement('
  * Inserts a given element after the targetted element
  * @param {HTMLElement} target 
  * @param {HTMLElement} el 
+ * @memberof DOM
  */
 export function insertAfterElement(target, el) { target.insertAdjacentElement('afterend', el); }
 
@@ -105,6 +112,7 @@ export function insertAfterElement(target, el) { target.insertAdjacentElement('a
  * Inserts a givern element as the first children of the targetted element
  * @param {HTMLElement} target 
  * @param {HTMLElement} el 
+ * @memberof DOM
  */
 export function preprendChild(target, el) { target.insertAdjacentElement('afterbegin', el); }
 
@@ -112,6 +120,7 @@ export function preprendChild(target, el) { target.insertAdjacentElement('afterb
  * Verifies that an element has a class
  * @param {HTMLElement} e element
  * @param {string} c class
+ * @memberof DOM
  */
 export function hasClass(e, c) {
     var classes = e.className.split(" ");
@@ -126,6 +135,7 @@ export function hasClass(e, c) {
  * Removes a class from an element if it exists
  * @param {HTMLElement} e element
  * @param {string} c class
+ * @memberof DOM
  */
 export function removeClass(e, c) {
     if (hasClass(e, c)) {
@@ -143,6 +153,7 @@ export function removeClass(e, c) {
  * Adds one or many classes to an element if it doesn't exist
  * @param {HTMLElement} el Element
  * @param {string} c classes
+ * @memberof DOM
  */
 export function addClass(el, c) {
     // If c is an Array => Format c as a space-separated string
@@ -161,6 +172,7 @@ export function addClass(el, c) {
  * Adds or removes a class from an element depending on the class's presence.
  * @param {HTMLElement} el 
  * @param {string} c ClassName
+ * @memberof DOM
  */
 export function toggleClass(el, c) {
     if (hasClass(el, c))
@@ -172,6 +184,7 @@ export function toggleClass(el, c) {
 /**
  * Removes all children of a node from the DOM
  * @param {Node} node 
+ * @memberof DOM
  */
 export function removeChildren(node) {
     while (node.hasChildNodes())
@@ -183,6 +196,7 @@ export function removeChildren(node) {
  * @param {HTMLElement} el element
  * @param {string} dir sibling direction
  * @returns {(Element|null)} Element or null
+ * @memberof DOM
  */
 export function getElementSibling(el, dir) {
     var sibling = el[dir];
@@ -195,10 +209,11 @@ export function getElementSibling(el, dir) {
 }
 
 /**
- * Changes the selected option of a <select> element
+ * Changes the selected option of a `<select>` element
  * @param {HTMLSelectElement} select
  * @param {string} val option value to select
  * @returns {boolean} value indicating whether the option was found and selected
+ * @memberof DOM
  */
 export function changeSelectValue(select, val) {
     var found = false;

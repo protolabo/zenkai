@@ -1,10 +1,9 @@
-/** @module type/datetime */
-
 import { isInt, valOrDefault } from './type-manip.js';
 
 /**
  * Returns a value indicating the day of the week with monday = 0
  * @param {Date} date 
+ * @memberof TYPE
  */
 export function dayOfWeek(date) {
     var d = date.getDay();
