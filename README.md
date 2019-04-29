@@ -6,3 +6,6 @@ Javascript libraries
 - MATH: Math functions
 - PATH: Path utils
 - URI: Uri helper functions
+
+# Documentation
+[Learn more about the library](https://protolabo.github.io/jslib/index.html).
