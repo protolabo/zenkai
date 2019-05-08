@@ -7,6 +7,15 @@ import { hasOwn } from './datatype/index.js';
 const encode = encodeURIComponent;
 
 /**
+ * Extracts and returns the protocol and host of a given url
+ * @param {string} url 
+ * @memberof URI
+ */
+export function getRootUrl(url) {
+    return url.toString().replace(/^(.*\/\/[^/?#]*).*$/, "$1");
+}
+
+/**
  * Extracts and returns the parameters of a URL
  * @param {string} [prop] Searched parameter
  * @memberof URI

@@ -5,7 +5,7 @@ export default [
     {
         input: './src/index.js',
         output: {
-            file: './dist/jslib-utils.min.js',
+            file: './dist/jslib.min.js',
             name: 'jsLabo',
             format: 'iife',
             interop: false,
@@ -16,7 +16,33 @@ export default [
         }), uglify()]
     },
     {
-        input: './src/dom/index.js',
+        input: './src/utils/index.js',
+        output: {
+            file: './dist/jslib-utils.min.js',
+            name: 'jsUtils',
+            format: 'iife',
+            interop: false,
+            sourcemap: true,
+        },
+        plugins: [babel({
+            exclude: 'node_modules/**'
+        }), uglify()]
+    },
+    {
+        input: './src/utils/index.js',
+        output: {
+            file: './dist/jslib-components.min.js',
+            name: 'jsComponents',
+            format: 'iife',
+            interop: false,
+            sourcemap: true,
+        },
+        plugins: [babel({
+            exclude: 'node_modules/**'
+        }), uglify()]
+    },
+    {
+        input: './src/utils/dom/index.js',
         output: {
             file: './dist/dom-utils.min.js',
             name: 'jsDOM',
@@ -29,7 +55,7 @@ export default [
         }), uglify()]
     },
     {
-        input: './src/datatype/index.js',
+        input: './src/utils/datatype/index.js',
         output: {
             file: './dist/type-utils.min.js',
             name: 'jsType',
@@ -40,5 +66,5 @@ export default [
         plugins: [babel({
             exclude: 'node_modules/**'
         }), uglify()]
-    },   
+    }
 ];
