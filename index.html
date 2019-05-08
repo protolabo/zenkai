@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSlib Documentation</title>
+    <link rel="stylesheet" href="assets/css/normalize.css">
+    <style>
+        html,
+        body {
+            height: 100%;
+            font: normal 10px 'Segoe UI', 'Droid Sans', Ubuntu, 'Lucida Grande', Arial, sans-serif;
+        }
+
+        h1 { font-size: 2.8em; }
+
+        h2 { font: normal 2.2em 'Franklin Gothic Heavy', 'Arial Black', Arial, sans-serif; }
+
+        h3 { font-size: 2em; }
+
+        code { font-family: Consolas, 'Courier New', Courier, monospace; }
+
+        p, li, td, th { font-size: 1.5em; }
+
+        td { padding: 5px 1%; }
+
+        .lib-name { text-transform: uppercase; font-weight: 600; }
+
+        .bare-list { margin: 0; padding: 0; list-style: none; }
+
+        header { height: 50px; background: linear-gradient(120deg, royalblue 10%, #fff 10%); }
+
+        .content-wrapper { padding-left: 5%; padding-right: 5%; }
+
+        header .content-wrapper { display: flex; height: 100%; }
+
+        main { min-height: calc(100% - 50px); background-color: #f0f0f0; }
+
+        .body { padding-top: 20px; padding-bottom: 30px; }
+
+        .logo { display: flex; height: 30px; align-self: center; font-size: 1.7em; text-decoration: none; }
+
+        .logo--proto, .logo--labo { display: inline-block; width: 50px; line-height: 28px; text-align: center; }
+
+        .logo--proto { font-family: Rockwell; color: rgb(255, 192, 0); border: 1px solid currentColor; border-right: 0 none; }
+
+        .logo--labo { font-family: 'OCR A Extended'; color: #fff; border: 1px solid rgb(104, 82, 152); border-left: 0 none; background-color: rgb(104, 82, 152); }
+
+        .section:not(:last-child) { margin-bottom: 20px; }
+
+        .section-title { margin-top: 0; width: 100%; color: #555; }
+
+        .title { margin-bottom: 5px; }
+
+        .intro {
+            color: #222;
+            font: normal 2.2em  'Rockwell', 'Arial Black', Arial, sans-serif;
+            margin-bottom: 30px;
+        }
+
+        .example-title { margin-bottom: 5px; font-weight: 600; }
+
+        .site-footer { color: #f0f0f0; background-color: #0059CF; }
+
+        .site-footer .content-wrapper { padding-top: 10px; padding-bottom: 20px; }
+
+        .site-footer p { margin: 0; }
+
+        .link-doc {
+            position: relative;
+            display: block;
+            margin-left: 50px;
+            width: 200px;
+            height: 200px;
+            font-size: 2em;
+            line-height: 180px;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            color: royalblue;
+            font-weight: 600;
+            z-index: 10;
+            text-decoration: none;
+        }
+
+        .link-doc:before {
+            content: "";
+            position: absolute;
+            top: -20px; bottom: -30px; left: -20px; right: -20px;
+            background-color: #d5d5d5;
+            border-radius: 5px;
+            box-shadow: inset 0 5px 2px #555;
+            transform: rotateX(20deg);
+            z-index: -1;
+            transition: .5s;
+        }
+        
+        .link-doc:after {
+            content: "";
+            position: absolute;
+            top: 50%; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(rgba(255,255,255,0.95), #fff 20%); 
+            border-radius: 0 0 180px 180px;
+            box-shadow: 0 5px 2px #555;
+            transform: rotateX(20deg);
+            z-index: 2;
+            transition: .5s;
+        }
+
+        .link-doc:hover { color: #fff; line-height: 170px; }
+        .link-doc:hover:after {
+            content: attr(data-content);
+            top: 0;
+            border-radius: 50%;
+            line-height: 220px;
+            background: royalblue;
+            box-shadow: 0 -3px 5px #777;
+            transform: rotateX(360deg);
+            z-index: -1;
+        }
+        .link-doc:hover:before {
+            left: -50px; right: -50px;
+            box-shadow: 0 -3px 1px #777;
+        }
+        .link-doc:focus:before {
+            left: -50px; right: -50px;
+            box-shadow: 0 5px 1px #999;
+            transform: rotateX(10deg);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="content-wrapper">
+            <a class="logo" href="/">
+                <span class="logo--proto">Proto</span>
+                <span class="logo--labo">Labo</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="body content-wrapper">
+            <h1 class="section-title">JSLib</h1>
+            <p class="intro">This library aims to help. <strong>How?</strong></p>
+            <a href="docs/index.html" class="link-doc" data-content="Documentation">Take a look</a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="content-wrapper">
+            <p class="float-right">
+                &copy; 2019, ProtoLabo. All rights reserverd.<br />
+                Last updated <time datetime="2019-05-08">May 8, 2019</time>`
+            </p>
+        </div>
+    </footer>
+
+    <script src="../dist/jslib.min.js"></script>
+</body>
+
+</html>
