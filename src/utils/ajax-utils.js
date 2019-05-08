@@ -34,70 +34,102 @@ const State = {
     DONE: 4
 };
 
-const xhrHandler = function (type, file, callback) {
+/**
+ * An XHR resposne
+ * @typedef {Object} xhrResponse
+ * @property {number} status - The response status code
+ * @property {string} message - The response content
+ */
+
+/**
+ * @callback xhrCallback
+ * @param  {xhrResponse} response - The XHR response object
+ */
+
+/**
+ * 
+ * @param {('GET'|'POST'|'PUT'|'DELETE')} type The HTTP method
+ * @param {string} url The URL to send the request 
+ * @param {*} successPred The success condition
+ * @param {xhrCallback} successCb A callback function to handle a successful request
+ * @param {xhrCallback} failureCb A callback function to handle a failed request
+ */
+const xhrHandler = function (type, url, successPred, successCb, failureCb) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === State.DONE) {
-            if (xhr.status === HttpResponse.OK) {
-                if (isFunction(callback)) {
-                    callback(xhr.responseText);
+            var response = {
+                status: xhr.status,
+                message: xhr.responseText
+            };
+            if (successPred(xhr.status)) {
+                if (isFunction(successCb)) {
+                    successCb(response);
                 }
             } else {
-                if (isFunction(callback)) {
-                    callback(xhr.status);
+                if (isFunction(failureCb)) {
+                    failureCb(response);
                 }
             }
         }
     };
-    xhr.open(type, file, true);
+    xhr.open(type, url, true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
     return xhr;
 };
 
 /**
- * 
- * @param {*} file 
- * @param {*} callback 
+ * Sends a GET request
+ * @param {string} url The URL to send the request 
+ * @param {xhrCallback} [success] A callback function to handle a successful request
+ * @param {xhrCallback} [fail] A callback function to handle a failed request
  * @memberof AJAX
  */
-export function GET(file, callback) {
-    var xhr = xhrHandler('GET', file, callback);
+export function GET(url, success, fail) {
+    const successCondition = (status) => status === HttpResponse.OK;
+    var xhr = xhrHandler('GET', successCondition, url, success, fail);
     xhr.send();
 }
 
 /**
- * 
- * @param {*} file 
- * @param {*} form 
- * @param {*} callback 
+ * Sends a POST request
+ * @param {string} url The URL to send the request 
+ * @param {*} form The data to be sent in the request
+ * @param {xhrCallback} [success] A callback function to handle a successful request
+ * @param {xhrCallback} [fail] A callback function to handle a failed request
  * @memberof AJAX
  */
-export function POST(file, form, callback) {
-    var xhr = xhrHandler('POST', file, callback);
+export function POST(url, form, success, fail) {
+    const successCondition = (status) => status === HttpResponse.Created;
+    var xhr = xhrHandler('POST', successCondition, url, success, fail);
     xhr.send(form);
 }
 
 /**
- * 
- * @param {*} file 
- * @param {*} form 
- * @param {*} callback 
+ * Sends a PUT request
+ * @param {string} url The URL to send the request 
+ * @param {*} form The data to be sent in the request
+ * @param {xhrCallback} [success] A callback function to handle a successful request
+ * @param {xhrCallback} [fail] A callback function to handle a failed request
  * @memberof AJAX
  */
-export function PUT(file, form, callback) {
-    var xhr = xhrHandler('PUT', file, callback);
+export function PUT(url, form, success, fail) {
+    const successCondition = (status) => [HttpResponse.OK, HttpResponse.NoContent].includes(status);
+    var xhr = xhrHandler('PUT', successCondition, url, success, fail);
     xhr.send(form);
 }
 
 /**
- * 
- * @param {*} file 
- * @param {*} form 
- * @param {*} callback 
+ * Sends a DELETE request
+ * @param {string} url The URL to send the request 
+ * @param {*} form The data to be sent in the request
+ * @param {xhrCallback} [success] A callback function to handle a successful request
+ * @param {xhrCallback} [fail] A callback function to handle a failed request
  * @memberof AJAX
  */
-export function DELETE(file, form, callback) {
-    var xhr = xhrHandler('DELETE', file, callback);
+export function DELETE(url, form, success, fail) {
+    const successCondition = (status) => [HttpResponse.OK, HttpResponse.Accepted, HttpResponse.NoContent].includes(status);
+    var xhr = xhrHandler('DELETE', successCondition, url, success, fail);
     xhr.send(form);
 }

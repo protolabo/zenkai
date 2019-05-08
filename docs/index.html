@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JSlib Documentation</title>
     <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="../dist/css/form.css">
     <style>
         html,
         body {
@@ -26,7 +27,7 @@
 
         td { padding: 5px 1%; }
 
-        .lib-name { text-transform: uppercase; font-weight: 600;  }
+        .lib-name { text-transform: uppercase; font-weight: 600; }
 
         .bare-list { margin: 0; padding: 0; list-style: none; }
 
@@ -36,28 +37,53 @@
 
         header .content-wrapper { display: flex; height: 100%; }
 
-        main { height: calc(100% - 50px); background-color: #f0f0f0; }
+        main { min-height: calc(100% - 50px); background-color: #f0f0f0; }
 
         .body { padding-top: 20px; padding-bottom: 30px; }
 
-        .logo { display: flex; height: 30px; align-self: center; font-size: 1.7em; }
+        .logo { display: flex; height: 30px; align-self: center; font-size: 1.7em; text-decoration: none; }
 
         .logo--proto, .logo--labo { display: inline-block; width: 50px; line-height: 28px; text-align: center; }
 
         .logo--proto { font-family: Rockwell; color: rgb(255, 192, 0); border: 1px solid currentColor; border-right: 0 none; }
 
-        .logo--labo { font-family: 'OCR A Extended'; color: #fff; background: rgb(104, 82, 152); border: 1px solid rgb(104, 82, 152); border-left: 0 none; }
+        .logo--labo { font-family: 'OCR A Extended'; color: #fff; border: 1px solid rgb(104, 82, 152); border-left: 0 none; background-color: rgb(104, 82, 152); }
+
+        .section:not(:last-child) { margin-bottom: 20px; }
 
         .section-title { margin-top: 0; width: 100%; color: #555; }
 
+        .title { margin-bottom: 5px; }
+
+        .example-title { margin-bottom: 5px; font-weight: 600; }
+
         .tbl-libraries { width: 100%; border: 1px solid #c0c0c0; }
+            .tbl-libraries td:nth-child(2) { min-width: 150px; }
+            .tbl-libraries td:nth-child(3) { min-width: 150px; }
 
         .site-footer { color: #f0f0f0; background-color: #0059CF; }
 
         .site-footer .content-wrapper { padding-top: 10px; padding-bottom: 20px; }
 
         .site-footer p { margin: 0; }
+
+        .form-section {
+            width: 100%; max-width: 800px;
+            padding: 20px 30px 25px;
+            box-sizing: border-box;
+            border-radius: 2px;
+            background-color: #fefefe;
+            box-shadow: 0 1px 2px rgba(85, 85, 85, 0.5);
+        }
+            .form-section:not(:last-child) { margin-bottom: 10px; }
+
+        .form-label { font-size: 1.4em; }
+
+        .form-control-multi { display: flex; }        
+            .form-control-multi .form-control-wrapper { flex-grow: 1; }
+                .form-control-multi .form-control-wrapper:not(:last-child) { margin-right: 20px; }
     </style>
+    <script src="../dist/jslib.min.js"></script>
 </head>
 
 <body>
@@ -69,10 +95,12 @@
             </a>
         </div>
     </header>
+
     <main>
         <div class="body content-wrapper">
-            <section>
+            <section class="section">
                 <h2 class="section-title">Libraries</h2>
+
                 <table class="tbl-libraries">
                     <thead>
                         <tr>
@@ -83,23 +111,109 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><em class="lib-name">Utils:</em> A collection of <strong>useful helper functions to</strong> manipulate the <code>DOM</code>, <code>DataType</code> and <strong>make the JS coding easier</strong>.</td>
+                            <td>
+                                <em class="lib-name">Utils:</em> 
+                                A collection of <strong>useful helper functions to</strong> manipulate the <code>DOM</code>, <code>DataType</code> and 
+                                <strong>make the JS coding easier</strong>.
+                            </td>
                             <td><a href="utils/index.html">Docs</a></td>
+                            <td><a href="https://github.com/protolabo/jslib">Github repo</a></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <em class="lib-name">Components:</em> 
+                                A collection of <strong>useful styled components to create a better exprience when filling out forms</strong>.
+                            </td>
+                            <td><a href="#formComponent">Jump to the docs</a></td>
                             <td><a href="https://github.com/protolabo/jslib">Github repo</a></td>
                         </tr>
                     </tbody>
                 </table>
             </section>
+
+            <section class="section">
+                <h2 id="formComponent" class="section-title">Form component</h2>
+
+                <div class="form-section">
+                    <h3 class="section-title">Input line</h3>
+                    <h4>Examples</h4>
+                    <div class="form-control-wrapper">
+                        <label class="form-label" for="il">First example</label>
+                        <input type="text" id="il" class="form-control textbox--line">
+                    </div>
+                    <h4>Adding a counter</h4>
+                    <p>Showing the number of characters typed in the textbox</p>
+                    <div class="form-control-multi">
+                        <div class="form-control-wrapper fl-container" data-counter-max="70" data-counter-val="0"
+                            data-counter="fName">
+                            <label class="form-label" data-type="placeholder" for="fName">First name</label>
+                            <input type="text" id="fName" maxlength="70" class="form-control textbox--line">
+                        </div>
+                        <div class="form-control-wrapper fl-container" data-counter-max="50" data-counter-val="0"
+                            data-counter="lName">
+                            <label class="form-label" data-type="placeholder" for="lName">Last name</label>
+                            <input type="text" id="lName" maxlength="50" class="form-control textbox--line">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Floating label</h3>
+                    <p>
+                        The floating label acts as a placeholder for the assigned input when it is empty. <br>
+                        Upon focus or if the input contains a value, the label floats up and stays there.
+                    </p>
+                    <h4>Examples</h4>
+                    <p class="example-title">A bare input</p>
+                    <div class="form-control-wrapper fl-container">
+                        <label class="form-label" data-type="placeholder" for="fl1">First example</label>
+                        <input type="text" id="fl1" class="form-control textbox--line">
+                    </div>
+                    <p class="example-title">An input that have a placeholder (attribute)</p>
+                    <div class="form-control-wrapper fl-container">
+                        <label class="form-label" data-type="placeholder" for="fl3">Date of test</label>
+                        <input type="date" id="fl3" placeholder="YYYY-mm-yy" class="form-control textbox--line">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Selector</h3>
+                    <p>Radio buttons wrapped in a nice package</p>
+                    <div class="selectors">
+                        <label class="form-label selector-label" data-type="selector">
+                            <input type="radio" checked="checked" name="selector" value="brother" class="slider">
+                            Brother
+                        </label>
+                        <label class="form-label selector-label" data-type="selector">
+                            <input type="radio" name="selector" value="sister" class="slider"> Sister
+                        </label>
+                        <label class="form-label selector-label" data-type="selector">
+                            <input type="radio" name="selector" value="cousin" class="slider"> Cousin
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Slider</h3>
+                    <p>A more friendly way of doing checkbox</p>
+                    <label class="form-label slider-label" data-type="slider">
+                        <input type="checkbox" class="slider"> Click me
+                    </label>
+                </div>
+            </section>
         </div>
     </main>
+
     <footer class="site-footer">
         <div class="content-wrapper">
             <p class="float-right">
                 &copy; 2019, ProtoLabo. All rights reserverd.<br />
-                Last updated <time datetime="2019-04-29">April 29, 2019</time>`
+                Last updated <time datetime="2019-05-08">May 8, 2019</time>`
             </p>
         </div>
     </footer>
+
+    <script src="main.js"></script>
 </body>
 
 </html>

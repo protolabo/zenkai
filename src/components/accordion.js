@@ -1,4 +1,4 @@
-import { DOM, TYPE } from "../../utils/src";
+import { DOM, TYPE } from "@utils/index.js";
 
 function findAncestor(target, callback, max) {
     if (max > 0) {
