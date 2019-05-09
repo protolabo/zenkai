@@ -88,7 +88,7 @@ const xhrHandler = function (type, url, successPred, successCb, failureCb) {
  */
 export function GET(url, success, fail) {
     const successCondition = (status) => status === HttpResponse.OK;
-    var xhr = xhrHandler('GET', successCondition, url, success, fail);
+    var xhr = xhrHandler('GET', url, successCondition, success, fail);
     xhr.send();
 }
 
@@ -102,7 +102,7 @@ export function GET(url, success, fail) {
  */
 export function POST(url, form, success, fail) {
     const successCondition = (status) => status === HttpResponse.Created;
-    var xhr = xhrHandler('POST', successCondition, url, success, fail);
+    var xhr = xhrHandler('POST', url, successCondition, success, fail);
     xhr.send(form);
 }
 
@@ -116,7 +116,7 @@ export function POST(url, form, success, fail) {
  */
 export function PUT(url, form, success, fail) {
     const successCondition = (status) => [HttpResponse.OK, HttpResponse.NoContent].includes(status);
-    var xhr = xhrHandler('PUT', successCondition, url, success, fail);
+    var xhr = xhrHandler('PUT', url, successCondition, success, fail);
     xhr.send(form);
 }
 
@@ -130,6 +130,6 @@ export function PUT(url, form, success, fail) {
  */
 export function DELETE(url, form, success, fail) {
     const successCondition = (status) => [HttpResponse.OK, HttpResponse.Accepted, HttpResponse.NoContent].includes(status);
-    var xhr = xhrHandler('DELETE', successCondition, url, success, fail);
+    var xhr = xhrHandler('DELETE', url, successCondition, success, fail);
     xhr.send(form);
 }
