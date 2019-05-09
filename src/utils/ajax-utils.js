@@ -66,7 +66,13 @@ const xhrHandler = function (type, url, successPred, successCb, failureCb) {
                 if (isFunction(successCb)) {
                     successCb(response);
                 }
-            } else {
+            }
+            else {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    if (isFunction(successCb)) {
+                        successCb(response);
+                    }
+                }
                 if (isFunction(failureCb)) {
                     failureCb(response);
                 }
