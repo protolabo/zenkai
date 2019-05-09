@@ -1,6 +1,6 @@
 {
   "name": "protolabo-jsutils",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Javascript utility and helper methods",
   "private": true,
   "browser": "dist/jslib-utils.min.js",
