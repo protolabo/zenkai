@@ -95,41 +95,42 @@ export function GET(url, success, fail) {
 /**
  * Sends a POST request
  * @param {string} url The URL to send the request 
- * @param {*} form The data to be sent in the request
+ * @param {*} data The data to be sent in the request
  * @param {xhrCallback} [success] A callback function to handle a successful request
  * @param {xhrCallback} [fail] A callback function to handle a failed request
  * @memberof AJAX
  */
-export function POST(url, form, success, fail) {
-    const successCondition = (status) => status === HttpResponse.Created;
+export function POST(url, data, success, fail, options) {
+    const successCond = (status) => isFunction(options.successPred) ? options.successPred(status) : status === HttpResponse.Created;
+    const successCondition = isFunction(options.successPred) ? options.successPred : (status) => status === HttpResponse.Created;
     var xhr = xhrHandler('POST', url, successCondition, success, fail);
-    xhr.send(form);
+    xhr.send(data);
 }
 
 /**
  * Sends a PUT request
  * @param {string} url The URL to send the request 
- * @param {*} form The data to be sent in the request
+ * @param {*} data The data to be sent in the request
  * @param {xhrCallback} [success] A callback function to handle a successful request
  * @param {xhrCallback} [fail] A callback function to handle a failed request
  * @memberof AJAX
  */
-export function PUT(url, form, success, fail) {
+export function PUT(url, data, success, fail) {
     const successCondition = (status) => [HttpResponse.OK, HttpResponse.NoContent].includes(status);
     var xhr = xhrHandler('PUT', url, successCondition, success, fail);
-    xhr.send(form);
+    xhr.send(data);
 }
 
 /**
  * Sends a DELETE request
  * @param {string} url The URL to send the request 
- * @param {*} form The data to be sent in the request
+ * @param {*} data The data to be sent in the request
  * @param {xhrCallback} [success] A callback function to handle a successful request
  * @param {xhrCallback} [fail] A callback function to handle a failed request
  * @memberof AJAX
  */
-export function DELETE(url, form, success, fail) {
+export function DELETE(url, data, success, fail) {
     const successCondition = (status) => [HttpResponse.OK, HttpResponse.Accepted, HttpResponse.NoContent].includes(status);
     var xhr = xhrHandler('DELETE', url, successCondition, success, fail);
-    xhr.send(form);
+    xhr.send(data);
 }
