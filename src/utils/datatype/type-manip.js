@@ -1,35 +1,44 @@
 /**
  * Returns an object value or default value if undefined
  * @param {*} arg object
- * @param {*} val default value
+ * @param {*} value default value
+ * @param {boolean} isNullable indicates whether the value can be assigned the value *NULL*
  * @memberof TYPE
  */
-export function valOrDefault(arg, val) { return isUndefined(arg) ? val : arg; }
+export function valOrDefault(arg, value, isNullable) {
+    if (toBoolean(isNullable)) {
+        return isUndefined(arg) ? value : arg;
+    }
+    return isNullOrUndefined(arg) ? value : arg;
+}
 
 /**
- * Converts a boolean to an integer
- * @param {boolean} val 
- * @returns {int} 1 or 0
+ * Converts the received boolean value to an integer
+ * @param {boolean} value 
+ * @returns {number} 1 or 0
  * @memberof TYPE
  */
-export function boolToInt(val) { return val ? 1 : 0; }
+export function boolToInt(value) { return value ? 1 : 0; }
 
 /**
- * Converts to boolean
+ * Converts the received value to a boolean
+ * @param {*} value
+ * @returns {boolean} A boolean equivalent of the received value
  * @memberof TYPE
  */
-export function toBoolean(val) {
-    val = valOrDefault(val, false);
+export function toBoolean(value) {
+    var val = valOrDefault(value, false);
 
     return val === true || val.toString().toLowerCase() === 'true';
 }
 
 /**
- * Returns a value indicating whether the variable is an Integer
- * @returns {boolean}
+ * Determines whether the value is an *integer*
+ * @param {*} value Tested value
+ * @returns {boolean}  A value indicating whether or not the given value is an *integer*.
  * @memberof TYPE
  */
-export function isInt(n) { return n % 1 === 0; }
+export function isInt(value) { return value % 1 === 0; }
 
 /**
  * Returns a value indicating whether the variable is a Date
@@ -59,18 +68,14 @@ export function isFunction(value) { return typeof value === 'function'; }
  * @returns {boolean}
  * @memberof TYPE
  */
-export function isNull(value) {
-    return value === null;
-}
+export function isNull(value) { return value === null; }
 
 /**
  * Returns a value indicating whether the value is undefined
  * @returns {boolean}
  * @memberof TYPE
  */
-export function isUndefined(value) {
-    return typeof value === 'undefined';
-}
+export function isUndefined(value) { return typeof value === 'undefined'; }
 
 /**
  * Returns a value indicating whether the value is null or undefined

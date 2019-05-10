@@ -3,7 +3,7 @@
  * @namespace AJAX 
  */
 
-import { isFunction } from "./datatype/index.js";
+import { isFunction, isNullOrUndefined } from "./datatype/index.js";
 
 const HttpResponse = {
     // Successful
@@ -47,35 +47,30 @@ const State = {
  */
 
 /**
- * 
+ * This function creates and arranges the XMLHttpRequest object
  * @param {('GET'|'POST'|'PUT'|'DELETE')} type The HTTP method
  * @param {string} url The URL to send the request 
  * @param {*} successPred The success condition
  * @param {xhrCallback} successCb A callback function to handle a successful request
+ * @param {xhrCallback} passCb A callback function to handle a valid request
  * @param {xhrCallback} failureCb A callback function to handle a failed request
  */
-const xhrHandler = function (type, url, successPred, successCb, failureCb) {
+const xhrHandler = function (type, url, successPred, successCb, failureCb, passCb) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
+        var callback;
         if (xhr.readyState === State.DONE) {
-            var response = {
-                status: xhr.status,
-                message: xhr.responseText
-            };
+            let response = createResponse(xhr.status, xhr.responseText);
             if (successPred(xhr.status)) {
-                if (isFunction(successCb)) {
-                    successCb(response);
+                callback = successCb;
+            } else {
+                callback = failureCb;
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    callback = isNullOrUndefined(passCb) ? failureCb : passCb;
                 }
             }
-            else {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    if (isFunction(successCb)) {
-                        successCb(response);
-                    }
-                }
-                if (isFunction(failureCb)) {
-                    failureCb(response);
-                }
+            if (isFunction(callback)) {
+                callback(response);
             }
         }
     };
@@ -85,6 +80,17 @@ const xhrHandler = function (type, url, successPred, successCb, failureCb) {
     return xhr;
 };
 
+function createResponse(status, content) {
+    return {
+        status: status,
+        message: content
+    };
+}
+
+function isSuccess(status) {
+    return [HttpResponse.OK, HttpResponse.Accepted, HttpResponse.NoContent].includes(status);
+}
+
 /**
  * Sends a GET request
  * @param {string} url The URL to send the request 
@@ -92,9 +98,10 @@ const xhrHandler = function (type, url, successPred, successCb, failureCb) {
  * @param {xhrCallback} [fail] A callback function to handle a failed request
  * @memberof AJAX
  */
-export function GET(url, success, fail) {
-    const successCondition = (status) => status === HttpResponse.OK;
-    var xhr = xhrHandler('GET', url, successCondition, success, fail);
+export function GET(url, success, fail, options) {
+    var _successPred = options.successPred;
+    const successPred = isFunction(_successPred) ? _successPred : (status) => status === HttpResponse.OK;
+    var xhr = xhrHandler('GET', url, successPred, success, fail, options.pass);
     xhr.send();
 }
 
@@ -107,9 +114,9 @@ export function GET(url, success, fail) {
  * @memberof AJAX
  */
 export function POST(url, data, success, fail, options) {
-    const successCond = (status) => isFunction(options.successPred) ? options.successPred(status) : status === HttpResponse.Created;
-    const successCondition = isFunction(options.successPred) ? options.successPred : (status) => status === HttpResponse.Created;
-    var xhr = xhrHandler('POST', url, successCondition, success, fail);
+    var _successPred = options.successPred;
+    const successPred = isFunction(_successPred) ? _successPred : (status) => [HttpResponse.OK, HttpResponse.Created].includes(status);
+    var xhr = xhrHandler('POST', url, successPred, success, fail, options.pass);
     xhr.send(data);
 }
 
@@ -121,9 +128,10 @@ export function POST(url, data, success, fail, options) {
  * @param {xhrCallback} [fail] A callback function to handle a failed request
  * @memberof AJAX
  */
-export function PUT(url, data, success, fail) {
-    const successCondition = (status) => [HttpResponse.OK, HttpResponse.NoContent].includes(status);
-    var xhr = xhrHandler('PUT', url, successCondition, success, fail);
+export function PUT(url, data, success, fail, options) {
+    var _successPred = options.successPred;
+    const successPred = isFunction(_successPred) ? _successPred : (status) => [HttpResponse.OK, HttpResponse.NoContent].includes(status);
+    var xhr = xhrHandler('PUT', url, successPred, success, fail, options.pass);
     xhr.send(data);
 }
 
@@ -135,8 +143,9 @@ export function PUT(url, data, success, fail) {
  * @param {xhrCallback} [fail] A callback function to handle a failed request
  * @memberof AJAX
  */
-export function DELETE(url, data, success, fail) {
-    const successCondition = (status) => [HttpResponse.OK, HttpResponse.Accepted, HttpResponse.NoContent].includes(status);
-    var xhr = xhrHandler('DELETE', url, successCondition, success, fail);
+export function DELETE(url, data, success, fail, options) {
+    var _successPred = options.successPred;
+    const successPred = isFunction(_successPred) ? _successPred : (status) => [HttpResponse.OK, HttpResponse.Accepted, HttpResponse.NoContent].includes(status);
+    var xhr = xhrHandler('DELETE', url, successPred, success, fail, options.pass);
     xhr.send(data);
 }
