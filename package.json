@@ -1,13 +1,13 @@
 {
   "name": "protolabo-jsutils",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Javascript utility and helper methods",
   "private": true,
-  "browser": "dist/jslib-utils.min.js",
+  "browser": "dist/jslib.min.js",
   "main": "src/index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --open --config webpack.dev.js",
-    "build": "rollup -c",
+    "prebuild": "rimraf dist/*",
+    "build": "node scripts/build.js && rollup -c",
     "bundle:iife": "rollup src/index.js --file bundle.iife.js --format iife --name jsLabo",
     "bundle:umd": "rollup src/index.js --file bundle.umd.js --format umd --name jsLabo",
     "test": "mocha --require @babel/register"
@@ -32,10 +32,12 @@
     "@babel/register": "^7.0.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "chai": "^4.2.0",
+    "clean-css": "^4.2.1",
     "coffeescript": "^2.3.2",
     "jsdom": "^15.0.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^6.1.4",
+    "rimraf": "^2.6.3",
     "rollup-plugin-babel": "^4.3.0",
     "rollup-plugin-uglify": "^6.0.1"
   },
