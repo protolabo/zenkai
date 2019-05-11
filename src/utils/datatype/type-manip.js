@@ -6,7 +6,7 @@
  * @memberof TYPE
  */
 export function valOrDefault(arg, value, isNullable) {
-    if (toBoolean(isNullable)) {
+    if (isNullable === true) {
         return isUndefined(arg) ? value : arg;
     }
     return isNullOrUndefined(arg) ? value : arg;
