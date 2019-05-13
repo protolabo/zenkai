@@ -116,7 +116,7 @@ select[data-custom="select"] { visibility: hidden; }
 .btn-add { margin-left: 10px; color: #2e7b32; }
 
 /* Form component: Slider */
-.slider { display: none; }
+input.slider { display: none; }
 
 .slider-label { 
     position: relative; z-index: 5;    
@@ -156,7 +156,7 @@ select[data-custom="select"] { visibility: hidden; }
     border: 1px solid royalblue;
     border-radius: 5px;
 }
-.selector { display: none; }
+.selectors input.selector { display: none; }
 
 .selector-label { 
     flex-grow: 1; 
