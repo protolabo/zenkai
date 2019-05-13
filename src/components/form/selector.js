@@ -22,6 +22,10 @@ export function Selector(form, callback) {
         if (isSelector(lbl)) {
             let input = getInput('radio', lbl);
             lbl.dataset[HTMLAttribute.CHECKED] = input.checked ? Status.ON : Status.OFF;
+            if (input.checked) {
+                current = lbl;
+                notify(input.value);
+            }
             input.addEventListener('click', function (e) {
                 if (current) {
                     current.dataset[HTMLAttribute.CHECKED] = Status.OFF;
@@ -32,10 +36,7 @@ export function Selector(form, callback) {
                 notify(input.value);
             });
 
-            if (input.checked) {
-                current = lbl;
-                notify(input.value);
-            }
+      
         }
     }
 
