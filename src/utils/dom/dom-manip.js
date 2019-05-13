@@ -1,4 +1,4 @@
-﻿import { valOrDefault } from './../datatype/type-manip.js';
+﻿import { valOrDefault, isNullOrUndefined } from './../datatype/type-manip.js';
 import { isNullOrWhitespace } from './../datatype/type-string.js';
 
 const isClassName = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
@@ -225,6 +225,73 @@ export function changeSelectValue(select, val) {
         }
     }
     return found;
+}
+
+/**
+ * Verifies that an object is an *Element*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *Element*
+ */
+export function isElement(obj) {
+    if (isNullOrUndefined(obj)) {
+        return false;
+    }
+    return obj.nodeType === 1 && obj instanceof Element;
+}
+
+/**
+ * Verifies that an object is an *HTMLElement*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *Element*
+ */
+export function isHTMLElement(obj) {
+    if (isNullOrUndefined(obj)) {
+        return false;
+    }
+    return obj.nodeType === 1 && obj instanceof HTMLElement;
+}
+
+/**
+ * Finds an ancestor of an element
+ * @param {Element} target 
+ * @param {*} callback 
+ * @param {number} max 
+ * @returns {Element|null}
+ */
+export function findAncestor(target, callback, max) {
+    if(!isElement(target)){
+        return null;
+    }
+
+    var parent = target.parentElement;
+    if (max > 0) {
+        return findAncestorIter(parent, callback, max);
+    }
+    return findAncestorInf(parent, callback);
+}
+
+function findAncestorInf(target, callback) {
+    if (isNullOrUndefined(target)) {
+        return null;
+    }
+
+    if (callback(target)) {
+        return target;
+    }
+
+    return findAncestorInf(target.parentElement, callback);
+}
+
+function findAncestorIter(target, callback, max) {
+    if (isNullOrUndefined(target) || max === 0) {
+        return null;
+    }
+
+    if (callback(target)) {
+        return target;
+    }
+
+    return findAncestorIter(target.parentElement, callback, max - 1);
 }
 
 function stickyHeader(header, target) {

@@ -80,3 +80,5 @@ main { min-height: calc(100% - 50px); background-color: #f0f0f0; }
 .site-footer .content-wrapper { padding-top: 10px; padding-bottom: 20px; }
 
 .site-footer p { margin: 0; }
+
+.hidden { display: none; }
