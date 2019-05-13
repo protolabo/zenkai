@@ -9,11 +9,11 @@ const Status = {
 };
 
 function isSelector(el) {
-    return el.dataset['type'] == 'selector';
+    return el.dataset['type'] === 'selector';
 }
 
 export function Selector(form, callback) {
-    const labels = getElements('.form-label', form);
+    const labels = getElements('[data-type=selector]', form);
     var current = null;
 
     for (let i = 0, len = labels.length; i < len; i++) {
