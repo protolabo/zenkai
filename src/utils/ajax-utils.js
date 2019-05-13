@@ -3,7 +3,7 @@
  * @namespace AJAX 
  */
 
-import { isFunction, isNullOrUndefined } from "./datatype/index.js";
+import { isFunction, isNullOrUndefined, valOrDefault } from "./datatype/index.js";
 
 const HttpResponse = {
     // Successful
@@ -99,6 +99,7 @@ function isSuccess(status) {
  * @memberof AJAX
  */
 export function GET(url, success, fail, options) {
+    options = valOrDefault(options, {});
     var _successPred = options.successPred;
     const successPred = isFunction(_successPred) ? _successPred : (status) => status === HttpResponse.OK;
     var xhr = xhrHandler('GET', url, successPred, success, fail, options.pass);
@@ -114,6 +115,7 @@ export function GET(url, success, fail, options) {
  * @memberof AJAX
  */
 export function POST(url, data, success, fail, options) {
+    options = valOrDefault(options, {});
     var _successPred = options.successPred;
     const successPred = isFunction(_successPred) ? _successPred : (status) => [HttpResponse.OK, HttpResponse.Created].includes(status);
     var xhr = xhrHandler('POST', url, successPred, success, fail, options.pass);
@@ -129,6 +131,7 @@ export function POST(url, data, success, fail, options) {
  * @memberof AJAX
  */
 export function PUT(url, data, success, fail, options) {
+    options = valOrDefault(options, {});
     var _successPred = options.successPred;
     const successPred = isFunction(_successPred) ? _successPred : (status) => [HttpResponse.OK, HttpResponse.NoContent].includes(status);
     var xhr = xhrHandler('PUT', url, successPred, success, fail, options.pass);
@@ -144,6 +147,7 @@ export function PUT(url, data, success, fail, options) {
  * @memberof AJAX
  */
 export function DELETE(url, data, success, fail, options) {
+    options = valOrDefault(options, {});
     var _successPred = options.successPred;
     const successPred = isFunction(_successPred) ? _successPred : (status) => [HttpResponse.OK, HttpResponse.Accepted, HttpResponse.NoContent].includes(status);
     var xhr = xhrHandler('DELETE', url, successPred, success, fail, options.pass);
