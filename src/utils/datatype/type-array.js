@@ -19,10 +19,3 @@ export function last(arr) {
 
     return undefined;
 }
-
-/**
- * Returns a value indicating whether the array is empty or not
- * @param {Object[]} arr array
- * @memberof TYPE
- */
-export function isEmpty(arr) { return !arr.length; }

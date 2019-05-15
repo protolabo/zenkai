@@ -56,6 +56,14 @@ export function isDate(value) {
  */
 export function isString(str) { return typeof str === 'string' || str instanceof String; }
 
+
+/**
+ * Returns a value indicating whether the value is empty
+ * @param {Object[]|string} arr array
+ * @memberof TYPE
+ */
+export function isEmpty(val) { return val.length === 0; }
+
 /**
  * Returns a value indicating whether the value is a Function
  * @returns {boolean}

@@ -1,48 +1,68 @@
-import {getElements} from '@utils/dom/index.js';
-import { isFunction } from '@utils/datatype/index.js';
+import { getElement, getElements, isHTMLElement } from '@utils/dom/index.js';
+import { isFunction, isString, isNullOrUndefined, isEmpty } from '@utils/datatype/index.js';
 import { HTMLAttribute } from './global.js';
 import { getInput } from "./utils.js";
+
+const ATTRIBUTE = 'selector';
+
+const NONE = -1;
 
 const Status = {
     ON: 'on',
     OFF: 'off'
 };
 
-function isSelector(el) {
-    return el.dataset['type'] === 'selector';
-}
+const toData = (name) => `[data-type=${name}]`;
 
-export function Selector(form, callback) {
-    const labels = getElements('[data-type=selector]', form);
-    var current = null;
+const isSelector = (element) => element.dataset['type'] === ATTRIBUTE;
 
-    for (let i = 0, len = labels.length; i < len; i++) {
-        let lbl = labels[i];
+export function Selector(container, callback) {
+    const selectors = getSelectors(container);
 
-        if (isSelector(lbl)) {
-            let input = getInput('radio', lbl);
-            lbl.dataset[HTMLAttribute.CHECKED] = input.checked ? Status.ON : Status.OFF;
-            if (input.checked) {
-                current = lbl;
-                notify(input.value);
-            }
-            input.addEventListener('click', function (e) {
-                if (current) {
-                    current.dataset[HTMLAttribute.CHECKED] = Status.OFF;
-                }
-                lbl.dataset[HTMLAttribute.CHECKED] = input.checked ? Status.ON : Status.OFF;
-                current = lbl;
-
-                notify(input.value);
-            });
-
-      
-        }
+    if (selectors === NONE) {
+        return null;
     }
 
-    function notify(val) {
-        if (isFunction(callback)) {
-            callback(val);
+    for (let i = 0, len = selectors.length; i < len; i++) {
+        activate(selectors[i], callback);
+    }
+
+    return selectors;
+}
+
+function getSelectors(container) {
+    if (isHTMLElement(container)) {
+        return isSelector(container) ? [container] : getElements(toData(ATTRIBUTE), container);
+    } else if (isString(container) && !isEmpty(container)) {
+        let _container = getElement(container);
+        return isNullOrUndefined(_container) ? NONE : getSelectors(_container);
+    } else if (isNullOrUndefined(container)) {
+        return getElements(toData(ATTRIBUTE));
+    }
+
+    return NONE;
+}
+
+
+function activate(selector, callback) {
+    var current = null;
+    var selectorItems = getElements('[data-selector]', selector);
+    for (let i = 0, len = selectorItems.length; i < len; i++) {
+        let item = selectorItems[i];
+        let input = getInput('radio', item);
+        item.dataset[HTMLAttribute.CHECKED] = input.checked ? Status.ON : Status.OFF;
+        if (input.checked) {
+            current = item;
         }
+        input.addEventListener('change', function (e) {
+            if (current) {
+                current.dataset[HTMLAttribute.CHECKED] = Status.OFF;
+            }
+            item.dataset[HTMLAttribute.CHECKED] = input.checked ? Status.ON : Status.OFF;
+            current = item;
+            if (isFunction(callback)) {
+                callback(input.value);
+            }
+        });
     }
 }

@@ -151,21 +151,13 @@ input.slider { display: none; }
     .slider-label[data-checked="on"]:after { content:attr(data-on-message); background-color: royalblue; }
 
 /* Form component: Selector */
-.selectors {
-    display: flex; 
-    border: 1px solid royalblue;
-    border-radius: 5px;
-}
-.selectors input.selector { display: none; }
+.selector { display: flex; border: 1px solid royalblue; border-radius: 5px; }
 
-.selector-label { 
-    flex-grow: 1; 
-    padding: 5px 1%;
-    text-align: center;
-}
-.selector-label:not(:last-child) { border-right: 1px solid royalblue; }
+    .selector-item { flex-grow: 1; padding: 5px 1%; text-align: center; }
+        .selector-item:not(:last-child) { border-right: 1px solid royalblue; }
+        .selector-item[data-checked="on"] { color: #fff; background-color: royalblue; }
 
-    .selector-label[data-checked="on"] { color: #fff; background-color: royalblue; }
+    .selector input { display: none; }
 
 /* Form Accordion */
 .form-accordion {

@@ -15,7 +15,7 @@ const State = {
 export function Collapsible(container, accordion) {
     var collapsibles;
     if (isHTMLElement(container)) {
-        collapsibles = hasOwn(container.dataset, COLLAPSIBLE) ? [getElement(container)] : getElements('[data-collapsible]', container);
+        collapsibles = hasOwn(container.dataset, COLLAPSIBLE) ? [container] : getElements('[data-collapsible]', container);
     } else {
         collapsibles = getElements('[data-collapsible]');
     }

@@ -122,21 +122,34 @@
                     </div>
                 </div>
 
-                <div class="form-section">
+                <div class="form-section form-section-selector">
                     <h3 class="section-title">Selector</h3>
                     <p>Radio buttons wrapped in a nice package</p>
-                    <div class="selectors">
-                        <label class="form-label selector-label" data-type="selector">
-                            <input type="radio" checked="checked" name="selector" value="brother" class="slider">
+                    <div class="selector" data-type="selector">
+                        <label class="form-label selector-item" data-selector="">
+                            <input type="radio" name="selector" value="selector" class="slider">
                             Brother
                         </label>
-                        <label class="form-label selector-label" data-type="selector">
-                            <input type="radio" name="selector" value="sister" class="slider"> Sister
+                        <label class="form-label selector-item" data-selector="">
+                            <input type="radio" name="selector" value="sister" class="selector"> Sister
                         </label>
-                        <label class="form-label selector-label" data-type="selector">
-                            <input type="radio" name="selector" value="cousin" class="slider"> Cousin
+                        <label class="form-label selector-item" data-selector="">
+                            <input type="radio" checked="checked" name="selector" value="cousin" class="selector"> Cousin
                         </label>
                     </div>
+
+                    <div class="selector" data-type="selector">
+                            <label class="form-label selector-item" data-selector="">
+                                <input type="radio" name="selector2" value="selector" class="slider">
+                                Brother
+                            </label>
+                            <label class="form-label selector-item" data-selector="">
+                                <input type="radio" name="selector2" value="sister" class="selector"> Sister
+                            </label>
+                            <label class="form-label selector-item" data-selector="">
+                                <input type="radio" name="selector2" value="cousin" class="selector"> Cousin
+                            </label>
+                        </div>
                 </div>
 
                 <div class="form-section">

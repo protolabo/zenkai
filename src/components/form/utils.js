@@ -7,3 +7,8 @@ export function getInput(type, label) {
     }
     return getElement(`#${label.htmlFor}`);
 }
+
+
+export const toData = (name) => `[data-type=${name}]`;
+
+export const isSelector = (element, type) => element.dataset['type'] === type;
