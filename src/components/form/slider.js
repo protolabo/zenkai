@@ -43,7 +43,6 @@ function getSliders(container) {
     return NONE;
 }
 
-
 function activate(slider, callback) {
     var input = getInput('checkbox', slider);
     slider.dataset[HTMLAttribute.CHECKED] = input.checked ? Status.ON : Status.OFF;

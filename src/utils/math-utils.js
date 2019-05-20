@@ -8,7 +8,7 @@
  * @param {number} [max] 
  * @memberof MATH
 */
-export function random  (min, max) {
+export function random(min, max) {
     if (max == null) {
         max = min;
         min = 0;

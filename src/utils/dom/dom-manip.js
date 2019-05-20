@@ -123,29 +123,26 @@ export function preprendChild(target, el) { target.insertAdjacentElement('afterb
  * @memberof DOM
  */
 export function hasClass(e, c) {
-    var classes = e.className.split(" ");
-    for (let i = 0, len = classes.length; i < len; i++) {
-        if (c == classes[i])
-            return true;
-    }
-    return false;
+    return e.className.split(" ").indexOf(c) !== -1;
 }
 
 /**
  * Removes a class from an element if it exists
  * @param {HTMLElement} e element
- * @param {string} c class
+ * @param {string|Array} c class
  * @memberof DOM
  */
 export function removeClass(e, c) {
+    if (Array.isArray(c)) {
+        c.forEach((val) => _removeClass(e, val));
+    }
+
+    _removeClass(e, c);
+}
+
+function _removeClass(e, c) {
     if (hasClass(e, c)) {
-        var classes = e.className.split(" ");
-        var classes2 = "";
-        for (let i = 0, len = classes.length; i < len; i++) {
-            if (c != classes[i])
-                classes2 += " " + classes[i];
-        }
-        e.className = classes2.trim();
+        e.className = e.className.replace(c, '');
     }
 }
 
@@ -160,12 +157,14 @@ export function addClass(el, c) {
     if (Array.isArray(c)) {
         c = c.map(function (c) { return valOrDefault(c.class, c); }).join(' ');
     }
-    var strClass = valOrDefault(c.class, c);
 
-    if (isNullOrWhitespace(el.className))
+    var strClass = valOrDefault(c.class, c);
+    if (isNullOrWhitespace(el.className)) {
         el.className = strClass;
-    else if (!hasClass(el, c))
+    }
+    else if (!hasClass(el, c)) {
         el.className += " " + strClass;
+    }
 }
 
 /**
@@ -175,10 +174,12 @@ export function addClass(el, c) {
  * @memberof DOM
  */
 export function toggleClass(el, c) {
-    if (hasClass(el, c))
+    if (hasClass(el, c)) {
         removeClass(el, c);
-    else
+    }
+    else {
         addClass(el, c);
+    }
 }
 
 /**
@@ -259,7 +260,7 @@ export function isHTMLElement(obj) {
  * @returns {Element|null}
  */
 export function findAncestor(target, callback, max) {
-    if(!isElement(target)){
+    if (!isElement(target)) {
         return null;
     }
 

@@ -9,6 +9,7 @@ export function valOrDefault(arg, value, isNullable) {
     if (isNullable === true) {
         return isUndefined(arg) ? value : arg;
     }
+    
     return isNullOrUndefined(arg) ? value : arg;
 }
 
@@ -72,6 +73,13 @@ export function isEmpty(val) { return val.length === 0; }
 export function isFunction(value) { return typeof value === 'function'; }
 
 /**
+ * Returns a value indicating whether the value is an Object
+ * @returns {boolean}
+ * @memberof TYPE
+ */
+export function isObject(value) { return !isNull(value) && typeof value === 'object'; }
+
+/**
  * Returns a value indicating whether the value is null
  * @returns {boolean}
  * @memberof TYPE
@@ -90,6 +98,4 @@ export function isUndefined(value) { return typeof value === 'undefined'; }
  * @returns {boolean}
  * @memberof TYPE
  */
-export function isNullOrUndefined(value) {
-    return isNull(value) || isUndefined(value);
-}
+export function isNullOrUndefined(value) { return isNull(value) || isUndefined(value); }

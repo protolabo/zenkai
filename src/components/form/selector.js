@@ -43,7 +43,6 @@ function getSelectors(container) {
     return NONE;
 }
 
-
 function activate(selector, callback) {
     var current = null;
     var selectorItems = getElements('[data-selector]', selector);
