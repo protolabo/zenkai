@@ -23,6 +23,7 @@ export function createElement(tagName, eId, eClass) {
 
 /**
  * Creates a document fragment
+ * @returns {DocumentFragment}
  * @memberof DOM
  */
 export function createDocFragment() { return document.createDocumentFragment(); }

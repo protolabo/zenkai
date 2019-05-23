@@ -232,6 +232,7 @@ export function changeSelectValue(select, val) {
  * Verifies that an object is an *Element*
  * @param {Element} obj 
  * @returns {boolean} Value indicating whether the object is an *Element*
+ * @memberof DOM
  */
 export function isElement(obj) {
     if (isNullOrUndefined(obj)) {
@@ -244,6 +245,7 @@ export function isElement(obj) {
  * Verifies that an object is an *HTMLElement*
  * @param {Element} obj 
  * @returns {boolean} Value indicating whether the object is an *Element*
+ * @memberof DOM
  */
 export function isHTMLElement(obj) {
     if (isNullOrUndefined(obj)) {
@@ -258,6 +260,7 @@ export function isHTMLElement(obj) {
  * @param {*} callback 
  * @param {number} max 
  * @returns {Element|null}
+ * @memberof DOM
  */
 export function findAncestor(target, callback, max) {
     if (!isElement(target)) {

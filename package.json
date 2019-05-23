@@ -1,6 +1,6 @@
 {
   "name": "protolabo-jsutils",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Javascript utility and helper methods",
   "private": true,
   "browser": "dist/jslib.min.js",
@@ -8,6 +8,8 @@
   "scripts": {
     "prebuild": "rimraf dist/*",
     "build": "node scripts/build.js && rollup -c",
+    "postbuild": "npm run build:docs",
+    "build:docs": "documentation build src/utils/index.js -f html -o docs/utils",
     "bundle:iife": "rollup src/index.js --file bundle.iife.js --format iife --name jsLabo",
     "bundle:umd": "rollup src/index.js --file bundle.umd.js --format umd --name jsLabo",
     "test": "mocha --require @babel/register"

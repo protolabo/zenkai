@@ -8,6 +8,7 @@
     <title>JSlib Documentation</title>
     <link rel="stylesheet" href="../assets/css/normalize.css">
     <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/code.css">
     <link rel="stylesheet" href="../dist/css/form.min.css">
     <style>
         .tbl-libraries { width: 100%; border: 1px solid #c0c0c0; }
@@ -83,12 +84,27 @@
                 <div class="form-section">
                     <h3 class="section-title">Input line</h3>
                     <h4>Examples</h4>
+<pre><code class="html-code">
+<div>
+    <label for="inputline">First example</label>
+    <input id="inputline" class="textbox--line" type="text">
+</div>
+</code>
+</pre>
                     <div class="form-control-wrapper">
                         <label class="form-label" for="il">First example</label>
                         <input type="text" id="il" class="form-control textbox--line">
                     </div>
                     <h4>Adding a counter</h4>
                     <p>Showing the number of characters typed in the textbox</p>
+<pre><code class="html-code">
+<div data-counter-max="70" data-counter-val="0" data-counter="fName">
+    <label for="fName" data-type="placeholder">First name</label>
+    <input id="fName" class="textbox--line" type="text" maxlength="70">
+</div>
+...
+</code>
+</pre>
                     <div class="form-control-multi">
                         <div class="form-control-wrapper fl-container" data-counter-max="70" data-counter-val="0"
                             data-counter="fName">
@@ -111,11 +127,27 @@
                     </p>
                     <h4>Examples</h4>
                     <p class="example-title">A bare input</p>
+<pre>
+<code class="html-code">
+<div class="fl-container">
+    <label for="fl1" data-type="placeholder">First example</label>
+    <input id="fl1" class="textbox--line" type="text">
+</div>
+</code>
+</pre>
                     <div class="form-control-wrapper fl-container">
                         <label class="form-label" data-type="placeholder" for="fl1">First example</label>
                         <input type="text" id="fl1" class="form-control textbox--line">
                     </div>
                     <p class="example-title">An input that have a placeholder (attribute)</p>
+<pre>
+<code class="html-code">
+<div class="fl-container">
+    <label for="fl3" data-type="placeholder">Date of test</label>
+    <input id="fl3" class="textbox--line" type="date" placeholder="YYYY-mm-yy">
+</div>
+</code>
+</pre>
                     <div class="form-control-wrapper fl-container">
                         <label class="form-label" data-type="placeholder" for="fl3">Date of test</label>
                         <input type="date" id="fl3" placeholder="YYYY-mm-yy" class="form-control textbox--line">
@@ -125,10 +157,24 @@
                 <div class="form-section form-section-selector">
                     <h3 class="section-title">Selector</h3>
                     <p>Radio buttons wrapped in a nice package</p>
+
+<pre><code class="html-code">
+<div class="selector" data-type="selector">
+    <label class="selector-item" data-selector="">
+        <input type="radio" name="selector" value="selector"> Brother
+    </label>
+    <label class="selector-item" data-selector="">
+        <input type="radio" name="selector" value="sister"> Sister
+    </label>
+    <label class="selector-item" data-selector="">
+        <input type="radio" checked="checked" name="selector" value="cousin"> Cousin
+    </label>
+</div>
+</code></pre>
+
                     <div class="selector" data-type="selector">
                         <label class="form-label selector-item" data-selector="">
-                            <input type="radio" name="selector" value="selector">
-                            Brother
+                            <input type="radio" name="selector" value="selector"> Brother
                         </label>
                         <label class="form-label selector-item" data-selector="">
                             <input type="radio" name="selector" value="sister"> Sister
@@ -137,29 +183,24 @@
                             <input type="radio" checked="checked" name="selector" value="cousin"> Cousin
                         </label>
                     </div>
-
-                    <div class="selector" data-type="selector">
-                            <label class="form-label selector-item" data-selector="" for="test">Brother</label>
-                            <input id="test" type="radio" name="selector2" value="selector">
-                            <label class="form-label selector-item" data-selector="">
-                                <input type="radio" name="selector2" value="sister"> Sister
-                            </label>
-                            <label class="form-label selector-item" data-selector="">
-                                <input type="radio" name="selector2" value="cousin"> Cousin
-                            </label>
-                        </div>
                 </div>
 
                 <div class="form-section">
                     <h3 class="section-title">Slider</h3>
                     <p>A more friendly way of doing checkbox</p>
+<pre><code class="html-code">
+<label class="slider-label" data-type="slider">
+    <input class="slider" type="checkbox"> Click me
+</label>
+</code>
+</pre>
                     <label class="form-label slider-label" data-type="slider">
                         <input type="checkbox" class="slider"> Click me
                     </label>
                 </div>
             </section>
 
-            <section class="section">
+            <section class="section hidden">
                 <div data-collapsible="collapsed">
                     <div data-collapsible-header="">My header</div>
                     <div data-collapsible-content="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit cupiditate unde eos dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam, laudantium, dignissimos ex praesentium amet! Fugit.</div>
@@ -172,7 +213,7 @@
         <div class="content-wrapper">
             <p class="float-right">
                 &copy; 2019, ProtoLabo. All rights reserverd.<br />
-                Last updated <time datetime="2019-05-13">May 13, 2019</time>
+                Last updated <time datetime="2019-05-23">May 23, 2019</time>
             </p>
         </div>
     </footer>

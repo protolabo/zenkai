@@ -1,0 +1,32 @@
+.html-code {
+    display: block;
+    padding: 10px 20px;
+    font-size: 1.3em;
+    color: #fff;
+    border-radius: 1px;
+    background: #242124;
+    overflow: auto;
+}
+
+.html-code i { font-style: normal; }
+
+.text { color: #f5f5f5; }
+
+.html-tag { line-height: 1.25; color: rgb(30, 135, 255) } 
+    .html-tag:before,
+    .html-tag:after,
+    .close { 
+        color: #a9a9a9; 
+    }
+    .html-tag:before { content: "<";  }
+    .html-closing-tag:before { content: "</";  color: #a9a9a9; }
+    .html-closing-tag:after { content: ">";  color: #a9a9a9; }
+
+.html-attr { color: rgb(98, 179, 255)  }
+    .html-attr:before { content: " "; }
+    .html-attr:after {
+        content: "\"" attr(data-value) "\"";
+        color: rgb(255, 38, 110);
+        color: rgb(255, 127, 53);
+    }
+    .html-attr i { color: #f0f0f0; }

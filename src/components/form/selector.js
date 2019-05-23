@@ -60,7 +60,7 @@ function activate(selector, callback) {
             item.dataset[HTMLAttribute.CHECKED] = input.checked ? Status.ON : Status.OFF;
             current = item;
             if (isFunction(callback)) {
-                callback(input.value);
+                callback(input.value, current);
             }
         });
     }

@@ -36,6 +36,7 @@ const State = {
 
 /**
  * An XHR resposne
+ * @private
  * @typedef {Object} xhrResponse
  * @property {number} status - The response status code
  * @property {string} message - The response content
@@ -44,6 +45,7 @@ const State = {
 /**
  * @callback xhrCallback
  * @param  {xhrResponse} response - The XHR response object
+ * @private
  */
 
 /**
@@ -54,6 +56,7 @@ const State = {
  * @param {xhrCallback} successCb A callback function to handle a successful request
  * @param {xhrCallback} passCb A callback function to handle a valid request
  * @param {xhrCallback} failureCb A callback function to handle a failed request
+ * @private
  */
 const xhrHandler = function (type, url, successPred, successCb, failureCb, passCb) {
     var xhr = new XMLHttpRequest();
