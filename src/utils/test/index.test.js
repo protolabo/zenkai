@@ -2,11 +2,17 @@
 require('jsdom-global')();
 
 // import our library
-var jsLabo = require('./../src/index.js');
+//var jsLabo = require('./../src/index.js');
 
 var assert = require('assert');
-var expect = require('chai').expect;
-var should = require('chai').should();
+
+describe('Array', function () {
+    describe('#indexOf()', function () {
+        it('should return -1 when the value is not present', function () {
+            assert.equal([1, 2, 3].indexOf(4), -1);
+        });
+    });
+});
 
 // it('should return true if valid user id', function () {
 //     var isValid = 1 == 1;
