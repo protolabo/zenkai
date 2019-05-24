@@ -1,5 +1,8 @@
-# jslib
-Javascript libraries
+# jsLib
+
+[![Build Status](https://dev.azure.com/protolabo/jslib/_apis/build/status/protolabo.jslib?branchName=master)](https://dev.azure.com/protolabo/jslib/_build/latest?definitionId=1&branchName=master)
+
+A collection of Javascript libraries.
 
 ## Utils
 - DOM: DOM manipulation
@@ -17,3 +20,23 @@ Javascript libraries
 
 # Documentation
 [Learn more about the library](https://protolabo.github.io/jslib/index.html).
+
+# Installation
+
+If you want to play with the code, download the src folder.
+
+## Building the Code
+To build the code, follow these steps.
+
+1. Ensure that [NodeJS](http://nodejs.org/) is installed. This provides the platform on which the build tooling runs.
+2. From the project folder, execute the following command:
+
+```
+$ npm install
+```
+
+## Running the Tests
+
+```
+$ npm test
+```
