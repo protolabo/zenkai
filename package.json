@@ -7,8 +7,9 @@
   "main": "src/index.js",
   "scripts": {
     "prebuild": "rimraf dist/*",
-    "build": "node scripts/build.js && rollup -c",
+    "build": "node scripts/build.js && npm run build:code",
     "postbuild": "npm run build:docs",
+    "build:code": "rollup -c",
     "build:docs": "documentation build src/utils/index.js -f html -o docs/utils",
     "bundle:iife": "rollup src/index.js --file bundle.iife.js --format iife --name jsLabo",
     "bundle:umd": "rollup src/index.js --file bundle.umd.js --format umd --name jsLabo",

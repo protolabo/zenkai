@@ -3,16 +3,40 @@
 
     const ihtml = (val, ival) => `${val}<i>${TYPE.valOrDefault(ival, '=')}</i>`;
 
+    const obl = "<i class='bracket'>&lt;</i>";
+    const obr = "<i class='bracket'>&gt;</i>";
+    const cbl = "<i class='bracket'>&lt;/</i>";
+    const cbr = "<i class='bracket'>/&gt;</i>";
+
     const isTextNode = (node) => node.nodeType === 3;
 
     const isEmpty = (node) => TYPE.isEmpty(node.nodeValue.trim());
 
-    const codes = DOM.getElements('.html-code');
+    const main = DOM.getElement('main');
+
+    const codes = DOM.getElements('.html-code-container');
+    const htmlCodes = [];
     for (let i = 0; i < codes.length; i++) {
-        let code = codes[i];
+        let code = DOM.getElement('.html-code', codes[i]);
+        let btnCopy = DOM.getElement('.btn-copy', codes[i]);
+        btnCopy.dataset['index'] = i;
+        htmlCodes.push(code.innerHTML);
         code.childNodes.forEach((node) => { if (isTextNode(node) && isEmpty(node)) node.remove(); });
         createAllChildren(code);
     }
+    
+    main.addEventListener('click', (e) => {
+        var target = e.target;
+        if (DOM.hasClass(target, 'btn-copy')) {
+            DOM.addClass(target, 'click');
+            let el = DOM.createTextArea({ value: htmlCodes[target.dataset['index']].trim(), readonly: true });
+            DOM.fakeHide(el);
+            main.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            el.remove();
+        }
+    }, true);
 
     activateComponents(DOM.getElement('.body'));
 
@@ -24,58 +48,6 @@
         UI.Collapsible(container);
     }
 
-    function createInputCode(element) {
-        if (!(element instanceof HTMLInputElement)) {
-            return null;
-        }
-
-        const output = DOM.createSpan({ text: 'input', class: 'html-tag', data: { type: 'input' } });
-        encodeAttributes(element, output, { type: element.type, name: element.name, value: element.value });
-        encodeTextNodes(element);
-
-        return output;
-    }
-
-    function createLabelCode(element) {
-        if (!(element instanceof HTMLLabelElement)) {
-            return null;
-        }
-
-        const output = DOM.createSpan({ text: 'label', class: 'html-tag', data: { type: 'label' } });
-        encodeAttributes(element, output);
-        encodeTextNodes(element);
-        createChildren('input', element, createInputCode);
-        output.innerHTML += "<i class='close'>></i>";
-        output.innerHTML += element.innerHTML;
-        output.appendChild(DOM.createSpan({ text: 'label', class: 'html-closing-tag' }));
-
-        return output;
-    }
-
-    /**
-     * Creates a block of HTML code
-     * @param {HTMLElement} element 
-     * @param {string} type 
-     */
-    function createBlockCode(element, type) {
-        if (['div'].includes(element.tagName)) {
-            return null;
-        }
-        type = TYPE.valOrDefault(type, element.tagName.toLowerCase());
-
-        const output = DOM.createSpan({ text: type, class: 'html-tag', data: { type: type } });
-        encodeAttributes(element, output);
-        encodeTextNodes(element);
-        createChildren('label', element, createLabelCode);
-        createChildren('input', element, createInputCode);
-        output.innerHTML += "<i class='close'>></i>";
-        output.innerHTML += element.innerHTML;
-        output.appendChild(DOM.createSpan({ text: type, class: 'html-closing-tag' }));
-
-        return output;
-    }
-
-
     /**
      * Creates a block of HTML code
      * @param {HTMLElement} element 
@@ -84,17 +56,20 @@
     function createCode(element, type) {
         type = TYPE.valOrDefault(type, element.tagName.toLowerCase());
 
-        const output = DOM.createSpan({ text: type, class: 'html-tag', data: { type: type } });
+        const output = DOM.createSpan({ html: `${obl}${type}`, class: 'html-tag', data: { type: type } });
         for (let i = 0; i < element.children.length; i++) {
             let el = element.children.item(i);
             element.replaceChild(createCode(el), el);
         }
         encodeAttributes(element, output);
         encodeTextNodes(element);
-        output.innerHTML += "<i class='close'>></i>";
-        output.innerHTML += element.innerHTML;
-        if (!['input', 'img'].includes(type)) {
-            output.appendChild(DOM.createSpan({ text: type, class: 'html-closing-tag' }));
+
+        if (['input', 'img'].includes(type)) {
+            output.innerHTML += ` ${cbr}`;
+        } else {
+            output.innerHTML += obr;
+            output.innerHTML += element.innerHTML;
+            output.appendChild(DOM.createSpan({ html: `${cbl}${type}${obr}`, class: 'html-closing-tag' }));
         }
 
         return output;
@@ -130,17 +105,12 @@
      * @param {HTMLElement} parent 
      */
     function createAllChildren(parent) {
-        for (let i = 0; i < parent.children.length; i++) {
-            let element = parent.children.item(i);
-            element.parentNode.replaceChild(createCode(element), element);
-        }
-    }
-
-    function createChildren(type, parent, callback) {
-        var labels = DOM.getElements(type, parent);
-        for (let i = 0; i < labels.length; i++) {
-            let label = labels[i];
-            label.parentNode.replaceChild(callback(label), label);
+        var children = parent.children;
+        for (let i = 0; i < children.length; i++) {
+            let element = children.item(i);
+            let _element = createCode(element);
+            _element.innerHTML += '\n';
+            element.parentNode.replaceChild(_element, element);
         }
     }
 

@@ -20,7 +20,6 @@ const UI = {
  * Shows an element
  * @param {Element} el Element
  * @memberof DOM
- * @memberof DOM
  */
 export function show(el) { removeClass(el, UI.HIDDEN); }
 
@@ -36,7 +35,7 @@ export function hide(el) { addClass(el, UI.HIDDEN); }
  * @param {HTMLElement} el Element
  * @memberof DOM
  */
-export function fakeHide(el) { return Object.assign(el, { position: 'absolute', top: '-9999px', left: '-9999px' }); }
+export function conceal(el) { return Object.assign(el, { position: 'absolute', top: '-9999px', left: '-9999px' }); }
 
 /**
  * Applies highlighting style to an element

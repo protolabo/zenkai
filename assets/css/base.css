@@ -71,6 +71,11 @@ main { min-height: calc(100% - 50px); background-color: #f0f0f0; }
     color: #555; 
 }
 
+.btn {
+    font-family: 'Segoe UI', 'Droid Sans', Ubuntu, 'Lucida Grande', Arial, sans-serif;
+    border: 0 none;
+}
+
 .title { margin-bottom: 5px; }
 
 .example-title { margin-bottom: 5px; font-weight: 600; }

@@ -25,9 +25,10 @@ export function floatingLabel(form) {
 
     // add counters
     var counters = getElements('[data-counter]', form);
-    for (let i = 0, len = counters.length; i < len; i++) {
+    for (let i = 0; i < counters.length; i++) {
         let counter = counters[i];
         let input = getElement(`#${counter.dataset['counter']}`);
+        counter.dataset['counterMax'] = input.maxLength;
         if (input) {
             counter.dataset['counterVal'] = input.value.length;
             input.addEventListener('input', function (e) {

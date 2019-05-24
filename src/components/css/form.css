@@ -262,8 +262,3 @@ input.slider { display: none; }
         .form-toolbar__button[data-action="save"]:hover { background-color: #38aa3e; }
 
             .form-toolbar__button[data-action="save"]:hover .btn-label { background-color: #49a84d; }
-
-
-#organisation-description {
-    max-width: 800px;
-}
