@@ -11,7 +11,8 @@
     "build:docs": "documentation build src/utils/index.js -f html -o docs/utils",
     "bundle:iife": "rollup src/index.js --file bundle.iife.js --format iife --name jsLabo",
     "bundle:umd": "rollup src/index.js --file bundle.umd.js --format umd --name jsLabo",
-    "test": "cross-env NODE_ENV=test mocha **/*.test.js --require @babel/register"
+    "test": "cross-env NODE_ENV=test nyc mocha **/*.test.js --require @babel/register",
+    "report-coverage": "nyc report --reporter=cobertura"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
     "jsdom": "^15.0.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "rimraf": "^2.6.3",
     "rollup": "^1.12.3",
     "rollup-plugin-babel": "^4.3.0",
