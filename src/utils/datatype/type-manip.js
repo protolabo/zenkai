@@ -39,7 +39,16 @@ export function toBoolean(value) {
  * @returns {boolean}  A value indicating whether or not the given value is an *integer*.
  * @memberof TYPE
  */
-export function isInt(value) { return value % 1 === 0; }
+export function isInt(value) { 
+    return Number.isInteger ? Number.isInteger(value) : typeof value === 'number' && value % 1 === 0; 
+}
+
+/**
+ * Returns a value indicating whether the value is empty
+ * @param {Object[]|string} arr array
+ * @memberof TYPE
+ */
+export function isEmpty(val) { return (Array.isArray(val) || isString(val)) && val.length === 0; }
 
 /**
  * Returns a value indicating whether the variable is a Date
@@ -56,14 +65,6 @@ export function isDate(value) {
  * @memberof TYPE
  */
 export function isString(str) { return typeof str === 'string' || str instanceof String; }
-
-
-/**
- * Returns a value indicating whether the value is empty
- * @param {Object[]|string} arr array
- * @memberof TYPE
- */
-export function isEmpty(val) { return val.length === 0; }
 
 /**
  * Returns a value indicating whether the value is a Function

@@ -32,6 +32,8 @@
         "no-useless-escape": "warn"
     },
     "globals": {
-        "jsLabo": false
+        "jsLabo": false,
+        "describe": false,
+        "it": false
     }
 }

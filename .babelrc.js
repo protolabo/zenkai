@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 const presets = [
     [
         "@babel/preset-env",
