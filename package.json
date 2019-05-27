@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/protolabo/jslib.git"
+    "url": "git+ssh://git@github.com/protolabo/zenkai.git"
   },
   "keywords": [
     "js",
@@ -26,9 +26,9 @@
   "author": "Louis-Edouard LAFONTANT",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/protolabo/jslib/issues"
+    "url": "https://github.com/protolabo/zenkai/issues"
   },
-  "homepage": "https://github.com/protolabo/jslib#readme",
+  "homepage": "https://protolabo.github.io/zenkai/index.html",
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",

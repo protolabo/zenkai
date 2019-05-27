@@ -1,6 +1,6 @@
-# jsLib
+# Zenkai
 
-[![Build Status](https://dev.azure.com/protolabo/jslib/_apis/build/status/protolabo.jslib?branchName=master)](https://dev.azure.com/protolabo/jslib/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://dev.azure.com/protolabo/zenkai/_apis/build/status/protolabo.zenkai?branchName=master)](https://dev.azure.com/protolabo/zenkai/_build/latest?definitionId=1&branchName=master)
 
 A collection of Javascript libraries.
 
@@ -19,7 +19,7 @@ A collection of Javascript libraries.
   - Slider
 
 # Documentation
-[Learn more about the library](https://protolabo.github.io/jslib/index.html).
+[Learn more about the library](https://protolabo.github.io/zenkai/index.html).
 
 # Installation
 
