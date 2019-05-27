@@ -2,7 +2,7 @@
 
 [![Build Status](https://dev.azure.com/protolabo/zenkai/_apis/build/status/protolabo.zenkai?branchName=master)](https://dev.azure.com/protolabo/zenkai/_build/latest?definitionId=1&branchName=master)
 
-A collection of Javascript libraries.
+Dev boost. A collection of Javascript libraries.
 
 ## Utils
 - DOM: DOM manipulation
