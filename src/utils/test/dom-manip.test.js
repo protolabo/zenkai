@@ -19,6 +19,7 @@ describe('DOM manipulation helpers', function () {
     describe('#getElement()', function () {
         it("should return an element", function () {
             var result = getElement('#body', this.jsdom.document);
+            expect(result).to.be.an.instanceOf(HTMLElement);
             expect(result).to.have.property('id', 'body');
         });
     });
