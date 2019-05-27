@@ -10,20 +10,28 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+# Ensure Node.js 10 is active
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  displayName: 'Install Node.js 10'
 
+# Run npm to install dependencies and build
 - script: |
     npm install
     npm run build
+  displayName: 'Install dependencies and build'
+
+# Run unit test
+- script: |
     npm test
     npm run report-coverage
-  displayName: 'npm install, build and test'
+  displayName: 'Run tests and publish the results'
 
+# Publish test coverage
 - task: PublishCodeCoverageResults@1
   inputs: 
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
     reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
+  displayName: 'Publish code coverage'

@@ -1,9 +1,9 @@
 {
-  "name": "protolabo-jsutils",
-  "version": "0.8.5",
+  "name": "protolabo-zenkai",
+  "version": "0.9.0",
   "description": "Javascript utility and helper methods",
   "private": true,
-  "browser": "dist/jslib.min.js",
+  "browser": "dist/zenkai.min.js",
   "main": "src/index.js",
   "scripts": {
     "prebuild": "rimraf dist/*",
@@ -20,6 +20,7 @@
   },
   "keywords": [
     "js",
+    "components",
     "utils"
   ],
   "author": "Louis-Edouard LAFONTANT",
