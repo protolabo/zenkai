@@ -61,7 +61,7 @@ export function getTemplate(selector, el) {
  * Returns a duplicate of the template.
  * @param {HTMLTemplateElement} template 
  * @param {boolean} deep used to decide whether the children of the template should also be clone
- * @returns {HTMLElement} The template's clone.
+ * @returns {DocumentFragment} The template's clone.
  * @memberof DOM
  */
 export function cloneTemplate(template, deep) {
@@ -176,8 +176,7 @@ export function addClass(el, c) {
 export function toggleClass(el, c) {
     if (hasClass(el, c)) {
         removeClass(el, c);
-    }
-    else {
+    } else {
         addClass(el, c);
     }
 }
@@ -188,8 +187,9 @@ export function toggleClass(el, c) {
  * @memberof DOM
  */
 export function removeChildren(node) {
-    while (node.hasChildNodes())
+    while (node.hasChildNodes()) {
         node.removeChild(node.lastChild);
+    }
 }
 
 /**
@@ -218,13 +218,15 @@ export function getElementSibling(el, dir) {
  */
 export function changeSelectValue(select, val) {
     var found = false;
-    for (let i = 0, len = select.options.length; !found && i < len; i++) {
-        let option = select.options[i];
+    var options = select.options;
+    for (let i = 0; !found && i < options.length; i++) {
+        let option = options[i];
         if (option.value == val) {
             option.selected = true;
             found = true;
         }
     }
+
     return found;
 }
 
@@ -235,10 +237,7 @@ export function changeSelectValue(select, val) {
  * @memberof DOM
  */
 export function isElement(obj) {
-    if (isNullOrUndefined(obj)) {
-        return false;
-    }
-    return obj.nodeType === 1 && obj instanceof Element;
+    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
 }
 
 /**
@@ -248,10 +247,24 @@ export function isElement(obj) {
  * @memberof DOM
  */
 export function isHTMLElement(obj) {
-    if (isNullOrUndefined(obj)) {
-        return false;
-    }
-    return obj.nodeType === 1 && obj instanceof HTMLElement;
+    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
+}
+
+/**
+ * Copy to clipboard
+ * @param {HTMLElement|string} value 
+ * @returns {boolean} Value indicating whether the the content has been succesfully copied to the clipboard
+ */
+export function copytoClipboard(value) {
+    var el = document.createElement('textarea');
+    el.value = isHTMLElement(value) ? value.textContent : value;
+    el.readOnly = true;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    el.remove();
+
+    return true;
 }
 
 /**

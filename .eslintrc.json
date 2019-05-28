@@ -33,6 +33,6 @@
         "no-useless-escape": "warn"
     },
     "globals": {
-        "jsLabo": false
+        "zenkai": false
     }
 }

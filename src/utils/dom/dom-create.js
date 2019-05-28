@@ -1,7 +1,17 @@
-import { addClass } from './dom-manip.js';
 import { disable } from './dom-effects.js';
+import { isString } from '@utils/datatype/type-manip.js';
 
 const create = (tagName) => document.createElement(tagName);
+
+const addClass = (el, c) => {
+    // If c is an Array => Format c as a space-separated string
+    if (Array.isArray(c)) {
+        c = c.join(' ');
+    }
+    if (isString(c)) {
+        el.className = c;
+    }
+};
 
 /**
  * Creates the element for the specified tagName

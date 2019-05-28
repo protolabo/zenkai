@@ -42,11 +42,13 @@ export function floatingLabel(form) {
             input.addEventListener('focus', function (e) {
                 input.placeholder = "";
                 removeClass(lbl, 'down');
+                addClass(lbl, 'focused');
             });
             input.addEventListener('blur', function (e) {
                 if (input.value.length === 0) {
                     addClass(lbl, 'down');
                 }
+                removeClass(lbl, 'focused');
             });
         }
     }

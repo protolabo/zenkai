@@ -1,5 +1,5 @@
-(function (jsLabo) {
-    const { DOM, TYPE, FORM, UI } = jsLabo;
+(function (zenkai) {
+    const { DOM, TYPE, FORM, UI } = zenkai;
 
     const ihtml = (val, ival) => `${val}<i>${TYPE.valOrDefault(ival, '=')}</i>`;
 
@@ -29,12 +29,7 @@
         var target = e.target;
         if (DOM.hasClass(target, 'btn-copy')) {
             DOM.addClass(target, 'click');
-            let el = DOM.createTextArea({ value: htmlCodes[target.dataset['index']].trim(), readonly: true });
-            DOM.fakeHide(el);
-            main.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            el.remove();
+            DOM.copytoClipboard(htmlCodes[target.dataset['index']].trim());
         }
     }, true);
 
@@ -114,4 +109,4 @@
         }
     }
 
-})(jsLabo);
+})(zenkai);
