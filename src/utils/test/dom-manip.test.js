@@ -10,6 +10,16 @@ var getElement = require('@utils/dom/dom-manip.js').getElement;
 var getElements = require('@utils/dom/dom-manip.js').getElements;
 var getTemplate = require('@utils/dom/dom-manip.js').getTemplate;
 var cloneTemplate = require('@utils/dom/dom-manip.js').cloneTemplate;
+var windowWidth = require('@utils/dom/dom-manip.js').windowWidth;
+var getPreviousElementSibling = require('@utils/dom/dom-manip.js').getPreviousElementSibling;
+var getNextElementSibling = require('@utils/dom/dom-manip.js').getNextElementSibling;
+var insertBeforeElement = require('@utils/dom/dom-manip.js').insertBeforeElement;
+var insertAfterElement = require('@utils/dom/dom-manip.js').insertAfterElement;
+var preprendChild = require('@utils/dom/dom-manip.js').preprendChild;
+var hasClass = require('@utils/dom/dom-manip.js').hasClass;
+var removeClass = require('@utils/dom/dom-manip.js').removeClass;
+var addClass = require('@utils/dom/dom-manip.js').addClass;
+var toggleClass = require('@utils/dom/dom-manip.js').toggleClass;
 
 describe('DOM manipulation helpers', function () {
     before('initialize DOM', function () {

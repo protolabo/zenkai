@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../assets/css/normalize.css">
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/code.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../dist/css/form.min.css">
     <style>
         .tbl-libraries { width: 100%; border: 1px solid #c0c0c0; }
@@ -25,11 +26,12 @@
         }
             .form-section:not(:last-child) { margin-bottom: 10px; }
 
-        .form-label { font-size: 1.4em; }
 
-        .form-control-multi { display: flex; }        
-            .form-control-multi .form-control-wrapper { flex-grow: 1; }
-                .form-control-multi .form-control-wrapper:not(:last-child) { margin-right: 20px; }
+        .form-control-wrapper { position: relative; }
+
+        .form-control { display: block; width: 100%; font-size: 1.5em; padding-bottom: 2px; }
+
+        .form-label { font-size: 1.4em; }
     </style>
 </head>
 
@@ -176,7 +178,7 @@
 </div>
                     <div class="selector" data-type="selector">
                         <label class="form-label selector-item" data-selector="">
-                            <input type="radio" name="selector" value="selector"> Brother
+                            <input type="radio" name="selector" value="brother"> Brother
                         </label>
                         <label class="form-label selector-item" data-selector="">
                             <input type="radio" name="selector" value="sister"> Sister
@@ -185,22 +187,34 @@
                             <input type="radio" checked="checked" name="selector" value="cousin"> Cousin
                         </label>
                     </div>
+                    <br>
+                    <div class="selector" data-type="selector" data-value="grape">
+                        <label class="form-label selector-item" data-selector="">
+                            <input type="radio" name="selector2" value="apple"> Apple
+                        </label>
+                        <label class="form-label selector-item" data-selector="">
+                            <input type="radio" name="selector2" value="grape"> Grape
+                        </label>
+                        <label class="form-label selector-item" data-selector="">
+                            <input type="radio" name="selector2" value="banana"> Banana
+                        </label>
+                    </div>
                 </div>
 
                 <div class="form-section">
-                    <h3 class="section-title">Slider</h3>
-                    <p>A more friendly way of doing checkbox</p>
+                    <h3 class="section-title">Switch</h3>
+                    <p>This component allows you to use and give meaning to both state of a checkbox: checked and unchecked.</p>
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
 <pre><code class="html-code">
-<label class="slider-label" data-type="slider">
-    <input class="slider" type="checkbox"> Click me
+<label class="switch-label" data-type="switch">
+    <input type="checkbox" class="switch"> Click me
 </label>
 </code>
 </pre>
 </div>
-                    <label class="form-label slider-label" data-type="slider">
-                        <input type="checkbox" class="slider"> Click me
+                    <label class="form-label switch-label" data-type="switch">
+                        <input type="checkbox" class="switch"> Click me
                     </label>
                 </div>
             </section>
@@ -218,7 +232,7 @@
         <div class="content-wrapper">
             <p class="float-right">
                 &copy; 2019, ProtoLabo. All rights reserverd.<br />
-                Last updated <time datetime="2019-05-27">May 27, 2019</time>
+                Last updated <time datetime="2019-05-30">May 30, 2019</time>
             </p>
         </div>
     </footer>

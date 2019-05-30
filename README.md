@@ -16,7 +16,7 @@ Dev boost. A collection of Javascript libraries.
 - FORM: A collection of form components 
   - Floating Label
   - Selector
-  - Slider
+  - Switch
 
 # Documentation
 [Learn more about the library](https://protolabo.github.io/zenkai/index.html).

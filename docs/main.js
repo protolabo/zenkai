@@ -38,7 +38,7 @@
     function activateComponents(container) {
         FORM.floatingLabel(container);
         FORM.Selector(container);
-        FORM.Slider(container);
+        FORM.Switch(container);
 
         UI.Collapsible(container);
     }
