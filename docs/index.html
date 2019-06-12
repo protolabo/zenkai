@@ -32,6 +32,39 @@
         .form-control { display: block; width: 100%; font-size: 1.5em; padding-bottom: 2px; }
 
         .form-label { font-size: 1.4em; }
+
+
+        .collapsible { 
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(155, 155, 155, 0.9);
+            background: #fff;
+            max-width: 800px;
+        }
+        
+        .collapsible-header {
+            position: relative;
+            padding: 10px 20px;
+            font-size: 1.5em;
+        }
+        .collapsible-header:after {
+            position: absolute;
+            top: calc(50% - 12px); right: 20px;
+            transition: transform .2s;
+        }
+
+            .collapsible[data-collapsible='open'] .collapsible-header { border-bottom: 1px solid #d9d9d9; }
+                .collapsible[data-collapsible='collapsed'] .collapsible-header:after {
+                    content: "+";
+                    transform: scale(2) rotate(0);
+                }
+                .collapsible[data-collapsible='open'] .collapsible-header:after {
+                    content: "-";
+                    transform: scale(3) rotate(360deg);
+                }
+
+        .collapsible-content {
+            padding: 20px;
+        }
     </style>
 </head>
 
@@ -219,10 +252,17 @@
                 </div>
             </section>
 
-            <section class="section hidden">
-                <div data-collapsible="collapsed">
-                    <div data-collapsible-header="">My header</div>
-                    <div data-collapsible-content="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit cupiditate unde eos dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam, laudantium, dignissimos ex praesentium amet! Fugit.</div>
+            <section class="section">
+                <h3 class="section-title">Collapsible</h3>
+                <div class="collapsible" data-collapsible="collapsed">
+                    <div class="collapsible-header" data-collapsible-header="">My header</div>
+                    <div class="collapsible-content" data-collapsible-content="">
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit cupiditate unde eos 
+                            dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam, laudantium, 
+                            dignissimos ex praesentium amet! Fugit.
+                        </p>
+                    </div>
                 </div>
             </section>
         </div>
@@ -232,7 +272,7 @@
         <div class="content-wrapper">
             <p class="float-right">
                 &copy; 2019, ProtoLabo. All rights reserverd.<br />
-                Last updated <time datetime="2019-05-30">May 30, 2019</time>
+                Last updated <time datetime="2019-06-12">June 12, 2019</time>
             </p>
         </div>
     </footer>

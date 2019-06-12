@@ -199,20 +199,31 @@ var __dom = (function (exports) {
     return e.className.split(" ").indexOf(c) !== -1;
   }
   /**
+   * Removes additional spaces in class attribute
+   * @param {string} cn class names
+   */
+
+  function cleanClass(cn) {
+    return cn.replace(/\s+/g, ' ').trim();
+  }
+  /**
    * Removes a class from an element if it exists
-   * @param {HTMLElement} e element
+   * @param {HTMLElement} el element
    * @param {string|Array} c class
    * @memberof DOM
    */
 
-  function removeClass(e, c) {
+
+  function removeClass(el, c) {
     if (Array.isArray(c)) {
       c.forEach(function (val) {
-        return _removeClass(e, val);
+        return _removeClass(el, val);
       });
     }
 
-    _removeClass(e, c);
+    _removeClass(el, c);
+
+    el.className = cleanClass(el.className);
   }
 
   function _removeClass(e, c) {
@@ -243,6 +254,8 @@ var __dom = (function (exports) {
     } else if (!hasClass(el, c)) {
       el.className += " " + strClass;
     }
+
+    el.className = cleanClass(el.className);
   }
   /**
    * Adds or removes a class from an element depending on the class's presence.

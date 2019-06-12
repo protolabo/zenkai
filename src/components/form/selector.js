@@ -58,7 +58,7 @@ const SelectorFactory = {
             });
         }
 
-        if (isNull(this.current)) {
+        if (isNull(this.current) && !isNull(defaultItem)) {
             this.setCurrentItem(defaultItem);
         }
     }

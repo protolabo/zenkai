@@ -127,17 +127,25 @@ export function hasClass(e, c) {
 }
 
 /**
+ * Removes additional spaces in class attribute
+ * @param {string} cn class names
+ */
+function cleanClass(cn) { return cn.replace(/\s+/g, ' ').trim(); }
+
+/**
  * Removes a class from an element if it exists
- * @param {HTMLElement} e element
+ * @param {HTMLElement} el element
  * @param {string|Array} c class
  * @memberof DOM
  */
-export function removeClass(e, c) {
+export function removeClass(el, c) {
     if (Array.isArray(c)) {
-        c.forEach((val) => _removeClass(e, val));
+        c.forEach((val) => _removeClass(el, val));
     }
 
-    _removeClass(e, c);
+    _removeClass(el, c);
+
+    el.className = cleanClass(el.className);
 }
 
 function _removeClass(e, c) {
@@ -165,6 +173,8 @@ export function addClass(el, c) {
     else if (!hasClass(el, c)) {
         el.className += " " + strClass;
     }
+
+    el.className = cleanClass(el.className);
 }
 
 /**

@@ -137,20 +137,31 @@ var _components = (function (exports) {
     return e.className.split(" ").indexOf(c) !== -1;
   }
   /**
+   * Removes additional spaces in class attribute
+   * @param {string} cn class names
+   */
+
+  function cleanClass(cn) {
+    return cn.replace(/\s+/g, ' ').trim();
+  }
+  /**
    * Removes a class from an element if it exists
-   * @param {HTMLElement} e element
+   * @param {HTMLElement} el element
    * @param {string|Array} c class
    * @memberof DOM
    */
 
-  function removeClass(e, c) {
+
+  function removeClass(el, c) {
     if (Array.isArray(c)) {
       c.forEach(function (val) {
-        return _removeClass(e, val);
+        return _removeClass(el, val);
       });
     }
 
-    _removeClass(e, c);
+    _removeClass(el, c);
+
+    el.className = cleanClass(el.className);
   }
 
   function _removeClass(e, c) {
@@ -181,6 +192,8 @@ var _components = (function (exports) {
     } else if (!hasClass(el, c)) {
       el.className += " " + strClass;
     }
+
+    el.className = cleanClass(el.className);
   }
   /**
    * Verifies that an object is an *Element*
@@ -299,19 +312,6 @@ var _components = (function (exports) {
    * @param {any} value 
    * @memberof TYPE
    */
-
-  /** @private */
-  var hasOwnProperty = Object.prototype.hasOwnProperty;
-  /**
-   * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
-   * @param {*} obj target object
-   * @param {string} key name of the property
-   * @memberof TYPE
-   */
-
-  var hasOwn = function hasOwn(obj, key) {
-    return hasOwnProperty.call(obj, key);
-  };
 
   /** @namespace TYPE */
 
@@ -458,7 +458,7 @@ var _components = (function (exports) {
         _loop(i, len);
       }
 
-      if (isNull(this.current)) {
+      if (isNull(this.current) && !isNull(defaultItem)) {
         this.setCurrentItem(defaultItem);
       }
     }
@@ -573,72 +573,131 @@ var _components = (function (exports) {
     Switch: Switch
   });
 
-  var COLLAPSIBLE = 'collapsible';
+  var ATTRIBUTE$2 = 'collapsible';
+  var NONE$2 = -1;
   var State = {
     OPEN: 'open',
     COLLAPSED: 'collapsed'
   };
+
+  var isCollapsible = function isCollapsible(el) {
+    return ATTRIBUTE$2 in el.dataset;
+  };
+
+  var CollapsibleFactory = {
+    create: function create(args) {
+      var instance = Object.create(this);
+      Object.assign(instance, args);
+
+      if (!isFunction(instance.callback)) {
+        instance.callback = function (val, el) {};
+      }
+
+      return instance;
+    },
+    container: null,
+    current: null,
+    callback: null,
+    header: null,
+    content: null,
+    isAccordion: false,
+    getState: function getState() {
+      return this.container.dataset[ATTRIBUTE$2];
+    },
+    setState: function setState(val) {
+      this.container.dataset[ATTRIBUTE$2] = val;
+    },
+    open: function open() {
+      this.toggle(show, State.OPEN, addClass);
+    },
+    collapse: function collapse() {
+      this.toggle(hide, State.COLLAPSED, removeClass);
+    },
+    toggle: function toggle(displayCb, state, classCb) {
+      displayCb(this.content);
+      this.setState(state);
+      classCb(this.container, 'expanded');
+    },
+    init: function init() {
+      var container = this.container;
+      this.header = getElement('[data-collapsible-header]', container);
+      this.content = getElement('[data-collapsible-content]', container);
+    },
+    activate: function activate() {
+      this.init();
+
+      if (this.container.dataset[ATTRIBUTE$2] === State.COLLAPSED) {
+        hide(this.content);
+      }
+
+      this.bindEvents();
+    },
+    bindEvents: function bindEvents() {
+      var _this = this;
+
+      var container = this.container;
+      var header = this.header;
+      container.addEventListener('click', function (e) {
+        var target = e.target;
+        var targetCollapsible = findAncestor(target, function (el) {
+          return ATTRIBUTE$2 in el.dataset;
+        });
+
+        if (container === targetCollapsible) {
+          if (_this.getState() === State.COLLAPSED) {
+            _this.open();
+
+            if (_this.isAccordion) {
+              var collapsibles = getElements('[data-accordion]');
+              collapsibles.filter(function (coll) {
+                return coll !== container;
+              }).forEach(function (other) {
+                return _this.collapse(other);
+              });
+            }
+          } else if (header && header.parentNode === container) {
+            _this.collapse();
+          }
+        }
+      });
+    }
+  };
   /**
    * Collapsible
    * @param {HTMLElement} container 
+   * @param {boolean} _isAccordion
    */
 
-  function Collapsible(container, accordion) {
-    var collapsibles;
+  function Collapsible(container, _isAccordion, _callback) {
+    var collapsibles = getCollapsibles(container);
 
-    if (isHTMLElement(container)) {
-      collapsibles = hasOwn(container.dataset, COLLAPSIBLE) ? [container] : getElements('[data-collapsible]', container);
-    } else {
-      collapsibles = getElements('[data-collapsible]');
+    if (collapsibles === NONE$2) {
+      return null;
     }
 
-    collapsibles.forEach(function (collapsible) {
-      // initialize
-      if (collapsible.dataset[COLLAPSIBLE] === State.COLLAPSED) {
-        hide(getContent(collapsible));
-      } // bind events
+    for (var i = 0; i < collapsibles.length; i++) {
+      CollapsibleFactory.create({
+        container: collapsibles[i],
+        isAccordion: _isAccordion,
+        callback: _callback
+      }).activate();
+    }
 
-
-      collapsible.addEventListener('click', function (e) {
-        var target = e.target;
-        var headerTarget = findAncestor(target, function (el) {
-          return 'collapsibleHeader' in el.dataset;
-        }, 5);
-        var state = collapsible.dataset[COLLAPSIBLE];
-
-        if (state === State.COLLAPSED) {
-          open(collapsible);
-
-          if (accordion) {
-            collapsibles.filter(function (_collapsible) {
-              return _collapsible !== collapsible;
-            }).forEach(function (other) {
-              return collapse(other);
-            });
-          }
-        } else if (headerTarget && headerTarget.parentNode === collapsible) {
-          collapse(collapsible);
-        }
-      });
-    });
+    return collapsibles;
   }
 
-  var getContent = function getContent(collapsible) {
-    return getElement('[data-collapsible-content]', collapsible);
-  };
+  function getCollapsibles(container) {
+    if (isHTMLElement(container)) {
+      return isCollapsible(container) ? [container] : getElements('[data-collapsible]', container);
+    } else if (isString(container) && !isEmpty(container)) {
+      var _container = getElement(container);
 
-  var open = function open(collapsible) {
-    return toggle(collapsible, show, State.OPEN, addClass);
-  };
+      return isNullOrUndefined(_container) ? NONE$2 : getCollapsibles(_container);
+    } else if (isNullOrUndefined(container)) {
+      return getElements('[data-collapsible]');
+    }
 
-  var collapse = function collapse(collapsible) {
-    return toggle(collapsible, hide, State.COLLAPSED, removeClass);
-  };
-
-  function toggle(collapsible, displayCb, state, classCb) {
-    displayCb(getContent());
-    collapsible.dataset[COLLAPSIBLE] = state;
-    classCb(collapsible, 'expanded');
+    return NONE$2;
   }
 
   var collapsible = /*#__PURE__*/Object.freeze({
