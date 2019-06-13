@@ -12,55 +12,83 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../dist/css/form.min.css">
     <style>
-        .tbl-libraries { width: 100%; border: 1px solid #c0c0c0; }
-            .tbl-libraries td:nth-child(2) { min-width: 150px; }
-            .tbl-libraries td:nth-child(3) { min-width: 150px; }
+        .tbl-libraries {
+            width: 100%;
+            border: 1px solid #c0c0c0;
+        }
+
+        .tbl-libraries td:nth-child(2) {
+            min-width: 150px;
+        }
+
+        .tbl-libraries td:nth-child(3) {
+            min-width: 150px;
+        }
 
         .form-section {
-            width: 100%; max-width: 800px;
+            width: 100%;
+            max-width: 800px;
             padding: 20px 30px 25px;
             box-sizing: border-box;
             border-radius: 2px;
             background-color: #fefefe;
             box-shadow: 0 1px 2px rgba(85, 85, 85, 0.5);
         }
-            .form-section:not(:last-child) { margin-bottom: 10px; }
+
+        .form-section:not(:last-child) {
+            margin-bottom: 10px;
+        }
 
 
-        .form-control-wrapper { position: relative; }
+        .form-control-wrapper {
+            position: relative;
+        }
 
-        .form-control { display: block; width: 100%; font-size: 1.5em; padding-bottom: 2px; }
+        .form-control {
+            display: block;
+            width: 100%;
+            font-size: 1.5em;
+            padding-bottom: 2px;
+        }
 
-        .form-label { font-size: 1.4em; }
+        .form-label {
+            font-size: 1.4em;
+        }
 
 
-        .collapsible { 
+        .collapsible {
             border-radius: 2px;
             box-shadow: 0 1px 2px rgba(155, 155, 155, 0.9);
             background: #fff;
             max-width: 800px;
         }
-        
+
         .collapsible-header {
             position: relative;
             padding: 10px 20px;
             font-size: 1.5em;
         }
+
         .collapsible-header:after {
             position: absolute;
-            top: calc(50% - 12px); right: 20px;
+            top: calc(50% - 12px);
+            right: 20px;
             transition: transform .2s;
         }
 
-            .collapsible[data-collapsible='open'] .collapsible-header { border-bottom: 1px solid #d9d9d9; }
-                .collapsible[data-collapsible='collapsed'] .collapsible-header:after {
-                    content: "+";
-                    transform: scale(2) rotate(0);
-                }
-                .collapsible[data-collapsible='open'] .collapsible-header:after {
-                    content: "-";
-                    transform: scale(3) rotate(360deg);
-                }
+        .collapsible.expanded .collapsible-header {
+            border-bottom: 1px solid #d9d9d9;
+        }
+
+        .collapsible:not(.expanded) .collapsible-header:after {
+            content: "+";
+            transform: scale(2) rotate(0);
+        }
+
+        .collapsible.expanded .collapsible-header:after {
+            content: "-";
+            transform: scale(3) rotate(360deg);
+        }
 
         .collapsible-content {
             padding: 20px;
@@ -94,8 +122,9 @@
                     <tbody>
                         <tr>
                             <td>
-                                <em class="lib-name">Utils:</em> 
-                                A collection of <strong>useful helper functions to</strong> manipulate the <code>DOM</code>, <code>DataType</code> and 
+                                <em class="lib-name">Utils:</em>
+                                A collection of <strong>useful helper functions to</strong> manipulate the
+                                <code>DOM</code>, <code>DataType</code> and
                                 <strong>make the JS coding easier</strong>.
                             </td>
                             <td><a href="utils/index.html">Docs</a></td>
@@ -103,8 +132,9 @@
                         </tr>
                         <tr>
                             <td>
-                                <em class="lib-name">Components:</em> 
-                                A collection of <strong>useful styled components to create a better exprience when filling out forms</strong>.
+                                <em class="lib-name">Components:</em>
+                                A collection of <strong>useful styled components to create a better exprience when
+                                    filling out forms</strong>.
                             </td>
                             <td><a href="#formComponent">Jump to the docs</a></td>
                             <td><a href="https://github.com/protolabo/zenkai">Github repo</a></td>
@@ -121,12 +151,12 @@
                     <h4>Examples</h4>
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
-<pre><code class="html-code">
+                        <pre><code class="html-code">
 <label for="name">Enter your email</label>
 <input id="name" class="textbox--line" type="text">
 </code>
 </pre>
-</div>
+                    </div>
                     <div class="form-control-wrapper">
                         <label class="form-label" for="name">Name</label>
                         <input type="text" id="name" class="form-control textbox--line">
@@ -135,14 +165,14 @@
                     <p>Showing the number of characters typed in the textbox</p>
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
-<pre><code class="html-code">
+                        <pre><code class="html-code">
 <div data-counter="name-counter">
     <label for="name-counter" data-type="placeholder">First name</label>
     <input id="name-counter" class="textbox--line" type="text" maxlength="70">
 </div>
 </code>
 </pre>
-</div>
+                    </div>
                     <div class="form-control-wrapper" data-counter="name-counter">
                         <label class="form-label" for="name-counter">Name</label>
                         <input type="text" id="name-counter" maxlength="150" class="form-control textbox--line">
@@ -159,7 +189,7 @@
                     <p class="example-title">A bare input</p>
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
-<pre>
+                        <pre>
 <code class="html-code">
 <div class="fl-container">
     <label for="fl1" data-type="placeholder">First example</label>
@@ -167,7 +197,7 @@
 </div>
 </code>
 </pre>
-</div>
+                    </div>
                     <div class="form-control-wrapper fl-container">
                         <label class="form-label" data-type="placeholder" for="fl1">First example</label>
                         <input type="text" id="fl1" class="form-control textbox--line">
@@ -175,7 +205,7 @@
                     <p class="example-title">An input that have a placeholder (attribute)</p>
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
-<pre>
+                        <pre>
 <code class="html-code">
 <div class="fl-container">
     <label for="fl3" data-type="placeholder">Date of test</label>
@@ -183,7 +213,7 @@
 </div>
 </code>
 </pre>
-</div>
+                    </div>
                     <div class="form-control-wrapper fl-container">
                         <label class="form-label" data-type="placeholder" for="fl3">Date of test</label>
                         <input type="date" id="fl3" placeholder="YYYY-mm-dd" class="form-control textbox--line">
@@ -195,7 +225,7 @@
                     <p>Radio buttons wrapped in a nice package</p>
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
-<pre><code class="html-code">
+                        <pre><code class="html-code">
 <div class="selector" data-type="selector">
     <label class="selector-item" data-selector="">
         <input type="radio" name="selector" value="selector"> Brother
@@ -208,7 +238,7 @@
     </label>
 </div>
 </code></pre>
-</div>
+                    </div>
                     <div class="selector" data-type="selector">
                         <label class="form-label selector-item" data-selector="">
                             <input type="radio" name="selector" value="brother"> Brother
@@ -236,16 +266,17 @@
 
                 <div class="form-section">
                     <h3 class="section-title">Switch</h3>
-                    <p>This component allows you to use and give meaning to both state of a checkbox: checked and unchecked.</p>
+                    <p>This component allows you to use and give meaning to both state of a checkbox: checked and
+                        unchecked.</p>
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
-<pre><code class="html-code">
+                        <pre><code class="html-code">
 <label class="switch-label" data-type="switch">
     <input type="checkbox" class="switch"> Click me
 </label>
 </code>
 </pre>
-</div>
+                    </div>
                     <label class="form-label switch-label" data-type="switch">
                         <input type="checkbox" class="switch"> Click me
                     </label>
@@ -253,31 +284,89 @@
             </section>
 
             <section class="section">
-                <h3 class="section-title">Collapsible</h3>
-                <div class="html-code-container">
+                <h2 class="section-title">UI Component</h2>
+                <div class="form-section">
+                    <h3 class="section-title">Collapsible</h3>
+                    <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
-<pre><code class="html-code">
-<div class="collapsible" data-collapsible="collapsed">
-    <div class="collapsible-header" data-collapsible-header="">My header</div>
-    <div class="collapsible-content" data-collapsible-content="">
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit cupiditate unde eos 
-            dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam, laudantium, 
-            dignissimos ex praesentium amet! Fugit.
-        </p>
+                        <pre><code class="html-code">
+    <div class="collapsible" data-collapsible="collapsed">
+        <div class="collapsible-header" data-collapsible-header="">My header</div>
+        <div class="collapsible-content" data-collapsible-content="">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit cupiditate unde eos 
+                dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam, laudantium, 
+                dignissimos ex praesentium amet! Fugit.
+            </p>
+        </div>
     </div>
-</div>
-</code>
-</pre>
-                </div>
-                <div class="collapsible" data-collapsible="collapsed">
-                    <div class="collapsible-header" data-collapsible-header="">My header</div>
-                    <div class="collapsible-content" data-collapsible-content="">
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit cupiditate unde eos 
-                            dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam, laudantium, 
-                            dignissimos ex praesentium amet! Fugit.
-                        </p>
+    </code>
+    </pre>
+                    </div>
+                    <div class="collapsible" data-collapsible="collapsed">
+                        <div class="collapsible-header" data-collapsible-header="">My header</div>
+                        <div class="collapsible-content" data-collapsible-content="">
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit cupiditate
+                                unde eos
+                                dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam,
+                                laudantium,
+                                dignissimos ex praesentium amet! Fugit.
+                            </p>
+                        </div>
+                    </div>
+
+                    <h4>Accordion</h4>
+                    <p>One container at a time</p>
+                    <div class="html-code-container">
+                        <button class="btn btn-copy">Copy</button>
+                        <pre><code class="html-code">
+    <div class="accordion-container" data-boost="accordion">
+        <div class="collapsible" data-accordion="expanded">
+            <div class="collapsible-header" data-accordion-header="">My header</div>
+            <div class="collapsible-content" data-accordion-content="">
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit
+                    cupiditate unde eos dolores deserunt facilis autem quibusdam soluta adipisci sed 
+                    assumenda laboriosam, laudantium, dignissimos ex praesentium amet! Fugit.
+                </p>
+            </div>
+        </div>
+        <div class="collapsible" data-accordion="collapsed">
+            <div class="collapsible-header" data-accordion-header="">My header</div>
+            <div class="collapsible-content" data-accordion-content="">
+                <p>
+                    Le football est un sport d'association, entre les membres d'une meme formation.
+                    dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam,
+                    dignissimos ex praesentium amet! Fugit.
+                </p>
+            </div>
+        </div>
+    </div>
+    </code>
+    </pre>
+                    </div>
+                    <div class="accordion-container" data-boost="accordion">
+                        <div class="collapsible" data-accordion="expanded">
+                            <div class="collapsible-header" data-accordion-header="">My header</div>
+                            <div class="collapsible-content" data-accordion-content="">
+                                <p>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit
+                                    cupiditate unde eos dolores deserunt facilis autem quibusdam soluta adipisci sed 
+                                    assumenda laboriosam, laudantium, dignissimos ex praesentium amet! Fugit.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="collapsible" data-accordion="collapsed">
+                            <div class="collapsible-header" data-accordion-header="">My header</div>
+                            <div class="collapsible-content" data-accordion-content="">
+                                <p>
+                                    Le football est un sport d'association, entre les membres d'une meme formation.
+                                    dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam,
+                                    dignissimos ex praesentium amet! Fugit.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -288,12 +377,12 @@
         <div class="content-wrapper">
             <p class="float-right">
                 &copy; 2019, ProtoLabo. All rights reserverd.<br />
-                Last updated <time datetime="2019-06-12">June 12, 2019</time>
+                Last updated <time datetime="2019-06-13">June 13, 2019</time>
             </p>
         </div>
     </footer>
 
-    <script src="../dist/zenkai.min.js"></script>
+    <script src="../dist/zenkai.js"></script>
     <script src="main.js"></script>
 </body>
 

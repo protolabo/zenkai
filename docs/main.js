@@ -41,6 +41,7 @@
         FORM.Switch(container);
 
         UI.Collapsible(container);
+        UI.Accordion(container);
     }
 
     /**

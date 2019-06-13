@@ -5,7 +5,7 @@ import { isNullOrWhitespace, isUndefined } from '@utils/datatype/index.js';
 export function floatingLabel(form) {
     const labels = getElements('.form-label', form);
 
-    for (let i = 0, len = labels.length; i < len; i++) {
+    for (let i = 0; i < labels.length; i++) {
         let lbl = labels[i];
         if (lbl.dataset['type'] == 'placeholder' && !isNullOrWhitespace(lbl.htmlFor)) {
             let input = getElement(`#${lbl.htmlFor}`);

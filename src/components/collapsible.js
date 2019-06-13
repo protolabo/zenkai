@@ -6,11 +6,15 @@ const ATTRIBUTE = 'collapsible';
 const NONE = -1;
 
 const State = {
-    OPEN: 'open',
-    COLLAPSED: 'collapsed'
+    OPEN: 'expanded',
+    CLOSED: 'collapsed'
 };
 
+const toData = (name) => `[data-boost=${name}]`;
+
 const isCollapsible = (el) => ATTRIBUTE in el.dataset;
+
+const isAccordion = (el) => el.dataset['boost'] === 'accordion';
 
 const CollapsibleFactory = {
     create(args) {
@@ -24,15 +28,16 @@ const CollapsibleFactory = {
         return instance;
     },
     container: null,
-    current: null,
     callback: null,
     header: null,
     content: null,
-    isAccordion: false,
-    getState() { return this.container.dataset[ATTRIBUTE]; },
-    setState(val) { this.container.dataset[ATTRIBUTE] = val; },
+    name: 'collapsible',
+    getState() { return this.container.dataset[this.name]; },
+    setState(val) { this.container.dataset[this.name] = val; },
+    isCollapsed() { return this.getState() === State.CLOSED; },
+    isExpanded() { return this.getState() === State.OPEN; },
     open() { this.toggle(show, State.OPEN, addClass); },
-    collapse() { this.toggle(hide, State.COLLAPSED, removeClass); },
+    close() { this.toggle(hide, State.CLOSED, removeClass); },
     toggle(displayCb, state, classCb) {
         displayCb(this.content);
         this.setState(state);
@@ -40,13 +45,17 @@ const CollapsibleFactory = {
     },
     init() {
         const container = this.container;
-        this.header = getElement('[data-collapsible-header]', container);
-        this.content = getElement('[data-collapsible-content]', container);
+        this.header = getElement(`[data-${this.name}-header]`, container);
+        this.content = getElement(`[data-${this.name}-content]`, container);
+
+        return this;
     },
     activate() {
         this.init();
-        if (this.container.dataset[ATTRIBUTE] === State.COLLAPSED) {
-            hide(this.content);
+        if (this.isCollapsed()) {
+            this.close();
+        } else if (this.isExpanded()) {
+            this.open();
         }
         this.bindEvents();
     },
@@ -56,53 +65,64 @@ const CollapsibleFactory = {
 
         container.addEventListener('click', (e) => {
             var target = e.target;
-            var targetCollapsible = findAncestor(target, (el) => ATTRIBUTE in el.dataset);
+            var targetCollapsible = findAncestor(target, (el) => this.name in el.dataset);
             if (container === targetCollapsible) {
-                if (this.getState() === State.COLLAPSED) {
+                if (this.getState() === State.CLOSED) {
                     this.open();
-                    if (this.isAccordion) {
-                        let collapsibles = getElements('[data-accordion]');
-                        collapsibles.filter((coll) => coll !== container)
-                            .forEach((other) => this.collapse(other));
-                    }
+                    this.callback(this);
                 } else if (header && header.parentNode === container) {
-                    this.collapse();
+                    this.close();
                 }
             }
         });
     }
 };
 
-const AccordionFactory = CollapsibleFactory.create( {
-    collapsibles: null,
-    bindEvents() {
-        const container = this.container;
-        const header = this.header;
+const AccordionFactory = {
+    create(args) {
+        var instance = Object.create(this);
 
-        container.addEventListener('click', (e) => {
-            var target = e.target;
-            var targetCollapsible = findAncestor(target, (el) => ATTRIBUTE in el.dataset);
-            if (container === targetCollapsible) {
-                if (this.getState() === State.COLLAPSED) {
-                    this.open();
-                    let collapsibles = getElements('[data-accordion]');
-                    collapsibles.filter((coll) => coll !== container)
-                        .forEach((other) => this.collapse(other));
-                } else if (header && header.parentNode === container) {
-                    this.collapse();
+        Object.assign(instance, args);
+        if (!isFunction(instance.callback)) {
+            instance.callback = function (val, el) { };
+        }
+
+        return instance;
+    },
+    container: null,
+    items: null,
+    callback: null,
+    init() {
+        this.items = [];
+
+        return this;
+    },
+    activate() {
+        this.init();
+        var accordionElements = getElements('[data-accordion]', this.container);
+        for (let i = 0; i < accordionElements.length; i++) {
+            let accordionElement = accordionElements[i];
+            let collapsible = CollapsibleFactory.create({
+                container: accordionElement,
+                name: 'accordion',
+                callback: (selectedItem) => {
+                    this.items.filter((item) => item !== selectedItem && item.isExpanded())
+                        .forEach((other) => other.close());
                 }
-            }
-        });
+            });
+            this.items.push(collapsible);
+            collapsible.activate();
+        }
     }
-});
+};
 
 
 /**
  * Collapsible
  * @param {HTMLElement} container 
- * @param {boolean} _isAccordion
+ * @param {*} _callback
  */
-export function Collapsible(container, _isAccordion, _callback) {
+export function Collapsible(container, _callback) {
     var collapsibles = getCollapsibles(container);
 
     if (collapsibles === NONE) {
@@ -112,7 +132,6 @@ export function Collapsible(container, _isAccordion, _callback) {
     for (let i = 0; i < collapsibles.length; i++) {
         CollapsibleFactory.create({
             container: collapsibles[i],
-            isAccordion: _isAccordion,
             callback: _callback
         }).activate();
     }
@@ -120,6 +139,27 @@ export function Collapsible(container, _isAccordion, _callback) {
     return collapsibles;
 }
 
+/**
+ * Accordion
+ * @param {HTMLElement} container 
+ * @param {*} _callback
+ */
+export function Accordion(container, _callback) {
+    var accordions = getAccordions(container);
+
+    if (accordions === NONE) {
+        return null;
+    }
+
+    for (let i = 0; i < accordions.length; i++) {
+        AccordionFactory.create({
+            container: accordions[i],
+            callback: _callback
+        }).activate();
+    }
+
+    return accordions;
+}
 
 function getCollapsibles(container) {
     if (isHTMLElement(container)) {
@@ -129,6 +169,19 @@ function getCollapsibles(container) {
         return isNullOrUndefined(_container) ? NONE : getCollapsibles(_container);
     } else if (isNullOrUndefined(container)) {
         return getElements('[data-collapsible]');
+    }
+
+    return NONE;
+}
+
+function getAccordions(container) {
+    if (isHTMLElement(container)) {
+        return isAccordion(container) ? [container] : getElements(toData('accordion'), container);
+    } else if (isString(container) && !isEmpty(container)) {
+        let _container = getElement(container);
+        return isNullOrUndefined(_container) ? NONE : getAccordions(_container);
+    } else if (isNullOrUndefined(container)) {
+        return getElements(toData('accordion'));
     }
 
     return NONE;
