@@ -73,6 +73,30 @@ const CollapsibleFactory = {
     }
 };
 
+const AccordionFactory = CollapsibleFactory.create( {
+    collapsibles: null,
+    bindEvents() {
+        const container = this.container;
+        const header = this.header;
+
+        container.addEventListener('click', (e) => {
+            var target = e.target;
+            var targetCollapsible = findAncestor(target, (el) => ATTRIBUTE in el.dataset);
+            if (container === targetCollapsible) {
+                if (this.getState() === State.COLLAPSED) {
+                    this.open();
+                    let collapsibles = getElements('[data-accordion]');
+                    collapsibles.filter((coll) => coll !== container)
+                        .forEach((other) => this.collapse(other));
+                } else if (header && header.parentNode === container) {
+                    this.collapse();
+                }
+            }
+        });
+    }
+});
+
+
 /**
  * Collapsible
  * @param {HTMLElement} container 

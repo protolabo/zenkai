@@ -1,60 +1,95 @@
-﻿import { valOrDefault, isNullOrUndefined } from './../datatype/type-manip.js';
+﻿import { valOrDefault, isNullOrUndefined, isFunction } from './../datatype/type-manip.js';
 import { isNullOrWhitespace } from './../datatype/type-string.js';
 
 const isClassName = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
 
 /**
+ * Removes additional spaces in class attribute
+ */
+const cleanClass = (cn) => cn.replace(/\s+/g, ' ').trim();
+
+/**
+ * Gets the window's width
+ * @memberof DOM
+ */
+export function windowWidth() {
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+}
+
+/**
+ * Verifies that an object is an *Element*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *Element*
+ * @memberof DOM
+ */
+export function isElement(obj) {
+    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
+}
+
+/**
+ * Verifies that an object is an *HTMLElement*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *Element*
+ * @memberof DOM
+ */
+export function isHTMLElement(obj) {
+    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
+}
+
+/**
  * Returns the first Element within the specified container that matches the specified selector, group or selectors.
  * @param {string} selector A DOMString containing one or more selectors to match
- * @param {HTMLElement|DocumentFragment} [el] Container queried
+ * @param {HTMLElement|DocumentFragment} [_container] Container queried
  * @returns {HTMLElement|null} The first Element matches that matches the specified set of CSS selectors.
  * @memberof DOM
  */
-export function getElement(selector, el) {
-    el = valOrDefault(el, document);
+export function getElement(selector, _container) {
+    var container = valOrDefault(_container, document);
 
-    if (el instanceof DocumentFragment) {
-        el.querySelector(selector);
+    if (container instanceof DocumentFragment) {
+        container.querySelector(selector);
     }
 
     if (/^#[a-zA-Z0-9_-]+$/.test(selector)) {
         return document.getElementById(selector.substring(1));
     }
     if (isClassName(selector)) {
-        return el.getElementsByClassName(selector.substring(1))[0];
+        return container.getElementsByClassName(selector.substring(1))[0];
     }
 
-    return el.querySelector(selector);
+    return container.querySelector(selector);
 }
 
 /**
  * Returns all elements that match the selector query.
  * @param {string} selector A DOMString containing one or more selectors to match
- * @param {HTMLElement|DocumentFragment} [el] Container queried
+ * @param {HTMLElement|DocumentFragment} [_container] Container queried
  * @returns {HTMLCollection|NodeList} A live or *static* (not live) collection of the `container`'s children Element that match the `selector`.
  * @memberof DOM
  */
-export function getElements(selector, el) {
-    el = valOrDefault(el, document);
+export function getElements(selector, _container) {
+    var container = valOrDefault(_container, document);
 
-    if (el instanceof DocumentFragment) {
-        el.querySelectorAll(selector);
+    if (container instanceof DocumentFragment) {
+        container.querySelectorAll(selector);
     }
 
-    return isClassName(selector) ?
-        el.getElementsByClassName(selector.substring(1)) :
-        el.querySelectorAll(selector);
+    if (isClassName(selector)) {
+        return container.getElementsByClassName(selector.substring(1));
+    }
+
+    return container.querySelectorAll(selector);
 }
 
 /**
  * Returns the first Template within the specified container that matches the specified selector, group or selectors.
  * @param {string} selector A DOMString containing one or more selectors to match
- * @param {HTMLElement} [el] Container queried
+ * @param {HTMLElement} [_container] Container queried
  * @returns {HTMLTemplateElement|null} The first Template matches that matches the specified set of CSS selectors.
  * @memberof DOM
  */
-export function getTemplate(selector, el) {
-    return 'content' in document.createElement('template') ? getElement(selector, el) : null;
+export function getTemplate(selector, _container) {
+    return 'content' in document.createElement('template') ? getElement(selector, _container) : null;
 }
 
 /**
@@ -69,28 +104,86 @@ export function cloneTemplate(template, deep) {
 }
 
 /**
- * Gets the window's width
- * @memberof DOM
+ * Gets the previous or next element of the specified element
+ * @param {HTMLElement} el element
+ * @param {string} dir sibling direction
+ * @returns {(Element|null)} Element or null
  */
-export function windowWidth() {
-    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+function getElementSibling(el, dir, pred) {
+    var predicate = (el) => !isNullOrUndefined(el);
+    if (isFunction(pred)) {
+        predicate = (el) => !isNullOrUndefined(el) && !pred(el);
+    }
+
+    var sibling = el[dir];
+    while (predicate(sibling)) {
+        sibling = sibling[dir];
+    }
+
+    return sibling;
 }
 
 /**
  * Gets the previous element of the specified one in its parent's children list
  * @param {HTMLElement} el element
+ * @param {*} predCb Search end condition
  * @returns {(Element|null)} Element or null if the specified element is the first one in the list
  * @memberof DOM
  */
-export function getPreviousElementSibling(el) { return getElementSibling(el, "previousElementSibling"); }
+export function getPreviousElementSibling(el, predCb) { return getElementSibling(el, "previousElementSibling", predCb); }
 
 /**
  * Gets the element following the specified one in its parent's children list
  * @param {HTMLElement} el element
+ * @param {*} predCb Search end condition
  * @returns {(Element|null)} Element or null if the specified element is the last one in the list
  * @memberof DOM
  */
-export function getNextElementSibling(el) { return getElementSibling(el, "nextElementSibling"); }
+export function getNextElementSibling(el, predCb) { return getElementSibling(el, "nextElementSibling", predCb); }
+
+/**
+ * Finds an ancestor of an element
+ * @param {Element} target 
+ * @param {*} callback 
+ * @param {number} max Maximum number of iterations
+ * @returns {Element|null}
+ * @memberof DOM
+ */
+export function findAncestor(target, callback, max) {
+    if (!isElement(target)) {
+        return null;
+    }
+
+    var parent = target.parentElement;
+    if (max > 0) {
+        return findAncestorIter(parent, callback, max);
+    }
+    return findAncestorInf(parent, callback);
+}
+
+function findAncestorInf(target, callback) {
+    if (isNullOrUndefined(target)) {
+        return null;
+    }
+
+    if (callback(target)) {
+        return target;
+    }
+
+    return findAncestorInf(target.parentElement, callback);
+}
+
+function findAncestorIter(target, callback, max) {
+    if (isNullOrUndefined(target) || max === 0) {
+        return null;
+    }
+
+    if (callback(target)) {
+        return target;
+    }
+
+    return findAncestorIter(target.parentElement, callback, max - 1);
+}
 
 /**
  * Inserts a given element before the targetted element
@@ -125,12 +218,6 @@ export function preprendChild(target, el) { target.insertAdjacentElement('afterb
 export function hasClass(e, c) {
     return e.className.split(" ").indexOf(c) !== -1;
 }
-
-/**
- * Removes additional spaces in class attribute
- * @param {string} cn class names
- */
-function cleanClass(cn) { return cn.replace(/\s+/g, ' ').trim(); }
 
 /**
  * Removes a class from an element if it exists
@@ -203,23 +290,6 @@ export function removeChildren(node) {
 }
 
 /**
- * Gets the previous or next element of the specified element
- * @param {HTMLElement} el element
- * @param {string} dir sibling direction
- * @returns {(Element|null)} Element or null
- * @memberof DOM
- */
-export function getElementSibling(el, dir) {
-    var sibling = el[dir];
-
-    while (sibling && hasClass(sibling, "autocomplete")) {
-        sibling = sibling[dir];
-    }
-
-    return sibling;
-}
-
-/**
  * Changes the selected option of a `<select>` element
  * @param {HTMLSelectElement} select
  * @param {string} val option value to select
@@ -241,26 +311,6 @@ export function changeSelectValue(select, val) {
 }
 
 /**
- * Verifies that an object is an *Element*
- * @param {Element} obj 
- * @returns {boolean} Value indicating whether the object is an *Element*
- * @memberof DOM
- */
-export function isElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
-}
-
-/**
- * Verifies that an object is an *HTMLElement*
- * @param {Element} obj 
- * @returns {boolean} Value indicating whether the object is an *Element*
- * @memberof DOM
- */
-export function isHTMLElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
-}
-
-/**
  * Copy to clipboard
  * @param {HTMLElement|string} value 
  * @returns {boolean} Value indicating whether the the content has been succesfully copied to the clipboard
@@ -275,50 +325,6 @@ export function copytoClipboard(value) {
     el.remove();
 
     return true;
-}
-
-/**
- * Finds an ancestor of an element
- * @param {Element} target 
- * @param {*} callback 
- * @param {number} max 
- * @returns {Element|null}
- * @memberof DOM
- */
-export function findAncestor(target, callback, max) {
-    if (!isElement(target)) {
-        return null;
-    }
-
-    var parent = target.parentElement;
-    if (max > 0) {
-        return findAncestorIter(parent, callback, max);
-    }
-    return findAncestorInf(parent, callback);
-}
-
-function findAncestorInf(target, callback) {
-    if (isNullOrUndefined(target)) {
-        return null;
-    }
-
-    if (callback(target)) {
-        return target;
-    }
-
-    return findAncestorInf(target.parentElement, callback);
-}
-
-function findAncestorIter(target, callback, max) {
-    if (isNullOrUndefined(target) || max === 0) {
-        return null;
-    }
-
-    if (callback(target)) {
-        return target;
-    }
-
-    return findAncestorIter(target.parentElement, callback, max - 1);
 }
 
 function stickyHeader(header, target) {
