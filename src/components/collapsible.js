@@ -1,5 +1,5 @@
 import { getElement, getElements, addClass, removeClass, isHTMLElement, findAncestor, show, hide } from '@utils/dom/index.js';
-import { isString, isNullOrUndefined, isEmpty, isFunction, isNull } from '@utils/datatype/index.js';
+import { isString, isNullOrUndefined, isEmpty, isFunction } from '@utils/datatype/index.js';
 
 const ATTRIBUTE = 'collapsible';
 
@@ -63,14 +63,14 @@ const CollapsibleFactory = {
         const container = this.container;
         const header = this.header;
 
-        container.addEventListener('click', (e) => {
+        header.addEventListener('click', (e) => {
             var target = e.target;
             var targetCollapsible = findAncestor(target, (el) => this.name in el.dataset);
             if (container === targetCollapsible) {
                 if (this.getState() === State.CLOSED) {
                     this.open();
                     this.callback(this);
-                } else if (header && header.parentNode === container) {
+                } else if (header.parentNode === container) {
                     this.close();
                 }
             }

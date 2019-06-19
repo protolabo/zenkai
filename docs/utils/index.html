@@ -38,6 +38,24 @@
                     <li class='h5'><span>Static members</span></li>
                     
                       <li><a
+                        href='#domwindowwidth'
+                        class='regular pre-open'>
+                        .windowWidth
+                      </a></li>
+                    
+                      <li><a
+                        href='#domiselement'
+                        class='regular pre-open'>
+                        .isElement
+                      </a></li>
+                    
+                      <li><a
+                        href='#domishtmlelement'
+                        class='regular pre-open'>
+                        .isHTMLElement
+                      </a></li>
+                    
+                      <li><a
                         href='#domgetelement'
                         class='regular pre-open'>
                         .getElement
@@ -62,12 +80,6 @@
                       </a></li>
                     
                       <li><a
-                        href='#domwindowwidth'
-                        class='regular pre-open'>
-                        .windowWidth
-                      </a></li>
-                    
-                      <li><a
                         href='#domgetpreviouselementsibling'
                         class='regular pre-open'>
                         .getPreviousElementSibling
@@ -77,6 +89,12 @@
                         href='#domgetnextelementsibling'
                         class='regular pre-open'>
                         .getNextElementSibling
+                      </a></li>
+                    
+                      <li><a
+                        href='#domfindancestor'
+                        class='regular pre-open'>
+                        .findAncestor
                       </a></li>
                     
                       <li><a
@@ -128,33 +146,9 @@
                       </a></li>
                     
                       <li><a
-                        href='#domgetelementsibling'
-                        class='regular pre-open'>
-                        .getElementSibling
-                      </a></li>
-                    
-                      <li><a
                         href='#domchangeselectvalue'
                         class='regular pre-open'>
                         .changeSelectValue
-                      </a></li>
-                    
-                      <li><a
-                        href='#domiselement'
-                        class='regular pre-open'>
-                        .isElement
-                      </a></li>
-                    
-                      <li><a
-                        href='#domishtmlelement'
-                        class='regular pre-open'>
-                        .isHTMLElement
-                      </a></li>
-                    
-                      <li><a
-                        href='#domfindancestor'
-                        class='regular pre-open'>
-                        .findAncestor
                       </a></li>
                     
                       <li><a
@@ -381,6 +375,16 @@
                   href='#cleanclass'
                   class="">
                   cleanClass
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getelementsibling'
+                  class="">
+                  getElementSibling
                   
                 </a>
                 
@@ -765,11 +769,196 @@
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
+    <div class='border-bottom' id='domwindowwidth'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>windowWidth()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Gets the window's width</p>
+
+    <div class='pre p1 fill-light mt0'>windowWidth()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domiselement'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isElement(obj)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Verifies that an object is an <em>Element</em></p>
+
+    <div class='pre p1 fill-light mt0'>isElement(obj: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        Value indicating whether the object is an 
+<em>Element</em>
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domishtmlelement'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isHTMLElement(obj)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Verifies that an object is an <em>HTMLElement</em></p>
+
+    <div class='pre p1 fill-light mt0'>isHTMLElement(obj: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        Value indicating whether the object is an 
+<em>Element</em>
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='domgetelement'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getElement(selector, el?)</span>
+            <span class='code strong strong truncate'>getElement(selector, _container?)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -779,7 +968,7 @@
 
   <p>Returns the first Element within the specified container that matches the specified selector, group or selectors.</p>
 
-    <div class='pre p1 fill-light mt0'>getElement(selector: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, el: (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?): (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | null)</div>
+    <div class='pre p1 fill-light mt0'>getElement(selector: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _container: (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?): (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | null)</div>
   
   
 
@@ -805,7 +994,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>el</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?)</code>
+            <span class='code bold'>_container</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?)</code>
 	    Container queried
 
           </div>
@@ -847,7 +1036,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getElements(selector, el?)</span>
+            <span class='code strong strong truncate'>getElements(selector, _container?)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -857,7 +1046,7 @@
 
   <p>Returns all elements that match the selector query.</p>
 
-    <div class='pre p1 fill-light mt0'>getElements(selector: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, el: (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?): (HTMLCollection | <a href="https://developer.mozilla.org/docs/Web/API/NodeList">NodeList</a>)</div>
+    <div class='pre p1 fill-light mt0'>getElements(selector: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _container: (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?): (HTMLCollection | <a href="https://developer.mozilla.org/docs/Web/API/NodeList">NodeList</a>)</div>
   
   
 
@@ -883,7 +1072,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>el</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?)</code>
+            <span class='code bold'>_container</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?)</code>
 	    Container queried
 
           </div>
@@ -931,7 +1120,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getTemplate(selector, el?)</span>
+            <span class='code strong strong truncate'>getTemplate(selector, _container?)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -941,7 +1130,7 @@
 
   <p>Returns the first Template within the specified container that matches the specified selector, group or selectors.</p>
 
-    <div class='pre p1 fill-light mt0'>getTemplate(selector: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>?): (HTMLTemplateElement | null)</div>
+    <div class='pre p1 fill-light mt0'>getTemplate(selector: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _container: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>?): (HTMLTemplateElement | null)</div>
   
   
 
@@ -967,7 +1156,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>el</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>?)</code>
+            <span class='code bold'>_container</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>?)</code>
 	    Container queried
 
           </div>
@@ -1082,58 +1271,11 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='domwindowwidth'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>windowWidth()</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Gets the window's width</p>
-
-    <div class='pre p1 fill-light mt0'>windowWidth()</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
     <div class='border-bottom' id='domgetpreviouselementsibling'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getPreviousElementSibling(el)</span>
+            <span class='code strong strong truncate'>getPreviousElementSibling(el, predCb)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1143,7 +1285,7 @@
 
   <p>Gets the previous element of the specified one in its parent's children list</p>
 
-    <div class='pre p1 fill-light mt0'>getPreviousElementSibling(el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
+    <div class='pre p1 fill-light mt0'>getPreviousElementSibling(el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, predCb: any): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
   
   
 
@@ -1162,6 +1304,15 @@
           <div>
             <span class='code bold'>el</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
 	    element
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>predCb</span> <code class='quiet'>(any)</code>
+	    Search end condition
 
           </div>
           
@@ -1202,7 +1353,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getNextElementSibling(el)</span>
+            <span class='code strong strong truncate'>getNextElementSibling(el, predCb)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1212,7 +1363,7 @@
 
   <p>Gets the element following the specified one in its parent's children list</p>
 
-    <div class='pre p1 fill-light mt0'>getNextElementSibling(el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
+    <div class='pre p1 fill-light mt0'>getNextElementSibling(el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, predCb: any): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
   
   
 
@@ -1236,6 +1387,15 @@
           
         </div>
       
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>predCb</span> <code class='quiet'>(any)</code>
+	    Search end condition
+
+          </div>
+          
+        </div>
+      
     </div>
   
 
@@ -1246,6 +1406,91 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</code>:
         Element or null if the specified element is the last one in the list
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domfindancestor'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>findAncestor(target, callback, max)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Finds an ancestor of an element</p>
+
+    <div class='pre p1 fill-light mt0'>findAncestor(target: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>, callback: any, max: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>target</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callback</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>max</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    Maximum number of iterations
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</code>:
+        
 
       
     
@@ -1810,84 +2055,6 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='domgetelementsibling'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getElementSibling(el, dir)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Gets the previous or next element of the specified element</p>
-
-    <div class='pre p1 fill-light mt0'>getElementSibling(el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, dir: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>el</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
-	    element
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>dir</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    sibling direction
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</code>:
-        Element or null
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
     <div class='border-bottom' id='domchangeselectvalue'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -1944,228 +2111,6 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
         value indicating whether the option was found and selected
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domiselement'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>isElement(obj)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Verifies that an object is an <em>Element</em></p>
-
-    <div class='pre p1 fill-light mt0'>isElement(obj: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
-        Value indicating whether the object is an 
-<em>Element</em>
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domishtmlelement'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>isHTMLElement(obj)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Verifies that an object is an <em>HTMLElement</em></p>
-
-    <div class='pre p1 fill-light mt0'>isHTMLElement(obj: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
-        Value indicating whether the object is an 
-<em>Element</em>
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domfindancestor'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>findAncestor(target, callback, max)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Finds an ancestor of an element</p>
-
-    <div class='pre p1 fill-light mt0'>findAncestor(target: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>, callback: any, max: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>target</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>callback</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>max</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</code>:
-        
 
       
     
@@ -4554,7 +4499,7 @@
 
   <p>Removes additional spaces in class attribute</p>
 
-    <div class='pre p1 fill-light mt0'>cleanClass(cn: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    <div class='pre p1 fill-light mt0'>cleanClass</div>
   
   
 
@@ -4571,9 +4516,8 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>cn</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    class names
-
+            <span class='code bold'>cn</span> <code class='quiet'>(any)</code>
+	    
           </div>
           
         </div>
@@ -4583,6 +4527,93 @@
 
   
 
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='getelementsibling'>
+      getElementSibling
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Gets the previous or next element of the specified element</p>
+
+    <div class='pre p1 fill-light mt0'>getElementSibling(el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, dir: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, pred: any): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>el</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+	    element
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>dir</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    sibling direction
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>pred</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</code>:
+        Element or null
+
+      
+    
   
 
   

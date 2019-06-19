@@ -1844,7 +1844,7 @@ var zenkai = (function (exports) {
   function floatingLabel(form) {
     var labels = getElements('.form-label', form);
 
-    for (var i = 0, len = labels.length; i < len; i++) {
+    for (var i = 0; i < labels.length; i++) {
       var lbl = labels[i];
 
       if (lbl.dataset['type'] == 'placeholder' && !isNullOrWhitespace(lbl.htmlFor)) {
@@ -2179,7 +2179,7 @@ var zenkai = (function (exports) {
 
       var container = this.container;
       var header = this.header;
-      container.addEventListener('click', function (e) {
+      header.addEventListener('click', function (e) {
         var target = e.target;
         var targetCollapsible = findAncestor(target, function (el) {
           return _this.name in el.dataset;
@@ -2190,7 +2190,7 @@ var zenkai = (function (exports) {
             _this.open();
 
             _this.callback(_this);
-          } else if (header && header.parentNode === container) {
+          } else if (header.parentNode === container) {
             _this.close();
           }
         }
