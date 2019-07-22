@@ -32,10 +32,10 @@ export default [
     // Components bundle
     buildExport('./src/components/index.js', buildOutput('zenkai-components.min.js', '_components')),
     buildExport('./src/components/index.js', buildOutput('zenkai-components.js', '_components', { sourcemap: false }), false),
-    // DOM (Utils) bundle
-    buildExport('./src/utils/dom/index.js', buildOutput('zenkai-utils-dom.min.js', '__dom')),
-    buildExport('./src/utils/dom/index.js', buildOutput('zenkai-utils-dom.js', '__dom', { sourcemap: false }), false),
-    // DataType (Utils) bundle
-    buildExport('./src/utils/datatype/index.js', buildOutput('zenkai-utils-type.min.js', '__type')),
-    buildExport('./src/utils/datatype/index.js', buildOutput('zenkai-utils-type.js', '__type', { sourcemap: false }), false),
+    // DOM bundle
+    buildExport('./src/dom/index.js', buildOutput('zenkai-dom.min.js', '_dom')),
+    buildExport('./src/dom/index.js', buildOutput('zenkai-dom.js', '_dom', { sourcemap: false }), false),
+    // DataType bundle
+    buildExport('./src/datatype/index.js', buildOutput('zenkai-type.min.js', '_type')),
+    buildExport('./src/datatype/index.js', buildOutput('zenkai-type.js', '_type', { sourcemap: false }), false),
 ];

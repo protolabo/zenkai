@@ -2,7 +2,7 @@
  * @namespace PATH
  */
 
-import { isNullOrWhitespace, isNullOrUndefined, valOrDefault, cloneObject } from './datatype/index.js';
+import { isNullOrWhitespace, isNullOrUndefined, valOrDefault, cloneObject } from '@datatype/index.js';
 
 /**
  * Append the path to the current path

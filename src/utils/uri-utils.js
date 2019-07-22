@@ -2,7 +2,7 @@
  * @namespace URI
  */
 
-import { hasOwn } from './datatype/index.js';
+import { hasOwn } from '@datatype/index.js';
 
 const encode = encodeURIComponent;
 

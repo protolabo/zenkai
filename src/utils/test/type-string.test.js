@@ -5,10 +5,10 @@ require('jsdom-global')();
 //var jsLabo = require('./../src/index.js');
 
 var expect = require('chai').expect;
-var isNullOrWhitespace = require('@utils/datatype/type-string.js').isNullOrWhitespace;
-var capitalize = require('@utils/datatype/type-string.js').capitalize;
-var capitalizeFirstLetter = require('@utils/datatype/type-string.js').capitalizeFirstLetter;
-var removeAccents = require('@utils/datatype/type-string.js').removeAccents;
+var isNullOrWhitespace = require('@datatype/type-string.js').isNullOrWhitespace;
+var capitalize = require('@datatype/type-string.js').capitalize;
+var capitalizeFirstLetter = require('@datatype/type-string.js').capitalizeFirstLetter;
+var removeAccents = require('@datatype/type-string.js').removeAccents;
 
 describe('String helpers', function () {
     describe('#isNullOrWhitespace()', function () {

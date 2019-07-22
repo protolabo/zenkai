@@ -1,4 +1,4 @@
-var __type = (function (exports) {
+var _type = (function (exports) {
   'use strict';
 
   function _typeof(obj) {

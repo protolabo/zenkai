@@ -6,10 +6,10 @@ var expect = require('chai').expect;
 var fs = require('fs');
 
 // import our library
-var createElement = require('@utils/dom/dom-create.js').createElement;
-var createDocFragment = require('@utils/dom/dom-create.js').createDocFragment;
-var createTextNode = require('@utils/dom/dom-create.js').createTextNode;
-var createLink = require('@utils/dom/dom-create.js').createLink;
+var createElement = require('@dom/dom-create.js').createElement;
+var createDocFragment = require('@dom/dom-create.js').createDocFragment;
+var createTextNode = require('@dom/dom-create.js').createTextNode;
+var createLink = require('@dom/dom-create.js').createLink;
 
 describe('DOM helpers', function () {
     describe('#createElement()', function () {

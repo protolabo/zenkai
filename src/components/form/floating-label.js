@@ -1,5 +1,5 @@
-import { getElement, getElements,  removeClass, addClass } from '@utils/dom/index.js';
-import { isNullOrWhitespace, isUndefined } from '@utils/datatype/index.js';
+import { getElement, getElements,  removeClass, addClass } from '@dom/index.js';
+import { isNullOrWhitespace, isUndefined } from '@datatype/index.js';
 
 // Label as placeholder
 export function floatingLabel(form) {

@@ -30,37 +30,6 @@ var zenkai = (function (exports) {
     return isNullOrUndefined(arg) ? value : arg;
   }
   /**
-   * Converts the received boolean value to an integer
-   * @param {boolean} value 
-   * @returns {number} 1 or 0
-   * @memberof TYPE
-   */
-
-  function boolToInt(value) {
-    return value ? 1 : 0;
-  }
-  /**
-   * Converts the received value to a boolean
-   * @param {*} value
-   * @returns {boolean} A boolean equivalent of the received value
-   * @memberof TYPE
-   */
-
-  function toBoolean(value) {
-    var val = valOrDefault(value, false);
-    return val === true || val.toString().toLowerCase() === 'true';
-  }
-  /**
-   * Determines whether the value is an *integer*
-   * @param {*} value Tested value
-   * @returns {boolean}  A value indicating whether or not the given value is an *integer*.
-   * @memberof TYPE
-   */
-
-  function isInt(value) {
-    return Number.isInteger ? Number.isInteger(value) : typeof value === 'number' && value % 1 === 0;
-  }
-  /**
    * Returns a value indicating whether the value is empty
    * @param {Object[]|string} arr array
    * @memberof TYPE
@@ -68,15 +37,6 @@ var zenkai = (function (exports) {
 
   function isEmpty(val) {
     return (Array.isArray(val) || isString(val)) && val.length === 0;
-  }
-  /**
-   * Returns a value indicating whether the variable is a Date
-   * @param {*} value 
-   * @memberof TYPE
-   */
-
-  function isDate(value) {
-    return value instanceof Date || _typeof(value) === 'object' && Object.prototype.toString.call(value) === '[object Date]';
   }
   /**
    * Returns a value indicating whether the variable is a String
@@ -95,15 +55,6 @@ var zenkai = (function (exports) {
 
   function isFunction(value) {
     return typeof value === 'function';
-  }
-  /**
-   * Returns a value indicating whether the value is an Object
-   * @returns {boolean}
-   * @memberof TYPE
-   */
-
-  function isObject(value) {
-    return !isNull(value) && _typeof(value) === 'object';
   }
   /**
    * Returns a value indicating whether the value is null
@@ -134,6 +85,58 @@ var zenkai = (function (exports) {
   }
 
   /**
+   * Inserts an item in an array at the specified index
+   * @param {Object[]} arr array
+   * @param {number} index 
+   * @param {object} item 
+   * @returns {number} The new length of the array
+   * @memberof TYPE
+   */
+
+  /**
+   * Returns the index or value of the first element in the object
+   * @param {Object|Array} obj 
+   * @param {any} value 
+   * @memberof TYPE
+   */
+
+  /** @private */
+  var hasOwnProperty = Object.prototype.hasOwnProperty;
+  /**
+   * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
+   * @param {*} obj target object
+   * @param {string} key name of the property
+   * @memberof TYPE
+   */
+
+  var hasOwn = function hasOwn(obj, key) {
+    return hasOwnProperty.call(obj, key);
+  };
+  /**
+   * 
+   * @param {*} obj 
+   * @memberof TYPE
+   */
+
+  function cloneObject(obj) {
+    if (obj === null || _typeof(obj) !== 'object') {
+      return obj;
+    }
+
+    var temp = obj.constructor(); // changed
+
+    for (var key in obj) {
+      if (hasOwn(obj, key)) {
+        obj['isActiveClone'] = null;
+        temp[key] = cloneObject(obj[key]);
+        delete obj['isActiveClone'];
+      }
+    }
+
+    return temp;
+  }
+
+  /**
    * Returns a value indicating whether a string is null or made of whitespace.
    * @param {string} str string
    * @memberof TYPE
@@ -142,42 +145,357 @@ var zenkai = (function (exports) {
   function isNullOrWhitespace(str) {
     return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
   }
+
+  /** @namespace TYPE */
+
+  /** 
+   * Ajax namespace
+   * @namespace AJAX 
+   */
+  var HttpResponse = {
+    // Successful
+    OK: 200,
+    Created: 201,
+    Accepted: 202,
+    NoContent: 204,
+    // Client Error
+    BadRequest: 400,
+    Unauthorized: 401,
+    Forbidden: 403,
+    NotFound: 404,
+    MethodNotAllowed: 405,
+    NotAcceptable: 406,
+    UnsupportedMediaType: 415,
+    // Server Error
+    InternalServerError: 500,
+    NotImplemented: 501,
+    BadGateway: 502,
+    ServiceUnavaible: 503,
+    GatewayTimeout: 504
+  };
+  var State = {
+    OPENED: 1,
+    RECEIVED: 2,
+    LOADING: 3,
+    DONE: 4
+  };
   /**
-   * Capitalizes all words in a sequence
-   * @param {string} str Sequence
-   * @returns {string} Capitalized sequence
-   * @memberof TYPE
+   * An XHR resposne
+   * @private
+   * @typedef {Object} xhrResponse
+   * @property {number} status - The response status code
+   * @property {string} message - The response content
    */
 
-  function capitalize(str) {
-    return str.replace(/\b\w/g, function (s) {
-      return s.toUpperCase();
-    });
+  /**
+   * @callback xhrCallback
+   * @param  {xhrResponse} response - The XHR response object
+   * @private
+   */
+
+  /**
+   * This function creates and arranges the XMLHttpRequest object
+   * @param {('GET'|'POST'|'PUT'|'DELETE')} type The HTTP method
+   * @param {string} url The URL to send the request 
+   * @param {*} successPred The success condition
+   * @param {xhrCallback} successCb A callback function to handle a successful request
+   * @param {xhrCallback} passCb A callback function to handle a valid request
+   * @param {xhrCallback} failureCb A callback function to handle a failed request
+   * @private
+   */
+
+  var xhrHandler = function xhrHandler(type, url, successPred, successCb, failureCb, passCb) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+      var callback;
+
+      if (xhr.readyState === State.DONE) {
+        var response = createResponse(xhr.status, xhr.responseText);
+
+        if (successPred(xhr.status)) {
+          callback = successCb;
+        } else {
+          callback = failureCb;
+
+          if (xhr.status >= 200 && xhr.status < 300) {
+            callback = isNullOrUndefined(passCb) ? failureCb : passCb;
+          }
+        }
+
+        if (isFunction(callback)) {
+          callback(response);
+        }
+      }
+    };
+
+    xhr.open(type, url, true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    return xhr;
+  };
+
+  function createResponse(status, content) {
+    return {
+      status: status,
+      message: content
+    };
   }
   /**
-   * Capitalizes the first letter of a sequence
-   * @param {string} str Sequence
-   * @returns {string} Sequence with its first letter capitalized
-   * @memberof TYPE
+   * Sends a GET request
+   * @param {string} url The URL to send the request 
+   * @param {xhrCallback} [success] A callback function to handle a successful request
+   * @param {xhrCallback} [fail] A callback function to handle a failed request
+   * @memberof AJAX
    */
 
-  function capitalizeFirstLetter(str) {
-    return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
+
+  function GET(url, success, fail, options) {
+    options = valOrDefault(options, {});
+    var _successPred = options.successPred;
+    var successPred = isFunction(_successPred) ? _successPred : function (status) {
+      return status === HttpResponse.OK;
+    };
+    var xhr = xhrHandler('GET', url, successPred, success, fail, options.pass);
+    xhr.send();
   }
   /**
-   * Removes all accents from a string
-   * @param {*} str string
-   * @returns {string}
-   * @memberof TYPE
+   * Sends a POST request
+   * @param {string} url The URL to send the request 
+   * @param {*} data The data to be sent in the request
+   * @param {xhrCallback} [success] A callback function to handle a successful request
+   * @param {xhrCallback} [fail] A callback function to handle a failed request
+   * @memberof AJAX
    */
 
-  function removeAccents(str) {
-    if (String.prototype.normalize) {
-      return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  function POST(url, data, success, fail, options) {
+    options = valOrDefault(options, {});
+    var _successPred = options.successPred;
+    var successPred = isFunction(_successPred) ? _successPred : function (status) {
+      return [HttpResponse.OK, HttpResponse.Created].includes(status);
+    };
+    var xhr = xhrHandler('POST', url, successPred, success, fail, options.pass);
+    xhr.send(data);
+  }
+  /**
+   * Sends a PUT request
+   * @param {string} url The URL to send the request 
+   * @param {*} data The data to be sent in the request
+   * @param {xhrCallback} [success] A callback function to handle a successful request
+   * @param {xhrCallback} [fail] A callback function to handle a failed request
+   * @memberof AJAX
+   */
+
+  function PUT(url, data, success, fail, options) {
+    options = valOrDefault(options, {});
+    var _successPred = options.successPred;
+    var successPred = isFunction(_successPred) ? _successPred : function (status) {
+      return [HttpResponse.OK, HttpResponse.NoContent].includes(status);
+    };
+    var xhr = xhrHandler('PUT', url, successPred, success, fail, options.pass);
+    xhr.send(data);
+  }
+  /**
+   * Sends a DELETE request
+   * @param {string} url The URL to send the request 
+   * @param {*} data The data to be sent in the request
+   * @param {xhrCallback} [success] A callback function to handle a successful request
+   * @param {xhrCallback} [fail] A callback function to handle a failed request
+   * @memberof AJAX
+   */
+
+  function DELETE(url, data, success, fail, options) {
+    options = valOrDefault(options, {});
+    var _successPred = options.successPred;
+    var successPred = isFunction(_successPred) ? _successPred : function (status) {
+      return [HttpResponse.OK, HttpResponse.Accepted, HttpResponse.NoContent].includes(status);
+    };
+    var xhr = xhrHandler('DELETE', url, successPred, success, fail, options.pass);
+    xhr.send(data);
+  }
+
+  var ajaxUtils = /*#__PURE__*/Object.freeze({
+    GET: GET,
+    POST: POST,
+    PUT: PUT,
+    DELETE: DELETE
+  });
+
+  /**
+   * @namespace MATH
+   */
+
+  /**
+   * Return a random integer between min and max (inclusive).
+   * @param {number} min 
+   * @param {number} [max] 
+   * @memberof MATH
+  */
+  function random(min, max) {
+    if (max == null) {
+      max = min;
+      min = 0;
     }
 
-    return str.replace(/[àâäæ]/gi, 'a').replace(/[ç]/gi, 'c').replace(/[éèê]/gi, 'e').replace(/[îï]/gi, 'i').replace(/[ôœ]/gi, 'o').replace(/[ùûü]/gi, 'u');
+    return min + Math.floor(Math.random() * (max - min + 1));
   }
+
+  var mathUtils = /*#__PURE__*/Object.freeze({
+    random: random
+  });
+
+  /**
+   * @namespace PATH
+   */
+  /**
+   * Append the path to the current path
+   * @param {string} target 
+   * @param {string} path 
+   * @memberof PATH
+   */
+
+  function addPath(target, path) {
+    return isNullOrWhitespace(target) ? path : target + '.' + path;
+  }
+  /**
+   * Returns the directory of the path
+   * @param {string} path 
+   * @memberof PATH
+   */
+
+  function getDir(path) {
+    return path.substring(0, path.lastIndexOf('.'));
+  }
+  /**
+   * Returns the directory of the path from the target
+   * @param {string} path 
+   * @memberof PATH
+   */
+
+  function getDirTarget(path, target) {
+    return path.substring(0, path.lastIndexOf(target) - 1);
+  }
+
+  function findByIndex(obj, match, prop) {
+    var REGEX_DIGIT = /\d+/g;
+    var index = +match[0].match(REGEX_DIGIT);
+    return obj[prop][index];
+  }
+  /**
+   * Returns an element in an object using its path
+   * @param {Object} obj
+   * @param {string} path  
+   * @param {string} [_separator=.]
+   * @memberof PATH
+   */
+
+
+  function findByPath(obj, path, _separator) {
+    var REGEX_BRACKET_DIGIT = /\[\d+\]/g;
+    var separator = valOrDefault(_separator, '.');
+    var me = cloneObject(obj);
+
+    var findHandler = function findHandler(part, regex, callback) {
+      var match = part.match(regex);
+      var prop = part.substring(0, part.indexOf('['));
+      return callback(me, match, prop);
+    };
+
+    var parts = path.split(separator);
+
+    for (var i = 0, len = parts.length; i < len; i++) {
+      var part = parts[i];
+
+      if (REGEX_BRACKET_DIGIT.test(part)) {
+        me = findHandler(part, REGEX_BRACKET_DIGIT, findByIndex);
+      } else {
+        me = me[part];
+      }
+
+      if (isNullOrUndefined(me)) {
+        return undefined;
+      }
+    }
+
+    return me;
+  }
+
+  var pathUtils = /*#__PURE__*/Object.freeze({
+    addPath: addPath,
+    getDir: getDir,
+    getDirTarget: getDirTarget,
+    findByPath: findByPath
+  });
+
+  /**
+   * @namespace URI
+   */
+  var encode = encodeURIComponent;
+  /**
+   * Extracts and returns the protocol and host of a given url
+   * @param {string} url 
+   * @memberof URI
+   */
+
+  function getRootUrl(url) {
+    return url.toString().replace(/^(.*\/\/[^/?#]*).*$/, "$1");
+  }
+  /**
+   * Extracts and returns the parameters of a URL
+   * @param {string} [prop] Searched parameter
+   * @memberof URI
+   */
+
+  function getUrlPrams(prop) {
+    var href = window.location.href;
+    var search = decodeURIComponent(href.slice(href.indexOf('?') + 1));
+
+    if (this.isNullOrWhiteSpace(search)) {
+      return undefined;
+    }
+
+    var defs = search.split('&');
+    var params = {};
+    defs.forEach(function (val) {
+      var parts = val.split('=', 2);
+      params[parts[0]] = parts[1];
+    });
+
+    if (prop) {
+      return params[prop];
+    }
+
+    return params;
+  }
+  /**
+   * Creates a query string
+   * @param {Object} query 
+   * @returns {string} Query string
+   * @memberof URI
+   */
+
+  function queryBuilder(query) {
+    var str = [];
+
+    for (var key in query) {
+      if (hasOwn(query, key)) {
+        str.push("".concat(encode(key), "=").concat(encode(query[key])));
+      }
+    }
+
+    return str.join('&');
+  }
+
+  var uriUtils = /*#__PURE__*/Object.freeze({
+    getRootUrl: getRootUrl,
+    getUrlPrams: getUrlPrams,
+    queryBuilder: queryBuilder
+  });
+
+  // export * from './datatype/index.js';
+  // export * from './ajax-utils.js';
+  // export * from './math-utils.js';
+  // export * from './path-utils.js';
+  // export * from './uri-utils.js';
 
   var isClassName = function isClassName(selector) {
     return /^\.[a-zA-Z0-9_-]+$/.test(selector);
@@ -1154,693 +1472,6 @@ var zenkai = (function (exports) {
 
   /** @namespace DOM */
 
-  var index = /*#__PURE__*/Object.freeze({
-    windowWidth: windowWidth,
-    isElement: isElement,
-    isHTMLElement: isHTMLElement,
-    getElement: getElement,
-    getElements: getElements,
-    getTemplate: getTemplate,
-    cloneTemplate: cloneTemplate,
-    getPreviousElementSibling: getPreviousElementSibling,
-    getNextElementSibling: getNextElementSibling,
-    findAncestor: findAncestor,
-    insertBeforeElement: insertBeforeElement,
-    insertAfterElement: insertAfterElement,
-    preprendChild: preprendChild,
-    hasClass: hasClass,
-    removeClass: removeClass,
-    addClass: addClass,
-    toggleClass: toggleClass,
-    removeChildren: removeChildren,
-    changeSelectValue: changeSelectValue,
-    copytoClipboard: copytoClipboard,
-    createElement: createElement,
-    createDocFragment: createDocFragment,
-    createTextNode: createTextNode,
-    createLink: createLink,
-    createHeader: createHeader,
-    createDiv: createDiv,
-    createAside: createAside,
-    createLineBreak: createLineBreak,
-    createHeading: createHeading,
-    createP: createP,
-    createUl: createUl,
-    createLi: createLi,
-    createAnchor: createAnchor,
-    createImage: createImage,
-    createSpan: createSpan,
-    createStrong: createStrong,
-    createEm: createEm,
-    createInput: createInput,
-    createLabel: createLabel,
-    createTextArea: createTextArea,
-    createButton: createButton,
-    createTable: createTable,
-    createTableHeader: createTableHeader,
-    createTableBody: createTableBody,
-    createTableFooter: createTableFooter,
-    createTableRow: createTableRow,
-    createTableHeaderCell: createTableHeaderCell,
-    createTableCell: createTableCell,
-    addAttributes: addAttributes,
-    appendChildren: appendChildren,
-    show: show,
-    hide: hide,
-    conceal: conceal,
-    highlight: highlight,
-    unhighlight: unhighlight,
-    enable: enable,
-    disable: disable
-  });
-
-  /**
-   * Inserts an item in an array at the specified index
-   * @param {Object[]} arr array
-   * @param {number} index 
-   * @param {object} item 
-   * @returns {number} The new length of the array
-   * @memberof TYPE
-   */
-  function insert(arr, index, item) {
-    arr.splice(index, 0, item);
-    return arr.length;
-  }
-  /**
-   * Returns last element of array.
-   * @param {Object[]} arr array
-   * @memberof TYPE
-   */
-
-  function last(arr) {
-    if (Array.isArray(arr) && arr.length - 1) {
-      return arr[arr.length - 1];
-    }
-
-    return undefined;
-  }
-
-  /**
-   * Returns a value indicating the day of the week with monday = 0
-   * @param {Date} date 
-   * @memberof TYPE
-   */
-
-  function dayOfWeek(date) {
-    var d = date.getDay();
-    return d == 0 ? 6 : d - 1;
-  } // Compare 2 times and returns
-  //  1 if t1 > t2
-  //  0 if t1 = t2
-  // -1 if t1 < t2
-
-  function compareTime(t1, t2) {
-    var arr1 = t1.split(':');
-    var arr2 = t2.split(':'); // hour comparison
-
-    if (+arr1[0] > +arr2[0]) return 1;else if (+arr1[0] < +arr2[0]) return -1;else {
-      // minute comparison
-      if (+arr1[1] > +arr2[1]) return 1;else if (+arr1[1] < +arr2[1]) return -1;else {
-        if (arr1.length == arr2.length && arr1.length == 3) {
-          // second comparison
-          if (+arr1[2] > +arr2[2]) return 1;else if (+arr1[2] < +arr2[2]) return -1;
-        }
-
-        return 0;
-      }
-    }
-  }
-  function parseTime(n) {
-    var hh = +n | 0;
-    var mm = '00';
-    if (!isInt(+n)) mm = (n + '').split('.')[1] * 6;
-    return hh + ':' + mm;
-  } // Returns a date using the format "YYYY-mm-dd"
-
-  function shortDate(myDate) {
-    var d = new Date(myDate);
-    var dd = d.getDate();
-    var mm = d.getMonth() + 1; // January = 0
-
-    var yyyy = d.getFullYear();
-    if (dd < 10) dd = '0' + dd;
-    if (mm < 10) mm = '0' + mm;
-    d = yyyy + '-' + mm + '-' + dd;
-    return d;
-  } // Returns a date and time using the format "YYYY-mm-dd hh:MM"
-
-  function longDate(myDate) {
-    var d = new Date(myDate);
-    var hh = d.getHours();
-    var MM = d.getMinutes();
-    if (MM < 10) MM = '0' + MM;
-    d = shortDate(d) + ' ' + hh + ':' + MM;
-    return d;
-  } // Convertie une date de string (YYYY-MM-DD) en format Date
-
-  function parseDate(strDate) {
-    var arrDate = strDate.split('-');
-    return new Date(arrDate[0], arrDate[1] - 1, arrDate[2], 0, 0, 0, 0);
-  } // Convertie une date de string (YYYY-MM-DD hh:mm) en format Date
-
-  function parseDateTime(strDate) {
-    var arrDateTime = strDate.split(' ');
-    var arrTime = arrDateTime[1].split(':');
-    var d = parseDate(arrDateTime[0]).setHours(+arrTime[0], +arrTime[1]);
-    return new Date(d);
-  }
-  var DICT = {
-    'en': {
-      'second': 'second(s)',
-      'minute': 'minute(s)',
-      'hour': 'hour(s)',
-      'day': 'day(s)',
-      'week': 'week(s)',
-      'month': 'month(s)',
-      'year': 'year(s)'
-    },
-    'fr': {
-      'second': 'seconde(s)',
-      'minute': 'minute(s)',
-      'hour': 'heure(s)',
-      'day': 'jour(s)',
-      'week': 'semaine(s)',
-      'month': 'mois',
-      'year': 'année(s)'
-    }
-  };
-
-  var trans = function translation(lang, key, isPlural) {
-    var value = DICT[lang][key];
-
-    if (value === undefined) {
-      return undefined;
-    }
-
-    if (isPlural) {
-      return value.replace(/\(([a-z]+)\)/g, '$1');
-    }
-
-    return value.replace(/\([a-z]+\)/g, '');
-  };
-
-  var timeAgoResponse = function timeAgoResponseBuilder(time, unit, _lang) {
-    var lang = valOrDefault(_lang, 'en');
-    var isPlural = time === 1;
-    var msg = {
-      en: "".concat(time, " ").concat(trans('en', unit, isPlural), " ago"),
-      fr: "il y a ".concat(time, " ").concat(trans('fr', unit, isPlural))
-    };
-    return msg[lang];
-  };
-
-  function timeAgo(time, callback) {
-    callback = valOrDefault(callback, timeAgoResponse);
-    var seconds = Math.floor((Date.now() - new Date(time).getTime()) / 1000);
-    var MINUTE = 60;
-    var HOUR = MINUTE * 60;
-    var DAY = HOUR * 24;
-    var WEEK = DAY * 7;
-    var MONTH = DAY * 30;
-    var YEAR = WEEK * 52;
-
-    if (seconds < MINUTE) {
-      return callback(seconds, 'second');
-    } else if (seconds < HOUR) {
-      return callback(~~(seconds / MINUTE), 'minute');
-    } else if (seconds < DAY) {
-      return callback(~~(seconds / HOUR), 'hour');
-    } else if (seconds < WEEK) {
-      return callback(~~(seconds / DAY), 'day');
-    } else if (seconds < MONTH) {
-      return callback(~~(seconds / WEEK), 'week');
-    } else if (seconds < YEAR) {
-      return callback(~~(seconds / MONTH), 'month');
-    } else {
-      return callback(~~(seconds / YEAR), 'year');
-    }
-  }
-
-  /**
-   * Returns the index or value of the first element in the object
-   * @param {Object|Array} obj 
-   * @param {any} value 
-   * @memberof TYPE
-   */
-  function find(obj, value) {
-    if (Array.isArray(obj)) {
-      var index = obj.indexOf(value);
-      if (index !== -1) return index;
-    } else {
-      var _arr = Object.keys(obj);
-
-      for (var _i = 0; _i < _arr.length; _i++) {
-        var e = _arr[_i];
-
-        if (obj[e] === value || obj[e].val === value) {
-          return e;
-        }
-      }
-    }
-
-    return undefined;
-  }
-
-  /** @private */
-  var hasOwnProperty = Object.prototype.hasOwnProperty;
-  /** @private */
-
-  var isPrototypeOf = Object.prototype.isPrototypeOf;
-  var defProp = Object.defineProperty;
-  /**
-   * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
-   * @param {*} obj target object
-   * @param {string} key name of the property
-   * @memberof TYPE
-   */
-
-  var hasOwn = function hasOwn(obj, key) {
-    return hasOwnProperty.call(obj, key);
-  };
-  /**
-   * Returns a boolean indicating whether the object (child) inherit from another (parent)
-   * @param {*} child 
-   * @param {*} parent 
-   * @memberof TYPE
-   */
-
-  var isDerivedOf = function isDerivedOf(child, parent) {
-    return Object.getPrototypeOf(child) !== parent && isPrototypeOf.call(parent, child);
-  };
-  /**
-   * 
-   * @param {*} obj 
-   * @memberof TYPE
-   */
-
-  function cloneObject(obj) {
-    if (obj === null || _typeof(obj) !== 'object') {
-      return obj;
-    }
-
-    var temp = obj.constructor(); // changed
-
-    for (var key in obj) {
-      if (hasOwn(obj, key)) {
-        obj['isActiveClone'] = null;
-        temp[key] = cloneObject(obj[key]);
-        delete obj['isActiveClone'];
-      }
-    }
-
-    return temp;
-  }
-
-  /** @namespace TYPE */
-
-  var index$1 = /*#__PURE__*/Object.freeze({
-    valOrDefault: valOrDefault,
-    boolToInt: boolToInt,
-    toBoolean: toBoolean,
-    isInt: isInt,
-    isEmpty: isEmpty,
-    isDate: isDate,
-    isString: isString,
-    isFunction: isFunction,
-    isObject: isObject,
-    isNull: isNull,
-    isUndefined: isUndefined,
-    isNullOrUndefined: isNullOrUndefined,
-    insert: insert,
-    last: last,
-    dayOfWeek: dayOfWeek,
-    compareTime: compareTime,
-    parseTime: parseTime,
-    shortDate: shortDate,
-    longDate: longDate,
-    parseDate: parseDate,
-    parseDateTime: parseDateTime,
-    timeAgo: timeAgo,
-    find: find,
-    defProp: defProp,
-    hasOwn: hasOwn,
-    isDerivedOf: isDerivedOf,
-    cloneObject: cloneObject,
-    isNullOrWhitespace: isNullOrWhitespace,
-    capitalize: capitalize,
-    capitalizeFirstLetter: capitalizeFirstLetter,
-    removeAccents: removeAccents
-  });
-
-  /** 
-   * Ajax namespace
-   * @namespace AJAX 
-   */
-  var HttpResponse = {
-    // Successful
-    OK: 200,
-    Created: 201,
-    Accepted: 202,
-    NoContent: 204,
-    // Client Error
-    BadRequest: 400,
-    Unauthorized: 401,
-    Forbidden: 403,
-    NotFound: 404,
-    MethodNotAllowed: 405,
-    NotAcceptable: 406,
-    UnsupportedMediaType: 415,
-    // Server Error
-    InternalServerError: 500,
-    NotImplemented: 501,
-    BadGateway: 502,
-    ServiceUnavaible: 503,
-    GatewayTimeout: 504
-  };
-  var State = {
-    OPENED: 1,
-    RECEIVED: 2,
-    LOADING: 3,
-    DONE: 4
-  };
-  /**
-   * An XHR resposne
-   * @private
-   * @typedef {Object} xhrResponse
-   * @property {number} status - The response status code
-   * @property {string} message - The response content
-   */
-
-  /**
-   * @callback xhrCallback
-   * @param  {xhrResponse} response - The XHR response object
-   * @private
-   */
-
-  /**
-   * This function creates and arranges the XMLHttpRequest object
-   * @param {('GET'|'POST'|'PUT'|'DELETE')} type The HTTP method
-   * @param {string} url The URL to send the request 
-   * @param {*} successPred The success condition
-   * @param {xhrCallback} successCb A callback function to handle a successful request
-   * @param {xhrCallback} passCb A callback function to handle a valid request
-   * @param {xhrCallback} failureCb A callback function to handle a failed request
-   * @private
-   */
-
-  var xhrHandler = function xhrHandler(type, url, successPred, successCb, failureCb, passCb) {
-    var xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function () {
-      var callback;
-
-      if (xhr.readyState === State.DONE) {
-        var response = createResponse(xhr.status, xhr.responseText);
-
-        if (successPred(xhr.status)) {
-          callback = successCb;
-        } else {
-          callback = failureCb;
-
-          if (xhr.status >= 200 && xhr.status < 300) {
-            callback = isNullOrUndefined(passCb) ? failureCb : passCb;
-          }
-        }
-
-        if (isFunction(callback)) {
-          callback(response);
-        }
-      }
-    };
-
-    xhr.open(type, url, true);
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    return xhr;
-  };
-
-  function createResponse(status, content) {
-    return {
-      status: status,
-      message: content
-    };
-  }
-  /**
-   * Sends a GET request
-   * @param {string} url The URL to send the request 
-   * @param {xhrCallback} [success] A callback function to handle a successful request
-   * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof AJAX
-   */
-
-
-  function GET(url, success, fail, options) {
-    options = valOrDefault(options, {});
-    var _successPred = options.successPred;
-    var successPred = isFunction(_successPred) ? _successPred : function (status) {
-      return status === HttpResponse.OK;
-    };
-    var xhr = xhrHandler('GET', url, successPred, success, fail, options.pass);
-    xhr.send();
-  }
-  /**
-   * Sends a POST request
-   * @param {string} url The URL to send the request 
-   * @param {*} data The data to be sent in the request
-   * @param {xhrCallback} [success] A callback function to handle a successful request
-   * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof AJAX
-   */
-
-  function POST(url, data, success, fail, options) {
-    options = valOrDefault(options, {});
-    var _successPred = options.successPred;
-    var successPred = isFunction(_successPred) ? _successPred : function (status) {
-      return [HttpResponse.OK, HttpResponse.Created].includes(status);
-    };
-    var xhr = xhrHandler('POST', url, successPred, success, fail, options.pass);
-    xhr.send(data);
-  }
-  /**
-   * Sends a PUT request
-   * @param {string} url The URL to send the request 
-   * @param {*} data The data to be sent in the request
-   * @param {xhrCallback} [success] A callback function to handle a successful request
-   * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof AJAX
-   */
-
-  function PUT(url, data, success, fail, options) {
-    options = valOrDefault(options, {});
-    var _successPred = options.successPred;
-    var successPred = isFunction(_successPred) ? _successPred : function (status) {
-      return [HttpResponse.OK, HttpResponse.NoContent].includes(status);
-    };
-    var xhr = xhrHandler('PUT', url, successPred, success, fail, options.pass);
-    xhr.send(data);
-  }
-  /**
-   * Sends a DELETE request
-   * @param {string} url The URL to send the request 
-   * @param {*} data The data to be sent in the request
-   * @param {xhrCallback} [success] A callback function to handle a successful request
-   * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof AJAX
-   */
-
-  function DELETE(url, data, success, fail, options) {
-    options = valOrDefault(options, {});
-    var _successPred = options.successPred;
-    var successPred = isFunction(_successPred) ? _successPred : function (status) {
-      return [HttpResponse.OK, HttpResponse.Accepted, HttpResponse.NoContent].includes(status);
-    };
-    var xhr = xhrHandler('DELETE', url, successPred, success, fail, options.pass);
-    xhr.send(data);
-  }
-
-  var ajaxUtils = /*#__PURE__*/Object.freeze({
-    GET: GET,
-    POST: POST,
-    PUT: PUT,
-    DELETE: DELETE
-  });
-
-  /**
-   * @namespace MATH
-   */
-
-  /**
-   * Return a random integer between min and max (inclusive).
-   * @param {number} min 
-   * @param {number} [max] 
-   * @memberof MATH
-  */
-  function random(min, max) {
-    if (max == null) {
-      max = min;
-      min = 0;
-    }
-
-    return min + Math.floor(Math.random() * (max - min + 1));
-  }
-
-  var mathUtils = /*#__PURE__*/Object.freeze({
-    random: random
-  });
-
-  /**
-   * @namespace PATH
-   */
-  /**
-   * Append the path to the current path
-   * @param {string} target 
-   * @param {string} path 
-   * @memberof PATH
-   */
-
-  function addPath(target, path) {
-    return isNullOrWhitespace(target) ? path : target + '.' + path;
-  }
-  /**
-   * Returns the directory of the path
-   * @param {string} path 
-   * @memberof PATH
-   */
-
-  function getDir(path) {
-    return path.substring(0, path.lastIndexOf('.'));
-  }
-  /**
-   * Returns the directory of the path from the target
-   * @param {string} path 
-   * @memberof PATH
-   */
-
-  function getDirTarget(path, target) {
-    return path.substring(0, path.lastIndexOf(target) - 1);
-  }
-
-  function findByIndex(obj, match, prop) {
-    var REGEX_DIGIT = /\d+/g;
-    var index = +match[0].match(REGEX_DIGIT);
-    return obj[prop][index];
-  }
-  /**
-   * Returns an element in an object using its path
-   * @param {Object} obj
-   * @param {string} path  
-   * @param {string} [_separator=.]
-   * @memberof PATH
-   */
-
-
-  function findByPath(obj, path, _separator) {
-    var REGEX_BRACKET_DIGIT = /\[\d+\]/g;
-    var separator = valOrDefault(_separator, '.');
-    var me = cloneObject(obj);
-
-    var findHandler = function findHandler(part, regex, callback) {
-      var match = part.match(regex);
-      var prop = part.substring(0, part.indexOf('['));
-      return callback(me, match, prop);
-    };
-
-    var parts = path.split(separator);
-
-    for (var i = 0, len = parts.length; i < len; i++) {
-      var part = parts[i];
-
-      if (REGEX_BRACKET_DIGIT.test(part)) {
-        me = findHandler(part, REGEX_BRACKET_DIGIT, findByIndex);
-      } else {
-        me = me[part];
-      }
-
-      if (isNullOrUndefined(me)) {
-        return undefined;
-      }
-    }
-
-    return me;
-  }
-
-  var pathUtils = /*#__PURE__*/Object.freeze({
-    addPath: addPath,
-    getDir: getDir,
-    getDirTarget: getDirTarget,
-    findByPath: findByPath
-  });
-
-  /**
-   * @namespace URI
-   */
-  var encode = encodeURIComponent;
-  /**
-   * Extracts and returns the protocol and host of a given url
-   * @param {string} url 
-   * @memberof URI
-   */
-
-  function getRootUrl(url) {
-    return url.toString().replace(/^(.*\/\/[^/?#]*).*$/, "$1");
-  }
-  /**
-   * Extracts and returns the parameters of a URL
-   * @param {string} [prop] Searched parameter
-   * @memberof URI
-   */
-
-  function getUrlPrams(prop) {
-    var href = window.location.href;
-    var search = decodeURIComponent(href.slice(href.indexOf('?') + 1));
-
-    if (this.isNullOrWhiteSpace(search)) {
-      return undefined;
-    }
-
-    var defs = search.split('&');
-    var params = {};
-    defs.forEach(function (val) {
-      var parts = val.split('=', 2);
-      params[parts[0]] = parts[1];
-    });
-
-    if (prop) {
-      return params[prop];
-    }
-
-    return params;
-  }
-  /**
-   * Creates a query string
-   * @param {Object} query 
-   * @returns {string} Query string
-   * @memberof URI
-   */
-
-  function queryBuilder(query) {
-    var str = [];
-
-    for (var key in query) {
-      if (hasOwn(query, key)) {
-        str.push("".concat(encode(key), "=").concat(encode(query[key])));
-      }
-    }
-
-    return str.join('&');
-  }
-
-  var uriUtils = /*#__PURE__*/Object.freeze({
-    getRootUrl: getRootUrl,
-    getUrlPrams: getUrlPrams,
-    queryBuilder: queryBuilder
-  });
-
-  // export * from './datatype/index.js';
-  // export * from './ajax-utils.js';
-  // export * from './math-utils.js';
-  // export * from './path-utils.js';
-  // export * from './uri-utils.js';
-
   function floatingLabel(form) {
     var labels = getElements('.form-label', form);
 
@@ -2093,7 +1724,7 @@ var zenkai = (function (exports) {
 
   /** @namespace FORM */
 
-  var index$2 = /*#__PURE__*/Object.freeze({
+  var index = /*#__PURE__*/Object.freeze({
     floatingLabel: floatingLabel,
     Selector: Selector,
     Switch: Switch
@@ -2318,13 +1949,68 @@ var zenkai = (function (exports) {
   });
 
   exports.AJAX = ajaxUtils;
-  exports.DOM = index;
-  exports.FORM = index$2;
+  exports.FORM = index;
   exports.MATH = mathUtils;
   exports.PATH = pathUtils;
-  exports.TYPE = index$1;
   exports.UI = collapsible;
   exports.URI = uriUtils;
+  exports.addAttributes = addAttributes;
+  exports.addClass = addClass;
+  exports.appendChildren = appendChildren;
+  exports.changeSelectValue = changeSelectValue;
+  exports.cloneTemplate = cloneTemplate;
+  exports.conceal = conceal;
+  exports.copytoClipboard = copytoClipboard;
+  exports.createAnchor = createAnchor;
+  exports.createAside = createAside;
+  exports.createButton = createButton;
+  exports.createDiv = createDiv;
+  exports.createDocFragment = createDocFragment;
+  exports.createElement = createElement;
+  exports.createEm = createEm;
+  exports.createHeader = createHeader;
+  exports.createHeading = createHeading;
+  exports.createImage = createImage;
+  exports.createInput = createInput;
+  exports.createLabel = createLabel;
+  exports.createLi = createLi;
+  exports.createLineBreak = createLineBreak;
+  exports.createLink = createLink;
+  exports.createP = createP;
+  exports.createSpan = createSpan;
+  exports.createStrong = createStrong;
+  exports.createTable = createTable;
+  exports.createTableBody = createTableBody;
+  exports.createTableCell = createTableCell;
+  exports.createTableFooter = createTableFooter;
+  exports.createTableHeader = createTableHeader;
+  exports.createTableHeaderCell = createTableHeaderCell;
+  exports.createTableRow = createTableRow;
+  exports.createTextArea = createTextArea;
+  exports.createTextNode = createTextNode;
+  exports.createUl = createUl;
+  exports.disable = disable;
+  exports.enable = enable;
+  exports.findAncestor = findAncestor;
+  exports.getElement = getElement;
+  exports.getElements = getElements;
+  exports.getNextElementSibling = getNextElementSibling;
+  exports.getPreviousElementSibling = getPreviousElementSibling;
+  exports.getTemplate = getTemplate;
+  exports.hasClass = hasClass;
+  exports.hide = hide;
+  exports.highlight = highlight;
+  exports.insertAfterElement = insertAfterElement;
+  exports.insertBeforeElement = insertBeforeElement;
+  exports.isElement = isElement;
+  exports.isHTMLElement = isHTMLElement;
+  exports.preprendChild = preprendChild;
+  exports.removeChildren = removeChildren;
+  exports.removeClass = removeClass;
+  exports.show = show;
+  exports.toggleClass = toggleClass;
+  exports.unhighlight = unhighlight;
+  exports.windowWidth = windowWidth;
 
   return exports;
 

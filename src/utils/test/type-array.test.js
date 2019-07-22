@@ -5,8 +5,8 @@ require('jsdom-global')();
 //var jsLabo = require('./../src/index.js');
 
 var expect = require('chai').expect;
-var insert = require('@utils/datatype/type-array.js').insert;
-var last = require('@utils/datatype/type-array.js').last;
+var insert = require('@datatype/type-array.js').insert;
+var last = require('@datatype/type-array.js').last;
 
 describe('Array helpers', function () {
     describe('#insert()', function () {

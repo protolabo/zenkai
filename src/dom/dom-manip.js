@@ -1,5 +1,5 @@
-﻿import { valOrDefault, isNullOrUndefined, isFunction } from './../datatype/type-manip.js';
-import { isNullOrWhitespace } from './../datatype/type-string.js';
+﻿import { valOrDefault, isNullOrUndefined, isFunction } from '@datatype/type-manip.js';
+import { isNullOrWhitespace } from '@datatype/type-string.js';
 
 const isClassName = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
 

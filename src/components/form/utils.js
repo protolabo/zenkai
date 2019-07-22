@@ -1,5 +1,5 @@
-import { getElement } from '@utils/dom/index.js';
-import { valOrDefault, isNullOrWhitespace } from '@utils/datatype/index.js';
+import { getElement } from '@dom/index.js';
+import { valOrDefault, isNullOrWhitespace } from '@datatype/index.js';
 
 export function getInput(type, label) {
     if (isNullOrWhitespace(label.htmlFor)) {

@@ -3,7 +3,7 @@
  * @namespace AJAX 
  */
 
-import { isFunction, isNullOrUndefined, valOrDefault } from "./datatype/index.js";
+import { isFunction, isNullOrUndefined, valOrDefault } from "@datatype/index.js";
 
 const HttpResponse = {
     // Successful

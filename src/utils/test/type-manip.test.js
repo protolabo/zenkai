@@ -1,17 +1,17 @@
 var expect = require('chai').expect;
 
-var valOrDefault = require('@utils/datatype/type-manip.js').valOrDefault;
-var boolToInt = require('@utils/datatype/type-manip.js').boolToInt;
-var toBoolean = require('@utils/datatype/type-manip.js').toBoolean;
-var isEmpty = require('@utils/datatype/type-manip.js').isEmpty;
-var isInt = require('@utils/datatype/type-manip.js').isInt;
-var isDate = require('@utils/datatype/type-manip.js').isDate;
-var isString = require('@utils/datatype/type-manip.js').isString;
-var isFunction = require('@utils/datatype/type-manip.js').isFunction;
-var isObject = require('@utils/datatype/type-manip.js').isObject;
-var isNull = require('@utils/datatype/type-manip.js').isNull;
-var isUndefined = require('@utils/datatype/type-manip.js').isUndefined;
-var isNullOrUndefined = require('@utils/datatype/type-manip.js').isNullOrUndefined;
+var valOrDefault = require('@datatype/type-manip.js').valOrDefault;
+var boolToInt = require('@datatype/type-manip.js').boolToInt;
+var toBoolean = require('@datatype/type-manip.js').toBoolean;
+var isEmpty = require('@datatype/type-manip.js').isEmpty;
+var isInt = require('@datatype/type-manip.js').isInt;
+var isDate = require('@datatype/type-manip.js').isDate;
+var isString = require('@datatype/type-manip.js').isString;
+var isFunction = require('@datatype/type-manip.js').isFunction;
+var isObject = require('@datatype/type-manip.js').isObject;
+var isNull = require('@datatype/type-manip.js').isNull;
+var isUndefined = require('@datatype/type-manip.js').isUndefined;
+var isNullOrUndefined = require('@datatype/type-manip.js').isNullOrUndefined;
 
 describe('Data type general helpers', function () {
     describe('#valOrDefault()', function () {

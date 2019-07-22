@@ -1,5 +1,5 @@
 import { disable } from './dom-effects.js';
-import { isString } from '@utils/datatype/type-manip.js';
+import { isString } from '@datatype/type-manip.js';
 
 const create = (tagName) => document.createElement(tagName);
 

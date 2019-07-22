@@ -1,5 +1,5 @@
-import { getElement, getElements, addClass, removeClass, isHTMLElement, findAncestor, show, hide } from '@utils/dom/index.js';
-import { isString, isNullOrUndefined, isEmpty, isFunction } from '@utils/datatype/index.js';
+import { getElement, getElements, addClass, removeClass, isHTMLElement, findAncestor, show, hide } from '@dom/index.js';
+import { isString, isNullOrUndefined, isEmpty, isFunction } from '@datatype/index.js';
 
 const ATTRIBUTE = 'collapsible';
 

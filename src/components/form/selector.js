@@ -1,5 +1,5 @@
-import { getElement, getElements, isHTMLElement } from '@utils/dom/index.js';
-import { isFunction, isString, isNullOrUndefined, isEmpty, isNull, valOrDefault } from '@utils/datatype/index.js';
+import { getElement, getElements, isHTMLElement } from '@dom/index.js';
+import { isFunction, isString, isNullOrUndefined, isEmpty, isNull, valOrDefault } from '@datatype/index.js';
 import { HTMLAttribute } from './global.js';
 import { getInput } from "./utils.js";
 

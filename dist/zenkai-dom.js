@@ -1,4 +1,4 @@
-var __dom = (function (exports) {
+var _dom = (function (exports) {
   'use strict';
 
   /**
