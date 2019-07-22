@@ -1,6 +1,6 @@
 import { getElement, getElements, isHTMLElement } from '@dom/index.js';
 import { isFunction, isString, isNullOrUndefined, isEmpty } from '@datatype/index.js';
-import { HTMLAttribute } from './global.js';
+import { setState } from './global.js';
 import { getInput } from "./utils.js";
 
 const ATTRIBUTE = 'switch';
@@ -30,11 +30,11 @@ const SwitchFactory = {
     container: null,
     activate() {
         var input = getInput('checkbox', this.container);
-        this.container.dataset[HTMLAttribute.CHECKED] = input.checked ? Status.ON : Status.OFF;
+        setState(this.container, input.checked ? Status.ON : Status.OFF);
 
         // Bind events
         input.addEventListener('change', (e) => {
-            this.container.dataset[HTMLAttribute.CHECKED] = input.checked ? Status.ON : Status.OFF;
+            setState(this.container, input.checked ? Status.ON : Status.OFF);
             this.callback(input.value, this.container);
         });
     }

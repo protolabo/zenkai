@@ -8,7 +8,10 @@
   "scripts": {
     "prebuild": "rimraf dist/*",
     "build": "cross-env NODE_ENV=prod node scripts/build.js && rollup -c",
-    "build:docs": "documentation build src/utils/index.js -f html -o docs/utils",
+    "build:docs": "npm run document:utils && npm run document:dom && npm run document:type",
+    "document:utils": "documentation build src/utils/index.js -f html -o docs/utils",
+    "document:dom": "documentation build src/dom/index.js -f html -o docs/dom",
+    "document:type": "documentation build src/datatype/index.js -f html -o docs/datatype",
     "bundle:iife": "rollup src/index.js --file bundle.iife.js --format iife --name jsLabo",
     "bundle:umd": "rollup src/index.js --file bundle.umd.js --format umd --name jsLabo",
     "test": "cross-env NODE_ENV=test nyc mocha **/*.test.js --require @babel/register",

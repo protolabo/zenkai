@@ -1,39 +1,89 @@
 import { getElement, getElements, isHTMLElement } from '@dom/index.js';
-import { isFunction, isString, isNullOrUndefined, isEmpty, isNull, valOrDefault } from '@datatype/index.js';
-import { HTMLAttribute } from './global.js';
+import { isFunction, isString, isNullOrUndefined, isEmpty, isNull, valOrDefault, isUndefined } from '@datatype/index.js';
+import { check, uncheck, setState, getState, getType } from './global.js';
 import { getInput } from "./utils.js";
 
-const ATTRIBUTE = 'selector';
-
 const NONE = -1;
+const ERROR = -10;
 
 const Status = {
     ON: 'on',
     OFF: 'off'
 };
 
-const toData = (name) => `[data-type=${name}]`;
-
-const isSelector = (element) => element.dataset['type'] === ATTRIBUTE;
-
 const SelectorFactory = {
-    create(args) {
-        var instance = Object.create(this);
-
-        Object.assign(instance, args);
-        if (!isFunction(instance.callback)) {
-            instance.callback = function (val, el) { };
+    create(container, callback) {
+        if (!isHTMLElement(container)) {
+            console.error('Container must be an HTML Element');
+            return ERROR;
         }
 
-        return instance;
+        var selector = null;
+        switch (getType(container)) {
+            case 'selector':
+                selector = Object.create(BaseSelector);
+                break;
+            case 'form-selector':
+                selector = Object.create(FormSelector);
+                break;
+        }
+        Object.assign(selector, {
+            container: container,
+            querySelector: createDomQuery(selector),
+            callback: isFunction(callback) ? callback : function (val, el) { }
+        });
+
+
+        return selector;
+    }
+};
+
+const BaseSelector = {
+    name: 'selector',
+    container: null,
+    current: null,
+    callback: null,
+    setCurrentItem(item) {
+        this.current = item;
+        check(this.current, Status.ON);
+        this.callback(this.current);
     },
+    activate() {
+        var value = this.container.dataset['value'];
+        var defaultItem = null;
+        var selectorItems = getElements('[data-selector]', this.container);
+        for (let i = 0, len = selectorItems.length; i < len; i++) {
+            let item = selectorItems[i];
+
+            if (getState(item) === Status.ON) {
+                this.setCurrentItem(item);
+            }
+            if (!isUndefined(value) && item.dataset.value === value) {
+                defaultItem = item;
+            }
+            item.addEventListener('click', () => {
+                if (this.current) {
+                    uncheck(this.current, Status.OFF);
+                }
+                this.setCurrentItem(item);
+            });
+        }
+
+        if (isNull(this.current) && !isNull(defaultItem)) {
+            this.setCurrentItem(defaultItem);
+        }
+    }
+};
+
+const FormSelector = {
+    name: 'form-selector',
     container: null,
     current: null,
     callback: null,
     setCurrentItem(item, _input) {
         var input = valOrDefault(_input, getInput('radio', item));
         this.current = item;
-        this.current.dataset[HTMLAttribute.CHECKED] = Status.ON;
+        check(this.current, Status.ON);
         this.callback(input.value, this.current);
     },
     activate() {
@@ -43,7 +93,7 @@ const SelectorFactory = {
         for (let i = 0, len = selectorItems.length; i < len; i++) {
             let item = selectorItems[i];
             let input = getInput('radio', item);
-            item.dataset[HTMLAttribute.CHECKED] = input.checked ? Status.ON : Status.OFF;
+            setState(item, input.checked ? Status.ON : Status.OFF);
             if (input.checked) {
                 this.setCurrentItem(item, input);
             }
@@ -52,7 +102,7 @@ const SelectorFactory = {
             }
             input.addEventListener('change', () => {
                 if (this.current) {
-                    this.current.dataset[HTMLAttribute.CHECKED] = Status.OFF;
+                    uncheck(this.current, Status.OFF);
                 }
                 this.setCurrentItem(item, input);
             });
@@ -64,6 +114,25 @@ const SelectorFactory = {
     }
 };
 
+const createDomQuery = (selector) => `[data-type="${selector.name}"]`;
+
+const isSelector = (element) => RegExp('selector|form-selector').test(element.dataset['type']);
+
+const domQuery = [createDomQuery(BaseSelector), createDomQuery(FormSelector)].join(',');
+
+function getSelectors(container) {
+    if (isHTMLElement(container)) {
+        return isSelector(container) ? [container] : getElements(domQuery, container);
+    } else if (isString(container) && !isEmpty(container)) {
+        let _container = getElement(container);
+        return isNullOrUndefined(_container) ? NONE : getSelectors(_container);
+    } else if (isNullOrUndefined(container)) {
+        return getElements(domQuery);
+    }
+
+    return NONE;
+}
+
 export function Selector(container, _callback) {
     const selectors = getSelectors(container);
 
@@ -72,21 +141,9 @@ export function Selector(container, _callback) {
     }
 
     for (let i = 0; i < selectors.length; i++) {
-        SelectorFactory.create({ container: selectors[i], callback: _callback }).activate();
+        let selector = SelectorFactory.create(selectors[i], _callback);
+        selector.activate();
     }
 
     return selectors;
-}
-
-function getSelectors(container) {
-    if (isHTMLElement(container)) {
-        return isSelector(container) ? [container] : getElements(toData(ATTRIBUTE), container);
-    } else if (isString(container) && !isEmpty(container)) {
-        let _container = getElement(container);
-        return isNullOrUndefined(_container) ? NONE : getSelectors(_container);
-    } else if (isNullOrUndefined(container)) {
-        return getElements(toData(ATTRIBUTE));
-    }
-
-    return NONE;
 }

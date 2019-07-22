@@ -380,8 +380,24 @@ var _components = (function (exports) {
     return labels;
   }
 
-  var HTMLAttribute = {
-    CHECKED: 'checked'
+  var TYPE = 'type';
+  var STATE = 'state';
+  var CHECKED = 'checked';
+  var UNCHECKED = 'unchecked';
+  var getType = function getType(element) {
+    return element.dataset[TYPE];
+  };
+  var getState = function getState(element) {
+    return element.dataset[STATE];
+  };
+  var setState = function setState(element, value) {
+    return element.dataset[STATE] = value;
+  };
+  var check = function check(element, value) {
+    return setState(element, valOrDefault(value, CHECKED));
+  };
+  var uncheck = function uncheck(element, value) {
+    return setState(element, valOrDefault(value, UNCHECKED));
   };
 
   function getInput(type, label) {
@@ -392,40 +408,48 @@ var _components = (function (exports) {
     return getElement("#".concat(label.htmlFor));
   }
 
-  var ATTRIBUTE = 'selector';
   var NONE = -1;
+  var ERROR = -10;
   var Status = {
     ON: 'on',
     OFF: 'off'
   };
-
-  var toData = function toData(name) {
-    return "[data-type=".concat(name, "]");
-  };
-
-  var isSelector = function isSelector(element) {
-    return element.dataset['type'] === ATTRIBUTE;
-  };
-
   var SelectorFactory = {
-    create: function create(args) {
-      var instance = Object.create(this);
-      Object.assign(instance, args);
-
-      if (!isFunction(instance.callback)) {
-        instance.callback = function (val, el) {};
+    create: function create(container, callback) {
+      if (!isHTMLElement(container)) {
+        console.error('Container must be an HTML Element');
+        return ERROR;
       }
 
-      return instance;
-    },
+      var selector = null;
+
+      switch (getType(container)) {
+        case 'selector':
+          selector = Object.create(BaseSelector);
+          break;
+
+        case 'form-selector':
+          selector = Object.create(FormSelector);
+          break;
+      }
+
+      Object.assign(selector, {
+        container: container,
+        querySelector: createDomQuery(selector),
+        callback: isFunction(callback) ? callback : function (val, el) {}
+      });
+      return selector;
+    }
+  };
+  var BaseSelector = {
+    name: 'selector',
     container: null,
     current: null,
     callback: null,
-    setCurrentItem: function setCurrentItem(item, _input) {
-      var input = valOrDefault(_input, getInput('radio', item));
+    setCurrentItem: function setCurrentItem(item) {
       this.current = item;
-      this.current.dataset[HTMLAttribute.CHECKED] = Status.ON;
-      this.callback(input.value, this.current);
+      check(this.current, Status.ON);
+      this.callback(this.current);
     },
     activate: function activate() {
       var _this = this;
@@ -436,23 +460,21 @@ var _components = (function (exports) {
 
       var _loop = function _loop(i, len) {
         var item = selectorItems[i];
-        var input = getInput('radio', item);
-        item.dataset[HTMLAttribute.CHECKED] = input.checked ? Status.ON : Status.OFF;
 
-        if (input.checked) {
-          _this.setCurrentItem(item, input);
+        if (getState(item) === Status.ON) {
+          _this.setCurrentItem(item);
         }
 
-        if (input.value === value) {
+        if (!isUndefined(value) && item.dataset.value === value) {
           defaultItem = item;
         }
 
-        input.addEventListener('change', function () {
+        item.addEventListener('click', function () {
           if (_this.current) {
-            _this.current.dataset[HTMLAttribute.CHECKED] = Status.OFF;
+            uncheck(_this.current, Status.OFF);
           }
 
-          _this.setCurrentItem(item, input);
+          _this.setCurrentItem(item);
         });
       };
 
@@ -465,6 +487,80 @@ var _components = (function (exports) {
       }
     }
   };
+  var FormSelector = {
+    name: 'form-selector',
+    container: null,
+    current: null,
+    callback: null,
+    setCurrentItem: function setCurrentItem(item, _input) {
+      var input = valOrDefault(_input, getInput('radio', item));
+      this.current = item;
+      check(this.current, Status.ON);
+      this.callback(input.value, this.current);
+    },
+    activate: function activate() {
+      var _this2 = this;
+
+      var value = this.container.dataset['value'];
+      var defaultItem = null;
+      var selectorItems = getElements('[data-selector]', this.container);
+
+      var _loop2 = function _loop2(i, len) {
+        var item = selectorItems[i];
+        var input = getInput('radio', item);
+        setState(item, input.checked ? Status.ON : Status.OFF);
+
+        if (input.checked) {
+          _this2.setCurrentItem(item, input);
+        }
+
+        if (input.value === value) {
+          defaultItem = item;
+        }
+
+        input.addEventListener('change', function () {
+          if (_this2.current) {
+            uncheck(_this2.current, Status.OFF);
+          }
+
+          _this2.setCurrentItem(item, input);
+        });
+      };
+
+      for (var i = 0, len = selectorItems.length; i < len; i++) {
+        _loop2(i, len);
+      }
+
+      if (isNull(this.current) && !isNull(defaultItem)) {
+        this.setCurrentItem(defaultItem);
+      }
+    }
+  };
+
+  var createDomQuery = function createDomQuery(selector) {
+    return "[data-type=\"".concat(selector.name, "\"]");
+  };
+
+  var isSelector = function isSelector(element) {
+    return RegExp('selector|form-selector').test(element.dataset['type']);
+  };
+
+  var domQuery = [createDomQuery(BaseSelector), createDomQuery(FormSelector)].join(',');
+
+  function getSelectors(container) {
+    if (isHTMLElement(container)) {
+      return isSelector(container) ? [container] : getElements(domQuery, container);
+    } else if (isString(container) && !isEmpty(container)) {
+      var _container = getElement(container);
+
+      return isNullOrUndefined(_container) ? NONE : getSelectors(_container);
+    } else if (isNullOrUndefined(container)) {
+      return getElements(domQuery);
+    }
+
+    return NONE;
+  }
+
   function Selector(container, _callback) {
     var selectors = getSelectors(container);
 
@@ -473,42 +569,26 @@ var _components = (function (exports) {
     }
 
     for (var i = 0; i < selectors.length; i++) {
-      SelectorFactory.create({
-        container: selectors[i],
-        callback: _callback
-      }).activate();
+      var selector = SelectorFactory.create(selectors[i], _callback);
+      selector.activate();
     }
 
     return selectors;
   }
 
-  function getSelectors(container) {
-    if (isHTMLElement(container)) {
-      return isSelector(container) ? [container] : getElements(toData(ATTRIBUTE), container);
-    } else if (isString(container) && !isEmpty(container)) {
-      var _container = getElement(container);
-
-      return isNullOrUndefined(_container) ? NONE : getSelectors(_container);
-    } else if (isNullOrUndefined(container)) {
-      return getElements(toData(ATTRIBUTE));
-    }
-
-    return NONE;
-  }
-
-  var ATTRIBUTE$1 = 'switch';
+  var ATTRIBUTE = 'switch';
   var NONE$1 = -1;
   var Status$1 = {
     ON: 'on',
     OFF: 'off'
   };
 
-  var toData$1 = function toData(name) {
+  var toData = function toData(name) {
     return "[data-type=".concat(name, "]");
   };
 
   var isSwitch = function isSwitch(element) {
-    return element.dataset['type'] === ATTRIBUTE$1;
+    return element.dataset['type'] === ATTRIBUTE;
   };
 
   var SwitchFactory = {
@@ -527,10 +607,10 @@ var _components = (function (exports) {
       var _this = this;
 
       var input = getInput('checkbox', this.container);
-      this.container.dataset[HTMLAttribute.CHECKED] = input.checked ? Status$1.ON : Status$1.OFF; // Bind events
+      setState(this.container, input.checked ? Status$1.ON : Status$1.OFF); // Bind events
 
       input.addEventListener('change', function (e) {
-        _this.container.dataset[HTMLAttribute.CHECKED] = input.checked ? Status$1.ON : Status$1.OFF;
+        setState(_this.container, input.checked ? Status$1.ON : Status$1.OFF);
 
         _this.callback(input.value, _this.container);
       });
@@ -555,13 +635,13 @@ var _components = (function (exports) {
 
   function getSliders(container) {
     if (isHTMLElement(container)) {
-      return isSwitch(container) ? [container] : getElements(toData$1(ATTRIBUTE$1), container);
+      return isSwitch(container) ? [container] : getElements(toData(ATTRIBUTE), container);
     } else if (isString(container) && !isEmpty(container)) {
       var _container = getElement(container);
 
       return isNullOrUndefined(_container) ? NONE$1 : getSliders(_container);
     } else if (isNullOrUndefined(container)) {
-      return getElements(toData$1(ATTRIBUTE$1));
+      return getElements(toData(ATTRIBUTE));
     }
 
     return NONE$1;
@@ -575,19 +655,19 @@ var _components = (function (exports) {
     Switch: Switch
   });
 
-  var ATTRIBUTE$2 = 'collapsible';
+  var ATTRIBUTE$1 = 'collapsible';
   var NONE$2 = -1;
   var State = {
     OPEN: 'expanded',
     CLOSED: 'collapsed'
   };
 
-  var toData$2 = function toData(name) {
+  var toData$1 = function toData(name) {
     return "[data-boost=".concat(name, "]");
   };
 
   var isCollapsible = function isCollapsible(el) {
-    return ATTRIBUTE$2 in el.dataset;
+    return ATTRIBUTE$1 in el.dataset;
   };
 
   var isAccordion = function isAccordion(el) {
@@ -776,13 +856,13 @@ var _components = (function (exports) {
 
   function getAccordions(container) {
     if (isHTMLElement(container)) {
-      return isAccordion(container) ? [container] : getElements(toData$2('accordion'), container);
+      return isAccordion(container) ? [container] : getElements(toData$1('accordion'), container);
     } else if (isString(container) && !isEmpty(container)) {
       var _container = getElement(container);
 
       return isNullOrUndefined(_container) ? NONE$2 : getAccordions(_container);
     } else if (isNullOrUndefined(container)) {
-      return getElements(toData$2('accordion'));
+      return getElements(toData$1('accordion'));
     }
 
     return NONE$2;

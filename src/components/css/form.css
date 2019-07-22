@@ -124,15 +124,15 @@ input.switch { display: none; }
         transition: background-color .2s .1s
     }
 
-    .switch-label[data-checked="on"]:before { background-color: #fff; transform: translateX(35px); }
-    .switch-label[data-checked="on"]:after { content:attr(data-on-message);  }
+    .switch-label[data-state="on"]:before { background-color: #fff; transform: translateX(35px); }
+    .switch-label[data-state="on"]:after { content:attr(data-on-message);  }
 
 /* Form component: Selector */
 .selector { display: flex; border: 1px solid; border-radius: 5px; }
 
     .selector-item { flex-grow: 1; padding: 5px 1%; text-align: center; }
         .selector-item:not(:last-child) { border-right: 1px solid; }
-        .selector-item[data-checked="on"] { color: #fff; }
+        .selector-item[data-state="on"] { color: #fff; }
 
     .selector input { display: none; }
 
