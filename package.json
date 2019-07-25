@@ -4,7 +4,7 @@
   "description": "Javascript utility and helper methods",
   "private": true,
   "browser": "dist/zenkai.min.js",
-  "main": "src/index.js",
+  "main": "./index.js",
   "scripts": {
     "prebuild": "rimraf dist/*",
     "build": "cross-env NODE_ENV=prod node scripts/build.js && rollup -c",
