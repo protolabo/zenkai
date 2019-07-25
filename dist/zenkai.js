@@ -1980,7 +1980,7 @@ var zenkai = (function (exports) {
     setCurrentItem: function setCurrentItem(item) {
       this.current = item;
       check(this.current, Status.ON);
-      this.callback(this.current);
+      this.callback(item.dataset.value, this.current);
     },
     activate: function activate() {
       var _this = this;

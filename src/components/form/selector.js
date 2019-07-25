@@ -46,7 +46,7 @@ const BaseSelector = {
     setCurrentItem(item) {
         this.current = item;
         check(this.current, Status.ON);
-        this.callback(this.current);
+        this.callback(item.dataset.value, this.current);
     },
     activate() {
         var value = this.container.dataset['value'];
