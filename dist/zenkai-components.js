@@ -417,7 +417,7 @@ var _components = (function (exports) {
   var SelectorFactory = {
     create: function create(container, callback) {
       if (!isHTMLElement(container)) {
-        console.error('Container must be an HTML Element');
+        console.error('SelectorFactory>>Container must be an HTML Element');
         return ERROR;
       }
 

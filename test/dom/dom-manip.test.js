@@ -5,25 +5,15 @@ var jsdom = require('jsdom-global');
 var expect = require('chai').expect;
 var fs = require('fs');
 
-// import our library
-var getElement = require('@dom/dom-manip.js').getElement;
-var getElements = require('@dom/dom-manip.js').getElements;
-var getTemplate = require('@dom/dom-manip.js').getTemplate;
-var cloneTemplate = require('@dom/dom-manip.js').cloneTemplate;
-var windowWidth = require('@dom/dom-manip.js').windowWidth;
-var getPreviousElementSibling = require('@dom/dom-manip.js').getPreviousElementSibling;
-var getNextElementSibling = require('@dom/dom-manip.js').getNextElementSibling;
-var insertBeforeElement = require('@dom/dom-manip.js').insertBeforeElement;
-var insertAfterElement = require('@dom/dom-manip.js').insertAfterElement;
-var preprendChild = require('@dom/dom-manip.js').preprendChild;
-var hasClass = require('@dom/dom-manip.js').hasClass;
-var removeClass = require('@dom/dom-manip.js').removeClass;
-var addClass = require('@dom/dom-manip.js').addClass;
-var toggleClass = require('@dom/dom-manip.js').toggleClass;
+// import the library under test
+const {
+    getElement, getElements, getTemplate, cloneTemplate, windowWidth, getPreviousElementSibling, getNextElementSibling,
+    insertBeforeElement, insertAfterElement, preprendChild, hasClass, removeClass, addClass,toggleClass
+} = require('@dom/dom-manip.js');
 
 describe('DOM manipulation helpers', function () {
     before('initialize DOM', function () {
-        const html = fs.readFileSync(`${__dirname}/common/template.html`, 'utf8');
+        const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8');
         this.jsdom = jsdom(html);
     });
     describe('#getElement()', function () {

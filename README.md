@@ -4,28 +4,40 @@
 
 Dev boost. A collection of Javascript libraries.
 
-## Utils
-- DOM: DOM manipulation
-- TYPE: DataType manipulation
+## Libraries
+
+### DOM
+
+DOM manipulation
+
+### TYPE
+
+DataType manipulation
+
+### Utils
+
 - AJAX: AJAX helpers (GET, POST, DELETE, PUT)
 - MATH: Math helpers
 - PATH: Path helpers
 - URI: Uri helpers
 
-## Components
-- FORM: A collection of form components 
+### Components
+
+- FORM: A collection of form components
   - Floating Label
   - Selector
   - Switch
 
-# Documentation
+## Documentation
+
 [Learn more about the library](https://protolabo.github.io/zenkai/index.html).
 
-# Installation
+## Installation
 
 If you want to play with the code, download the src folder.
 
-## Building the Code
+### Building the Code
+
 To build the code, follow these steps.
 
 1. Ensure that [NodeJS](http://nodejs.org/) is installed. This provides the platform on which the build tooling runs.
@@ -35,7 +47,7 @@ To build the code, follow these steps.
 $ npm install
 ```
 
-## Running the Tests
+### Running the Tests
 
 ```
 $ npm test
