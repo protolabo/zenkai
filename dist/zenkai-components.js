@@ -298,6 +298,8 @@ var _components = (function (exports) {
   }
 
   /** @namespace DOM */
+  // module.exports = require('./dom-effects');
+  // module.exports = require('./dom-manip');
 
   /**
    * Inserts an item in an array at the specified index
@@ -316,6 +318,11 @@ var _components = (function (exports) {
    */
 
   /** @namespace TYPE */
+  // module.exports = require('./type-datetime');
+  // module.exports = require('./type-iterable');
+  // module.exports = require('./type-manip');
+  // module.exports = require('./type-object');
+  // module.exports = require('./type-string');
 
   function floatingLabel(form) {
     var labels = getElements('.form-label', form);

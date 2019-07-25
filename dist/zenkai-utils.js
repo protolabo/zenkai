@@ -138,6 +138,11 @@ var _utils = (function (exports) {
   }
 
   /** @namespace TYPE */
+  // module.exports = require('./type-datetime');
+  // module.exports = require('./type-iterable');
+  // module.exports = require('./type-manip');
+  // module.exports = require('./type-object');
+  // module.exports = require('./type-string');
 
   /** 
    * Ajax namespace

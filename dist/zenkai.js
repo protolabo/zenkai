@@ -1153,6 +1153,8 @@ var zenkai = (function (exports) {
   }
 
   /** @namespace DOM */
+  // module.exports = require('./dom-effects');
+  // module.exports = require('./dom-manip');
 
   var index = /*#__PURE__*/Object.freeze({
     windowWidth: windowWidth,
@@ -1457,6 +1459,11 @@ var zenkai = (function (exports) {
   }
 
   /** @namespace TYPE */
+  // module.exports = require('./type-datetime');
+  // module.exports = require('./type-iterable');
+  // module.exports = require('./type-manip');
+  // module.exports = require('./type-object');
+  // module.exports = require('./type-string');
 
   var index$1 = /*#__PURE__*/Object.freeze({
     valOrDefault: valOrDefault,

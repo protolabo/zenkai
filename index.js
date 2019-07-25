@@ -1,1 +1,1 @@
-export * from './lib/index.js';
+module.exports = require('./dist/zenkai.esm');

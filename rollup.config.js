@@ -26,6 +26,7 @@ export default [
     // Zenkai complete bundle
     buildExport('./src/index.js', buildOutput('zenkai.min.js', 'zenkai')),
     buildExport('./src/index.js', buildOutput('zenkai.js', 'zenkai', { sourcemap: false }), false),
+    buildExport('./src/index.js', buildOutput('zenkai.esm.js', 'zenkai', { sourcemap: false, format: 'esm' }), false),
     // Utils bundle
     buildExport('./src/utils/index.js', buildOutput('zenkai-utils.min.js', '_utils')),
     buildExport('./src/utils/index.js', buildOutput('zenkai-utils.js', '_utils', { sourcemap: false }), false),

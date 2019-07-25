@@ -1045,6 +1045,8 @@ var _dom = (function (exports) {
   }
 
   /** @namespace DOM */
+  // module.exports = require('./dom-effects');
+  // module.exports = require('./dom-manip');
 
   exports.addAttributes = addAttributes;
   exports.addClass = addClass;
