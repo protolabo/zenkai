@@ -7,7 +7,8 @@
   "main": "./index.js",
   "scripts": {
     "prebuild": "rimraf dist/*",
-    "build": "cross-env NODE_ENV=prod node scripts/build.js && rollup -c",
+    "build": "cross-env NODE_ENV=prod node scripts/build.js && rollup -c && npm run build:lib",
+    "build:lib": "npx babel src --out-dir lib",
     "build:docs": "npm run document:utils && npm run document:dom && npm run document:type",
     "document:utils": "documentation build src/utils/index.js -f html -o docs/utils",
     "document:dom": "documentation build src/dom/index.js -f html -o docs/dom",
@@ -33,6 +34,7 @@
   },
   "homepage": "https://protolabo.github.io/zenkai/index.html",
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
     "@babel/register": "^7.0.0",
@@ -49,5 +51,6 @@
     "rollup": "^1.12.3",
     "rollup-plugin-babel": "^4.3.0",
     "rollup-plugin-uglify": "^6.0.1"
-  }
+  },
+  "dependencies": {}
 }
