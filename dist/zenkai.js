@@ -1156,66 +1156,6 @@ var zenkai = (function (exports) {
   // module.exports = require('./dom-effects');
   // module.exports = require('./dom-manip');
 
-  var index = /*#__PURE__*/Object.freeze({
-    windowWidth: windowWidth,
-    isElement: isElement,
-    isHTMLElement: isHTMLElement,
-    getElement: getElement,
-    getElements: getElements,
-    getTemplate: getTemplate,
-    cloneTemplate: cloneTemplate,
-    getPreviousElementSibling: getPreviousElementSibling,
-    getNextElementSibling: getNextElementSibling,
-    findAncestor: findAncestor,
-    insertBeforeElement: insertBeforeElement,
-    insertAfterElement: insertAfterElement,
-    preprendChild: preprendChild,
-    hasClass: hasClass,
-    removeClass: removeClass,
-    addClass: addClass,
-    toggleClass: toggleClass,
-    removeChildren: removeChildren,
-    changeSelectValue: changeSelectValue,
-    copytoClipboard: copytoClipboard,
-    createElement: createElement,
-    createDocFragment: createDocFragment,
-    createTextNode: createTextNode,
-    createLink: createLink,
-    createHeader: createHeader,
-    createDiv: createDiv,
-    createAside: createAside,
-    createLineBreak: createLineBreak,
-    createHeading: createHeading,
-    createP: createP,
-    createUl: createUl,
-    createLi: createLi,
-    createAnchor: createAnchor,
-    createImage: createImage,
-    createSpan: createSpan,
-    createStrong: createStrong,
-    createEm: createEm,
-    createInput: createInput,
-    createLabel: createLabel,
-    createTextArea: createTextArea,
-    createButton: createButton,
-    createTable: createTable,
-    createTableHeader: createTableHeader,
-    createTableBody: createTableBody,
-    createTableFooter: createTableFooter,
-    createTableRow: createTableRow,
-    createTableHeaderCell: createTableHeaderCell,
-    createTableCell: createTableCell,
-    addAttributes: addAttributes,
-    appendChildren: appendChildren,
-    show: show,
-    hide: hide,
-    conceal: conceal,
-    highlight: highlight,
-    unhighlight: unhighlight,
-    enable: enable,
-    disable: disable
-  });
-
   /**
    * Inserts an item in an array at the specified index
    * @param {Object[]} arr array
@@ -1465,40 +1405,6 @@ var zenkai = (function (exports) {
   // module.exports = require('./type-object');
   // module.exports = require('./type-string');
 
-  var index$1 = /*#__PURE__*/Object.freeze({
-    valOrDefault: valOrDefault,
-    boolToInt: boolToInt,
-    toBoolean: toBoolean,
-    isInt: isInt,
-    isEmpty: isEmpty,
-    isDate: isDate,
-    isString: isString,
-    isFunction: isFunction,
-    isObject: isObject,
-    isNull: isNull,
-    isUndefined: isUndefined,
-    isNullOrUndefined: isNullOrUndefined,
-    insert: insert,
-    last: last,
-    dayOfWeek: dayOfWeek,
-    compareTime: compareTime,
-    parseTime: parseTime,
-    shortDate: shortDate,
-    longDate: longDate,
-    parseDate: parseDate,
-    parseDateTime: parseDateTime,
-    timeAgo: timeAgo,
-    find: find,
-    defProp: defProp,
-    hasOwn: hasOwn,
-    isDerivedOf: isDerivedOf,
-    cloneObject: cloneObject,
-    isNullOrWhitespace: isNullOrWhitespace,
-    capitalize: capitalize,
-    capitalizeFirstLetter: capitalizeFirstLetter,
-    removeAccents: removeAccents
-  });
-
   /** 
    * Ajax namespace
    * @namespace AJAX 
@@ -1664,13 +1570,6 @@ var zenkai = (function (exports) {
     xhr.send(data);
   }
 
-  var ajaxUtils = /*#__PURE__*/Object.freeze({
-    GET: GET,
-    POST: POST,
-    PUT: PUT,
-    DELETE: DELETE
-  });
-
   /**
    * @namespace MATH
    */
@@ -1689,10 +1588,6 @@ var zenkai = (function (exports) {
 
     return min + Math.floor(Math.random() * (max - min + 1));
   }
-
-  var mathUtils = /*#__PURE__*/Object.freeze({
-    random: random
-  });
 
   /**
    * @namespace PATH
@@ -1770,13 +1665,6 @@ var zenkai = (function (exports) {
     return me;
   }
 
-  var pathUtils = /*#__PURE__*/Object.freeze({
-    addPath: addPath,
-    getDir: getDir,
-    getDirTarget: getDirTarget,
-    findByPath: findByPath
-  });
-
   /**
    * @namespace URI
    */
@@ -1836,17 +1724,7 @@ var zenkai = (function (exports) {
     return str.join('&');
   }
 
-  var uriUtils = /*#__PURE__*/Object.freeze({
-    getRootUrl: getRootUrl,
-    getUrlPrams: getUrlPrams,
-    queryBuilder: queryBuilder
-  });
-
-  // export * from './datatype/index.js';
-  // export * from './ajax-utils.js';
-  // export * from './math-utils.js';
-  // export * from './path-utils.js';
-  // export * from './uri-utils.js';
+  // import * as AJAX from './ajax-utils.js';
 
   function floatingLabel(form) {
     var labels = getElements('.form-label', form);
@@ -2180,12 +2058,6 @@ var zenkai = (function (exports) {
 
   /** @namespace FORM */
 
-  var index$2 = /*#__PURE__*/Object.freeze({
-    floatingLabel: floatingLabel,
-    Selector: Selector,
-    Switch: Switch
-  });
-
   var ATTRIBUTE$1 = 'collapsible';
   var NONE$2 = -1;
   var State$1 = {
@@ -2399,19 +2271,111 @@ var zenkai = (function (exports) {
     return NONE$2;
   }
 
-  var collapsible = /*#__PURE__*/Object.freeze({
-    Collapsible: Collapsible,
-    Accordion: Accordion
-  });
-
-  exports.AJAX = ajaxUtils;
-  exports.DOM = index;
-  exports.FORM = index$2;
-  exports.MATH = mathUtils;
-  exports.PATH = pathUtils;
-  exports.TYPE = index$1;
-  exports.UI = collapsible;
-  exports.URI = uriUtils;
+  exports.Accordion = Accordion;
+  exports.Collapsible = Collapsible;
+  exports.DELETE = DELETE;
+  exports.GET = GET;
+  exports.POST = POST;
+  exports.PUT = PUT;
+  exports.Selector = Selector;
+  exports.Switch = Switch;
+  exports.addAttributes = addAttributes;
+  exports.addClass = addClass;
+  exports.addPath = addPath;
+  exports.appendChildren = appendChildren;
+  exports.boolToInt = boolToInt;
+  exports.capitalize = capitalize;
+  exports.capitalizeFirstLetter = capitalizeFirstLetter;
+  exports.changeSelectValue = changeSelectValue;
+  exports.cloneObject = cloneObject;
+  exports.cloneTemplate = cloneTemplate;
+  exports.compareTime = compareTime;
+  exports.conceal = conceal;
+  exports.copytoClipboard = copytoClipboard;
+  exports.createAnchor = createAnchor;
+  exports.createAside = createAside;
+  exports.createButton = createButton;
+  exports.createDiv = createDiv;
+  exports.createDocFragment = createDocFragment;
+  exports.createElement = createElement;
+  exports.createEm = createEm;
+  exports.createHeader = createHeader;
+  exports.createHeading = createHeading;
+  exports.createImage = createImage;
+  exports.createInput = createInput;
+  exports.createLabel = createLabel;
+  exports.createLi = createLi;
+  exports.createLineBreak = createLineBreak;
+  exports.createLink = createLink;
+  exports.createP = createP;
+  exports.createSpan = createSpan;
+  exports.createStrong = createStrong;
+  exports.createTable = createTable;
+  exports.createTableBody = createTableBody;
+  exports.createTableCell = createTableCell;
+  exports.createTableFooter = createTableFooter;
+  exports.createTableHeader = createTableHeader;
+  exports.createTableHeaderCell = createTableHeaderCell;
+  exports.createTableRow = createTableRow;
+  exports.createTextArea = createTextArea;
+  exports.createTextNode = createTextNode;
+  exports.createUl = createUl;
+  exports.dayOfWeek = dayOfWeek;
+  exports.defProp = defProp;
+  exports.disable = disable;
+  exports.enable = enable;
+  exports.find = find;
+  exports.findAncestor = findAncestor;
+  exports.findByPath = findByPath;
+  exports.floatingLabel = floatingLabel;
+  exports.getDir = getDir;
+  exports.getDirTarget = getDirTarget;
+  exports.getElement = getElement;
+  exports.getElements = getElements;
+  exports.getNextElementSibling = getNextElementSibling;
+  exports.getPreviousElementSibling = getPreviousElementSibling;
+  exports.getRootUrl = getRootUrl;
+  exports.getTemplate = getTemplate;
+  exports.getUrlPrams = getUrlPrams;
+  exports.hasClass = hasClass;
+  exports.hasOwn = hasOwn;
+  exports.hide = hide;
+  exports.highlight = highlight;
+  exports.insert = insert;
+  exports.insertAfterElement = insertAfterElement;
+  exports.insertBeforeElement = insertBeforeElement;
+  exports.isDate = isDate;
+  exports.isDerivedOf = isDerivedOf;
+  exports.isElement = isElement;
+  exports.isEmpty = isEmpty;
+  exports.isFunction = isFunction;
+  exports.isHTMLElement = isHTMLElement;
+  exports.isInt = isInt;
+  exports.isNull = isNull;
+  exports.isNullOrUndefined = isNullOrUndefined;
+  exports.isNullOrWhitespace = isNullOrWhitespace;
+  exports.isObject = isObject;
+  exports.isString = isString;
+  exports.isUndefined = isUndefined;
+  exports.last = last;
+  exports.longDate = longDate;
+  exports.parseDate = parseDate;
+  exports.parseDateTime = parseDateTime;
+  exports.parseTime = parseTime;
+  exports.preprendChild = preprendChild;
+  exports.queryBuilder = queryBuilder;
+  exports.random = random;
+  exports.removeAccents = removeAccents;
+  exports.removeChildren = removeChildren;
+  exports.removeClass = removeClass;
+  exports.shortDate = shortDate;
+  exports.show = show;
+  exports.timeAgo = timeAgo;
+  exports.toBoolean = toBoolean;
+  exports.toggleClass = toggleClass;
+  exports.unhighlight = unhighlight;
+  exports.valOrDefault = valOrDefault;
+  exports.windowWidth = windowWidth;
 
   return exports;
 

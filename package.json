@@ -1,11 +1,11 @@
 {
   "name": "protolabo-zenkai",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "Javascript utility and helper methods",
   "private": true,
-  "main": "./index.js",
+  "main": "dist/zenkai.min.js",
   "browser": "dist/zenkai.min.js",
-  "module": "./dist/zenkai.esm.js",
+  "module": "dist/zenkai.esm.js",
   "scripts": {
     "prebuild": "rimraf dist/*",
     "build": "cross-env NODE_ENV=prod node scripts/build.js && rollup -c",

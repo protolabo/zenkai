@@ -1,4 +1,4 @@
-var _utils = (function (exports) {
+var zutils = (function (exports) {
   'use strict';
 
   function _typeof(obj) {
@@ -309,13 +309,6 @@ var _utils = (function (exports) {
     xhr.send(data);
   }
 
-  var ajaxUtils = /*#__PURE__*/Object.freeze({
-    GET: GET,
-    POST: POST,
-    PUT: PUT,
-    DELETE: DELETE
-  });
-
   /**
    * @namespace MATH
    */
@@ -334,10 +327,6 @@ var _utils = (function (exports) {
 
     return min + Math.floor(Math.random() * (max - min + 1));
   }
-
-  var mathUtils = /*#__PURE__*/Object.freeze({
-    random: random
-  });
 
   /**
    * @namespace PATH
@@ -415,13 +404,6 @@ var _utils = (function (exports) {
     return me;
   }
 
-  var pathUtils = /*#__PURE__*/Object.freeze({
-    addPath: addPath,
-    getDir: getDir,
-    getDirTarget: getDirTarget,
-    findByPath: findByPath
-  });
-
   /**
    * @namespace URI
    */
@@ -481,22 +463,20 @@ var _utils = (function (exports) {
     return str.join('&');
   }
 
-  var uriUtils = /*#__PURE__*/Object.freeze({
-    getRootUrl: getRootUrl,
-    getUrlPrams: getUrlPrams,
-    queryBuilder: queryBuilder
-  });
+  // import * as AJAX from './ajax-utils.js';
 
-  // export * from './datatype/index.js';
-  // export * from './ajax-utils.js';
-  // export * from './math-utils.js';
-  // export * from './path-utils.js';
-  // export * from './uri-utils.js';
-
-  exports.AJAX = ajaxUtils;
-  exports.MATH = mathUtils;
-  exports.PATH = pathUtils;
-  exports.URI = uriUtils;
+  exports.DELETE = DELETE;
+  exports.GET = GET;
+  exports.POST = POST;
+  exports.PUT = PUT;
+  exports.addPath = addPath;
+  exports.findByPath = findByPath;
+  exports.getDir = getDir;
+  exports.getDirTarget = getDirTarget;
+  exports.getRootUrl = getRootUrl;
+  exports.getUrlPrams = getUrlPrams;
+  exports.queryBuilder = queryBuilder;
+  exports.random = random;
 
   return exports;
 

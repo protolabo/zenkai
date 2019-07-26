@@ -1,4 +1,4 @@
-var _type = (function (exports) {
+var ztype = (function (exports) {
   'use strict';
 
   function _typeof(obj) {

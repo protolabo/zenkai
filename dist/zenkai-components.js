@@ -1,4 +1,4 @@
-var _components = (function (exports) {
+var zcomponents = (function (exports) {
   'use strict';
 
   /**
@@ -656,12 +656,6 @@ var _components = (function (exports) {
 
   /** @namespace FORM */
 
-  var index = /*#__PURE__*/Object.freeze({
-    floatingLabel: floatingLabel,
-    Selector: Selector,
-    Switch: Switch
-  });
-
   var ATTRIBUTE$1 = 'collapsible';
   var NONE$2 = -1;
   var State = {
@@ -875,13 +869,11 @@ var _components = (function (exports) {
     return NONE$2;
   }
 
-  var collapsible = /*#__PURE__*/Object.freeze({
-    Collapsible: Collapsible,
-    Accordion: Accordion
-  });
-
-  exports.FORM = index;
-  exports.UI = collapsible;
+  exports.Accordion = Accordion;
+  exports.Collapsible = Collapsible;
+  exports.Selector = Selector;
+  exports.Switch = Switch;
+  exports.floatingLabel = floatingLabel;
 
   return exports;
 

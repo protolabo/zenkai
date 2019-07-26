@@ -1,4 +1,4 @@
-var _dom = (function (exports) {
+var zdom = (function (exports) {
   'use strict';
 
   /**
