@@ -1,7 +1,5 @@
-(function (zenkai) {
-    const { DOM, TYPE, FORM, UI } = zenkai;
-
-    const ihtml = (val, ival) => `${val}<i>${TYPE.valOrDefault(ival, '=')}</i>`;
+(function ($Z) {
+    const ihtml = (val, ival) => `${val}<i>${$Z.valOrDefault(ival, '=')}</i>`;
 
     const obl = "<i class='bracket'>&lt;</i>";
     const obr = "<i class='bracket'>&gt;</i>";
@@ -10,15 +8,15 @@
 
     const isTextNode = (node) => node.nodeType === 3;
 
-    const isEmpty = (node) => TYPE.isEmpty(node.nodeValue.trim());
+    const isEmpty = (node) => $Z.isEmpty(node.nodeValue.trim());
 
-    const main = DOM.getElement('main');
+    const main = $Z.getElement('main');
 
-    const codes = DOM.getElements('.html-code-container');
+    const codes = $Z.getElements('.html-code-container');
     const htmlCodes = [];
     for (let i = 0; i < codes.length; i++) {
-        let code = DOM.getElement('.html-code', codes[i]);
-        let btnCopy = DOM.getElement('.btn-copy', codes[i]);
+        let code = $Z.getElement('.html-code', codes[i]);
+        let btnCopy = $Z.getElement('.btn-copy', codes[i]);
         btnCopy.dataset['index'] = i;
         htmlCodes.push(code.innerHTML);
         code.childNodes.forEach((node) => { if (isTextNode(node) && isEmpty(node)) node.remove(); });
@@ -27,21 +25,21 @@
     
     main.addEventListener('click', (e) => {
         var target = e.target;
-        if (DOM.hasClass(target, 'btn-copy')) {
-            DOM.addClass(target, 'click');
-            DOM.copytoClipboard(htmlCodes[target.dataset['index']].trim());
+        if ($Z.hasClass(target, 'btn-copy')) {
+            $Z.addClass(target, 'click');
+            $Z.copytoClipboard(htmlCodes[target.dataset['index']].trim());
         }
     }, true);
 
-    activateComponents(DOM.getElement('.body'));
+    activateComponents($Z.getElement('.body'));
 
     function activateComponents(container) {
-        FORM.floatingLabel(container);
-        FORM.Selector(container);
-        FORM.Switch(container);
+        $Z.floatingLabel(container);
+        $Z.Selector(container);
+        $Z.Switch(container);
 
-        UI.Collapsible(container);
-        UI.Accordion(container);
+        $Z.Collapsible(container);
+        $Z.Accordion(container);
     }
 
     /**
@@ -50,9 +48,9 @@
      * @param {string} type 
      */
     function createCode(element, type) {
-        type = TYPE.valOrDefault(type, element.tagName.toLowerCase());
+        type = $Z.valOrDefault(type, element.tagName.toLowerCase());
 
-        const output = DOM.createSpan({ html: `${obl}${type}`, class: 'html-tag', data: { type: type } });
+        const output = $Z.createSpan({ html: `${obl}${type}`, class: 'html-tag', data: { type: type } });
         for (let i = 0; i < element.children.length; i++) {
             let el = element.children.item(i);
             element.replaceChild(createCode(el), el);
@@ -65,7 +63,7 @@
         } else {
             output.innerHTML += obr;
             output.innerHTML += element.innerHTML;
-            output.appendChild(DOM.createSpan({ html: `${cbl}${type}${obr}`, class: 'html-closing-tag' }));
+            output.appendChild($Z.createSpan({ html: `${cbl}${type}${obr}`, class: 'html-closing-tag' }));
         }
 
         return output;
@@ -75,16 +73,16 @@
         var attributes = [];
         var attrs = element.attributes;
         for (const key in attrs) {
-            if (TYPE.hasOwn(attrs, key)) {
+            if ($Z.hasOwn(attrs, key)) {
                 let attr = attrs[key];
-                attributes.push(DOM.createSpan({
+                attributes.push($Z.createSpan({
                     html: ihtml(attr.nodeName),
                     class: 'html-attr',
                     data: { value: attr.nodeValue }
                 }));
             }
         }
-        DOM.appendChildren(output, attributes);
+        $Z.appendChildren(output, attributes);
 
         return output;
     }
@@ -92,7 +90,7 @@
     function encodeTextNodes(element) {
         element.childNodes.forEach((val) => {
             if (isTextNode(val) && !isEmpty(val))
-                element.replaceChild(DOM.createSpan({ text: val.nodeValue, class: 'text' }), val);
+                element.replaceChild($Z.createSpan({ text: val.nodeValue, class: 'text' }), val);
         });
     }
 

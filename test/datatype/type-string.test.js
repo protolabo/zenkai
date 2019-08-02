@@ -1,14 +1,8 @@
 //require jsdom-global and run
 require('jsdom-global')();
 
-// import our library
-//var jsLabo = require('./../src/index.js');
-
-var expect = require('chai').expect;
-var isNullOrWhitespace = require('@datatype/type-string.js').isNullOrWhitespace;
-var capitalize = require('@datatype/type-string.js').capitalize;
-var capitalizeFirstLetter = require('@datatype/type-string.js').capitalizeFirstLetter;
-var removeAccents = require('@datatype/type-string.js').removeAccents;
+const expect = require('chai').expect;
+const { isNullOrWhitespace, capitalize, capitalizeFirstLetter, removeAccents } = require('@datatype/type-string.js')
 
 describe('String helpers', function () {
     describe('#isNullOrWhitespace()', function () {

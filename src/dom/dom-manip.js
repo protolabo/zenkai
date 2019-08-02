@@ -5,6 +5,7 @@ const isClassName = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
 
 /**
  * Removes additional spaces in class attribute
+ * @private
  */
 const cleanClass = (cn) => cn.replace(/\s+/g, ' ').trim();
 
@@ -108,6 +109,7 @@ export function cloneTemplate(template, deep) {
  * @param {HTMLElement} el element
  * @param {string} dir sibling direction
  * @returns {(Element|null)} Element or null
+ * @private
  */
 function getElementSibling(el, dir, pred) {
     var predicate = (el) => !isNullOrUndefined(el);
@@ -314,6 +316,7 @@ export function changeSelectValue(select, val) {
  * Copy to clipboard
  * @param {HTMLElement|string} value 
  * @returns {boolean} Value indicating whether the the content has been succesfully copied to the clipboard
+ * @memberof DOM
  */
 export function copytoClipboard(value) {
     var el = document.createElement('textarea');

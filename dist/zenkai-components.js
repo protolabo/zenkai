@@ -264,6 +264,7 @@ var zcomponents = (function (exports) {
     el.className = cleanClass(el.className);
   }
 
+  var Elements = ['BUTTON', 'COMMAND', 'FIELDSET', 'INPUT', 'KEYGEN', 'OPTGROUP', 'OPTION', 'SELECT', 'TEXTAREA'];
   /** 
    * @enum 
    * @ignore
@@ -295,6 +296,103 @@ var zcomponents = (function (exports) {
 
   function hide(el) {
     addClass(el, UI.HIDDEN);
+  }
+  /**
+   * Disable an element
+   * @param {HTMLElement} el 
+   * @memberof DOM
+   */
+
+  function disable(el, val) {
+    if (Elements.indexOf(el.tagName) !== -1) {
+      el.disabled = val !== false;
+    }
+
+    el.dataset.disabled = val !== false;
+  }
+
+  var create = function create(tagName) {
+    return document.createElement(tagName);
+  };
+
+  var addClass$1 = function addClass(el, c) {
+    // If c is an Array => Format c as a space-separated string
+    if (Array.isArray(c)) {
+      c = c.join(' ');
+    }
+
+    if (isString(c)) {
+      el.className = c;
+    }
+  };
+  /**
+   * Creates a `<h[1..6]>` (heading) element with some attributes
+   * @param {string} level Level
+   * @param {Object} [attr] attributes
+   * @returns {HTMLHeadingElement}
+   * @memberof DOM
+   */
+
+  function createHeading(level, attr) {
+    if (level > 6) {
+      return null;
+    }
+
+    var heading = create("h".concat(level));
+
+    if (attr) {
+      addAttributes(heading, attr);
+    }
+
+    return heading;
+  }
+  /**
+   * Creates a `<h1>` element with some attributes
+   */
+
+
+  var createH1 = createHeading.bind(null, 1);
+  var createH2 = createHeading.bind(null, 2);
+  var createH3 = createHeading.bind(null, 3);
+  var createH4 = createHeading.bind(null, 4);
+  var createH5 = createHeading.bind(null, 5);
+  var createH6 = createHeading.bind(null, 6);
+  /**
+   * Sets the attributes of an element
+   * @param {HTMLElement} el element
+   * @param {Object} attr attribute
+   * @memberof DOM
+   */
+
+  function addAttributes(el, attr) {
+    var ATTR_MAP = {
+      id: [assign],
+      text: [assign, 'textContent'],
+      html: [assign, 'innerHTML'],
+      accept: [assign],
+      disabled: [disable, el],
+      class: [addClass$1, el],
+      value: [assign],
+      placeholder: [assign],
+      readonly: [assign, 'readOnly'],
+      data: [Object.assign, el.dataset]
+    };
+    var DEFAULT_MAP = [echo, '']; // HTML attributes
+
+    var _arr = Object.keys(attr);
+
+    for (var _i = 0; _i < _arr.length; _i++) {
+      var key = _arr[_i];
+      var val = ATTR_MAP[key] || DEFAULT_MAP;
+      val[0](val[1] || key, attr[key]);
+    }
+
+    function assign(key, val) {
+      el[key] = val;
+    }
+  }
+
+  function echo(o) {
   }
 
   /** @namespace DOM */

@@ -683,8 +683,14 @@ function createTextNode(str) {
 
 function createLink(rel, href, attr) {
   var link = create("link");
-  link.rel = rel;
-  link.href = href;
+
+  if (rel) {
+    link.rel = rel;
+  }
+
+  if (href) {
+    link.href = href;
+  }
 
   if (attr) {
     addAttributes(link, attr);
@@ -692,6 +698,12 @@ function createLink(rel, href, attr) {
 
   return link;
 }
+/**
+ * Creates a `<header>` element with some attributes
+ * @param {object} attr 
+ * @memberof DOM
+ */
+
 function createHeader(attr) {
   var header = create('header');
 
@@ -737,26 +749,46 @@ function createAside(attr) {
 
   return aside;
 }
+/**
+ * Creates a `br` element \
+ * Line break (carriage-return)
+ */
+
 function createLineBreak() {
   return create('br');
 }
 /**
  * Creates a `<h[1..6]>` (heading) element with some attributes
- * @param {string} lvl Level
+ * @param {string} level Level
  * @param {Object} [attr] attributes
  * @returns {HTMLHeadingElement}
  * @memberof DOM
  */
 
-function createHeading(lvl, attr) {
-  var h = create(lvl);
-
-  if (attr) {
-    addAttributes(h, attr);
+function createHeading(level, attr) {
+  if (level > 6) {
+    return null;
   }
 
-  return h;
+  var heading = create("h".concat(level));
+
+  if (attr) {
+    addAttributes(heading, attr);
+  }
+
+  return heading;
 }
+/**
+ * Creates a `<h1>` element with some attributes
+ */
+
+
+var createH1 = createHeading.bind(null, 1);
+var createH2 = createHeading.bind(null, 2);
+var createH3 = createHeading.bind(null, 3);
+var createH4 = createHeading.bind(null, 4);
+var createH5 = createHeading.bind(null, 5);
+var createH6 = createHeading.bind(null, 6);
 /**
  * Creates a `<p>` element with some attributes
  * @param {Object} [attr] attributes
@@ -2268,4 +2300,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAnchor, createAside, createButton, createDiv, createDocFragment, createElement, createEm, createHeader, createHeading, createImage, createInput, createLabel, createLi, createLineBreak, createLink, createP, createSpan, createStrong, createTable, createTableBody, createTableCell, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createUl, dayOfWeek, defProp, disable, enable, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlPrams, hasClass, hasOwn, hide, highlight, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, show, timeAgo, toBoolean, toggleClass, unhighlight, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAnchor, createAside, createButton, createDiv, createDocFragment, createElement, createEm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createImage, createInput, createLabel, createLi, createLineBreak, createLink, createP, createSpan, createStrong, createTable, createTableBody, createTableCell, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createUl, dayOfWeek, defProp, disable, enable, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlPrams, hasClass, hasOwn, hide, highlight, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, show, timeAgo, toBoolean, toggleClass, unhighlight, valOrDefault, windowWidth };

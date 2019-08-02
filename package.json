@@ -9,7 +9,6 @@
   "scripts": {
     "prebuild": "rimraf dist/*",
     "build": "cross-env NODE_ENV=prod node scripts/build.js && rollup -c",
-    "build:lib": "npx babel src --out-dir lib",
     "build:docs": "npm run document:utils && npm run document:dom && npm run document:type",
     "document:utils": "documentation build src/utils/index.js -f html -o docs/utils",
     "document:dom": "documentation build src/dom/index.js -f html -o docs/dom",

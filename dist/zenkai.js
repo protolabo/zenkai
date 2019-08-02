@@ -686,8 +686,14 @@ var zenkai = (function (exports) {
 
   function createLink(rel, href, attr) {
     var link = create("link");
-    link.rel = rel;
-    link.href = href;
+
+    if (rel) {
+      link.rel = rel;
+    }
+
+    if (href) {
+      link.href = href;
+    }
 
     if (attr) {
       addAttributes(link, attr);
@@ -695,6 +701,12 @@ var zenkai = (function (exports) {
 
     return link;
   }
+  /**
+   * Creates a `<header>` element with some attributes
+   * @param {object} attr 
+   * @memberof DOM
+   */
+
   function createHeader(attr) {
     var header = create('header');
 
@@ -740,26 +752,46 @@ var zenkai = (function (exports) {
 
     return aside;
   }
+  /**
+   * Creates a `br` element \
+   * Line break (carriage-return)
+   */
+
   function createLineBreak() {
     return create('br');
   }
   /**
    * Creates a `<h[1..6]>` (heading) element with some attributes
-   * @param {string} lvl Level
+   * @param {string} level Level
    * @param {Object} [attr] attributes
    * @returns {HTMLHeadingElement}
    * @memberof DOM
    */
 
-  function createHeading(lvl, attr) {
-    var h = create(lvl);
-
-    if (attr) {
-      addAttributes(h, attr);
+  function createHeading(level, attr) {
+    if (level > 6) {
+      return null;
     }
 
-    return h;
+    var heading = create("h".concat(level));
+
+    if (attr) {
+      addAttributes(heading, attr);
+    }
+
+    return heading;
   }
+  /**
+   * Creates a `<h1>` element with some attributes
+   */
+
+
+  var createH1 = createHeading.bind(null, 1);
+  var createH2 = createHeading.bind(null, 2);
+  var createH3 = createHeading.bind(null, 3);
+  var createH4 = createHeading.bind(null, 4);
+  var createH5 = createHeading.bind(null, 5);
+  var createH6 = createHeading.bind(null, 6);
   /**
    * Creates a `<p>` element with some attributes
    * @param {Object} [attr] attributes
@@ -2299,8 +2331,13 @@ var zenkai = (function (exports) {
   exports.createDocFragment = createDocFragment;
   exports.createElement = createElement;
   exports.createEm = createEm;
+  exports.createH1 = createH1;
+  exports.createH2 = createH2;
+  exports.createH3 = createH3;
+  exports.createH4 = createH4;
+  exports.createH5 = createH5;
+  exports.createH6 = createH6;
   exports.createHeader = createHeader;
-  exports.createHeading = createHeading;
   exports.createImage = createImage;
   exports.createInput = createInput;
   exports.createLabel = createLabel;

@@ -1,21 +1,21 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset='utf-8' />
-  <title>protolabo-zenkai 0.9.4 | Documentation</title>
+  <meta charset='utf-8'>
+  <title>protolabo-zenkai 0.9.5 | Documentation</title>
   <meta name='description' content='Javascript utility and helper methods'>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
-  <link href='assets/bass.css' rel='stylesheet' />
-  <link href='assets/style.css' rel='stylesheet' />
-  <link href='assets/github.css' rel='stylesheet' />
-  <link href='assets/split.css' rel='stylesheet' />
+  <link href='assets/bass.css' rel='stylesheet'>
+  <link href='assets/style.css' rel='stylesheet'>
+  <link href='assets/github.css' rel='stylesheet'>
+  <link href='assets/split.css' rel='stylesheet'>
 </head>
 <body class='documentation m0'>
     <div class='flex'>
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>protolabo-zenkai</h3>
-          <div class='mb1'><code>0.9.4</code></div>
+          <div class='mb1'><code>0.9.5</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -152,6 +152,12 @@
                       </a></li>
                     
                       <li><a
+                        href='#domcopytoclipboard'
+                        class='regular pre-open'>
+                        .copytoClipboard
+                      </a></li>
+                    
+                      <li><a
                         href='#domcreateelement'
                         class='regular pre-open'>
                         .createElement
@@ -164,9 +170,21 @@
                       </a></li>
                     
                       <li><a
+                        href='#domcreatetextnode'
+                        class='regular pre-open'>
+                        .createTextNode
+                      </a></li>
+                    
+                      <li><a
                         href='#domcreatelink'
                         class='regular pre-open'>
                         .createLink
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreateheader'
+                        class='regular pre-open'>
+                        .createHeader
                       </a></li>
                     
                       <li><a
@@ -176,15 +194,57 @@
                       </a></li>
                     
                       <li><a
+                        href='#domcreatemain'
+                        class='regular pre-open'>
+                        .createMain
+                      </a></li>
+                    
+                      <li><a
                         href='#domcreateaside'
                         class='regular pre-open'>
                         .createAside
                       </a></li>
                     
                       <li><a
-                        href='#domcreateheading'
+                        href='#domcreatelinebreak'
                         class='regular pre-open'>
-                        .createHeading
+                        .createLineBreak
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreateh1'
+                        class='regular pre-open'>
+                        .createH1
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreateh2'
+                        class='regular pre-open'>
+                        .createH2
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreateh3'
+                        class='regular pre-open'>
+                        .createH3
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreateh4'
+                        class='regular pre-open'>
+                        .createH4
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreateh5'
+                        class='regular pre-open'>
+                        .createH5
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreateh6'
+                        class='regular pre-open'>
+                        .createH6
                       </a></li>
                     
                       <li><a
@@ -367,36 +427,6 @@
                   
                   
                 </div>
-                
-                </li>
-              
-                
-                <li><a
-                  href='#cleanclass'
-                  class="">
-                  cleanClass
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
-                  href='#getelementsibling'
-                  class="">
-                  getElementSibling
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
-                  href='#copytoclipboard'
-                  class="">
-                  copytoClipboard
-                  
-                </a>
                 
                 </li>
               
@@ -1812,6 +1842,74 @@
       </div>
     </div>
   
+    <div class='border-bottom' id='domcopytoclipboard'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>copytoClipboard(value)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Copy to clipboard</p>
+
+    <div class='pre p1 fill-light mt0'>copytoClipboard(value: (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>value</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        Value indicating whether the the content has been succesfully copied to the clipboard
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='domcreateelement'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -1952,6 +2050,74 @@
       </div>
     </div>
   
+    <div class='border-bottom' id='domcreatetextnode'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createTextNode(text)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a text node</p>
+
+    <div class='pre p1 fill-light mt0'>createTextNode(text: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/HTML">Text</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>text</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/HTML">Text</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='domcreatelink'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -2028,11 +2194,11 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='domcreatediv'>
+    <div class='border-bottom' id='domcreateheader'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createDiv(attr?, children)</span>
+            <span class='code strong strong truncate'>createHeader(attribute?)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2040,9 +2206,9 @@
 
   
 
-  <p>Creates a <code>&#x3C;div></code> element with some attributes</p>
+  <p>Creates a <code>&#x3C;header></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createDiv(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?, children: any): <a href="https://developer.mozilla.org/docs/Web/API/HTMLDivElement">HTMLDivElement</a></div>
+    <div class='pre p1 fill-light mt0'>createHeader(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -2059,7 +2225,75 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
+            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>?)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreatediv'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createDiv(attribute?, children)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;div></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createDiv(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?, children: any): <a href="https://developer.mozilla.org/docs/Web/API/HTMLDivElement">HTMLDivElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
 	    attributes
 
           </div>
@@ -2105,11 +2339,11 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='domcreateaside'>
+    <div class='border-bottom' id='domcreatemain'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createAside(attr?)</span>
+            <span class='code strong strong truncate'>createMain(attribute?)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2117,9 +2351,9 @@
 
   
 
-  <p>Creates an <code>&#x3C;aside></code> element with some attributes</p>
+  <p>Creates an <code>&#x3C;main></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createAside(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createMain(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -2136,7 +2370,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
+            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
 	    attributes
 
           </div>
@@ -2174,11 +2408,11 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='domcreateheading'>
+    <div class='border-bottom' id='domcreateaside'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createHeading(lvl, attr?)</span>
+            <span class='code strong strong truncate'>createAside(attribute?)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2186,9 +2420,9 @@
 
   
 
-  <p>Creates a <code>&#x3C;h[1..6]></code> (heading) element with some attributes</p>
+  <p>Creates an <code>&#x3C;aside></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createHeading(lvl: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+    <div class='pre p1 fill-light mt0'>createAside(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -2205,16 +2439,469 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>lvl</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    Level
+            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
+	    attributes
 
           </div>
           
         </div>
       
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreatelinebreak'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createLineBreak()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>br</code> element \
+Line break (carriage-return)</p>
+
+    <div class='pre p1 fill-light mt0'>createLineBreak()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreateh1'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createH1(attribute?)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;h1></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createH1(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
+            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
+	    attributes
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreateh2'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createH2(attribute?)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;h2></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createH2(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
+	    attributes
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreateh3'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createH3(attribute?)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;h3></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createH3(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
+	    attributes
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreateh4'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createH4(attribute?)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;h4></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createH4(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
+	    attributes
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreateh5'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createH5(attribute?)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;h5></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createH5(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
+	    attributes
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreateh6'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createH6(attribute?)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;h6></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createH6(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
 	    attributes
 
           </div>
@@ -2256,7 +2943,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createP(attr?)</span>
+            <span class='code strong strong truncate'>createP</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2266,7 +2953,7 @@
 
   <p>Creates a <code>&#x3C;p></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createP(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLParagraphElement">HTMLParagraphElement</a></div>
+    <div class='pre p1 fill-light mt0'>createP</div>
   
   
 
@@ -4151,223 +4838,6 @@
     </div>
   
 </div>
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='cleanclass'>
-      cleanClass
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>Removes additional spaces in class attribute</p>
-
-    <div class='pre p1 fill-light mt0'>cleanClass</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>cn</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='getelementsibling'>
-      getElementSibling
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>Gets the previous or next element of the specified element</p>
-
-    <div class='pre p1 fill-light mt0'>getElementSibling(el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, dir: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, pred: any): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>el</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
-	    element
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>dir</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    sibling direction
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>pred</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</code>:
-        Element or null
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='copytoclipboard'>
-      copytoClipboard
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>Copy to clipboard</p>
-
-    <div class='pre p1 fill-light mt0'>copytoClipboard(value: (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>value</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>))</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
-        Value indicating whether the the content has been succesfully copied to the clipboard
-
-      
-    
-  
-
-  
-
-  
 
   
 
