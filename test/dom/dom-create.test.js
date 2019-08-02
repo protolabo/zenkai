@@ -957,6 +957,224 @@ describe('DOM helpers', function () {
             }
         });
     });
-    // createTable, createTableHeader, createTableBody, createTableFooter,
-    // createTableRow, createTableHeaderCell, createTableCell,
+    describe('#createTable()', function () {
+        it("should return a table element", function () {
+            var result = createTable();
+
+            expect(result).to.have.property('nodeName', 'TABLE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a table element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createTable(attribute);
+
+            expect(result).to.have.property('nodeName', 'TABLE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createCaption()', function () {
+        it("should return a caption element", function () {
+            var result = createCaption();
+
+            expect(result).to.have.property('nodeName', 'CAPTION');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a caption element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createCaption(attribute);
+
+            expect(result).to.have.property('nodeName', 'CAPTION');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createTableHeader()', function () {
+        it("should return a table header element", function () {
+            var result = createTableHeader();
+
+            expect(result).to.have.property('nodeName', 'THEAD');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a table header element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createTableHeader(attribute);
+
+            expect(result).to.have.property('nodeName', 'THEAD');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createTableBody()', function () {
+        it("should return a table body element", function () {
+            var result = createTableBody();
+
+            expect(result).to.have.property('nodeName', 'TBODY');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return an table body element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createTableBody(attribute);
+
+            expect(result).to.have.property('nodeName', 'TBODY');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createTableFooter()', function () {
+        it("should return a table footer element", function () {
+            var result = createTableFooter();
+
+            expect(result).to.have.property('nodeName', 'TFOOT');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a table footer element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createTableFooter(attribute);
+
+            expect(result).to.have.property('nodeName', 'TFOOT');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createTableColumn()', function () {
+        it("should return a table column output element", function () {
+            var result = createTableColumn();
+
+            expect(result).to.have.property('nodeName', 'COL');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a table column element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createTableColumn(attribute);
+
+            expect(result).to.have.property('nodeName', 'COL');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createTableColumnGroup()', function () {
+        it("should return a table column group element", function () {
+            var result = createTableColumnGroup();
+
+            expect(result).to.have.property('nodeName', 'COLGROUP');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a table column group element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createTableColumnGroup(attribute);
+
+            expect(result).to.have.property('nodeName', 'COLGROUP');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createTableRow()', function () {
+        it("should return a table row element", function () {
+            var result = createTableRow();
+
+            expect(result).to.have.property('nodeName', 'TR');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a table row element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createTableRow(attribute);
+
+            expect(result).to.have.property('nodeName', 'TR');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createTableHeaderCell()', function () {
+        it("should return a table header cell element", function () {
+            var result = createTableHeaderCell();
+
+            expect(result).to.have.property('nodeName', 'TH');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a table header cell element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createTableHeaderCell(attribute);
+
+            expect(result).to.have.property('nodeName', 'TH');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createTableCell()', function () {
+        it("should return a table cell element", function () {
+            var result = createTableCell();
+
+            expect(result).to.have.property('nodeName', 'TD');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a table cell element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createTableCell(attribute);
+
+            expect(result).to.have.property('nodeName', 'TD');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#addAttributes()', function () {
+        it("should add attributes to an element", function () {
+            var attribute = {
+                class: 'aclass',
+                draggable: false,
+                editable: false,
+                id: 'anid',
+                readonly: false,
+                text: 'some content',
+                title: 'some title'
+            };
+
+            var div = createDiv();
+            addAttributes(div, attribute);
+
+            for (const key in attribute) {
+                expect(div).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#appendChildren()', function () {
+        it("should return append the children to an element", function () {
+            var div = createDiv();
+            var span3 = [createSpan(), createP(), createP()];
+
+            var result = appendChildren(div, span3);
+
+            expect(result.childElementCount).to.be.equal(3);
+        });
+    });
 });

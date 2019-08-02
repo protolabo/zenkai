@@ -1,4 +1,3 @@
-import { disable } from './dom-effects.js';
 import { isString, valOrDefault } from '@datatype/type-manip.js';
 
 /**
@@ -620,7 +619,7 @@ export function addAttributes(element, attribute) {
         children: [addChildren, element],
         class: [setClass, element],
         data: [Object.assign, element.dataset],
-        disabled: [disable, element],
+        disabled: [assign],
         draggable: [assign],
         editable: [assign, 'contenteditable'],
         html: [assign, 'innerHTML'],
