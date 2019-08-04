@@ -2,7 +2,7 @@
  * @namespace URI
  */
 
-import { hasOwn } from '@datatype/index.js';
+import { isNullOrWhitespace } from '@datatype/index.js';
 
 const encode = encodeURIComponent;
 
@@ -20,24 +20,41 @@ export function getRootUrl(url) {
  * @param {string} [prop] Searched parameter
  * @memberof URI
  */
-export function getUrlPrams(prop) {
-    var href = window.location.href;
-    var search = decodeURIComponent(href.slice(href.indexOf('?') + 1));
-    if (this.isNullOrWhiteSpace(search)) {
-        return undefined;
+export function getUrlParams(prop) {
+    var search = decodeURIComponent(window.location.search);
+
+    if (isNullOrWhitespace(search)) {
+        return null;
     }
 
-    var defs = search.split('&');
     var params = {};
+    if ('URLSearchParams' in window) {
+        let searchParams = new URLSearchParams(search.substring(1));
+        for (const pair of searchParams.entries()) {
+            params[pair[0]] = pair[1];
+        }
+        if (prop) {
+            return searchParams.get(prop);
+        }
+
+        return params;
+    }
+
+    var defs = search.substring(1).split('&');
     defs.forEach((val) => {
         var parts = val.split('=', 2);
         params[parts[0]] = parts[1];
     });
-
     if (prop) {
         return params[prop];
     }
+
     return params;
+}
+
+/* istanbul ignore next */
+function getParams(href) {
+    return href.slice(href.indexOf('?') + 1);
 }
 
 /**
@@ -46,12 +63,14 @@ export function getUrlPrams(prop) {
  * @returns {string} Query string
  * @memberof URI
  */
-export function queryBuilder(query) {
+export function queryBuilder(query, ignoreNullOrEmpty = false) {
     var str = [];
-    for (const key in query) {
-        if (hasOwn(query, key)) {
-            str.push(`${encode(key)}=${encode(query[key])}`);
+
+    Object.keys(query).forEach((prop) => {
+        if (!ignoreNullOrEmpty || !isNullOrWhitespace(query[prop])) {
+            str.push(`${encode(prop)}=${encode(query[prop])}`);
         }
-    }
+    });
+
     return str.join('&');
 }

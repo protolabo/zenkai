@@ -1,9 +1,9 @@
 // require jsdom-global
 var jsdom = require('jsdom-global');
+var fs = require('fs');
 
 // require chai for BDD
 var expect = require('chai').expect;
-var fs = require('fs');
 
 // import the library under test
 const {

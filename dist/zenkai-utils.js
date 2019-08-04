@@ -423,16 +423,49 @@ var zutils = (function (exports) {
    * @memberof URI
    */
 
-  function getUrlPrams(prop) {
-    var href = window.location.href;
-    var search = decodeURIComponent(href.slice(href.indexOf('?') + 1));
+  function getUrlParams(prop) {
+    var search = decodeURIComponent(window.location.search);
 
-    if (this.isNullOrWhiteSpace(search)) {
-      return undefined;
+    if (isNullOrWhitespace(search)) {
+      return null;
     }
 
-    var defs = search.split('&');
     var params = {};
+
+    if ('URLSearchParams' in window) {
+      var searchParams = new URLSearchParams(search.substring(1));
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = searchParams.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var pair = _step.value;
+          params[pair[0]] = pair[1];
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return != null) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      if (prop) {
+        return searchParams.get(prop);
+      }
+
+      return params;
+    }
+
+    var defs = search.substring(1).split('&');
     defs.forEach(function (val) {
       var parts = val.split('=', 2);
       params[parts[0]] = parts[1];
@@ -451,15 +484,15 @@ var zutils = (function (exports) {
    * @memberof URI
    */
 
+
   function queryBuilder(query) {
+    var ignoreNullOrEmpty = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     var str = [];
-
-    for (var key in query) {
-      if (hasOwn(query, key)) {
-        str.push("".concat(encode(key), "=").concat(encode(query[key])));
+    Object.keys(query).forEach(function (prop) {
+      if (!ignoreNullOrEmpty || !isNullOrWhitespace(query[prop])) {
+        str.push("".concat(encode(prop), "=").concat(encode(query[prop])));
       }
-    }
-
+    });
     return str.join('&');
   }
 
@@ -474,7 +507,7 @@ var zutils = (function (exports) {
   exports.getDir = getDir;
   exports.getDirTarget = getDirTarget;
   exports.getRootUrl = getRootUrl;
-  exports.getUrlPrams = getUrlPrams;
+  exports.getUrlParams = getUrlParams;
   exports.queryBuilder = queryBuilder;
   exports.random = random;
 

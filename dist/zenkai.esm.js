@@ -181,6 +181,7 @@ var isClassName = function isClassName(selector) {
 };
 /**
  * Removes additional spaces in class attribute
+ * @private
  */
 
 
@@ -289,6 +290,7 @@ function cloneTemplate(template, deep) {
  * @param {HTMLElement} el element
  * @param {string} dir sibling direction
  * @returns {(Element|null)} Element or null
+ * @private
  */
 
 function getElementSibling(el, dir, pred) {
@@ -355,6 +357,7 @@ function findAncestor(target, callback, max) {
 
   return findAncestorInf(parent, callback);
 }
+/* istanbul ignore next */
 
 function findAncestorInf(target, callback) {
   if (isNullOrUndefined(target)) {
@@ -367,6 +370,8 @@ function findAncestorInf(target, callback) {
 
   return findAncestorInf(target.parentElement, callback);
 }
+/* istanbul ignore next */
+
 
 function findAncestorIter(target, callback, max) {
   if (isNullOrUndefined(target) || max === 0) {
@@ -522,6 +527,7 @@ function changeSelectValue(select, val) {
  * Copy to clipboard
  * @param {HTMLElement|string} value 
  * @returns {boolean} Value indicating whether the the content has been succesfully copied to the clipboard
+ * @memberof DOM
  */
 
 function copytoClipboard(value) {
@@ -533,6 +539,706 @@ function copytoClipboard(value) {
   document.execCommand('copy');
   el.remove();
   return true;
+}
+
+/**
+ * Creates an element
+ * @param {string} tagName 
+ * @param {object} _attribute 
+ * @returns {HTMLElement}
+ * @private
+ */
+
+/* istanbul ignore next */
+
+function create(tagName, _attribute) {
+  var element = document.createElement(tagName);
+
+  if (_attribute) {
+    addAttributes(element, _attribute);
+  }
+
+  return element;
+}
+/**
+ * Creates the element for the specified tagName
+ * @param {string} tagName element
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+
+function createElement(tagName, eId, eClass) {
+  var el = create(tagName);
+
+  if (eId) {
+    el.id = eId;
+  }
+
+  if (eClass) {
+    setClass(el, eClass);
+  }
+
+  return el;
+}
+/**
+ * Creates a document fragment
+ * @function
+ * @returns {DocumentFragment}
+ * @memberof DOM
+ */
+
+var createDocFragment = function createDocFragment() {
+  return document.createDocumentFragment();
+};
+/**
+ * Creates a text node
+ * @function
+ * @param {string} text
+ * @returns {Text}
+ * @memberof DOM
+ */
+
+var createTextNode = function createTextNode(text) {
+  return document.createTextNode(text);
+};
+/**
+ * Creates a `<link>` element with some attributes
+ * @param {string} rel 
+ * @param {string} href 
+ * @param {object} attr 
+ * @memberof DOM
+ */
+
+function createLink(rel, href, attr) {
+  var link = create("link");
+
+  if (rel) {
+    link.rel = rel;
+  }
+
+  if (href) {
+    link.href = href;
+  }
+
+  if (attr) {
+    addAttributes(link, attr);
+  }
+
+  return link;
+} //#region Content sectionning
+
+/**
+ * Creates a `<header>` element with some attributes
+ * @function
+ * @param {object} [attribute] 
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createHeader = create.bind(null, 'header');
+/**
+ * Creates an `<footer>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createFooter = create.bind(null, 'footer');
+/**
+ * Creates an `<main>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createMain = create.bind(null, 'main');
+/**
+ * Creates an `<article>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createArticle = create.bind(null, 'article');
+/**
+ * Creates an `<section>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createSection = create.bind(null, 'section');
+/**
+ * Creates an `<nav>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createNav = create.bind(null, 'nav');
+/**
+ * Creates an `<aside>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createAside = create.bind(null, 'aside');
+/**
+ * Creates a `<h1>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLHeadingElement}
+ * @memberof DOM
+ */
+
+var createH1 = create.bind(null, 'h1');
+/**
+ * Creates a `<h2>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLHeadingElement}
+ * @memberof DOM
+ */
+
+var createH2 = create.bind(null, 'h2');
+/**
+ * Creates a `<h3>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLHeadingElement}
+ * @memberof DOM
+ */
+
+var createH3 = create.bind(null, 'h3');
+/**
+ * Creates a `<h4>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLHeadingElement}
+ * @memberof DOM
+ */
+
+var createH4 = create.bind(null, 'h4');
+/**
+ * Creates a `<h5>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLHeadingElement}
+ * @memberof DOM
+ */
+
+var createH5 = create.bind(null, 'h5');
+/**
+ * Creates a `<h6>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLHeadingElement}
+ * @memberof DOM
+ */
+
+var createH6 = create.bind(null, 'h6'); //#endregion
+
+/**
+ * Creates a `<div>` element with some attributes
+ * @function
+ * @param {Object} [attribute] attributes
+ * @returns {HTMLDivElement}
+ * @memberof DOM
+ */
+
+var createDiv = create.bind(null, 'div');
+/**
+ * Creates a `br` element \
+ * Line break (carriage-return)
+ * @function
+ * @memberof DOM
+ */
+
+var createLineBreak = function createLineBreak() {
+  return create('br');
+};
+/**
+ * Creates a `hr` element \
+ * Thematic break
+ * @function
+ * @memberof DOM
+ */
+
+var createThematicBreak = function createThematicBreak() {
+  return create('hr');
+};
+/**
+ * Creates a `<p>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @returns {HTMLParagraphElement}
+ * @memberof DOM
+ */
+
+var createP = create.bind(null, 'p');
+/**
+ * Creates a `<ul>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @returns {HTMLUListElement}
+ * @memberof DOM
+ */
+
+var createUl = create.bind(null, 'ul');
+/**
+ * Creates a `<ol>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @returns {HTMLUListElement}
+ * @memberof DOM
+ */
+
+var createOl = create.bind(null, 'ol');
+/**
+ * Creates a `<li>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @memberof DOM
+ */
+
+var createLi = create.bind(null, 'li'); // Inline Element
+
+/**
+ * Creates an `<a>` element with some attributes
+ * @param {string} href URL or a URL fragment that the hyperlink points to
+ * @param {Object} [attr] attributes
+ * @returns {HTMLAnchorElement}
+ * @memberof DOM
+ */
+
+function createAnchor(href, attr) {
+  var a = create('a', attr);
+
+  if (href) {
+    a.href = href;
+  }
+
+  return a;
+}
+/**
+  * Creates a `<img>` element with some attributes
+  * @param {string} src
+  * @param {string} alt
+  * @param {Object} [attr] attributes
+  * @returns {HTMLImageElement}
+  * @memberof DOM
+  */
+
+function createImage(src, alt, attr) {
+  var img = create('img', attr);
+
+  if (src) {
+    img.src = src;
+  }
+
+  if (alt) {
+    img.alt = alt;
+  }
+
+  return img;
+}
+/**
+  * Creates a `<img>` element with some attributes
+  * @param {string} src
+  * @param {string} alt
+  * @param {Object} [attr] attributes
+  * @returns {HTMLAudioElement}
+  * @memberof DOM
+  */
+
+function createAudio(src, alt, attr) {
+  var img = create('audio', attr);
+
+  if (src) {
+    img.src = src;
+  }
+
+  if (alt) {
+    img.alt = alt;
+  }
+
+  return img;
+}
+/**
+  * Creates a `<video>` element with some attributes
+  * @param {string} src
+  * @param {string} alt
+  * @param {Object} [attr] attributes
+  * @returns {HTMLVideoElement}
+  * @memberof DOM
+  */
+
+function createVideo(src, alt, attr) {
+  var img = create('video', attr);
+
+  if (src) {
+    img.src = src;
+  }
+
+  if (alt) {
+    img.alt = alt;
+  }
+
+  return img;
+}
+/**
+ * Creates a `<span>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLSpanElement}
+ * @memberof DOM
+ */
+
+var createSpan = create.bind(null, "span");
+/**
+ * Creates a `<strong>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createStrong = create.bind(null, "strong");
+/**
+ * Creates a `<em>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createEm = create.bind(null, "em"); //#region Form-associated Element
+
+/**
+ * Creates a `<form>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLLabelElement}
+ * @memberof DOM
+ */
+
+var createForm = create.bind(null, 'form');
+/**
+ * Creates a `<input>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @returns {HTMLInputElement}
+ * @memberof DOM
+ */
+
+function createInput(type, attr) {
+  var input = create('input', attr);
+  input.type = valOrDefault(type, "text");
+  return input;
+}
+["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"].forEach(function (type) {
+  createInput[type] = createInput.bind(null, type);
+});
+/**
+ * Creates a `<label>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLLabelElement}
+ * @memberof DOM
+ */
+
+var createLabel = create.bind(null, 'label');
+/**
+ * Creates a `<fieldset>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLLabelElement}
+ * @memberof DOM
+ */
+
+var createFieldset = create.bind(null, 'fieldset');
+/**
+ * Creates a `<legend>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLLabelElement}
+ * @memberof DOM
+ */
+
+var createLegend = create.bind(null, 'legend');
+/**
+ * Creates a `<datalist>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTextAreaElement}
+ * @memberof DOM
+ */
+
+var createDataList = create.bind(null, 'datalist');
+/**
+ * Creates a `<select>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLLabelElement}
+ * @memberof DOM
+ */
+
+var createSelect = create.bind(null, 'select');
+/**
+ * Creates a `<option>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLLabelElement}
+ * @memberof DOM
+ */
+
+var createOption = create.bind(null, 'option');
+/**
+ * Creates a `<optgroup>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLLabelElement}
+ * @memberof DOM
+ */
+
+var createOptionGroup = create.bind(null, 'optgroup');
+/**
+ * Creates a `<textarea>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTextAreaElement}
+ * @memberof DOM
+ */
+
+var createTextArea = create.bind(null, 'textarea');
+/**
+ * Creates a `<meter>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTextAreaElement}
+ * @memberof DOM
+ */
+
+var createMeter = create.bind(null, 'meter');
+/**
+ * Creates a `<progress>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTextAreaElement}
+ * @memberof DOM
+ */
+
+var createProgress = create.bind(null, 'progress');
+/**
+ * Creates a `<output>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTextAreaElement}
+ * @memberof DOM
+ */
+
+var createOutput = create.bind(null, 'output');
+/**
+ * Creates a `<button>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @memberof DOM
+ */
+
+function createButton(type, attr) {
+  var btn = create("button", attr);
+  btn.type = valOrDefault(type, "button");
+  return btn;
+}
+["submit", "reset", "button"].forEach(function (type) {
+  createButton[type] = createButton.bind(null, type);
+}); //#endregion
+//#region Table Element
+
+/**
+ * Creates a `<table>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTableElement}
+ * @memberof DOM
+ */
+
+var createTable = create.bind(null, "table");
+/**
+ * Creates a `<caption>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTableCaptionElement}
+ * @memberof DOM
+ */
+
+var createCaption = create.bind(null, "caption");
+/**
+ * Creates a `<thead>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTableSectionElement}
+ * @memberof DOM
+ */
+
+var createTableHeader = create.bind(null, "thead");
+/**
+ * Creates a `<tbody>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTableSectionElement}
+ * @memberof DOM
+ */
+
+var createTableBody = create.bind(null, "tbody");
+/**
+ * Creates a `<tfoot>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTableSectionElement}
+ * @memberof DOM
+ */
+
+var createTableFooter = create.bind(null, "tfoot");
+/**
+ * Creates a `<col>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTableColElement}
+ * @memberof DOM
+ */
+
+var createTableColumn = create.bind(null, "col");
+/**
+ * Creates a `<colgroup>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTableColElement}
+ * @memberof DOM
+ */
+
+var createTableColumnGroup = create.bind(null, "colgroup");
+/**
+ * Creates a `<tr>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTableRowElement}
+ * @memberof DOM
+ */
+
+var createTableRow = create.bind(null, "tr");
+/**
+ * Creates a `<th>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTableHeaderCellElement}
+ * @memberof DOM
+ */
+
+var createTableHeaderCell = create.bind(null, "th");
+/**
+ * Creates a `<td>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTableDataCellElement}
+ * @memberof DOM
+ */
+
+var createTableCell = create.bind(null, "td"); //#endregion
+
+/* istanbul ignore next */
+
+function echo(o) {
+}
+/* istanbul ignore next */
+
+
+var setClass = function setClass(el, c) {
+  // If c is an Array => Format c as a space-separated string
+  if (Array.isArray(c)) {
+    c = c.join(' ');
+  }
+
+  if (isString(c)) {
+    el.className = c;
+  }
+};
+/**
+ * Sets the attributes of an element
+ * @param {HTMLElement} element element
+ * @param {Object} attribute attribute
+ * @memberof DOM
+ */
+
+
+function addAttributes(element, attribute) {
+  var ATTR_MAP = {
+    accept: [assign],
+    children: [addChildren, element],
+    class: [setClass, element],
+    data: [Object.assign, element.dataset],
+    disabled: [assign],
+    draggable: [assign],
+    editable: [assign, 'contenteditable'],
+    html: [assign, 'innerHTML'],
+    id: [assign],
+    placeholder: [assign],
+    readonly: [assign, 'readOnly'],
+    style: [assign],
+    text: [assign, 'textContent'],
+    title: [assign],
+    value: [assign]
+  };
+  var DEFAULT_MAP = [echo, '']; // HTML attributes
+
+  var _arr = Object.keys(attribute);
+
+  for (var _i = 0; _i < _arr.length; _i++) {
+    var key = _arr[_i];
+    var val = ATTR_MAP[key] || DEFAULT_MAP;
+    val[0](val[1] || key, attribute[key]);
+  }
+
+  function assign(key, val) {
+    element[key] = val;
+  }
+}
+/**
+ * Appends the children to the element
+ * @param {HTMLElement} el element
+ * @param {HTMLCollection} children children elements
+ * @private
+ * @memberof DOM
+ */
+
+/* istanbul ignore next */
+
+function addChildren(el, children) {
+  if (Array.isArray(children)) {
+    appendChildren(el, children);
+  } else if (children instanceof Element) {
+    el.appendChild(children);
+  }
+
+  return el;
+}
+/**
+ * Append a list of elements to a node.
+ * @param {HTMLElement} parent
+ * @param {HTMLElement[]} children
+ * @memberof DOM
+ */
+
+
+function appendChildren(parent, children) {
+  var fragment = createDocFragment();
+  children.forEach(function (element) {
+    fragment.appendChild(element);
+  });
+  parent.appendChild(fragment);
+  fragment = null;
+  return parent;
 }
 
 var Elements = ['BUTTON', 'COMMAND', 'FIELDSET', 'INPUT', 'KEYGEN', 'OPTGROUP', 'OPTION', 'SELECT', 'TEXTAREA'];
@@ -624,561 +1330,6 @@ function disable(el, val) {
   }
 
   el.dataset.disabled = val !== false;
-}
-
-var create = function create(tagName) {
-  return document.createElement(tagName);
-};
-
-var addClass$1 = function addClass(el, c) {
-  // If c is an Array => Format c as a space-separated string
-  if (Array.isArray(c)) {
-    c = c.join(' ');
-  }
-
-  if (isString(c)) {
-    el.className = c;
-  }
-};
-/**
- * Creates the element for the specified tagName
- * @param {string} tagName element
- * @returns {HTMLElement}
- * @memberof DOM
- */
-
-
-function createElement(tagName, eId, eClass) {
-  var el = document.createElement(tagName);
-
-  if (eId) {
-    el.id = eId;
-  }
-
-  if (eClass) {
-    addClass$1(el, eClass);
-  }
-
-  return el;
-}
-/**
- * Creates a document fragment
- * @returns {DocumentFragment}
- * @memberof DOM
- */
-
-function createDocFragment() {
-  return document.createDocumentFragment();
-}
-function createTextNode(str) {
-  return document.createTextNode(str);
-}
-/**
- * Creates a `<link>` element with some attributes
- * @param {string} rel 
- * @param {string} href 
- * @param {object} attr 
- * @memberof DOM
- */
-
-function createLink(rel, href, attr) {
-  var link = create("link");
-
-  if (rel) {
-    link.rel = rel;
-  }
-
-  if (href) {
-    link.href = href;
-  }
-
-  if (attr) {
-    addAttributes(link, attr);
-  }
-
-  return link;
-}
-/**
- * Creates a `<header>` element with some attributes
- * @param {object} attr 
- * @memberof DOM
- */
-
-function createHeader(attr) {
-  var header = create('header');
-
-  if (attr) {
-    addAttributes(header, attr);
-  }
-
-  return header;
-}
-/**
- * Creates a `<div>` element with some attributes
- * @param {Object} [attr] attributes
- * @returns {HTMLDivElement}
- * @memberof DOM
- */
-
-function createDiv(attr, children) {
-  var div = create("div");
-
-  if (attr) {
-    addAttributes(div, attr);
-  }
-
-  if (children) {
-    addChildren(div, children);
-  }
-
-  return div;
-}
-/**
- * Creates an `<aside>` element with some attributes
- * @param {Object} [attr] attributes
- * @returns {HTMLElement}
- * @memberof DOM
- */
-
-function createAside(attr) {
-  var aside = create('aside');
-
-  if (attr) {
-    addAttributes(aside, attr);
-  }
-
-  return aside;
-}
-/**
- * Creates a `br` element \
- * Line break (carriage-return)
- */
-
-function createLineBreak() {
-  return create('br');
-}
-/**
- * Creates a `<h[1..6]>` (heading) element with some attributes
- * @param {string} level Level
- * @param {Object} [attr] attributes
- * @returns {HTMLHeadingElement}
- * @memberof DOM
- */
-
-function createHeading(level, attr) {
-  if (level > 6) {
-    return null;
-  }
-
-  var heading = create("h".concat(level));
-
-  if (attr) {
-    addAttributes(heading, attr);
-  }
-
-  return heading;
-}
-/**
- * Creates a `<h1>` element with some attributes
- */
-
-
-var createH1 = createHeading.bind(null, 1);
-var createH2 = createHeading.bind(null, 2);
-var createH3 = createHeading.bind(null, 3);
-var createH4 = createHeading.bind(null, 4);
-var createH5 = createHeading.bind(null, 5);
-var createH6 = createHeading.bind(null, 6);
-/**
- * Creates a `<p>` element with some attributes
- * @param {Object} [attr] attributes
- * @returns {HTMLParagraphElement}
- * @memberof DOM
- */
-
-function createP(attr) {
-  var p = create("p");
-
-  if (attr) {
-    addAttributes(p, attr);
-  }
-
-  return p;
-}
-/**
- * Creates a `<ul>` element with some attributes
- * @param {Object} [attr] attributes
- * @returns {HTMLUListElement}
- * @memberof DOM
- */
-
-function createUl(attr) {
-  var ul = create("ul");
-
-  if (attr) {
-    addAttributes(ul, attr);
-  }
-
-  return ul;
-}
-/**
- * Creates a `<li>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createLi(attr, el) {
-  var li = create('li');
-
-  if (attr) {
-    addAttributes(li, attr);
-  }
-
-  if (el) {
-    addChildren(li, el);
-  }
-
-  return li;
-} // Inline Element
-
-/**
- * Creates an `<a>` element with some attributes
- * @param {string} href URL or a URL fragment that the hyperlink points to
- * @param {Object} [attr] attributes
- * @returns {HTMLAnchorElement}
- * @memberof DOM
- */
-
-function createAnchor(href, attr) {
-  var a = create('a');
-
-  if (href) {
-    a.href = href;
-  }
-
-  if (attr) {
-    addAttributes(a, attr);
-  }
-
-  return a;
-}
-/**
-  * Creates a `<img>` element with some attributes
-  * @param {string} src
-  * @param {string} alt
-  * @param {Object} [attr] attributes
-  * @returns {HTMLImageElement}
-  * @memberof DOM
-  */
-
-function createImage(src, alt, attr) {
-  var img = create('img');
-
-  if (src) {
-    img.src = src;
-  }
-
-  if (alt) {
-    img.alt = alt;
-  }
-
-  if (attr) {
-    addAttributes(img, attr);
-  }
-
-  return img;
-}
-/**
- * Creates a `<span>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createSpan(attr) {
-  var span = create("span");
-
-  if (attr) {
-    addAttributes(span, attr);
-  }
-
-  return span;
-}
-/**
- * Creates a `<strong>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createStrong(attr) {
-  var strong = create("strong");
-
-  if (attr) {
-    addAttributes(strong, attr);
-  }
-
-  return strong;
-}
-/**
- * Creates a `<em>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createEm(attr) {
-  var em = create("em");
-
-  if (attr) {
-    addAttributes(em, attr);
-  }
-
-  return em;
-} // Form Element
-
-/**
- * Creates a `<input>` element with some attributes
- * @param {Object} [attr] attributes
- * @returns {HTMLInputElement}
- * @memberof DOM
- */
-
-function createInput(attr) {
-  var input = create('input');
-
-  if (attr) {
-    addAttributes(input, attr);
-  }
-
-  return input;
-}
-["checkbox", "hidden", "file"].forEach(function (type) {
-  createInput[type] = function (attr) {
-    var input = createInput(attr);
-    input.type = type;
-    return input;
-  };
-});
-/**
- * Creates a `<label>` element with some attributes
- * @param {Object} [attr] attributes
- * @returns {HTMLLabelElement}
- * @memberof DOM
- */
-
-function createLabel(attr) {
-  var label = create('label');
-
-  if (attr) {
-    addAttributes(label, attr);
-  }
-
-  return label;
-}
-/**
- * Creates a `<textarea>` element with some attributes
- * @param {Object} [attr] attributes
- * @returns {HTMLTextAreaElement}
- * @memberof DOM
- */
-
-function createTextArea(attr) {
-  var textArea = create('textarea');
-
-  if (attr) {
-    addAttributes(textArea, attr);
-  }
-
-  return textArea;
-}
-/**
- * Creates a `<button>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createButton(attr) {
-  var btn = create("button");
-  btn.type = "button";
-
-  if (attr) {
-    addAttributes(btn, attr);
-  }
-
-  return btn;
-}
-/**
- * Creates a `<table>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createTable(attr) {
-  var table = create("table");
-
-  if (attr) {
-    addAttributes(table, attr);
-  }
-
-  return table;
-}
-/**
- * Creates a `<thead>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createTableHeader(attr) {
-  var thead = create("thead");
-
-  if (attr) {
-    addAttributes(thead, attr);
-  }
-
-  return thead;
-}
-/**
- * Creates a `<tbody>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createTableBody(attr) {
-  var tbody = create("tbody");
-
-  if (attr) {
-    addAttributes(tbody, attr);
-  }
-
-  return tbody;
-}
-/**
- * Creates a `<tfoot>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createTableFooter(attr) {
-  var tfoot = create("tfoot");
-
-  if (attr) {
-    addAttributes(tfoot, attr);
-  }
-
-  return tfoot;
-}
-/**
- * Creates a `<tr>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createTableRow(attr) {
-  var tr = create("tr");
-
-  if (attr) {
-    addAttributes(tr, attr);
-  }
-
-  return tr;
-}
-/**
- * Creates a `<th>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createTableHeaderCell(attr) {
-  var th = create("th");
-
-  if (attr) {
-    addAttributes(th, attr);
-  }
-
-  return th;
-}
-/**
- * Creates a `<td>` element with some attributes
- * @param {Object} [attr] attributes
- * @memberof DOM
- */
-
-function createTableCell(attr) {
-  var td = create("td");
-
-  if (attr) {
-    addAttributes(td, attr);
-  }
-
-  return td;
-}
-/**
- * Sets the attributes of an element
- * @param {HTMLElement} el element
- * @param {Object} attr attribute
- * @memberof DOM
- */
-
-function addAttributes(el, attr) {
-  var ATTR_MAP = {
-    id: [assign],
-    text: [assign, 'textContent'],
-    html: [assign, 'innerHTML'],
-    accept: [assign],
-    disabled: [disable, el],
-    class: [addClass$1, el],
-    value: [assign],
-    placeholder: [assign],
-    readonly: [assign, 'readOnly'],
-    data: [Object.assign, el.dataset]
-  };
-  var DEFAULT_MAP = [echo, '']; // HTML attributes
-
-  var _arr = Object.keys(attr);
-
-  for (var _i = 0; _i < _arr.length; _i++) {
-    var key = _arr[_i];
-    var val = ATTR_MAP[key] || DEFAULT_MAP;
-    val[0](val[1] || key, attr[key]);
-  }
-
-  function assign(key, val) {
-    el[key] = val;
-  }
-}
-/**
- * Appends the children to the element
- * @param {HTMLElement} el element
- * @param {HTMLCollection} children children elements
- * @memberof DOM
- */
-
-function addChildren(el, children) {
-  if (Array.isArray(children)) {
-    appendChildren(el, children);
-  } else if (children instanceof Element) {
-    el.appendChild(children);
-  }
-
-  return el;
-}
-/**
- * Append a list of elements to a node.
- * @param {HTMLElement} parent
- * @param {HTMLElement[]} children
- * @memberof DOM
- */
-
-
-function appendChildren(parent, children) {
-  var fragment = createDocFragment();
-  children.forEach(function (element) {
-    fragment.appendChild(element);
-  });
-  parent.appendChild(fragment);
-  fragment = null;
-  return parent;
-}
-
-function echo(o) {
 }
 
 /** @namespace DOM */
@@ -1713,16 +1864,49 @@ function getRootUrl(url) {
  * @memberof URI
  */
 
-function getUrlPrams(prop) {
-  var href = window.location.href;
-  var search = decodeURIComponent(href.slice(href.indexOf('?') + 1));
+function getUrlParams(prop) {
+  var search = decodeURIComponent(window.location.search);
 
-  if (this.isNullOrWhiteSpace(search)) {
-    return undefined;
+  if (isNullOrWhitespace(search)) {
+    return null;
   }
 
-  var defs = search.split('&');
   var params = {};
+
+  if ('URLSearchParams' in window) {
+    var searchParams = new URLSearchParams(search.substring(1));
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = searchParams.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var pair = _step.value;
+        params[pair[0]] = pair[1];
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return != null) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    if (prop) {
+      return searchParams.get(prop);
+    }
+
+    return params;
+  }
+
+  var defs = search.substring(1).split('&');
   defs.forEach(function (val) {
     var parts = val.split('=', 2);
     params[parts[0]] = parts[1];
@@ -1741,15 +1925,15 @@ function getUrlPrams(prop) {
  * @memberof URI
  */
 
+
 function queryBuilder(query) {
+  var ignoreNullOrEmpty = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   var str = [];
-
-  for (var key in query) {
-    if (hasOwn(query, key)) {
-      str.push("".concat(encode(key), "=").concat(encode(query[key])));
+  Object.keys(query).forEach(function (prop) {
+    if (!ignoreNullOrEmpty || !isNullOrWhitespace(query[prop])) {
+      str.push("".concat(encode(prop), "=").concat(encode(query[prop])));
     }
-  }
-
+  });
   return str.join('&');
 }
 
@@ -2014,46 +2198,100 @@ function Selector(container, _callback) {
   return selectors;
 }
 
-var ATTRIBUTE = 'switch';
 var NONE$1 = -1;
+var ERROR$1 = -10;
 var Status$1 = {
   ON: 'on',
   OFF: 'off'
 };
-
-var toData = function toData(name) {
-  return "[data-type=".concat(name, "]");
-};
-
-var isSwitch = function isSwitch(element) {
-  return element.dataset['type'] === ATTRIBUTE;
-};
-
 var SwitchFactory = {
-  create: function create(args) {
-    var instance = Object.create(this);
-    Object.assign(instance, args);
-
-    if (!isFunction(instance.callback)) {
-      instance.callback = function (val, el) {};
+  create: function create(container, callback) {
+    if (!isHTMLElement(container)) {
+      console.error('SwitchFactory>>Container must be an HTML Element');
+      return ERROR$1;
     }
 
-    return instance;
-  },
+    var widget = null;
+
+    switch (getType(container)) {
+      case 'switch':
+        widget = Object.create(BaseSwitch);
+        break;
+
+      case 'form-switch':
+        widget = Object.create(FormSwitch);
+        break;
+    }
+
+    Object.assign(widget, {
+      container: container,
+      querySelector: createDomQuery$1(widget),
+      callback: isFunction(callback) ? callback : function (val, el) {}
+    });
+    return widget;
+  }
+};
+var BaseSwitch = {
+  name: 'switch',
   container: null,
+  callback: null,
   activate: function activate() {
     var _this = this;
+
+    if (getState(this.container) === Status$1.ON) {
+      check(this.container, Status$1.ON);
+    } // Bind events
+
+
+    this.container.addEventListener('click', function () {
+      setState(_this.container, getState(_this.container) === Status$1.ON ? Status$1.OFF : Status$1.ON);
+
+      _this.callback(_this.container.dataset.value, _this.container);
+    });
+  }
+};
+var FormSwitch = {
+  name: 'form-switch',
+  container: null,
+  callback: null,
+  activate: function activate() {
+    var _this2 = this;
 
     var input = getInput('checkbox', this.container);
     setState(this.container, input.checked ? Status$1.ON : Status$1.OFF); // Bind events
 
     input.addEventListener('change', function (e) {
-      setState(_this.container, input.checked ? Status$1.ON : Status$1.OFF);
+      setState(_this2.container, input.checked ? Status$1.ON : Status$1.OFF);
 
-      _this.callback(input.value, _this.container);
+      _this2.callback(input.value, _this2.container);
     });
   }
 };
+
+var createDomQuery$1 = function createDomQuery(selector) {
+  return "[data-type=\"".concat(selector.name, "\"]");
+};
+
+var isSwitch = function isSwitch(element) {
+  return RegExp('switch|form-switch').test(element.dataset['type']);
+};
+
+var domQuery$1 = [createDomQuery$1(BaseSwitch), createDomQuery$1(FormSwitch)].join(',');
+
+function getSliders(container) {
+  if (isHTMLElement(container)) {
+    return isSwitch(container) ? [container] : getElements(domQuery$1, container);
+  } else if (isString(container) && !isEmpty(container)) {
+    var _container = getElement(container);
+
+    return isNullOrUndefined(_container) ? NONE$1 : getSliders(_container);
+  } else if (isNullOrUndefined(container)) {
+    return getElements(domQuery$1);
+  }
+
+  return NONE$1;
+}
+
 function Switch(container, _callback) {
   var switches = getSliders(container);
 
@@ -2062,44 +2300,28 @@ function Switch(container, _callback) {
   }
 
   for (var i = 0; i < switches.length; i++) {
-    SwitchFactory.create({
-      container: switches[i],
-      callback: _callback
-    }).activate();
+    var switchWidget = SwitchFactory.create(switches[i], _callback);
+    switchWidget.activate();
   }
 
   return switches;
 }
 
-function getSliders(container) {
-  if (isHTMLElement(container)) {
-    return isSwitch(container) ? [container] : getElements(toData(ATTRIBUTE), container);
-  } else if (isString(container) && !isEmpty(container)) {
-    var _container = getElement(container);
-
-    return isNullOrUndefined(_container) ? NONE$1 : getSliders(_container);
-  } else if (isNullOrUndefined(container)) {
-    return getElements(toData(ATTRIBUTE));
-  }
-
-  return NONE$1;
-}
-
 /** @namespace FORM */
 
-var ATTRIBUTE$1 = 'collapsible';
+var ATTRIBUTE = 'collapsible';
 var NONE$2 = -1;
 var State$1 = {
   OPEN: 'expanded',
   CLOSED: 'collapsed'
 };
 
-var toData$1 = function toData(name) {
+var toData = function toData(name) {
   return "[data-boost=".concat(name, "]");
 };
 
 var isCollapsible = function isCollapsible(el) {
-  return ATTRIBUTE$1 in el.dataset;
+  return ATTRIBUTE in el.dataset;
 };
 
 var isAccordion = function isAccordion(el) {
@@ -2288,16 +2510,16 @@ function getCollapsibles(container) {
 
 function getAccordions(container) {
   if (isHTMLElement(container)) {
-    return isAccordion(container) ? [container] : getElements(toData$1('accordion'), container);
+    return isAccordion(container) ? [container] : getElements(toData('accordion'), container);
   } else if (isString(container) && !isEmpty(container)) {
     var _container = getElement(container);
 
     return isNullOrUndefined(_container) ? NONE$2 : getAccordions(_container);
   } else if (isNullOrUndefined(container)) {
-    return getElements(toData$1('accordion'));
+    return getElements(toData('accordion'));
   }
 
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAnchor, createAside, createButton, createDiv, createDocFragment, createElement, createEm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createImage, createInput, createLabel, createLi, createLineBreak, createLink, createP, createSpan, createStrong, createTable, createTableBody, createTableCell, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createUl, dayOfWeek, defProp, disable, enable, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlPrams, hasClass, hasOwn, hide, highlight, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, show, timeAgo, toBoolean, toggleClass, unhighlight, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAnchor, createArticle, createAside, createAudio, createButton, createCaption, createDataList, createDiv, createDocFragment, createElement, createEm, createFieldset, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createImage, createInput, createLabel, createLegend, createLi, createLineBreak, createLink, createMain, createMeter, createNav, createOl, createOption, createOptionGroup, createOutput, createP, createProgress, createSection, createSelect, createSpan, createStrong, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createUl, createVideo, dayOfWeek, defProp, disable, enable, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, hide, highlight, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, show, timeAgo, toBoolean, toggleClass, unhighlight, valOrDefault, windowWidth };

@@ -163,6 +163,7 @@ export function findAncestor(target, callback, max) {
     return findAncestorInf(parent, callback);
 }
 
+/* istanbul ignore next */
 function findAncestorInf(target, callback) {
     if (isNullOrUndefined(target)) {
         return null;
@@ -175,6 +176,7 @@ function findAncestorInf(target, callback) {
     return findAncestorInf(target.parentElement, callback);
 }
 
+/* istanbul ignore next */
 function findAncestorIter(target, callback, max) {
     if (isNullOrUndefined(target) || max === 0) {
         return null;
@@ -330,6 +332,7 @@ export function copytoClipboard(value) {
     return true;
 }
 
+/* istanbul ignore next */
 function stickyHeader(header, target) {
     const css_sticky = 'sticky';
     var sticky = target.offsetTop + target.clientHeight;

@@ -2,7 +2,7 @@
 require('jsdom-global')();
 
 const expect = require('chai').expect;
-const { isNullOrWhitespace, capitalize, capitalizeFirstLetter, removeAccents } = require('@datatype/type-string.js')
+const { isNullOrWhitespace, capitalize, capitalizeFirstLetter, removeAccents } = require('@datatype/type-string.js');
 
 describe('String helpers', function () {
     describe('#isNullOrWhitespace()', function () {

@@ -7,6 +7,7 @@ import { isString, valOrDefault } from '@datatype/type-manip.js';
  * @returns {HTMLElement}
  * @private
  */
+/* istanbul ignore next */
 function create(tagName, _attribute) {
     var element = document.createElement(tagName);
     if (_attribute) {
@@ -594,9 +595,10 @@ export const createTableHeaderCell = create.bind(null, "th");
 export const createTableCell = create.bind(null, "td");
 
 //#endregion
-
+/* istanbul ignore next */
 function echo(o) { o; }
 
+/* istanbul ignore next */
 const setClass = (el, c) => {
     // If c is an Array => Format c as a space-separated string
     if (Array.isArray(c)) {
@@ -651,6 +653,7 @@ export function addAttributes(element, attribute) {
  * @private
  * @memberof DOM
  */
+/* istanbul ignore next */
 function addChildren(el, children) {
     if (Array.isArray(children)) {
         appendChildren(el, children);
