@@ -782,7 +782,24 @@ var createThematicBreak = function createThematicBreak() {
  * @memberof DOM
  */
 
-var createP = create.bind(null, 'p');
+var createParagraph = create.bind(null, 'p');
+/**
+ * Creates a `<blockquote>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLQuoteElement}
+ * @memberof DOM
+ */
+
+function createBlockQuotation(cite, attr) {
+  var element = create('blockquote', attr);
+
+  if (cite) {
+    element.cite = cite;
+  }
+
+  return element;
+}
 /**
  * Creates a `<ul>` element with some attributes
  * @param {Object} [attr] attributes
@@ -790,7 +807,7 @@ var createP = create.bind(null, 'p');
  * @memberof DOM
  */
 
-var createUl = create.bind(null, 'ul');
+var createUnorderedList = create.bind(null, 'ul');
 /**
  * Creates a `<ol>` element with some attributes
  * @param {Object} [attr] attributes
@@ -798,14 +815,37 @@ var createUl = create.bind(null, 'ul');
  * @memberof DOM
  */
 
-var createOl = create.bind(null, 'ol');
+var createOrderedList = create.bind(null, 'ol');
 /**
  * Creates a `<li>` element with some attributes
  * @param {Object} [attr] attributes
  * @memberof DOM
  */
 
-var createLi = create.bind(null, 'li'); // Inline Element
+var createListItem = create.bind(null, 'li');
+/**
+ * Creates a `<dl>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @returns {HTMLDListElement}
+ * @memberof DOM
+ */
+
+var createDescriptionList = create.bind(null, 'dl');
+/**
+ * Creates a `<dt>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createDescriptionTerm = create.bind(null, 'dt');
+/**
+ * Creates a `<dd>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @memberof DOM
+ */
+
+var createDescriptionDetails = create.bind(null, 'dd'); // Inline Element
 
 /**
  * Creates an `<a>` element with some attributes
@@ -891,6 +931,42 @@ function createVideo(src, alt, attr) {
   return img;
 }
 /**
+ * Creates a `<source>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLSourceElement}
+ * @memberof DOM
+ */
+
+var createSource = create.bind(null, "source");
+/**
+ * Creates a `<picture>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLPictureElement}
+ * @memberof DOM
+ */
+
+var createPicture = create.bind(null, "picture");
+/**
+ * Creates a `<figure>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createFigure = create.bind(null, "figure");
+/**
+ * Creates a `<figcaption>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createFigureCaption = create.bind(null, "figcaption");
+/**
  * Creates a `<span>` element with some attributes
  * @function
  * @param {Object} [attr] attributes
@@ -916,7 +992,182 @@ var createStrong = create.bind(null, "strong");
  * @memberof DOM
  */
 
-var createEm = create.bind(null, "em"); //#region Form-associated Element
+var createEmphasis = create.bind(null, "em");
+/**
+ * Creates a `<mark>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createMark = create.bind(null, "mark");
+/**
+ * Creates a `<samp>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createSample = create.bind(null, "samp");
+/**
+ * Creates a `<sub>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createSubscript = create.bind(null, "sub");
+/**
+ * Creates a `<sup>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createSuperscript = create.bind(null, "sup");
+/**
+ * Creates a `<del>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLModElement}
+ * @memberof DOM
+ */
+
+function createDeletion(cite, datetime, attr) {
+  var element = create('del', attr);
+
+  if (cite) {
+    element.cite = cite;
+  }
+
+  if (datetime) {
+    element.datetime = datetime;
+  }
+
+  return element;
+}
+/**
+ * Creates a `<ins>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLModElement}
+ * @memberof DOM
+ */
+
+function createInsertion(cite, datetime, attr) {
+  var element = create('ins', attr);
+
+  if (cite) {
+    element.cite = cite;
+  }
+
+  if (datetime) {
+    element.datetime = datetime;
+  }
+
+  return element;
+}
+/**
+ * Creates a `<q>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLQuoteElement}
+ * @memberof DOM
+ */
+
+function createQuote(cite, attr) {
+  var quote = create('q', attr);
+
+  if (cite) {
+    quote.cite = cite;
+  }
+
+  return quote;
+}
+/**
+ * Creates a `<abbr>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createAbbreviation = create.bind(null, "abbr");
+/**
+ * Creates a `<b>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createB = create.bind(null, "b");
+/**
+ * Creates a `<i>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createI = create.bind(null, "i");
+/**
+ * Creates a `<s>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createS = create.bind(null, 's');
+/**
+ * Creates a `<u>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createU = create.bind(null, 'u');
+/**
+ * Creates a `<cite>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createCite = create.bind(null, "cite");
+/**
+ * Creates a `<q>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTimeElement}
+ * @memberof DOM
+ */
+
+function createTime(datetime, attr) {
+  var element = create('time', attr);
+
+  if (datetime) {
+    element.datetime = datetime;
+  }
+
+  return element;
+}
+/**
+ * Creates a `<code>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+var createCode = create.bind(null, "code"); //#region Form-associated Element
 
 /**
  * Creates a `<form>` element with some attributes
@@ -1333,8 +1584,6 @@ function disable(el, val) {
 }
 
 /** @namespace DOM */
-// module.exports = require('./dom-effects');
-// module.exports = require('./dom-manip');
 
 /**
  * Inserts an item in an array at the specified index
@@ -1579,11 +1828,6 @@ function cloneObject(obj) {
 }
 
 /** @namespace TYPE */
-// module.exports = require('./type-datetime');
-// module.exports = require('./type-iterable');
-// module.exports = require('./type-manip');
-// module.exports = require('./type-object');
-// module.exports = require('./type-string');
 
 /** 
  * Ajax namespace
@@ -1655,8 +1899,8 @@ var xhrHandler = function xhrHandler(type, url, successPred, successCb, failureC
       } else {
         callback = failureCb;
 
-        if (xhr.status >= 200 && xhr.status < 300) {
-          callback = isNullOrUndefined(passCb) ? failureCb : passCb;
+        if (xhr.status >= 200 && xhr.status < 300 && isFunction(passCb)) {
+          callback = passCb;
         }
       }
 
@@ -2522,4 +2766,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAnchor, createArticle, createAside, createAudio, createButton, createCaption, createDataList, createDiv, createDocFragment, createElement, createEm, createFieldset, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createImage, createInput, createLabel, createLegend, createLi, createLineBreak, createLink, createMain, createMeter, createNav, createOl, createOption, createOptionGroup, createOutput, createP, createProgress, createSection, createSelect, createSpan, createStrong, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createUl, createVideo, dayOfWeek, defProp, disable, enable, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, hide, highlight, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, show, timeAgo, toBoolean, toggleClass, unhighlight, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDeletion, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createElement, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInsertion, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, disable, enable, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, hide, highlight, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, show, timeAgo, toBoolean, toggleClass, unhighlight, valOrDefault, windowWidth };

@@ -138,11 +138,6 @@ var zutils = (function (exports) {
   }
 
   /** @namespace TYPE */
-  // module.exports = require('./type-datetime');
-  // module.exports = require('./type-iterable');
-  // module.exports = require('./type-manip');
-  // module.exports = require('./type-object');
-  // module.exports = require('./type-string');
 
   /** 
    * Ajax namespace
@@ -214,8 +209,8 @@ var zutils = (function (exports) {
         } else {
           callback = failureCb;
 
-          if (xhr.status >= 200 && xhr.status < 300) {
-            callback = isNullOrUndefined(passCb) ? failureCb : passCb;
+          if (xhr.status >= 200 && xhr.status < 300 && isFunction(passCb)) {
+            callback = passCb;
           }
         }
 

@@ -785,7 +785,24 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createP = create.bind(null, 'p');
+  var createParagraph = create.bind(null, 'p');
+  /**
+   * Creates a `<blockquote>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLQuoteElement}
+   * @memberof DOM
+   */
+
+  function createBlockQuotation(cite, attr) {
+    var element = create('blockquote', attr);
+
+    if (cite) {
+      element.cite = cite;
+    }
+
+    return element;
+  }
   /**
    * Creates a `<ul>` element with some attributes
    * @param {Object} [attr] attributes
@@ -793,7 +810,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createUl = create.bind(null, 'ul');
+  var createUnorderedList = create.bind(null, 'ul');
   /**
    * Creates a `<ol>` element with some attributes
    * @param {Object} [attr] attributes
@@ -801,14 +818,37 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createOl = create.bind(null, 'ol');
+  var createOrderedList = create.bind(null, 'ol');
   /**
    * Creates a `<li>` element with some attributes
    * @param {Object} [attr] attributes
    * @memberof DOM
    */
 
-  var createLi = create.bind(null, 'li'); // Inline Element
+  var createListItem = create.bind(null, 'li');
+  /**
+   * Creates a `<dl>` element with some attributes
+   * @param {Object} [attr] attributes
+   * @returns {HTMLDListElement}
+   * @memberof DOM
+   */
+
+  var createDescriptionList = create.bind(null, 'dl');
+  /**
+   * Creates a `<dt>` element with some attributes
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createDescriptionTerm = create.bind(null, 'dt');
+  /**
+   * Creates a `<dd>` element with some attributes
+   * @param {Object} [attr] attributes
+   * @memberof DOM
+   */
+
+  var createDescriptionDetails = create.bind(null, 'dd'); // Inline Element
 
   /**
    * Creates an `<a>` element with some attributes
@@ -894,6 +934,42 @@ var zenkai = (function (exports) {
     return img;
   }
   /**
+   * Creates a `<source>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLSourceElement}
+   * @memberof DOM
+   */
+
+  var createSource = create.bind(null, "source");
+  /**
+   * Creates a `<picture>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLPictureElement}
+   * @memberof DOM
+   */
+
+  var createPicture = create.bind(null, "picture");
+  /**
+   * Creates a `<figure>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createFigure = create.bind(null, "figure");
+  /**
+   * Creates a `<figcaption>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createFigureCaption = create.bind(null, "figcaption");
+  /**
    * Creates a `<span>` element with some attributes
    * @function
    * @param {Object} [attr] attributes
@@ -919,7 +995,182 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createEm = create.bind(null, "em"); //#region Form-associated Element
+  var createEmphasis = create.bind(null, "em");
+  /**
+   * Creates a `<mark>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createMark = create.bind(null, "mark");
+  /**
+   * Creates a `<samp>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createSample = create.bind(null, "samp");
+  /**
+   * Creates a `<sub>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createSubscript = create.bind(null, "sub");
+  /**
+   * Creates a `<sup>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createSuperscript = create.bind(null, "sup");
+  /**
+   * Creates a `<del>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLModElement}
+   * @memberof DOM
+   */
+
+  function createDeletion(cite, datetime, attr) {
+    var element = create('del', attr);
+
+    if (cite) {
+      element.cite = cite;
+    }
+
+    if (datetime) {
+      element.datetime = datetime;
+    }
+
+    return element;
+  }
+  /**
+   * Creates a `<ins>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLModElement}
+   * @memberof DOM
+   */
+
+  function createInsertion(cite, datetime, attr) {
+    var element = create('ins', attr);
+
+    if (cite) {
+      element.cite = cite;
+    }
+
+    if (datetime) {
+      element.datetime = datetime;
+    }
+
+    return element;
+  }
+  /**
+   * Creates a `<q>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLQuoteElement}
+   * @memberof DOM
+   */
+
+  function createQuote(cite, attr) {
+    var quote = create('q', attr);
+
+    if (cite) {
+      quote.cite = cite;
+    }
+
+    return quote;
+  }
+  /**
+   * Creates a `<abbr>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createAbbreviation = create.bind(null, "abbr");
+  /**
+   * Creates a `<b>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createB = create.bind(null, "b");
+  /**
+   * Creates a `<i>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createI = create.bind(null, "i");
+  /**
+   * Creates a `<s>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createS = create.bind(null, 's');
+  /**
+   * Creates a `<u>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createU = create.bind(null, 'u');
+  /**
+   * Creates a `<cite>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createCite = create.bind(null, "cite");
+  /**
+   * Creates a `<q>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLTimeElement}
+   * @memberof DOM
+   */
+
+  function createTime(datetime, attr) {
+    var element = create('time', attr);
+
+    if (datetime) {
+      element.datetime = datetime;
+    }
+
+    return element;
+  }
+  /**
+   * Creates a `<code>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createCode = create.bind(null, "code"); //#region Form-associated Element
 
   /**
    * Creates a `<form>` element with some attributes
@@ -1336,8 +1587,6 @@ var zenkai = (function (exports) {
   }
 
   /** @namespace DOM */
-  // module.exports = require('./dom-effects');
-  // module.exports = require('./dom-manip');
 
   /**
    * Inserts an item in an array at the specified index
@@ -1582,11 +1831,6 @@ var zenkai = (function (exports) {
   }
 
   /** @namespace TYPE */
-  // module.exports = require('./type-datetime');
-  // module.exports = require('./type-iterable');
-  // module.exports = require('./type-manip');
-  // module.exports = require('./type-object');
-  // module.exports = require('./type-string');
 
   /** 
    * Ajax namespace
@@ -1658,8 +1902,8 @@ var zenkai = (function (exports) {
         } else {
           callback = failureCb;
 
-          if (xhr.status >= 200 && xhr.status < 300) {
-            callback = isNullOrUndefined(passCb) ? failureCb : passCb;
+          if (xhr.status >= 200 && xhr.status < 300 && isFunction(passCb)) {
+            callback = passCb;
           }
         }
 
@@ -2546,18 +2790,29 @@ var zenkai = (function (exports) {
   exports.compareTime = compareTime;
   exports.conceal = conceal;
   exports.copytoClipboard = copytoClipboard;
+  exports.createAbbreviation = createAbbreviation;
   exports.createAnchor = createAnchor;
   exports.createArticle = createArticle;
   exports.createAside = createAside;
   exports.createAudio = createAudio;
+  exports.createB = createB;
+  exports.createBlockQuotation = createBlockQuotation;
   exports.createButton = createButton;
   exports.createCaption = createCaption;
+  exports.createCite = createCite;
+  exports.createCode = createCode;
   exports.createDataList = createDataList;
+  exports.createDeletion = createDeletion;
+  exports.createDescriptionDetails = createDescriptionDetails;
+  exports.createDescriptionList = createDescriptionList;
+  exports.createDescriptionTerm = createDescriptionTerm;
   exports.createDiv = createDiv;
   exports.createDocFragment = createDocFragment;
   exports.createElement = createElement;
-  exports.createEm = createEm;
+  exports.createEmphasis = createEmphasis;
   exports.createFieldset = createFieldset;
+  exports.createFigure = createFigure;
+  exports.createFigureCaption = createFigureCaption;
   exports.createFooter = createFooter;
   exports.createForm = createForm;
   exports.createH1 = createH1;
@@ -2567,26 +2822,36 @@ var zenkai = (function (exports) {
   exports.createH5 = createH5;
   exports.createH6 = createH6;
   exports.createHeader = createHeader;
+  exports.createI = createI;
   exports.createImage = createImage;
   exports.createInput = createInput;
+  exports.createInsertion = createInsertion;
   exports.createLabel = createLabel;
   exports.createLegend = createLegend;
-  exports.createLi = createLi;
   exports.createLineBreak = createLineBreak;
   exports.createLink = createLink;
+  exports.createListItem = createListItem;
   exports.createMain = createMain;
+  exports.createMark = createMark;
   exports.createMeter = createMeter;
   exports.createNav = createNav;
-  exports.createOl = createOl;
   exports.createOption = createOption;
   exports.createOptionGroup = createOptionGroup;
+  exports.createOrderedList = createOrderedList;
   exports.createOutput = createOutput;
-  exports.createP = createP;
+  exports.createParagraph = createParagraph;
+  exports.createPicture = createPicture;
   exports.createProgress = createProgress;
+  exports.createQuote = createQuote;
+  exports.createS = createS;
+  exports.createSample = createSample;
   exports.createSection = createSection;
   exports.createSelect = createSelect;
+  exports.createSource = createSource;
   exports.createSpan = createSpan;
   exports.createStrong = createStrong;
+  exports.createSubscript = createSubscript;
+  exports.createSuperscript = createSuperscript;
   exports.createTable = createTable;
   exports.createTableBody = createTableBody;
   exports.createTableCell = createTableCell;
@@ -2599,7 +2864,9 @@ var zenkai = (function (exports) {
   exports.createTextArea = createTextArea;
   exports.createTextNode = createTextNode;
   exports.createThematicBreak = createThematicBreak;
-  exports.createUl = createUl;
+  exports.createTime = createTime;
+  exports.createU = createU;
+  exports.createUnorderedList = createUnorderedList;
   exports.createVideo = createVideo;
   exports.dayOfWeek = dayOfWeek;
   exports.defProp = defProp;

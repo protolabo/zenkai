@@ -3,7 +3,7 @@
  * @namespace AJAX 
  */
 
-import { isFunction, isNullOrUndefined, valOrDefault } from "@datatype/index.js";
+import { isFunction, valOrDefault } from "@datatype/index.js";
 
 const HttpResponse = {
     // Successful
@@ -68,8 +68,8 @@ const xhrHandler = function (type, url, successPred, successCb, failureCb, passC
                 callback = successCb;
             } else {
                 callback = failureCb;
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    callback = isNullOrUndefined(passCb) ? failureCb : passCb;
+                if (xhr.status >= 200 && xhr.status < 300 && isFunction(passCb)) {
+                    callback = passCb;
                 }
             }
             if (isFunction(callback)) {
@@ -88,10 +88,6 @@ function createResponse(status, content) {
         status: status,
         message: content
     };
-}
-
-function isSuccess(status) {
-    return [HttpResponse.OK, HttpResponse.Accepted, HttpResponse.NoContent].includes(status);
 }
 
 /**

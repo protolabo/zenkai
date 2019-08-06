@@ -432,7 +432,7 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  var createP = create.bind(null, 'p');
+  var createParagraph = create.bind(null, 'p');
   /**
    * Creates a `<ul>` element with some attributes
    * @param {Object} [attr] attributes
@@ -440,7 +440,7 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  var createUl = create.bind(null, 'ul');
+  var createUnorderedList = create.bind(null, 'ul');
   /**
    * Creates a `<ol>` element with some attributes
    * @param {Object} [attr] attributes
@@ -448,14 +448,73 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  var createOl = create.bind(null, 'ol');
+  var createOrderedList = create.bind(null, 'ol');
   /**
    * Creates a `<li>` element with some attributes
    * @param {Object} [attr] attributes
    * @memberof DOM
    */
 
-  var createLi = create.bind(null, 'li'); // Inline Element
+  var createListItem = create.bind(null, 'li');
+  /**
+   * Creates a `<dl>` element with some attributes
+   * @param {Object} [attr] attributes
+   * @returns {HTMLDListElement}
+   * @memberof DOM
+   */
+
+  var createDescriptionList = create.bind(null, 'dl');
+  /**
+   * Creates a `<dt>` element with some attributes
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createDescriptionTerm = create.bind(null, 'dt');
+  /**
+   * Creates a `<dd>` element with some attributes
+   * @param {Object} [attr] attributes
+   * @memberof DOM
+   */
+
+  var createDescriptionDetails = create.bind(null, 'dd'); // Inline Element
+  /**
+   * Creates a `<source>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLSourceElement}
+   * @memberof DOM
+   */
+
+  var createSource = create.bind(null, "source");
+  /**
+   * Creates a `<picture>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLPictureElement}
+   * @memberof DOM
+   */
+
+  var createPicture = create.bind(null, "picture");
+  /**
+   * Creates a `<figure>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createFigure = create.bind(null, "figure");
+  /**
+   * Creates a `<figcaption>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createFigureCaption = create.bind(null, "figcaption");
   /**
    * Creates a `<span>` element with some attributes
    * @function
@@ -482,7 +541,106 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  var createEm = create.bind(null, "em"); //#region Form-associated Element
+  var createEmphasis = create.bind(null, "em");
+  /**
+   * Creates a `<mark>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createMark = create.bind(null, "mark");
+  /**
+   * Creates a `<samp>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createSample = create.bind(null, "samp");
+  /**
+   * Creates a `<sub>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createSubscript = create.bind(null, "sub");
+  /**
+   * Creates a `<sup>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createSuperscript = create.bind(null, "sup");
+  /**
+   * Creates a `<abbr>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createAbbreviation = create.bind(null, "abbr");
+  /**
+   * Creates a `<b>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createB = create.bind(null, "b");
+  /**
+   * Creates a `<i>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createI = create.bind(null, "i");
+  /**
+   * Creates a `<s>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createS = create.bind(null, 's');
+  /**
+   * Creates a `<u>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createU = create.bind(null, 'u');
+  /**
+   * Creates a `<cite>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createCite = create.bind(null, "cite");
+  /**
+   * Creates a `<code>` element with some attributes
+   * @function
+   * @param {Object} [attr] attributes
+   * @returns {HTMLElement}
+   * @memberof DOM
+   */
+
+  var createCode = create.bind(null, "code"); //#region Form-associated Element
 
   /**
    * Creates a `<form>` element with some attributes
@@ -841,8 +999,6 @@ var zcomponents = (function (exports) {
   }
 
   /** @namespace DOM */
-  // module.exports = require('./dom-effects');
-  // module.exports = require('./dom-manip');
 
   /**
    * Inserts an item in an array at the specified index
@@ -861,11 +1017,6 @@ var zcomponents = (function (exports) {
    */
 
   /** @namespace TYPE */
-  // module.exports = require('./type-datetime');
-  // module.exports = require('./type-iterable');
-  // module.exports = require('./type-manip');
-  // module.exports = require('./type-object');
-  // module.exports = require('./type-string');
 
   function floatingLabel(form) {
     var labels = getElements('.form-label', form);

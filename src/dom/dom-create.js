@@ -226,7 +226,25 @@ export const createThematicBreak = () => create('hr');
  * @returns {HTMLParagraphElement}
  * @memberof DOM
  */
-export const createP = create.bind(null, 'p');
+export const createParagraph = create.bind(null, 'p');
+
+
+/**
+ * Creates a `<blockquote>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLQuoteElement}
+ * @memberof DOM
+ */
+export function createBlockQuotation(cite, attr) {
+    var element = create('blockquote', attr);
+
+    if (cite) {
+        element.cite = cite;
+    }
+
+    return element;
+}
 
 /**
  * Creates a `<ul>` element with some attributes
@@ -234,7 +252,7 @@ export const createP = create.bind(null, 'p');
  * @returns {HTMLUListElement}
  * @memberof DOM
  */
-export const createUl = create.bind(null, 'ul');
+export const createUnorderedList = create.bind(null, 'ul');
 
 /**
  * Creates a `<ol>` element with some attributes
@@ -242,14 +260,37 @@ export const createUl = create.bind(null, 'ul');
  * @returns {HTMLUListElement}
  * @memberof DOM
  */
-export const createOl = create.bind(null, 'ol');
+export const createOrderedList = create.bind(null, 'ol');
 
 /**
  * Creates a `<li>` element with some attributes
  * @param {Object} [attr] attributes
  * @memberof DOM
  */
-export const createLi = create.bind(null, 'li');
+export const createListItem = create.bind(null, 'li');
+
+/**
+ * Creates a `<dl>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @returns {HTMLDListElement}
+ * @memberof DOM
+ */
+export const createDescriptionList = create.bind(null, 'dl');
+
+/**
+ * Creates a `<dt>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createDescriptionTerm = create.bind(null, 'dt');
+
+/**
+ * Creates a `<dd>` element with some attributes
+ * @param {Object} [attr] attributes
+ * @memberof DOM
+ */
+export const createDescriptionDetails = create.bind(null, 'dd');
 
 // Inline Element
 
@@ -333,6 +374,42 @@ export function createVideo(src, alt, attr) {
 }
 
 /**
+ * Creates a `<source>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLSourceElement}
+ * @memberof DOM
+ */
+export const createSource = create.bind(null, "source");
+
+/**
+ * Creates a `<picture>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLPictureElement}
+ * @memberof DOM
+ */
+export const createPicture = create.bind(null, "picture");
+
+/**
+ * Creates a `<figure>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createFigure = create.bind(null, "figure");
+
+/**
+ * Creates a `<figcaption>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createFigureCaption = create.bind(null, "figcaption");
+
+/**
  * Creates a `<span>` element with some attributes
  * @function
  * @param {Object} [attr] attributes
@@ -357,7 +434,185 @@ export const createStrong = create.bind(null, "strong");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createEm = create.bind(null, "em");
+export const createEmphasis = create.bind(null, "em");
+
+/**
+ * Creates a `<mark>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createMark = create.bind(null, "mark");
+
+/**
+ * Creates a `<samp>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createSample = create.bind(null, "samp");
+
+/**
+ * Creates a `<sub>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createSubscript = create.bind(null, "sub");
+
+/**
+ * Creates a `<sup>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createSuperscript = create.bind(null, "sup");
+
+
+/**
+ * Creates a `<del>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLModElement}
+ * @memberof DOM
+ */
+export function createDeletion(cite, datetime, attr) {
+    var element = create('del', attr);
+
+    if (cite) {
+        element.cite = cite;
+    }
+
+    if (datetime) {
+        element.datetime = datetime;
+    }
+
+    return element;
+}
+
+/**
+ * Creates a `<ins>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLModElement}
+ * @memberof DOM
+ */
+export function createInsertion(cite, datetime, attr) {
+    var element = create('ins', attr);
+
+    if (cite) {
+        element.cite = cite;
+    }
+
+    if (datetime) {
+        element.datetime = datetime;
+    }
+
+    return element;
+}
+
+
+/**
+ * Creates a `<q>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLQuoteElement}
+ * @memberof DOM
+ */
+export function createQuote(cite, attr) {
+    var quote = create('q', attr);
+
+    if (cite) {
+        quote.cite = cite;
+    }
+
+    return quote;
+}
+
+/**
+ * Creates a `<abbr>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createAbbreviation = create.bind(null, "abbr");
+
+/**
+ * Creates a `<b>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createB = create.bind(null, "b");
+
+/**
+ * Creates a `<i>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createI = create.bind(null, "i");
+
+/**
+ * Creates a `<s>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createS = create.bind(null, 's');
+
+/**
+ * Creates a `<u>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createU = create.bind(null, 'u');
+
+/**
+ * Creates a `<cite>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createCite = create.bind(null, "cite");
+
+
+/**
+ * Creates a `<q>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLTimeElement}
+ * @memberof DOM
+ */
+export function createTime(datetime, attr) {
+    var element = create('time', attr);
+
+    if (datetime) {
+        element.datetime = datetime;
+    }
+
+    return element;
+}
+
+/**
+ * Creates a `<code>` element with some attributes
+ * @function
+ * @param {Object} [attr] attributes
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+export const createCode = create.bind(null, "code");
 
 //#region Form-associated Element
 
@@ -595,6 +850,7 @@ export const createTableHeaderCell = create.bind(null, "th");
 export const createTableCell = create.bind(null, "td");
 
 //#endregion
+
 /* istanbul ignore next */
 function echo(o) { o; }
 

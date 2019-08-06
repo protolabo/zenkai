@@ -25,10 +25,14 @@ const {
     createHeader, createMain, createArticle, createSection, createNav, createAside, createFooter,
     createH1, createH2, createH3, createH4, createH5, createH6,
     // Content element
-    createDiv, createLineBreak, createThematicBreak,
-    createP, createUl, createOl, createLi,
+    createDiv, createLineBreak, createThematicBreak, createBlockQuotation,
+    createParagraph, createUnorderedList, createOrderedList, createListItem,
+    createDescriptionList, createDescriptionTerm, createDescriptionDetails,
     // Inline element
-    createAnchor, createImage, createSpan, createStrong, createEm,
+    createAnchor, createImage, createSpan, createStrong, createEmphasis, createMark, createSample,
+    createSubscript, createSuperscript, createDeletion, createInsertion, createAbbreviation,
+    createB, createI, createS, createU, createQuote, createCite, createTime, createCode,
+    createAudio, createVideo, createSource, createPicture, createFigure, createFigureCaption,
     // Forms element
     createForm, createFieldset, createLegend, createInput, createLabel,
     createDataList, createSelect, createOption, createOptionGroup, createTextArea,
@@ -437,9 +441,9 @@ describe('DOM helpers', function () {
             }
         });
     });
-    describe('#createP()', function () {
+    describe('#createParagraph()', function () {
         it("should return a paragraph element", function () {
-            var result = createP();
+            var result = createParagraph();
 
             expect(result).to.have.property('nodeName', 'P');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
@@ -447,7 +451,7 @@ describe('DOM helpers', function () {
         it("should return a paragraph element with the attributes set", function () {
             var attribute = createAttribute();
 
-            var result = createP(attribute);
+            var result = createParagraph(attribute);
 
             expect(result).to.have.property('nodeName', 'P');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
@@ -456,17 +460,44 @@ describe('DOM helpers', function () {
             }
         });
     });
-    describe('#createUl()', function () {
+    describe('#createBlockQuotation()', function () {
+        it("should return a block quotation element", function () {
+            var result = createBlockQuotation();
+
+            expect(result).to.have.property('nodeName', 'BLOCKQUOTE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a block quotation element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createBlockQuotation(null, attribute);
+
+            expect(result).to.have.property('nodeName', 'BLOCKQUOTE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+        it("should return a block quotation element with a cite attribute", function () {
+            var cite = "areflink";
+            var result = createBlockQuotation(cite);
+
+            expect(result).to.have.property('nodeName', 'BLOCKQUOTE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            expect(result).to.have.property('cite', cite);
+        });
+    });
+    describe('#createUnorderedList()', function () {
         it("should return an unordered list element", function () {
-            var result = createUl();
+            var result = createUnorderedList();
 
             expect(result).to.have.property('nodeName', 'UL');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
         });
-        it("should return a unordered list element with the attributes set", function () {
+        it("should return an unordered list element with the attributes set", function () {
             var attribute = createAttribute();
 
-            var result = createUl(attribute);
+            var result = createUnorderedList(attribute);
 
             expect(result).to.have.property('nodeName', 'UL');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
@@ -475,17 +506,17 @@ describe('DOM helpers', function () {
             }
         });
     });
-    describe('#createOl()', function () {
+    describe('#createOrderedList()', function () {
         it("should return an ordered list element", function () {
-            var result = createOl();
+            var result = createOrderedList();
 
             expect(result).to.have.property('nodeName', 'OL');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
         });
-        it("should return a ordered list element with the attributes set", function () {
+        it("should return an ordered list element with the attributes set", function () {
             var attribute = createAttribute();
 
-            var result = createOl(attribute);
+            var result = createOrderedList(attribute);
 
             expect(result).to.have.property('nodeName', 'OL');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
@@ -494,9 +525,9 @@ describe('DOM helpers', function () {
             }
         });
     });
-    describe('#createLi()', function () {
+    describe('#createListItem()', function () {
         it("should return a list item element", function () {
-            var result = createLi();
+            var result = createListItem();
 
             expect(result).to.have.property('nodeName', 'LI');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
@@ -504,9 +535,66 @@ describe('DOM helpers', function () {
         it("should return a list item element with the attributes set", function () {
             var attribute = createAttribute();
 
-            var result = createLi(attribute);
+            var result = createListItem(attribute);
 
             expect(result).to.have.property('nodeName', 'LI');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createDescriptionList()', function () {
+        it("should return a description list element", function () {
+            var result = createDescriptionList();
+
+            expect(result).to.have.property('nodeName', 'DL');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a description list element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createDescriptionList(attribute);
+
+            expect(result).to.have.property('nodeName', 'DL');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createDescriptionTerm()', function () {
+        it("should return a description term element", function () {
+            var result = createDescriptionTerm();
+
+            expect(result).to.have.property('nodeName', 'DT');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a description term element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createDescriptionTerm(attribute);
+
+            expect(result).to.have.property('nodeName', 'DT');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createDescriptionDetails()', function () {
+        it("should return a description details element", function () {
+            var result = createDescriptionDetails();
+
+            expect(result).to.have.property('nodeName', 'DD');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a description details element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createDescriptionDetails(attribute);
+
+            expect(result).to.have.property('nodeName', 'DD');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
             for (const key in attribute) {
                 expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
@@ -616,17 +704,131 @@ describe('DOM helpers', function () {
             }
         });
     });
-    describe('#createEm()', function () {
-        it("should return an em element", function () {
-            var result = createEm();
+    describe('#createEmphasis()', function () {
+        it("should return an emphasis element", function () {
+            var result = createEmphasis();
 
             expect(result).to.have.property('nodeName', 'EM');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
         });
-        it("should return an em element with the attributes set", function () {
+        it("should return an emphasis element with the attributes set", function () {
             var attribute = createAttribute();
 
-            var result = createEm(attribute);
+            var result = createEmphasis(attribute);
+
+            expect(result).to.have.property('nodeName', 'EM');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createMark()', function () {
+        it("should return a mark element", function () {
+            var result = createMark();
+
+            expect(result).to.have.property('nodeName', 'MARK');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a mark element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createMark(attribute);
+
+            expect(result).to.have.property('nodeName', 'MARK');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createSample()', function () {
+        it("should return a sample element", function () {
+            var result = createSample();
+
+            expect(result).to.have.property('nodeName', 'SAMP');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a sample element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createSample(attribute);
+
+            expect(result).to.have.property('nodeName', 'SAMP');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createSubscript()', function () {
+        it("should return a subscript element", function () {
+            var result = createSubscript();
+
+            expect(result).to.have.property('nodeName', 'SUB');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a subscript element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createSubscript(attribute);
+
+            expect(result).to.have.property('nodeName', 'SUB');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createSuperscript()', function () {
+        it("should return a superscript element", function () {
+            var result = createSuperscript();
+
+            expect(result).to.have.property('nodeName', 'SUP');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a superscript element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createSuperscript(attribute);
+
+            expect(result).to.have.property('nodeName', 'SUP');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createEmphasis()', function () {
+        it("should return an emphasis element", function () {
+            var result = createEmphasis();
+
+            expect(result).to.have.property('nodeName', 'EM');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return an emphasis element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createEmphasis(attribute);
+
+            expect(result).to.have.property('nodeName', 'EM');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createEmphasis()', function () {
+        it("should return an emphasis element", function () {
+            var result = createEmphasis();
+
+            expect(result).to.have.property('nodeName', 'EM');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return an emphasis element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createEmphasis(attribute);
 
             expect(result).to.have.property('nodeName', 'EM');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
@@ -1168,11 +1370,11 @@ describe('DOM helpers', function () {
     describe('#appendChildren()', function () {
         it("should return append the children to an element", function () {
             var div = createDiv();
-            var span3 = [createSpan(), createP(), createP()];
+            var children = [createSpan(), createParagraph(), createDiv()];
 
-            var result = appendChildren(div, span3);
+            var result = appendChildren(div, children);
 
-            expect(result.childElementCount).to.be.equal(3);
+            expect(result.childElementCount).to.be.equal(children.length);
         });
     });
 });
