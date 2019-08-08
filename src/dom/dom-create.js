@@ -638,7 +638,9 @@ export function createInput(type, attr) {
     return input;
 }
 
-["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"].forEach(function (type) {
+["button", "checkbox", "color", "date", "datetime-local", "email", "file",
+    "hidden", "image", "month", "number", "password", "radio", "range", "reset",
+    "search", "submit", "tel", "text", "time", "url", "week"].forEach(function (type) {
     createInput[type] = createInput.bind(null, type);
 });
 

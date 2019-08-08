@@ -9,7 +9,7 @@ export function valOrDefault(arg, value, isNullable) {
     if (isNullable === true) {
         return isUndefined(arg) ? value : arg;
     }
-    
+
     return isNullOrUndefined(arg) ? value : arg;
 }
 
@@ -39,8 +39,8 @@ export function toBoolean(value) {
  * @returns {boolean}  A value indicating whether or not the given value is an *integer*.
  * @memberof TYPE
  */
-export function isInt(value) { 
-    return Number.isInteger ? Number.isInteger(value) : typeof value === 'number' && value % 1 === 0; 
+export function isInt(value) {
+    return Number.isInteger ? Number.isInteger(value) : typeof value === 'number' && value % 1 === 0;
 }
 
 /**
@@ -100,3 +100,43 @@ export function isUndefined(value) { return typeof value === 'undefined'; }
  * @memberof TYPE
  */
 export function isNullOrUndefined(value) { return isNull(value) || isUndefined(value); }
+
+[isNull, isUndefined, isNullOrUndefined, isObject, isFunction, isString, isDate, isEmpty, isInt].forEach((fn)=>{
+    fn['any'] = function (values) {
+        for (let i = 0; i < values.length; i++) {
+            if (fn(values[i])) {
+                return true;
+            }
+        }
+        return false;
+    };
+    fn['some'] = function (values, min = 1) {
+        if(min === 1) {
+            return fn.any(values);
+        }
+        var counter = 0;
+        for (let i = 0; i < values.length; i++) {
+            if (fn(values[i])) {
+                counter++;
+            }
+        }
+        return counter >= min;
+    };
+    fn['all'] = function (values) {
+        for (let i = 0; i < values.length; i++) {
+            if (!fn(values[i])) {
+                return false;
+            }
+        }
+        return true;
+    };
+    fn['one'] = function (values) {
+        var counter = 0;
+        for (let i = 0; i < values.length; i++) {
+            if (fn(values[i])) {
+                counter++;
+            }
+        }
+        return counter === 1;
+    };
+});
