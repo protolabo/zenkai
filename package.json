@@ -1,6 +1,6 @@
 {
   "name": "protolabo-zenkai",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "Javascript utility and helper methods",
   "private": true,
   "main": "dist/zenkai.min.js",
