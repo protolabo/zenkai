@@ -102,17 +102,14 @@ export function isUndefined(value) { return typeof value === 'undefined'; }
 export function isNullOrUndefined(value) { return isNull(value) || isUndefined(value); }
 
 [isNull, isUndefined, isNullOrUndefined, isObject, isFunction, isString, isDate, isEmpty, isInt].forEach((fn)=>{
-    fn['any'] = function (values) {
-        for (let i = 0; i < values.length; i++) {
-            if (fn(values[i])) {
-                return true;
-            }
-        }
-        return false;
-    };
     fn['some'] = function (values, min = 1) {
         if(min === 1) {
-            return fn.any(values);
+            for (let i = 0; i < values.length; i++) {
+                if (fn(values[i])) {
+                    return true;
+                }
+            }
+            return false;
         }
         var counter = 0;
         for (let i = 0; i < values.length; i++) {

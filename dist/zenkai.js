@@ -133,27 +133,23 @@ var zenkai = (function (exports) {
     return isNull(value) || isUndefined(value);
   }
   [isNull, isUndefined, isNullOrUndefined, isObject, isFunction, isString, isDate, isEmpty, isInt].forEach(function (fn) {
-    fn['any'] = function (values) {
-      for (var i = 0; i < values.length; i++) {
-        if (fn(values[i])) {
-          return true;
-        }
-      }
-
-      return false;
-    };
-
     fn['some'] = function (values) {
       var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
       if (min === 1) {
-        return fn.any(values);
+        for (var i = 0; i < values.length; i++) {
+          if (fn(values[i])) {
+            return true;
+          }
+        }
+
+        return false;
       }
 
       var counter = 0;
 
-      for (var i = 0; i < values.length; i++) {
-        if (fn(values[i])) {
+      for (var _i = 0; _i < values.length; _i++) {
+        if (fn(values[_i])) {
           counter++;
         }
       }
@@ -2241,20 +2237,20 @@ var zenkai = (function (exports) {
     var labels = getElements('.form-label', form);
 
     for (var i = 0; i < labels.length; i++) {
-      var lbl = labels[i];
+      var label = labels[i];
 
-      if (lbl.dataset['type'] == 'placeholder' && !isNullOrWhitespace(lbl.htmlFor)) {
-        var input = getElement("#".concat(lbl.htmlFor));
+      if (label.dataset['type'] == 'placeholder' && !isNullOrWhitespace(label.htmlFor)) {
+        var input = getElement("#".concat(label.htmlFor));
 
         if (isUndefined(input)) {
-          throw new Error("Missing input for label: ".concat(lbl.htmlFor));
+          throw new Error("Missing input for label: ".concat(label.htmlFor));
         }
 
         if (isNullOrWhitespace(input.placeholder)) {
-          bindEvents(input, lbl);
+          bindEvents(input, label);
 
           if (input.value.length === 0) {
-            addClass(lbl, 'down');
+            addClass(label, 'down');
           }
         }
       }
@@ -2279,20 +2275,38 @@ var zenkai = (function (exports) {
     for (var _i = 0; _i < counters.length; _i++) {
       _loop(_i);
     }
+    /**
+     * 
+     * @param {HTMLInputElement} input 
+     * @param {HTMLLabelElement} label 
+     */
 
-    function bindEvents(input, lbl) {
+
+    function bindEvents(input, label) {
+      var value = input.value;
+
       if (isNullOrWhitespace(input.placeholder)) {
         input.addEventListener('focus', function (e) {
           input.placeholder = "";
-          removeClass(lbl, 'down');
-          addClass(lbl.parentElement, 'focused');
+          removeClass(label, 'down');
+          addClass(label.parentElement, 'focused');
         });
         input.addEventListener('blur', function (e) {
-          if (input.value.length === 0) {
-            addClass(lbl, 'down');
+          if (isEmpty(value)) {
+            addClass(label, 'down');
           }
 
-          removeClass(lbl.parentElement, 'focused');
+          removeClass(label.parentElement, 'focused');
+        });
+        input.addEventListener('input', function (e) {
+          // check if input does not have focus
+          if (document.activeElement != input) {
+            if (isEmpty(value)) {
+              addClass(label, 'down');
+            } else {
+              removeClass(label, 'down');
+            }
+          }
         });
       }
     }

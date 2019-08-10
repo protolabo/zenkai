@@ -112,27 +112,23 @@ var zutils = (function (exports) {
     return isNull(value) || isUndefined(value);
   }
   [isNull, isUndefined, isNullOrUndefined, isObject, isFunction, isString, isDate, isEmpty, isInt].forEach(function (fn) {
-    fn['any'] = function (values) {
-      for (var i = 0; i < values.length; i++) {
-        if (fn(values[i])) {
-          return true;
-        }
-      }
-
-      return false;
-    };
-
     fn['some'] = function (values) {
       var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
       if (min === 1) {
-        return fn.any(values);
+        for (var i = 0; i < values.length; i++) {
+          if (fn(values[i])) {
+            return true;
+          }
+        }
+
+        return false;
       }
 
       var counter = 0;
 
-      for (var i = 0; i < values.length; i++) {
-        if (fn(values[i])) {
+      for (var _i = 0; _i < values.length; _i++) {
+        if (fn(values[_i])) {
           counter++;
         }
       }

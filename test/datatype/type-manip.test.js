@@ -205,6 +205,36 @@ describe('Data type general helpers', function () {
                 expect(result).to.be.false;
             });
         });
+        it("should return true if some of the values are undefined", function () {
+            var values = ["hello", 100, undefined, {}, null];
+            var result = isUndefined.some(values);
+            expect(result).to.be.true;
+        });
+        it("should return false if none of the values are undefined", function () {
+            var values = ["hello", 100, true, {}, null];
+            var result = isUndefined.some(values);
+            expect(result).to.be.false;
+        });
+        it("should return true if all the values are undefined", function () {
+            var values = [undefined, undefined];
+            var result = isUndefined.all(values);
+            expect(result).to.be.true;
+        });
+        it("should return false if some of the values are not undefined", function () {
+            var values = [undefined, undefined, null];
+            var result = isUndefined.all(values);
+            expect(result).to.be.false;
+        });
+        it("should return true if only one of the values is undefined", function () {
+            var values = [undefined, 3, null];
+            var result = isUndefined.one(values);
+            expect(result).to.be.true;
+        });
+        it("should return false if not exactly one the values is undefined", function () {
+            var values = [undefined, undefined, null];
+            var result = isUndefined.one(values);
+            expect(result).to.be.false;
+        });
     });
     describe('#isNullOrUndefined()', function () {
         it("should return true if the value is undefined or null", function () {
@@ -220,6 +250,36 @@ describe('Data type general helpers', function () {
                 var result = isNullOrUndefined(val);
                 expect(result).to.be.false;
             });
+        });
+        it("should return true if some of the values are undefined or null", function () {
+            var values = [undefined, null];
+            var result = isNullOrUndefined.some(values);
+            expect(result).to.be.true;
+        });
+        it("should return false if all the value are not undefined", function () {
+            var values = ["hello", 100, true, {}];
+            var result = isNullOrUndefined.some(values);
+            expect(result).to.be.false;
+        });
+        it("should return true if all the values are undefined or null", function () {
+            var values = [undefined, null];
+            var result = isNullOrUndefined.all(values);
+            expect(result).to.be.true;
+        });
+        it("should return false if all the value are not undefined", function () {
+            var values = ["hello", undefined, 100, true, {}];
+            var result = isNullOrUndefined.all(values);
+            expect(result).to.be.false;
+        });
+        it("should return true if only one of the values is undefined or null", function () {
+            var values = [undefined, "hello", 100];
+            var result = isNullOrUndefined.one(values);
+            expect(result).to.be.true;
+        });
+        it("should return false if not exactly one of values is undefined or null", function () {
+            var values = [null, undefined, 100];
+            var result = isNullOrUndefined.one(values);
+            expect(result).to.be.false;
         });
     });
 });

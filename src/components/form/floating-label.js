@@ -1,23 +1,23 @@
-import { getElement, getElements,  removeClass, addClass } from '@dom/index.js';
-import { isNullOrWhitespace, isUndefined } from '@datatype/index.js';
+import { getElement, getElements, removeClass, addClass } from '@dom/index.js';
+import { isNullOrWhitespace, isUndefined, isEmpty } from '@datatype/index.js';
 
 // Label as placeholder
 export function floatingLabel(form) {
     const labels = getElements('.form-label', form);
 
     for (let i = 0; i < labels.length; i++) {
-        let lbl = labels[i];
-        if (lbl.dataset['type'] == 'placeholder' && !isNullOrWhitespace(lbl.htmlFor)) {
-            let input = getElement(`#${lbl.htmlFor}`);
+        let label = labels[i];
+        if (label.dataset['type'] == 'placeholder' && !isNullOrWhitespace(label.htmlFor)) {
+            let input = getElement(`#${label.htmlFor}`);
 
             if (isUndefined(input)) {
-                throw new Error(`Missing input for label: ${lbl.htmlFor}`);
+                throw new Error(`Missing input for label: ${label.htmlFor}`);
             }
-            
+
             if (isNullOrWhitespace(input.placeholder)) {
-                bindEvents(input, lbl);
+                bindEvents(input, label);
                 if (input.value.length === 0) {
-                    addClass(lbl, 'down');
+                    addClass(label, 'down');
                 }
             }
         }
@@ -37,18 +37,35 @@ export function floatingLabel(form) {
         }
     }
 
-    function bindEvents(input, lbl) {
+
+    /**
+     * 
+     * @param {HTMLInputElement} input 
+     * @param {HTMLLabelElement} label 
+     */
+    function bindEvents(input, label) {
+        var value = input.value;
         if (isNullOrWhitespace(input.placeholder)) {
             input.addEventListener('focus', function (e) {
                 input.placeholder = "";
-                removeClass(lbl, 'down');
-                addClass(lbl.parentElement, 'focused');
+                removeClass(label, 'down');
+                addClass(label.parentElement, 'focused');
             });
             input.addEventListener('blur', function (e) {
-                if (input.value.length === 0) {
-                    addClass(lbl, 'down');
+                if (isEmpty(value)) {
+                    addClass(label, 'down');
                 }
-                removeClass(lbl.parentElement, 'focused');
+                removeClass(label.parentElement, 'focused');
+            });
+            input.addEventListener('input', function (e) {
+                // check if input does not have focus
+                if (document.activeElement != input) {
+                    if (isEmpty(value)) {
+                        addClass(label, 'down');
+                    } else {
+                        removeClass(label, 'down');
+                    }
+                }
             });
         }
     }

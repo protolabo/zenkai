@@ -1,6 +1,6 @@
 import { getElement, getElements, isHTMLElement } from '@dom/index.js';
 import { isFunction, isString, isNullOrUndefined, isEmpty } from '@datatype/index.js';
-import { check, uncheck, setState, getState, getType } from './global.js';
+import { check, setState, getState, getType } from './global.js';
 import { getInput } from "./utils.js";
 
 const NONE = -1;
