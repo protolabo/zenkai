@@ -474,49 +474,6 @@ export const createSuperscript = create.bind(null, "sup");
 
 
 /**
- * Creates a `<del>` element with some attributes
- * @function
- * @param {Object} [attr] attributes
- * @returns {HTMLModElement}
- * @memberof DOM
- */
-export function createDeletion(cite, datetime, attr) {
-    var element = create('del', attr);
-
-    if (cite) {
-        element.cite = cite;
-    }
-
-    if (datetime) {
-        element.datetime = datetime;
-    }
-
-    return element;
-}
-
-/**
- * Creates a `<ins>` element with some attributes
- * @function
- * @param {Object} [attr] attributes
- * @returns {HTMLModElement}
- * @memberof DOM
- */
-export function createInsertion(cite, datetime, attr) {
-    var element = create('ins', attr);
-
-    if (cite) {
-        element.cite = cite;
-    }
-
-    if (datetime) {
-        element.datetime = datetime;
-    }
-
-    return element;
-}
-
-
-/**
  * Creates a `<q>` element with some attributes
  * @function
  * @param {Object} [attr] attributes
@@ -625,23 +582,29 @@ export const createCode = create.bind(null, "code");
  */
 export const createForm = create.bind(null, 'form');
 
+
+
+function createInputAs(type, attr) {
+    var input = create('input', attr);
+    input.type = type;
+
+    return input;
+}
+
+
 /**
  * Creates a `<input>` element with some attributes
  * @param {Object} [attr] attributes
  * @returns {HTMLInputElement}
  * @memberof DOM
  */
-export function createInput(type, attr) {
-    var input = create('input', attr);
-    input.type = valOrDefault(type, "text");
+export const createInput = createInputAs.bind(null, "text");
 
-    return input;
-}
 
 ["button", "checkbox", "color", "date", "datetime-local", "email", "file",
     "hidden", "image", "month", "number", "password", "radio", "range", "reset",
     "search", "submit", "tel", "text", "time", "url", "week"].forEach(function (type) {
-    createInput[type] = createInput.bind(null, type);
+    createInput[type] = createInputAs.bind(null, type);
 });
 
 /**
@@ -743,20 +706,21 @@ export const createProgress = create.bind(null, 'progress');
  */
 export const createOutput = create.bind(null, 'output');
 
+function createButtonAs(type, attr) {
+    var btn = create("button", attr);
+    btn.type = type;
+
+    return btn;
+}
 
 /**
  * Creates a `<button>` element with some attributes
  * @param {Object} [attr] attributes
  * @memberof DOM
  */
-export function createButton(type, attr) {
-    var btn = create("button", attr);
-    btn.type = valOrDefault(type, "button");
-
-    return btn;
-}
+export const createButton = createButtonAs.bind(null, "button");
 ["submit", "reset", "button"].forEach(function (type) {
-    createButton[type] = createButton.bind(null, type);
+    createButton[type] = createButtonAs.bind(null, type);
 });
 
 //#endregion

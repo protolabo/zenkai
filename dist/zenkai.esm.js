@@ -1077,48 +1077,6 @@ var createSubscript = create.bind(null, "sub");
 
 var createSuperscript = create.bind(null, "sup");
 /**
- * Creates a `<del>` element with some attributes
- * @function
- * @param {Object} [attr] attributes
- * @returns {HTMLModElement}
- * @memberof DOM
- */
-
-function createDeletion(cite, datetime, attr) {
-  var element = create('del', attr);
-
-  if (cite) {
-    element.cite = cite;
-  }
-
-  if (datetime) {
-    element.datetime = datetime;
-  }
-
-  return element;
-}
-/**
- * Creates a `<ins>` element with some attributes
- * @function
- * @param {Object} [attr] attributes
- * @returns {HTMLModElement}
- * @memberof DOM
- */
-
-function createInsertion(cite, datetime, attr) {
-  var element = create('ins', attr);
-
-  if (cite) {
-    element.cite = cite;
-  }
-
-  if (datetime) {
-    element.datetime = datetime;
-  }
-
-  return element;
-}
-/**
  * Creates a `<q>` element with some attributes
  * @function
  * @param {Object} [attr] attributes
@@ -1225,6 +1183,12 @@ var createCode = create.bind(null, "code"); //#region Form-associated Element
  */
 
 var createForm = create.bind(null, 'form');
+
+function createInputAs(type, attr) {
+  var input = create('input', attr);
+  input.type = type;
+  return input;
+}
 /**
  * Creates a `<input>` element with some attributes
  * @param {Object} [attr] attributes
@@ -1232,13 +1196,10 @@ var createForm = create.bind(null, 'form');
  * @memberof DOM
  */
 
-function createInput(type, attr) {
-  var input = create('input', attr);
-  input.type = valOrDefault(type, "text");
-  return input;
-}
+
+var createInput = createInputAs.bind(null, "text");
 ["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"].forEach(function (type) {
-  createInput[type] = createInput.bind(null, type);
+  createInput[type] = createInputAs.bind(null, type);
 });
 /**
  * Creates a `<label>` element with some attributes
@@ -1339,19 +1300,22 @@ var createProgress = create.bind(null, 'progress');
  */
 
 var createOutput = create.bind(null, 'output');
+
+function createButtonAs(type, attr) {
+  var btn = create("button", attr);
+  btn.type = type;
+  return btn;
+}
 /**
  * Creates a `<button>` element with some attributes
  * @param {Object} [attr] attributes
  * @memberof DOM
  */
 
-function createButton(type, attr) {
-  var btn = create("button", attr);
-  btn.type = valOrDefault(type, "button");
-  return btn;
-}
+
+var createButton = createButtonAs.bind(null, "button");
 ["submit", "reset", "button"].forEach(function (type) {
-  createButton[type] = createButton.bind(null, type);
+  createButton[type] = createButtonAs.bind(null, type);
 }); //#endregion
 //#region Table Element
 
@@ -2831,4 +2795,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDeletion, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createElement, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInsertion, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, disable, enable, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, hide, highlight, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, show, timeAgo, toBoolean, toggleClass, unhighlight, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createElement, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, disable, enable, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, hide, highlight, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, show, timeAgo, toBoolean, toggleClass, unhighlight, valOrDefault, windowWidth };

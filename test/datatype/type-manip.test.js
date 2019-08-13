@@ -191,6 +191,36 @@ describe('Data type general helpers', function () {
                 expect(result).to.be.false;
             });
         });
+        it("should return true if some of the values are null", function () {
+            var values = [null, 100, "ok", undefined];
+            var result = isNull.some(values);
+            expect(result).to.be.true;
+        });
+        it("should return false if all of the values are not null", function () {
+            var values = ["hello", 100, true, {}, undefined];
+            var result = isNull.some(values);
+            expect(result).to.be.false;
+        });
+        it("should return true if all of the values are null", function () {
+            var values = [null, null, null];
+            var result = isNull.all(values);
+            expect(result).to.be.true;
+        });
+        it("should return false if some of the values are not null", function () {
+            var values = [null, true, null];
+            var result = isNull(values);
+            expect(result).to.be.false;
+        });
+        it("should return true if exactly one of the values is null", function () {
+            var values = [5, true, null];
+            var result = isNull.one(values);
+            expect(result).to.be.true;
+        });
+        it("should return false if not exactly one of the values is null", function () {
+            var values = ["hello", null, true, null];
+            var result = isNull.one(values);
+            expect(result).to.be.false;
+        });
     });
     describe('#isUndefined()', function () {
         it("should return true if the value is undefined", function () {
@@ -225,7 +255,7 @@ describe('Data type general helpers', function () {
             var result = isUndefined.all(values);
             expect(result).to.be.false;
         });
-        it("should return true if only one of the values is undefined", function () {
+        it("should return true if exactly one of the values is undefined", function () {
             var values = [undefined, 3, null];
             var result = isUndefined.one(values);
             expect(result).to.be.true;
@@ -251,32 +281,32 @@ describe('Data type general helpers', function () {
                 expect(result).to.be.false;
             });
         });
-        it("should return true if some of the values are undefined or null", function () {
+        it("should return true if some of the values are null or undefined", function () {
             var values = [undefined, null];
             var result = isNullOrUndefined.some(values);
             expect(result).to.be.true;
         });
-        it("should return false if all the value are not undefined", function () {
+        it("should return false if all of the value are not null or undefined", function () {
             var values = ["hello", 100, true, {}];
             var result = isNullOrUndefined.some(values);
             expect(result).to.be.false;
         });
-        it("should return true if all the values are undefined or null", function () {
+        it("should return true if all of the values are null or undefined", function () {
             var values = [undefined, null];
             var result = isNullOrUndefined.all(values);
             expect(result).to.be.true;
         });
-        it("should return false if all the value are not undefined", function () {
+        it("should return false if some of the value are not null or undefined", function () {
             var values = ["hello", undefined, 100, true, {}];
             var result = isNullOrUndefined.all(values);
             expect(result).to.be.false;
         });
-        it("should return true if only one of the values is undefined or null", function () {
+        it("should return true if exactly one of the values is null or undefined", function () {
             var values = [undefined, "hello", 100];
             var result = isNullOrUndefined.one(values);
             expect(result).to.be.true;
         });
-        it("should return false if not exactly one of values is undefined or null", function () {
+        it("should return false if not exactly one of values is null or undefined", function () {
             var values = [null, undefined, 100];
             var result = isNullOrUndefined.one(values);
             expect(result).to.be.false;

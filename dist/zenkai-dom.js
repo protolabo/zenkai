@@ -1023,48 +1023,6 @@ var zdom = (function (exports) {
 
   var createSuperscript = create.bind(null, "sup");
   /**
-   * Creates a `<del>` element with some attributes
-   * @function
-   * @param {Object} [attr] attributes
-   * @returns {HTMLModElement}
-   * @memberof DOM
-   */
-
-  function createDeletion(cite, datetime, attr) {
-    var element = create('del', attr);
-
-    if (cite) {
-      element.cite = cite;
-    }
-
-    if (datetime) {
-      element.datetime = datetime;
-    }
-
-    return element;
-  }
-  /**
-   * Creates a `<ins>` element with some attributes
-   * @function
-   * @param {Object} [attr] attributes
-   * @returns {HTMLModElement}
-   * @memberof DOM
-   */
-
-  function createInsertion(cite, datetime, attr) {
-    var element = create('ins', attr);
-
-    if (cite) {
-      element.cite = cite;
-    }
-
-    if (datetime) {
-      element.datetime = datetime;
-    }
-
-    return element;
-  }
-  /**
    * Creates a `<q>` element with some attributes
    * @function
    * @param {Object} [attr] attributes
@@ -1171,6 +1129,12 @@ var zdom = (function (exports) {
    */
 
   var createForm = create.bind(null, 'form');
+
+  function createInputAs(type, attr) {
+    var input = create('input', attr);
+    input.type = type;
+    return input;
+  }
   /**
    * Creates a `<input>` element with some attributes
    * @param {Object} [attr] attributes
@@ -1178,13 +1142,10 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  function createInput(type, attr) {
-    var input = create('input', attr);
-    input.type = valOrDefault(type, "text");
-    return input;
-  }
+
+  var createInput = createInputAs.bind(null, "text");
   ["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"].forEach(function (type) {
-    createInput[type] = createInput.bind(null, type);
+    createInput[type] = createInputAs.bind(null, type);
   });
   /**
    * Creates a `<label>` element with some attributes
@@ -1285,19 +1246,22 @@ var zdom = (function (exports) {
    */
 
   var createOutput = create.bind(null, 'output');
+
+  function createButtonAs(type, attr) {
+    var btn = create("button", attr);
+    btn.type = type;
+    return btn;
+  }
   /**
    * Creates a `<button>` element with some attributes
    * @param {Object} [attr] attributes
    * @memberof DOM
    */
 
-  function createButton(type, attr) {
-    var btn = create("button", attr);
-    btn.type = valOrDefault(type, "button");
-    return btn;
-  }
+
+  var createButton = createButtonAs.bind(null, "button");
   ["submit", "reset", "button"].forEach(function (type) {
-    createButton[type] = createButton.bind(null, type);
+    createButton[type] = createButtonAs.bind(null, type);
   }); //#endregion
   //#region Table Element
 
@@ -1597,7 +1561,6 @@ var zdom = (function (exports) {
   exports.createCite = createCite;
   exports.createCode = createCode;
   exports.createDataList = createDataList;
-  exports.createDeletion = createDeletion;
   exports.createDescriptionDetails = createDescriptionDetails;
   exports.createDescriptionList = createDescriptionList;
   exports.createDescriptionTerm = createDescriptionTerm;
@@ -1620,7 +1583,6 @@ var zdom = (function (exports) {
   exports.createI = createI;
   exports.createImage = createImage;
   exports.createInput = createInput;
-  exports.createInsertion = createInsertion;
   exports.createLabel = createLabel;
   exports.createLegend = createLegend;
   exports.createLineBreak = createLineBreak;

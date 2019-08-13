@@ -740,6 +740,12 @@ var zcomponents = (function (exports) {
    */
 
   var createForm = create.bind(null, 'form');
+
+  function createInputAs(type, attr) {
+    var input = create('input', attr);
+    input.type = type;
+    return input;
+  }
   /**
    * Creates a `<input>` element with some attributes
    * @param {Object} [attr] attributes
@@ -747,13 +753,10 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  function createInput(type, attr) {
-    var input = create('input', attr);
-    input.type = valOrDefault(type, "text");
-    return input;
-  }
+
+  var createInput = createInputAs.bind(null, "text");
   ["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"].forEach(function (type) {
-    createInput[type] = createInput.bind(null, type);
+    createInput[type] = createInputAs.bind(null, type);
   });
   /**
    * Creates a `<label>` element with some attributes
@@ -854,19 +857,22 @@ var zcomponents = (function (exports) {
    */
 
   var createOutput = create.bind(null, 'output');
+
+  function createButtonAs(type, attr) {
+    var btn = create("button", attr);
+    btn.type = type;
+    return btn;
+  }
   /**
    * Creates a `<button>` element with some attributes
    * @param {Object} [attr] attributes
    * @memberof DOM
    */
 
-  function createButton(type, attr) {
-    var btn = create("button", attr);
-    btn.type = valOrDefault(type, "button");
-    return btn;
-  }
+
+  var createButton = createButtonAs.bind(null, "button");
   ["submit", "reset", "button"].forEach(function (type) {
-    createButton[type] = createButton.bind(null, type);
+    createButton[type] = createButtonAs.bind(null, type);
   }); //#endregion
   //#region Table Element
 
