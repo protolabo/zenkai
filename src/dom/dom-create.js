@@ -74,7 +74,6 @@ export function createLink(rel, href, attr) {
     return link;
 }
 
-//#region Content sectionning
 
 /**
  * Creates a `<header>` element with some attributes
@@ -193,7 +192,6 @@ export const createH5 = create.bind(null, 'h5');
  */
 export const createH6 = create.bind(null, 'h6');
 
-//#endregion
 
 /**
  * Creates a `<div>` element with some attributes
@@ -303,6 +301,7 @@ export const createDescriptionDetails = create.bind(null, 'dd');
  */
 export function createAnchor(href, attr) {
     var a = create('a', attr);
+
     if (href) {
         a.href = href;
     }
@@ -332,45 +331,37 @@ export function createImage(src, alt, attr) {
 }
 
 /**
-  * Creates a `<img>` element with some attributes
+  * Creates a `<audio>` element with some attributes
   * @param {string} src
-  * @param {string} alt
   * @param {Object} [attr] attributes
   * @returns {HTMLAudioElement}
   * @memberof DOM
   */
-export function createAudio(src, alt, attr) {
-    var img = create('audio', attr);
+export function createAudio(src, attr) {
+    var audio = create('audio', attr);
 
     if (src) {
-        img.src = src;
-    }
-    if (alt) {
-        img.alt = alt;
+        audio.src = src;
     }
 
-    return img;
+    return audio;
 }
 
 /**
   * Creates a `<video>` element with some attributes
   * @param {string} src
-  * @param {string} alt
   * @param {Object} [attr] attributes
   * @returns {HTMLVideoElement}
   * @memberof DOM
   */
-export function createVideo(src, alt, attr) {
-    var img = create('video', attr);
+export function createVideo(src, attr) {
+    var video = create('video', attr);
 
     if (src) {
-        img.src = src;
-    }
-    if (alt) {
-        img.alt = alt;
+        video.src = src;
     }
 
-    return img;
+    return video;
 }
 
 /**
@@ -571,7 +562,6 @@ export function createTime(datetime, attr) {
  */
 export const createCode = create.bind(null, "code");
 
-//#region Form-associated Element
 
 /**
  * Creates a `<form>` element with some attributes
@@ -723,9 +713,6 @@ export const createButton = createButtonAs.bind(null, "button");
     createButton[type] = createButtonAs.bind(null, type);
 });
 
-//#endregion
-
-//#region Table Element
 
 /**
  * Creates a `<table>` element with some attributes
@@ -814,8 +801,6 @@ export const createTableHeaderCell = create.bind(null, "th");
  * @memberof DOM
  */
 export const createTableCell = create.bind(null, "td");
-
-//#endregion
 
 /* istanbul ignore next */
 function echo(o) { o; }

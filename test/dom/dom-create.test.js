@@ -664,6 +664,138 @@ describe('DOM helpers', function () {
             expect(result).to.have.property('alt', alt);
         });
     });
+    describe('#createAudio()', function () {
+        it("should return an audio element", function () {
+            var result = createAudio();
+
+            expect(result).to.have.property('nodeName', 'AUDIO');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return an audio element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createAudio(null, attribute);
+
+            expect(result).to.have.property('nodeName', 'AUDIO');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+        it("should return an audio element with a src", function () {
+            var src = "alink";
+
+            var result = createAudio(src);
+
+            expect(result).to.have.property('nodeName', 'AUDIO');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            expect(result).to.have.property('src', src);
+        });
+    });
+    describe('#createVideo()', function () {
+        it("should return a video element", function () {
+            var result = createVideo();
+
+            expect(result).to.have.property('nodeName', 'VIDEO');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a video element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createVideo(null, attribute);
+
+            expect(result).to.have.property('nodeName', 'VIDEO');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+        it("should return a video element with a src", function () {
+            var src = "alink";
+
+            var result = createVideo(src);
+
+            expect(result).to.have.property('nodeName', 'VIDEO');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            expect(result).to.have.property('src', src);
+        });
+    });
+    describe('#createSource()', function () {
+        it("should return a source element", function () {
+            var result = createSource();
+
+            expect(result).to.have.property('nodeName', 'SOURCE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a source element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createSource(attribute);
+
+            expect(result).to.have.property('nodeName', 'SOURCE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createPicture()', function () {
+        it("should return a picture element", function () {
+            var result = createPicture();
+
+            expect(result).to.have.property('nodeName', 'PICTURE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a picture element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createPicture(attribute);
+
+            expect(result).to.have.property('nodeName', 'PICTURE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createFigure()', function () {
+        it("should return a figure element", function () {
+            var result = createFigure();
+
+            expect(result).to.have.property('nodeName', 'FIGURE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a figure element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createFigure(attribute);
+
+            expect(result).to.have.property('nodeName', 'FIGURE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
+    describe('#createFigureCaption()', function () {
+        it("should return a figure caption element", function () {
+            var result = createFigureCaption();
+
+            expect(result).to.have.property('nodeName', 'FIGCAPTION');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a figure caption element with the attributes set", function () {
+            var attribute = createAttribute();
+
+            var result = createFigureCaption(attribute);
+
+            expect(result).to.have.property('nodeName', 'FIGCAPTION');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+    });
     describe('#createSpan()', function () {
         it("should return a span element", function () {
             var result = createSpan();

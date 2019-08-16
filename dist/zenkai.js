@@ -226,6 +226,12 @@ var zenkai = (function (exports) {
     return str.replace(/[àâäæ]/gi, 'a').replace(/[ç]/gi, 'c').replace(/[éèê]/gi, 'e').replace(/[îï]/gi, 'i').replace(/[ôœ]/gi, 'o').replace(/[ùûü]/gi, 'u');
   }
 
+  /**
+   * Checks whether the selector is a class
+   * @returns {boolean}
+   * @private
+   */
+
   var isClassName = function isClassName(selector) {
     return /^\.[a-zA-Z0-9_-]+$/.test(selector);
   };
@@ -551,6 +557,19 @@ var zenkai = (function (exports) {
     }
   }
   /**
+   * Moves an element out of screen
+   * @param {HTMLElement} el Element
+   * @memberof DOM
+   */
+
+  function conceal(el) {
+    return Object.assign(el, {
+      position: 'absolute',
+      top: '-9999px',
+      left: '-9999px'
+    });
+  }
+  /**
    * Changes the selected option of a `<select>` element
    * @param {HTMLSelectElement} select
    * @param {string} val option value to select
@@ -676,8 +695,7 @@ var zenkai = (function (exports) {
     }
 
     return link;
-  } //#region Content sectionning
-
+  }
   /**
    * Creates a `<header>` element with some attributes
    * @function
@@ -794,8 +812,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createH6 = create.bind(null, 'h6'); //#endregion
-
+  var createH6 = create.bind(null, 'h6');
   /**
    * Creates a `<div>` element with some attributes
    * @function
@@ -937,48 +954,38 @@ var zenkai = (function (exports) {
     return img;
   }
   /**
-    * Creates a `<img>` element with some attributes
+    * Creates a `<audio>` element with some attributes
     * @param {string} src
-    * @param {string} alt
     * @param {Object} [attr] attributes
     * @returns {HTMLAudioElement}
     * @memberof DOM
     */
 
-  function createAudio(src, alt, attr) {
-    var img = create('audio', attr);
+  function createAudio(src, attr) {
+    var audio = create('audio', attr);
 
     if (src) {
-      img.src = src;
+      audio.src = src;
     }
 
-    if (alt) {
-      img.alt = alt;
-    }
-
-    return img;
+    return audio;
   }
   /**
     * Creates a `<video>` element with some attributes
     * @param {string} src
-    * @param {string} alt
     * @param {Object} [attr] attributes
     * @returns {HTMLVideoElement}
     * @memberof DOM
     */
 
-  function createVideo(src, alt, attr) {
-    var img = create('video', attr);
+  function createVideo(src, attr) {
+    var video = create('video', attr);
 
     if (src) {
-      img.src = src;
+      video.src = src;
     }
 
-    if (alt) {
-      img.alt = alt;
-    }
-
-    return img;
+    return video;
   }
   /**
    * Creates a `<source>` element with some attributes
@@ -1175,8 +1182,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createCode = create.bind(null, "code"); //#region Form-associated Element
-
+  var createCode = create.bind(null, "code");
   /**
    * Creates a `<form>` element with some attributes
    * @function
@@ -1319,9 +1325,7 @@ var zenkai = (function (exports) {
   var createButton = createButtonAs.bind(null, "button");
   ["submit", "reset", "button"].forEach(function (type) {
     createButton[type] = createButtonAs.bind(null, type);
-  }); //#endregion
-  //#region Table Element
-
+  });
   /**
    * Creates a `<table>` element with some attributes
    * @function
@@ -1410,8 +1414,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableCell = create.bind(null, "td"); //#endregion
-
+  var createTableCell = create.bind(null, "td");
   /* istanbul ignore next */
 
   function echo(o) {
@@ -1504,97 +1507,6 @@ var zenkai = (function (exports) {
     parent.appendChild(fragment);
     fragment = null;
     return parent;
-  }
-
-  var Elements = ['BUTTON', 'COMMAND', 'FIELDSET', 'INPUT', 'KEYGEN', 'OPTGROUP', 'OPTION', 'SELECT', 'TEXTAREA'];
-  /** 
-   * @enum 
-   * @ignore
-   * @memberof DOM
-   */
-
-  var UI = {
-    COLLAPSE: 'collapse',
-    CHECKED: 'checked',
-    DISABLED: 'disabled',
-    EMPTY: 'empty',
-    HIDDEN: 'hidden',
-    SELECTED: 'selected'
-  };
-  /**
-   * Shows an element
-   * @param {Element} el Element
-   * @memberof DOM
-   */
-
-  function show(el) {
-    removeClass(el, UI.HIDDEN);
-  }
-  /**
-   * Hides an element
-   * @param {Element} el element
-   * @memberof DOM
-   */
-
-  function hide(el) {
-    addClass(el, UI.HIDDEN);
-  }
-  /**
-   * Moves an element out of screen
-   * @param {HTMLElement} el Element
-   * @memberof DOM
-   */
-
-  function conceal(el) {
-    return Object.assign(el, {
-      position: 'absolute',
-      top: '-9999px',
-      left: '-9999px'
-    });
-  }
-  /**
-   * Applies highlighting style to an element
-   * @param {HTMLElement} el Element
-   * @memberof DOM
-   */
-
-  function highlight(el) {
-    addClass(el, UI.SELECTED);
-  }
-  /**
-   * Removes highlighting style of an element
-   * @param {HTMLElement} el Element
-   * @memberof DOM
-   */
-
-  function unhighlight(el) {
-    removeClass(el, UI.SELECTED);
-  }
-  /**
-   * Enable an element
-   * @param {HTMLElement} el Element
-   * @memberof DOM
-   */
-
-  function enable(el, val) {
-    if (Elements.indexOf(el.tagName) !== -1) {
-      el.disabled = val === false;
-    }
-
-    el.dataset.disabled = val === false;
-  }
-  /**
-   * Disable an element
-   * @param {HTMLElement} el 
-   * @memberof DOM
-   */
-
-  function disable(el, val) {
-    if (Elements.indexOf(el.tagName) !== -1) {
-      el.disabled = val !== false;
-    }
-
-    el.dataset.disabled = val !== false;
   }
 
   /** @namespace DOM */
@@ -2585,6 +2497,22 @@ var zenkai = (function (exports) {
 
   /** @namespace FORM */
 
+  /**
+   * Shows an element
+   * @param {HTMLElement} element
+   */
+  function show(element) {
+    element.style.display = "block";
+  }
+  /**
+   * Hides an element
+   * @param {HTMLElement} element
+   */
+
+  function hide(element) {
+    element.style.display = "none";
+  }
+
   var ATTRIBUTE = 'collapsible';
   var NONE$2 = -1;
   var State$1 = {
@@ -2897,8 +2825,6 @@ var zenkai = (function (exports) {
   exports.createVideo = createVideo;
   exports.dayOfWeek = dayOfWeek;
   exports.defProp = defProp;
-  exports.disable = disable;
-  exports.enable = enable;
   exports.find = find;
   exports.findAncestor = findAncestor;
   exports.findByPath = findByPath;
@@ -2914,8 +2840,6 @@ var zenkai = (function (exports) {
   exports.getUrlParams = getUrlParams;
   exports.hasClass = hasClass;
   exports.hasOwn = hasOwn;
-  exports.hide = hide;
-  exports.highlight = highlight;
   exports.insert = insert;
   exports.insertAfterElement = insertAfterElement;
   exports.insertBeforeElement = insertBeforeElement;
@@ -2944,11 +2868,9 @@ var zenkai = (function (exports) {
   exports.removeChildren = removeChildren;
   exports.removeClass = removeClass;
   exports.shortDate = shortDate;
-  exports.show = show;
   exports.timeAgo = timeAgo;
   exports.toBoolean = toBoolean;
   exports.toggleClass = toggleClass;
-  exports.unhighlight = unhighlight;
   exports.valOrDefault = valOrDefault;
   exports.windowWidth = windowWidth;
 

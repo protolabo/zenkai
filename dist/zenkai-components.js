@@ -169,6 +169,12 @@ var zcomponents = (function (exports) {
     return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
   }
 
+  /**
+   * Checks whether the selector is a class
+   * @returns {boolean}
+   * @private
+   */
+
   var isClassName = function isClassName(selector) {
     return /^\.[a-zA-Z0-9_-]+$/.test(selector);
   };
@@ -386,7 +392,6 @@ var zcomponents = (function (exports) {
   var createDocFragment = function createDocFragment() {
     return document.createDocumentFragment();
   };
-
   /**
    * Creates a `<header>` element with some attributes
    * @function
@@ -503,8 +508,7 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  var createH6 = create.bind(null, 'h6'); //#endregion
-
+  var createH6 = create.bind(null, 'h6');
   /**
    * Creates a `<div>` element with some attributes
    * @function
@@ -729,8 +733,7 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  var createCode = create.bind(null, "code"); //#region Form-associated Element
-
+  var createCode = create.bind(null, "code");
   /**
    * Creates a `<form>` element with some attributes
    * @function
@@ -873,9 +876,7 @@ var zcomponents = (function (exports) {
   var createButton = createButtonAs.bind(null, "button");
   ["submit", "reset", "button"].forEach(function (type) {
     createButton[type] = createButtonAs.bind(null, type);
-  }); //#endregion
-  //#region Table Element
-
+  });
   /**
    * Creates a `<table>` element with some attributes
    * @function
@@ -964,8 +965,7 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableCell = create.bind(null, "td"); //#endregion
-
+  var createTableCell = create.bind(null, "td");
   /* istanbul ignore next */
 
   function echo(o) {
@@ -1058,39 +1058,6 @@ var zcomponents = (function (exports) {
     parent.appendChild(fragment);
     fragment = null;
     return parent;
-  }
-
-  /** 
-   * @enum 
-   * @ignore
-   * @memberof DOM
-   */
-
-  var UI = {
-    COLLAPSE: 'collapse',
-    CHECKED: 'checked',
-    DISABLED: 'disabled',
-    EMPTY: 'empty',
-    HIDDEN: 'hidden',
-    SELECTED: 'selected'
-  };
-  /**
-   * Shows an element
-   * @param {Element} el Element
-   * @memberof DOM
-   */
-
-  function show(el) {
-    removeClass(el, UI.HIDDEN);
-  }
-  /**
-   * Hides an element
-   * @param {Element} el element
-   * @memberof DOM
-   */
-
-  function hide(el) {
-    addClass(el, UI.HIDDEN);
   }
 
   /** @namespace DOM */
@@ -1500,6 +1467,22 @@ var zcomponents = (function (exports) {
   }
 
   /** @namespace FORM */
+
+  /**
+   * Shows an element
+   * @param {HTMLElement} element
+   */
+  function show(element) {
+    element.style.display = "block";
+  }
+  /**
+   * Hides an element
+   * @param {HTMLElement} element
+   */
+
+  function hide(element) {
+    element.style.display = "none";
+  }
 
   var ATTRIBUTE = 'collapsible';
   var NONE$2 = -1;

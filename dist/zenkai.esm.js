@@ -223,6 +223,12 @@ function removeAccents(str) {
   return str.replace(/[àâäæ]/gi, 'a').replace(/[ç]/gi, 'c').replace(/[éèê]/gi, 'e').replace(/[îï]/gi, 'i').replace(/[ôœ]/gi, 'o').replace(/[ùûü]/gi, 'u');
 }
 
+/**
+ * Checks whether the selector is a class
+ * @returns {boolean}
+ * @private
+ */
+
 var isClassName = function isClassName(selector) {
   return /^\.[a-zA-Z0-9_-]+$/.test(selector);
 };
@@ -548,6 +554,19 @@ function removeChildren(node) {
   }
 }
 /**
+ * Moves an element out of screen
+ * @param {HTMLElement} el Element
+ * @memberof DOM
+ */
+
+function conceal(el) {
+  return Object.assign(el, {
+    position: 'absolute',
+    top: '-9999px',
+    left: '-9999px'
+  });
+}
+/**
  * Changes the selected option of a `<select>` element
  * @param {HTMLSelectElement} select
  * @param {string} val option value to select
@@ -673,8 +692,7 @@ function createLink(rel, href, attr) {
   }
 
   return link;
-} //#region Content sectionning
-
+}
 /**
  * Creates a `<header>` element with some attributes
  * @function
@@ -791,8 +809,7 @@ var createH5 = create.bind(null, 'h5');
  * @memberof DOM
  */
 
-var createH6 = create.bind(null, 'h6'); //#endregion
-
+var createH6 = create.bind(null, 'h6');
 /**
  * Creates a `<div>` element with some attributes
  * @function
@@ -934,48 +951,38 @@ function createImage(src, alt, attr) {
   return img;
 }
 /**
-  * Creates a `<img>` element with some attributes
+  * Creates a `<audio>` element with some attributes
   * @param {string} src
-  * @param {string} alt
   * @param {Object} [attr] attributes
   * @returns {HTMLAudioElement}
   * @memberof DOM
   */
 
-function createAudio(src, alt, attr) {
-  var img = create('audio', attr);
+function createAudio(src, attr) {
+  var audio = create('audio', attr);
 
   if (src) {
-    img.src = src;
+    audio.src = src;
   }
 
-  if (alt) {
-    img.alt = alt;
-  }
-
-  return img;
+  return audio;
 }
 /**
   * Creates a `<video>` element with some attributes
   * @param {string} src
-  * @param {string} alt
   * @param {Object} [attr] attributes
   * @returns {HTMLVideoElement}
   * @memberof DOM
   */
 
-function createVideo(src, alt, attr) {
-  var img = create('video', attr);
+function createVideo(src, attr) {
+  var video = create('video', attr);
 
   if (src) {
-    img.src = src;
+    video.src = src;
   }
 
-  if (alt) {
-    img.alt = alt;
-  }
-
-  return img;
+  return video;
 }
 /**
  * Creates a `<source>` element with some attributes
@@ -1172,8 +1179,7 @@ function createTime(datetime, attr) {
  * @memberof DOM
  */
 
-var createCode = create.bind(null, "code"); //#region Form-associated Element
-
+var createCode = create.bind(null, "code");
 /**
  * Creates a `<form>` element with some attributes
  * @function
@@ -1316,9 +1322,7 @@ function createButtonAs(type, attr) {
 var createButton = createButtonAs.bind(null, "button");
 ["submit", "reset", "button"].forEach(function (type) {
   createButton[type] = createButtonAs.bind(null, type);
-}); //#endregion
-//#region Table Element
-
+});
 /**
  * Creates a `<table>` element with some attributes
  * @function
@@ -1407,8 +1411,7 @@ var createTableHeaderCell = create.bind(null, "th");
  * @memberof DOM
  */
 
-var createTableCell = create.bind(null, "td"); //#endregion
-
+var createTableCell = create.bind(null, "td");
 /* istanbul ignore next */
 
 function echo(o) {
@@ -1501,97 +1504,6 @@ function appendChildren(parent, children) {
   parent.appendChild(fragment);
   fragment = null;
   return parent;
-}
-
-var Elements = ['BUTTON', 'COMMAND', 'FIELDSET', 'INPUT', 'KEYGEN', 'OPTGROUP', 'OPTION', 'SELECT', 'TEXTAREA'];
-/** 
- * @enum 
- * @ignore
- * @memberof DOM
- */
-
-var UI = {
-  COLLAPSE: 'collapse',
-  CHECKED: 'checked',
-  DISABLED: 'disabled',
-  EMPTY: 'empty',
-  HIDDEN: 'hidden',
-  SELECTED: 'selected'
-};
-/**
- * Shows an element
- * @param {Element} el Element
- * @memberof DOM
- */
-
-function show(el) {
-  removeClass(el, UI.HIDDEN);
-}
-/**
- * Hides an element
- * @param {Element} el element
- * @memberof DOM
- */
-
-function hide(el) {
-  addClass(el, UI.HIDDEN);
-}
-/**
- * Moves an element out of screen
- * @param {HTMLElement} el Element
- * @memberof DOM
- */
-
-function conceal(el) {
-  return Object.assign(el, {
-    position: 'absolute',
-    top: '-9999px',
-    left: '-9999px'
-  });
-}
-/**
- * Applies highlighting style to an element
- * @param {HTMLElement} el Element
- * @memberof DOM
- */
-
-function highlight(el) {
-  addClass(el, UI.SELECTED);
-}
-/**
- * Removes highlighting style of an element
- * @param {HTMLElement} el Element
- * @memberof DOM
- */
-
-function unhighlight(el) {
-  removeClass(el, UI.SELECTED);
-}
-/**
- * Enable an element
- * @param {HTMLElement} el Element
- * @memberof DOM
- */
-
-function enable(el, val) {
-  if (Elements.indexOf(el.tagName) !== -1) {
-    el.disabled = val === false;
-  }
-
-  el.dataset.disabled = val === false;
-}
-/**
- * Disable an element
- * @param {HTMLElement} el 
- * @memberof DOM
- */
-
-function disable(el, val) {
-  if (Elements.indexOf(el.tagName) !== -1) {
-    el.disabled = val !== false;
-  }
-
-  el.dataset.disabled = val !== false;
 }
 
 /** @namespace DOM */
@@ -2582,6 +2494,22 @@ function Switch(container, _callback) {
 
 /** @namespace FORM */
 
+/**
+ * Shows an element
+ * @param {HTMLElement} element
+ */
+function show(element) {
+  element.style.display = "block";
+}
+/**
+ * Hides an element
+ * @param {HTMLElement} element
+ */
+
+function hide(element) {
+  element.style.display = "none";
+}
+
 var ATTRIBUTE = 'collapsible';
 var NONE$2 = -1;
 var State$1 = {
@@ -2795,4 +2723,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createElement, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, disable, enable, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, hide, highlight, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, show, timeAgo, toBoolean, toggleClass, unhighlight, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createElement, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };

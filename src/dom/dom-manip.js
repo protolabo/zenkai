@@ -1,6 +1,11 @@
 ﻿import { valOrDefault, isNullOrUndefined, isFunction } from '@datatype/type-manip.js';
 import { isNullOrWhitespace } from '@datatype/type-string.js';
 
+/**
+ * Checks whether the selector is a class
+ * @returns {boolean}
+ * @private
+ */
 const isClassName = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
 
 /**
@@ -292,6 +297,13 @@ export function removeChildren(node) {
         node.removeChild(node.lastChild);
     }
 }
+
+/**
+ * Moves an element out of screen
+ * @param {HTMLElement} el Element
+ * @memberof DOM
+ */
+export function conceal(el) { return Object.assign(el, { position: 'absolute', top: '-9999px', left: '-9999px' }); }
 
 /**
  * Changes the selected option of a `<select>` element
