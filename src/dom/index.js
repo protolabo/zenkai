@@ -1,4 +1,6 @@
 /** @namespace DOM */
 
-export * from './dom-manip.js';
 export * from './dom-create.js';
+export * from './dom-manip.js';
+export * from './element-class-manip.js';
+export * from './element-getter.js';

@@ -1,4 +1,4 @@
-import { isString, valOrDefault } from '@datatype/type-manip.js';
+import { isNullOrUndefined } from "@datatype/type-manip.js";
 
 /**
  * Creates an element
@@ -803,17 +803,26 @@ export const createTableHeaderCell = create.bind(null, "th");
 export const createTableCell = create.bind(null, "td");
 
 /* istanbul ignore next */
-function echo(o) { o; }
+function echo(o) { }
 
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @param {string|string[]} c classes 
+ * @private
+ */
 /* istanbul ignore next */
-const setClass = (el, c) => {
-    // If c is an Array => Format c as a space-separated string
-    if (Array.isArray(c)) {
-        c = c.join(' ');
+const setClass = (element, c) => {
+    if (!isNullOrUndefined(c)) {
+        // If c is an Array => Format c as a space-separated string
+        if (Array.isArray(c)) {
+            c = c.join(' ');
+        }
+
+        element.className = String(c);
     }
-    if (isString(c)) {
-        el.className = c;
-    }
+
+    return element;
 };
 
 /**
