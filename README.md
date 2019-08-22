@@ -2,7 +2,9 @@
 
 [![Build Status](https://dev.azure.com/protolabo/zenkai/_apis/build/status/protolabo.zenkai?branchName=master)](https://dev.azure.com/protolabo/zenkai/_build/latest?definitionId=1&branchName=master)
 
-Dev boost. A collection of Javascript libraries.
+A collection of Javascript libraries: Dom, Datatype helpers, utilities (AJAX, URI) and UI components.
+
+**Please, be informed that Zenkai is currently in alpha. Proceed with caution.**
 
 ## Libraries
 
@@ -27,10 +29,15 @@ DataType manipulation
   - Floating Label
   - Selector
   - Switch
+- Accordion
 
 ## Documentation
 
 [Learn more about the library](https://protolabo.github.io/zenkai/index.html).
+
+## Changelog
+
+Detailed changes for each release are documented in the [release notes](CHANGELOG.md).
 
 ## Installation
 
@@ -40,7 +47,7 @@ If you want to play with the code, download the src folder.
 
 To build the code, follow these steps.
 
-1. Ensure that [NodeJS](http://nodejs.org/) is installed. This provides the platform on which the build tooling runs.
+1. Ensure that [NodeJS](https://nodejs.org/) is installed. This provides the platform on which the build tooling runs.
 2. From the project folder, execute the following command:
 
 ```
@@ -52,3 +59,7 @@ $ npm install
 ```
 $ npm test
 ```
+
+## License
+
+The source code is licensed under a [MIT LICENSE](LICENSE) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)

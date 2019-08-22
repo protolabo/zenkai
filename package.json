@@ -1,9 +1,8 @@
 {
   "name": "zenkai",
-  "version": "0.9.11",
+  "version": "0.9.12",
   "description": "Dom, Datatype helpers, utilities (AJAX, URI) and UI components",
   "main": "dist/zenkai.esm.js",
-  "browser": "dist/zenkai.min.js",
   "module": "dist/zenkai.esm.js",
   "scripts": {
     "prebuild": "rimraf dist/*",
