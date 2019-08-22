@@ -14,7 +14,7 @@ const Status = {
 const SwitchFactory = {
     create(container, callback) {
         if (!isHTMLElement(container)) {
-            console.error('SwitchFactory>>Container must be an HTML Element');
+            console.error('%c@zenkai%c #Switch>%SwitchFactory:%c Container must be an HTML Element', "text-decoration: underline", "", "font-weight: bold;","font-weight: normal;");
             return ERROR;
         }
 

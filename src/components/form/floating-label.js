@@ -44,7 +44,6 @@ export function floatingLabel(form) {
      * @param {HTMLLabelElement} label 
      */
     function bindEvents(input, label) {
-        var value = input.value;
         if (isNullOrWhitespace(input.placeholder)) {
             input.addEventListener('focus', function (e) {
                 input.placeholder = "";
@@ -52,7 +51,7 @@ export function floatingLabel(form) {
                 addClass(label.parentElement, 'focused');
             });
             input.addEventListener('blur', function (e) {
-                if (isEmpty(value)) {
+                if (isEmpty(this.value)) {
                     addClass(label, 'down');
                 }
                 removeClass(label.parentElement, 'focused');
@@ -60,7 +59,7 @@ export function floatingLabel(form) {
             input.addEventListener('input', function (e) {
                 // check if input does not have focus
                 if (document.activeElement != input) {
-                    if (isEmpty(value)) {
+                    if (isEmpty(this.value)) {
                         addClass(label, 'down');
                     } else {
                         removeClass(label, 'down');

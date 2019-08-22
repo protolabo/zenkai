@@ -14,7 +14,7 @@ const Status = {
 const SelectorFactory = {
     create(container, callback) {
         if (!isHTMLElement(container)) {
-            console.error('SelectorFactory>>Container must be an HTML Element');
+            console.error('%c@zenkai%c #Selector>%cSelectorFactory:%c Container must be an HTML Element', "text-decoration: underline", "", "font-weight: bold;","font-weight: normal;");
             return ERROR;
         }
 
@@ -82,6 +82,7 @@ const FormSelector = {
     callback: null,
     setCurrentItem(item, _input) {
         var input = valOrDefault(_input, getInput('radio', item));
+        input.checked = true;
         this.current = item;
         check(this.current, Status.ON);
         this.callback(input.value, this.current);

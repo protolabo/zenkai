@@ -1,8 +1,8 @@
 {
   "name": "zenkai",
-  "version": "0.9.10",
-  "description": "Javascript utility and helper methods",
-  "main": "dist/zenkai.min.js",
+  "version": "0.9.11",
+  "description": "Dom, Datatype helpers, utilities (AJAX, URI) and UI components",
+  "main": "dist/zenkai.esm.js",
   "browser": "dist/zenkai.min.js",
   "module": "dist/zenkai.esm.js",
   "scripts": {
@@ -12,8 +12,6 @@
     "document:utils": "documentation build src/utils/index.js -f html -o docs/utils",
     "document:dom": "documentation build src/dom/index.js -f html -o docs/dom",
     "document:type": "documentation build src/datatype/index.js -f html -o docs/datatype",
-    "bundle:iife": "rollup src/index.js --file bundle.iife.js --format iife --name jsLabo",
-    "bundle:umd": "rollup src/index.js --file bundle.umd.js --format umd --name jsLabo",
     "test": "cross-env NODE_ENV=test nyc mocha **/*.test.js --require @babel/register",
     "report-coverage": "nyc report --reporter=cobertura"
   },

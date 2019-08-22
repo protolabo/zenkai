@@ -1,4 +1,5 @@
 ﻿import { isNullOrUndefined } from '@datatype/type-manip.js';
+import { createTextArea } from './dom-create';
 
 /**
  * Gets the window's width
@@ -66,10 +67,18 @@ export function removeChildren(node) {
 
 /**
  * Moves an element out of screen
- * @param {HTMLElement} el Element
+ * @param {HTMLElement} element Element
  * @memberof DOM
  */
-export function conceal(el) { return Object.assign(el, { position: 'absolute', top: '-9999px', left: '-9999px' }); }
+export function conceal(element) { 
+    Object.assign(element.style, { 
+        position: 'absolute', 
+        top: '-9999px', 
+        left: '-9999px' 
+    }); 
+    
+    return element;
+}
 
 /**
  * Changes the selected option of a `<select>` element
@@ -99,13 +108,14 @@ export function changeSelectValue(select, val) {
  * @memberof DOM
  */
 export function copytoClipboard(value) {
-    var el = document.createElement('textarea');
-    el.value = isHTMLElement(value) ? value.textContent : value;
-    el.readOnly = true;
-    document.body.appendChild(el);
-    el.select();
+    var element = createTextArea({
+        value: isHTMLElement(value) ? value.textContent : value,
+        readonly: true
+    });
+    document.body.appendChild(element);
+    element.select();
     document.execCommand('copy');
-    el.remove();
+    element.remove();
 
     return true;
 }

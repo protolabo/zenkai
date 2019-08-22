@@ -160,210 +160,6 @@ var zcomponents = (function (exports) {
   });
 
   /**
-   * Returns a value indicating whether a string is null or made of whitespace.
-   * @param {string} str string
-   * @memberof TYPE
-   */
-
-  function isNullOrWhitespace(str) {
-    return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
-  }
-
-  /**
-   * Checks whether the selector is a class
-   * @returns {boolean}
-   * @private
-   */
-
-  var isClassName = function isClassName(selector) {
-    return /^\.[a-zA-Z0-9_-]+$/.test(selector);
-  };
-  /**
-   * Removes additional spaces in class attribute
-   * @private
-   */
-
-
-  var cleanClass = function cleanClass(cn) {
-    return cn.replace(/\s+/g, ' ').trim();
-  };
-  /**
-   * Verifies that an object is an *Element*
-   * @param {Element} obj 
-   * @returns {boolean} Value indicating whether the object is an *Element*
-   * @memberof DOM
-   */
-
-  function isElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
-  }
-  /**
-   * Verifies that an object is an *HTMLElement*
-   * @param {Element} obj 
-   * @returns {boolean} Value indicating whether the object is an *Element*
-   * @memberof DOM
-   */
-
-  function isHTMLElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
-  }
-  /**
-   * Returns the first Element within the specified container that matches the specified selector, group or selectors.
-   * @param {string} selector A DOMString containing one or more selectors to match
-   * @param {HTMLElement|DocumentFragment} [_container] Container queried
-   * @returns {HTMLElement|null} The first Element matches that matches the specified set of CSS selectors.
-   * @memberof DOM
-   */
-
-  function getElement(selector, _container) {
-    var container = valOrDefault(_container, document);
-
-    if (container instanceof DocumentFragment) {
-      container.querySelector(selector);
-    }
-
-    if (/^#[a-zA-Z0-9_-]+$/.test(selector)) {
-      return document.getElementById(selector.substring(1));
-    }
-
-    if (isClassName(selector)) {
-      return container.getElementsByClassName(selector.substring(1))[0];
-    }
-
-    return container.querySelector(selector);
-  }
-  /**
-   * Returns all elements that match the selector query.
-   * @param {string} selector A DOMString containing one or more selectors to match
-   * @param {HTMLElement|DocumentFragment} [_container] Container queried
-   * @returns {HTMLCollection|NodeList} A live or *static* (not live) collection of the `container`'s children Element that match the `selector`.
-   * @memberof DOM
-   */
-
-  function getElements(selector, _container) {
-    var container = valOrDefault(_container, document);
-
-    if (container instanceof DocumentFragment) {
-      container.querySelectorAll(selector);
-    }
-
-    if (isClassName(selector)) {
-      return container.getElementsByClassName(selector.substring(1));
-    }
-
-    return container.querySelectorAll(selector);
-  }
-  /**
-   * Finds an ancestor of an element
-   * @param {Element} target 
-   * @param {*} callback 
-   * @param {number} max Maximum number of iterations
-   * @returns {Element|null}
-   * @memberof DOM
-   */
-
-  function findAncestor(target, callback, max) {
-    if (!isElement(target)) {
-      return null;
-    }
-
-    var parent = target.parentElement;
-
-    if (max > 0) {
-      return findAncestorIter(parent, callback, max);
-    }
-
-    return findAncestorInf(parent, callback);
-  }
-  /* istanbul ignore next */
-
-  function findAncestorInf(target, callback) {
-    if (isNullOrUndefined(target)) {
-      return null;
-    }
-
-    if (callback(target)) {
-      return target;
-    }
-
-    return findAncestorInf(target.parentElement, callback);
-  }
-  /* istanbul ignore next */
-
-
-  function findAncestorIter(target, callback, max) {
-    if (isNullOrUndefined(target) || max === 0) {
-      return null;
-    }
-
-    if (callback(target)) {
-      return target;
-    }
-
-    return findAncestorIter(target.parentElement, callback, max - 1);
-  }
-  /**
-   * Verifies that an element has a class
-   * @param {HTMLElement} e element
-   * @param {string} c class
-   * @memberof DOM
-   */
-
-  function hasClass(e, c) {
-    return e.className.split(" ").indexOf(c) !== -1;
-  }
-  /**
-   * Removes a class from an element if it exists
-   * @param {HTMLElement} el element
-   * @param {string|Array} c class
-   * @memberof DOM
-   */
-
-  function removeClass(el, c) {
-    if (Array.isArray(c)) {
-      c.forEach(function (val) {
-        return _removeClass(el, val);
-      });
-    }
-
-    _removeClass(el, c);
-
-    el.className = cleanClass(el.className);
-  }
-
-  function _removeClass(e, c) {
-    if (hasClass(e, c)) {
-      e.className = e.className.replace(c, '');
-    }
-  }
-  /**
-   * Adds one or many classes to an element if it doesn't exist
-   * @param {HTMLElement} el Element
-   * @param {string} c classes
-   * @memberof DOM
-   */
-
-
-  function addClass(el, c) {
-    // If c is an Array => Format c as a space-separated string
-    if (Array.isArray(c)) {
-      c = c.map(function (c) {
-        return valOrDefault(c.class, c);
-      }).join(' ');
-    }
-
-    var strClass = valOrDefault(c.class, c);
-
-    if (isNullOrWhitespace(el.className)) {
-      el.className = strClass;
-    } else if (!hasClass(el, c)) {
-      el.className += " " + strClass;
-    }
-
-    el.className = cleanClass(el.className);
-  }
-
-  /**
    * Creates an element
    * @param {string} tagName 
    * @param {object} _attribute 
@@ -968,20 +764,28 @@ var zcomponents = (function (exports) {
   var createTableCell = create.bind(null, "td");
   /* istanbul ignore next */
 
-  function echo(o) {
-  }
+  function echo(o) {}
+  /**
+   * 
+   * @param {HTMLElement} element 
+   * @param {string|string[]} c classes 
+   * @private
+   */
+
   /* istanbul ignore next */
 
 
-  var setClass = function setClass(el, c) {
-    // If c is an Array => Format c as a space-separated string
-    if (Array.isArray(c)) {
-      c = c.join(' ');
+  var setClass = function setClass(element, c) {
+    if (!isNullOrUndefined(c)) {
+      // If c is an Array => Format c as a space-separated string
+      if (Array.isArray(c)) {
+        c = c.join(' ');
+      }
+
+      element.className = String(c);
     }
 
-    if (isString(c)) {
-      el.className = c;
-    }
+    return element;
   };
   /**
    * Sets the attributes of an element
@@ -1060,6 +864,213 @@ var zcomponents = (function (exports) {
     return parent;
   }
 
+  /**
+   * Verifies that an object is an *Element*
+   * @param {Element} obj 
+   * @returns {boolean} Value indicating whether the object is an *Element*
+   * @memberof DOM
+   */
+
+  function isElement(obj) {
+    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
+  }
+  /**
+   * Verifies that an object is an *HTMLElement*
+   * @param {Element} obj 
+   * @returns {boolean} Value indicating whether the object is an *Element*
+   * @memberof DOM
+   */
+
+  function isHTMLElement(obj) {
+    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
+  }
+
+  /**
+   * Returns a value indicating whether a string is null or made of whitespace.
+   * @param {string} str string
+   * @memberof TYPE
+   */
+
+  function isNullOrWhitespace(str) {
+    return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
+  }
+
+  /**
+   * Removes additional spaces in class attribute
+   * @private
+   */
+
+  var cleanClass = function cleanClass(cn) {
+    return cn.replace(/\s+/g, ' ').trim();
+  };
+  /**
+   * Verifies that an element has a class
+   * @param {HTMLElement} e element
+   * @param {string} c class
+   * @memberof DOM
+   */
+
+
+  function hasClass(e, c) {
+    return e.className.split(" ").indexOf(c) !== -1;
+  }
+  /**
+   * Removes a class from an element if it exists
+   * @param {HTMLElement} el element
+   * @param {string|Array} c class
+   * @memberof DOM
+   */
+
+  function removeClass(el, c) {
+    if (Array.isArray(c)) {
+      c.forEach(function (val) {
+        return _removeClass(el, val);
+      });
+    }
+
+    _removeClass(el, c);
+
+    el.className = cleanClass(el.className);
+  }
+
+  function _removeClass(e, c) {
+    if (hasClass(e, c)) {
+      e.className = e.className.replace(c, '');
+    }
+  }
+  /**
+   * Adds one or many classes to an element if it doesn't exist
+   * @param {HTMLElement} element Element
+   * @param {string} c classes
+   * @memberof DOM
+   */
+
+
+  function addClass(element, c) {
+    // If c is an Array => Format c as a space-separated string
+    if (Array.isArray(c)) {
+      c = c.map(function (c) {
+        return valOrDefault(c.class, c);
+      }).join(' ');
+    }
+
+    var strClass = valOrDefault(c.class, c);
+
+    if (isNullOrWhitespace(element.className)) {
+      element.className = strClass;
+    } else if (!hasClass(element, c)) {
+      element.className += " " + strClass;
+    }
+
+    element.className = cleanClass(element.className);
+  }
+
+  /**
+   * Checks whether the selector is a class
+   * @returns {boolean}
+   * @private
+   */
+
+  var isClassName = function isClassName(selector) {
+    return /^\.[a-zA-Z0-9_-]+$/.test(selector);
+  };
+  /**
+   * Returns the first Element within the specified container that matches the specified selector, group or selectors.
+   * @param {string} selector A DOMString containing one or more selectors to match
+   * @param {HTMLElement|DocumentFragment} [_container] Container queried
+   * @returns {HTMLElement|null} The first Element matches that matches the specified set of CSS selectors.
+   * @memberof DOM
+   */
+
+
+  function getElement(selector, _container) {
+    var container = valOrDefault(_container, document);
+
+    if (container instanceof DocumentFragment) {
+      container.querySelector(selector);
+    }
+
+    if (/^#[a-zA-Z0-9_-]+$/.test(selector)) {
+      return document.getElementById(selector.substring(1));
+    }
+
+    if (isClassName(selector)) {
+      return container.getElementsByClassName(selector.substring(1))[0];
+    }
+
+    return container.querySelector(selector);
+  }
+  /**
+   * Returns all elements that match the selector query.
+   * @param {string} selector A DOMString containing one or more selectors to match
+   * @param {HTMLElement|DocumentFragment} [_container] Container queried
+   * @returns {HTMLCollection|NodeList} A live or *static* (not live) collection of the `container`'s children Element that match the `selector`.
+   * @memberof DOM
+   */
+
+  function getElements(selector, _container) {
+    var container = valOrDefault(_container, document);
+
+    if (container instanceof DocumentFragment) {
+      container.querySelectorAll(selector);
+    }
+
+    if (isClassName(selector)) {
+      return container.getElementsByClassName(selector.substring(1));
+    }
+
+    return container.querySelectorAll(selector);
+  }
+  /**
+   * Finds an ancestor of an element
+   * @param {Element} target 
+   * @param {*} callback 
+   * @param {number} max Maximum number of iterations
+   * @returns {Element|null}
+   * @memberof DOM
+   */
+
+  function findAncestor(target, callback, max) {
+    if (!isElement(target)) {
+      return null;
+    }
+
+    var parent = target.parentElement;
+
+    if (max > 0) {
+      return findAncestorIter(parent, callback, max);
+    }
+
+    return findAncestorInf(parent, callback);
+  }
+  /* istanbul ignore next */
+
+  function findAncestorInf(target, callback) {
+    if (isNullOrUndefined(target)) {
+      return null;
+    }
+
+    if (callback(target)) {
+      return target;
+    }
+
+    return findAncestorInf(target.parentElement, callback);
+  }
+  /* istanbul ignore next */
+
+
+  function findAncestorIter(target, callback, max) {
+    if (isNullOrUndefined(target) || max === 0) {
+      return null;
+    }
+
+    if (callback(target)) {
+      return target;
+    }
+
+    return findAncestorIter(target.parentElement, callback, max - 1);
+  }
+
   /** @namespace DOM */
 
   /**
@@ -1130,8 +1141,6 @@ var zcomponents = (function (exports) {
 
 
     function bindEvents(input, label) {
-      var value = input.value;
-
       if (isNullOrWhitespace(input.placeholder)) {
         input.addEventListener('focus', function (e) {
           input.placeholder = "";
@@ -1139,7 +1148,7 @@ var zcomponents = (function (exports) {
           addClass(label.parentElement, 'focused');
         });
         input.addEventListener('blur', function (e) {
-          if (isEmpty(value)) {
+          if (isEmpty(this.value)) {
             addClass(label, 'down');
           }
 
@@ -1148,7 +1157,7 @@ var zcomponents = (function (exports) {
         input.addEventListener('input', function (e) {
           // check if input does not have focus
           if (document.activeElement != input) {
-            if (isEmpty(value)) {
+            if (isEmpty(this.value)) {
               addClass(label, 'down');
             } else {
               removeClass(label, 'down');
@@ -1198,7 +1207,7 @@ var zcomponents = (function (exports) {
   var SelectorFactory = {
     create: function create(container, callback) {
       if (!isHTMLElement(container)) {
-        console.error('SelectorFactory>>Container must be an HTML Element');
+        console.error('%c@zenkai%c #Selector>%cSelectorFactory:%c Container must be an HTML Element', "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
         return ERROR;
       }
 
@@ -1275,6 +1284,7 @@ var zcomponents = (function (exports) {
     callback: null,
     setCurrentItem: function setCurrentItem(item, _input) {
       var input = valOrDefault(_input, getInput('radio', item));
+      input.checked = true;
       this.current = item;
       check(this.current, Status.ON);
       this.callback(input.value, this.current);
@@ -1366,7 +1376,7 @@ var zcomponents = (function (exports) {
   var SwitchFactory = {
     create: function create(container, callback) {
       if (!isHTMLElement(container)) {
-        console.error('SwitchFactory>>Container must be an HTML Element');
+        console.error('%c@zenkai%c #Switch>%SwitchFactory:%c Container must be an HTML Element', "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
         return ERROR$1;
       }
 
