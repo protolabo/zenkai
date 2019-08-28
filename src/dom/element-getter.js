@@ -1,5 +1,5 @@
-import { valOrDefault, isNullOrUndefined, isFunction } from '@datatype/type-manip.js';
-import { isElement } from './dom-manip.js';
+import { valOrDefault, isNullOrUndefined, isFunction } from '@datatype/index.js';
+import { isElement } from './checker.js';
 
 /**
  * Checks whether the selector is a class

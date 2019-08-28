@@ -1,17 +1,22 @@
-import { isNullOrUndefined } from "@datatype/type-manip.js";
+import { isNullOrUndefined, isString } from "@datatype/index.js";
+import { isElement } from "./checker.js";
 
 /**
  * Creates an element
  * @param {string} tagName 
  * @param {object} _attribute 
+ * @param {HTMLElement|HTMLElement[]} _elements 
  * @returns {HTMLElement}
  * @private
  */
 /* istanbul ignore next */
-function create(tagName, _attribute) {
+function create(tagName, _attribute, _elements) {
     var element = document.createElement(tagName);
     if (_attribute) {
         addAttributes(element, _attribute);
+    }
+    if (_elements) {
+        addChildren(element, _elements);
     }
     return element;
 }
@@ -573,7 +578,7 @@ export const createCode = create.bind(null, "code");
 export const createForm = create.bind(null, 'form');
 
 
-
+/* istanbul ignore next */
 function createInputAs(type, attr) {
     var input = create('input', attr);
     input.type = type;
@@ -696,6 +701,7 @@ export const createProgress = create.bind(null, 'progress');
  */
 export const createOutput = create.bind(null, 'output');
 
+/* istanbul ignore next */
 function createButtonAs(type, attr) {
     var btn = create("button", attr);
     btn.type = type;
@@ -834,7 +840,6 @@ const setClass = (element, c) => {
 export function addAttributes(element, attribute) {
     const ATTR_MAP = {
         accept: [assign],
-        children: [addChildren, element],
         class: [setClass, element],
         data: [Object.assign, element.dataset],
         disabled: [assign],
@@ -845,7 +850,6 @@ export function addAttributes(element, attribute) {
         placeholder: [assign],
         readonly: [assign, 'readOnly'],
         style: [assign],
-        text: [assign, 'textContent'],
         title: [assign],
         value: [assign],
     };
@@ -864,20 +868,22 @@ export function addAttributes(element, attribute) {
 
 /**
  * Appends the children to the element
- * @param {HTMLElement} el element
+ * @param {HTMLElement} element element
  * @param {HTMLCollection} children children elements
  * @private
  * @memberof DOM
  */
 /* istanbul ignore next */
-function addChildren(el, children) {
+function addChildren(element, children) {
     if (Array.isArray(children)) {
-        appendChildren(el, children);
-    } else if (children instanceof Element) {
-        el.appendChild(children);
+        appendChildren(element, children);
+    } else if (isElement(children)) {
+        element.appendChild(children);
+    } else if (isString(children)) {
+        element.textContent = children;
     }
 
-    return el;
+    return element;
 }
 
 /**
@@ -890,10 +896,115 @@ export function appendChildren(parent, children) {
     var fragment = createDocFragment();
 
     children.forEach(element => {
-        fragment.appendChild(element);
+        fragment.appendChild(isString(element) ? createTextNode(element) : element);
     });
     parent.appendChild(fragment);
     fragment = null;
 
     return parent;
 }
+
+
+export const EL = {
+    'article': createArticle,
+    'aside': createAside,
+    'br': createLineBreak,
+    'div': createDiv,
+    'dl': createDescriptionList,
+    'footer': createFooter,
+    'h1': createH1,
+    'h2': createH2,
+    'h3': createH3,
+    'h4': createH4,
+    'h5': createH5,
+    'h6': createH6,
+    'header': createHeader,
+    'hr': createThematicBreak,
+    'i': createI,
+    'input': createInput,
+    'inbutton': createInput['button'],
+    'incheckbox': createInput['checkbox'],
+    'incolor': createInput['color'],
+    'indate': createInput['date'],
+    'indatetime': createInput['datetime-local'],
+    'inemail': createInput['email'],
+    'infile': createInput['file'],
+    'inhidden': createInput['hidden'],
+    'inimage': createInput['image'],
+    'inmonth': createInput['month'],
+    'innumber': createInput['number'],
+    'inpassword': createInput['password'],
+    'inradio': createInput['radio'],
+    'inrange': createInput['range'],
+    'inreset': createInput['reset'],
+    'insearch': createInput['search'],
+    'insubmit': createInput['submit'],
+    'intel': createInput['tel'],
+    'intext': createInput['text'],
+    'intime': createInput['time'],
+    'inurl': createInput['url'],
+    'inweek': createInput['week'],
+    'li': createListItem,
+    'main': createMain,
+    'nav': createNav,
+    'ol': createOrderedList,
+    'p': createParagraph,
+    'section': createSection,
+    'ul': createUnorderedList,
+    'dt': createDescriptionTerm,
+    'dd': createDescriptionDetails,
+    'source': createSource,
+    'picture': createPicture,
+    'figure': createFigure,
+    'figcaption': createFigureCaption,
+    'span': createSpan,
+    'strong': createStrong,
+    'em': createEmphasis,
+    'mark': createMark,
+    'samp': createSample,
+    'sub': createSubscript,
+    'sup': createSuperscript,
+    'abbr': createAbbreviation,
+    'b': createB,
+    's': createS,
+    'u': createU,
+    'cite': createCite,
+    'code': createCode,
+    'form': createForm,
+    'label': createLabel,
+    'fieldset': createFieldset,
+    'legend': createLegend,
+    'datalist': createDataList,
+    'select': createSelect,
+    'option': createOption,
+    'optgroup': createOptionGroup,
+    'textarea': createTextArea,
+    'meter': createMeter,
+    'progress': createProgress,
+    'output': createOutput,
+    'button': createButton,
+    'btnbutton': createButton['button'],
+    'btnreset': createButton['reset'],
+    'btnsubmit': createButton['submit'],
+    'table': createTable,
+    'caption': createCaption,
+    'thead': createTableHeader,
+    'tbody': createTableBody,
+    'tfoot': createTableFooter,
+    'col': createTableColumn,
+    'colgroup': createTableColumnGroup,
+    'tr': createTableRow,
+    'th': createTableHeaderCell,
+    'td': createTableCell,
+};
+
+const ElementBuilder = {
+    result: null,
+    create(element) {
+        this.result = element;
+    },
+    validate() { },
+    build() {
+        return this.result;
+    }
+};

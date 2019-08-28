@@ -10,7 +10,9 @@ A collection of Javascript libraries: Dom, Datatype helpers, utilities (AJAX, UR
 
 ### DOM
 
-DOM manipulation
+Create elements, manipulate and query the DOM.
+
+[User guide](docs/guide-dom.md)
 
 ### TYPE
 
@@ -27,8 +29,10 @@ DataType manipulation
 
 - FORM: A collection of form components
   - Floating Label
+  - Input counter
   - Selector
   - Switch
+- Collapsible
 - Accordion
 
 ## Documentation

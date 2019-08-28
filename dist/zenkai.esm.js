@@ -178,20 +178,332 @@ function isNullOrUndefined(value) {
 });
 
 /**
+ * Inserts an item in an array at the specified index
+ * @param {Object[]} arr array
+ * @param {number} index 
+ * @param {object} item 
+ * @returns {number} The new length of the array
+ * @memberof TYPE
+ */
+function insert(arr, index, item) {
+  arr.splice(index, 0, item);
+  return arr.length;
+}
+/**
+ * Returns last element of array.
+ * @param {Object[]} arr array
+ * @memberof TYPE
+ */
+
+function last(arr) {
+  if (Array.isArray(arr) && arr.length - 1) {
+    return arr[arr.length - 1];
+  }
+
+  return undefined;
+}
+
+/**
+ * Returns a value indicating the day of the week with monday = 0
+ * @param {Date} date 
+ * @memberof TYPE
+ */
+
+function dayOfWeek(date) {
+  var d = date.getDay();
+  return d == 0 ? 6 : d - 1;
+} // Compare 2 times and returns
+//  1 if t1 > t2
+//  0 if t1 = t2
+// -1 if t1 < t2
+
+function compareTime(t1, t2) {
+  var arr1 = t1.split(':');
+  var arr2 = t2.split(':'); // hour comparison
+
+  if (+arr1[0] > +arr2[0]) return 1;else if (+arr1[0] < +arr2[0]) return -1;else {
+    // minute comparison
+    if (+arr1[1] > +arr2[1]) return 1;else if (+arr1[1] < +arr2[1]) return -1;else {
+      if (arr1.length == arr2.length && arr1.length == 3) {
+        // second comparison
+        if (+arr1[2] > +arr2[2]) return 1;else if (+arr1[2] < +arr2[2]) return -1;
+      }
+
+      return 0;
+    }
+  }
+}
+function parseTime(n) {
+  var hh = +n | 0;
+  var mm = '00';
+  if (!isInt(+n)) mm = (n + '').split('.')[1] * 6;
+  return hh + ':' + mm;
+} // Returns a date using the format "YYYY-mm-dd"
+
+function shortDate(myDate) {
+  var d = new Date(myDate);
+  var dd = d.getDate();
+  var mm = d.getMonth() + 1; // January = 0
+
+  var yyyy = d.getFullYear();
+  if (dd < 10) dd = '0' + dd;
+  if (mm < 10) mm = '0' + mm;
+  d = yyyy + '-' + mm + '-' + dd;
+  return d;
+} // Returns a date and time using the format "YYYY-mm-dd hh:MM"
+
+function longDate(myDate) {
+  var d = new Date(myDate);
+  var hh = d.getHours();
+  var MM = d.getMinutes();
+  if (MM < 10) MM = '0' + MM;
+  d = shortDate(d) + ' ' + hh + ':' + MM;
+  return d;
+} // Convertie une date de string (YYYY-MM-DD) en format Date
+
+function parseDate(strDate) {
+  var arrDate = strDate.split('-');
+  return new Date(arrDate[0], arrDate[1] - 1, arrDate[2], 0, 0, 0, 0);
+} // Convertie une date de string (YYYY-MM-DD hh:mm) en format Date
+
+function parseDateTime(strDate) {
+  var arrDateTime = strDate.split(' ');
+  var arrTime = arrDateTime[1].split(':');
+  var d = parseDate(arrDateTime[0]).setHours(+arrTime[0], +arrTime[1]);
+  return new Date(d);
+}
+var DICT = {
+  'en': {
+    'second': 'second(s)',
+    'minute': 'minute(s)',
+    'hour': 'hour(s)',
+    'day': 'day(s)',
+    'week': 'week(s)',
+    'month': 'month(s)',
+    'year': 'year(s)'
+  },
+  'fr': {
+    'second': 'seconde(s)',
+    'minute': 'minute(s)',
+    'hour': 'heure(s)',
+    'day': 'jour(s)',
+    'week': 'semaine(s)',
+    'month': 'mois',
+    'year': 'année(s)'
+  }
+};
+
+var trans = function translation(lang, key, isPlural) {
+  var value = DICT[lang][key];
+
+  if (value === undefined) {
+    return undefined;
+  }
+
+  if (isPlural) {
+    return value.replace(/\(([a-z]+)\)/g, '$1');
+  }
+
+  return value.replace(/\([a-z]+\)/g, '');
+};
+
+var timeAgoResponse = function timeAgoResponseBuilder(time, unit, _lang) {
+  var lang = valOrDefault(_lang, 'en');
+  var isPlural = time === 1;
+  var msg = {
+    en: "".concat(time, " ").concat(trans('en', unit, isPlural), " ago"),
+    fr: "il y a ".concat(time, " ").concat(trans('fr', unit, isPlural))
+  };
+  return msg[lang];
+};
+
+function timeAgo(time, callback) {
+  callback = valOrDefault(callback, timeAgoResponse);
+  var seconds = Math.floor((Date.now() - new Date(time).getTime()) / 1000);
+  var MINUTE = 60;
+  var HOUR = MINUTE * 60;
+  var DAY = HOUR * 24;
+  var WEEK = DAY * 7;
+  var MONTH = DAY * 30;
+  var YEAR = WEEK * 52;
+
+  if (seconds < MINUTE) {
+    return callback(seconds, 'second');
+  } else if (seconds < HOUR) {
+    return callback(~~(seconds / MINUTE), 'minute');
+  } else if (seconds < DAY) {
+    return callback(~~(seconds / HOUR), 'hour');
+  } else if (seconds < WEEK) {
+    return callback(~~(seconds / DAY), 'day');
+  } else if (seconds < MONTH) {
+    return callback(~~(seconds / WEEK), 'week');
+  } else if (seconds < YEAR) {
+    return callback(~~(seconds / MONTH), 'month');
+  } else {
+    return callback(~~(seconds / YEAR), 'year');
+  }
+}
+
+/**
+ * Returns the index or value of the first element in the object
+ * @param {Object|Array} obj 
+ * @param {any} value 
+ * @memberof TYPE
+ */
+function find(obj, value) {
+  if (Array.isArray(obj)) {
+    var index = obj.indexOf(value);
+    if (index !== -1) return index;
+  } else {
+    for (var _i = 0, _Object$keys = Object.keys(obj); _i < _Object$keys.length; _i++) {
+      var e = _Object$keys[_i];
+
+      if (obj[e] === value || obj[e].val === value) {
+        return e;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+/** @private */
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+/** @private */
+
+var isPrototypeOf = Object.prototype.isPrototypeOf;
+var defProp = Object.defineProperty;
+/**
+ * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
+ * @param {*} obj target object
+ * @param {string} key name of the property
+ * @memberof TYPE
+ */
+
+var hasOwn = function hasOwn(obj, key) {
+  return hasOwnProperty.call(obj, key);
+};
+/**
+ * Returns a boolean indicating whether the object (child) inherit from another (parent)
+ * @param {*} child 
+ * @param {*} parent 
+ * @memberof TYPE
+ */
+
+var isDerivedOf = function isDerivedOf(child, parent) {
+  return Object.getPrototypeOf(child) !== parent && isPrototypeOf.call(parent, child);
+};
+/**
+ * 
+ * @param {*} obj 
+ * @memberof TYPE
+ */
+
+function cloneObject(obj) {
+  if (obj === null || _typeof(obj) !== 'object') {
+    return obj;
+  }
+
+  var temp = obj.constructor(); // changed
+
+  for (var key in obj) {
+    if (hasOwn(obj, key)) {
+      obj['isActiveClone'] = null;
+      temp[key] = cloneObject(obj[key]);
+      delete obj['isActiveClone'];
+    }
+  }
+
+  return temp;
+}
+
+/**
+ * Returns a value indicating whether a string is null or made of whitespace.
+ * @param {string} str string
+ * @memberof TYPE
+ */
+
+function isNullOrWhitespace(str) {
+  return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
+}
+/**
+ * Capitalizes all words in a sequence
+ * @param {string} str Sequence
+ * @returns {string} Capitalized sequence
+ * @memberof TYPE
+ */
+
+function capitalize(str) {
+  return str.replace(/\b\w/g, function (s) {
+    return s.toUpperCase();
+  });
+}
+/**
+ * Capitalizes the first letter of a sequence
+ * @param {string} str Sequence
+ * @returns {string} Sequence with its first letter capitalized
+ * @memberof TYPE
+ */
+
+function capitalizeFirstLetter(str) {
+  return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
+}
+/**
+ * Removes all accents from a string
+ * @param {*} str string
+ * @returns {string}
+ * @memberof TYPE
+ */
+
+function removeAccents(str) {
+  if (String.prototype.normalize) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  }
+
+  return str.replace(/[àâäæ]/gi, 'a').replace(/[ç]/gi, 'c').replace(/[éèê]/gi, 'e').replace(/[îï]/gi, 'i').replace(/[ôœ]/gi, 'o').replace(/[ùûü]/gi, 'u');
+}
+
+/**
+ * Verifies that an object is an *Element*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *Element*
+ * @memberof DOM
+ */
+
+function isElement(obj) {
+  return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
+}
+/**
+ * Verifies that an object is an *HTMLElement*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *Element*
+ * @memberof DOM
+ */
+
+function isHTMLElement(obj) {
+  return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
+}
+
+/**
  * Creates an element
  * @param {string} tagName 
  * @param {object} _attribute 
+ * @param {HTMLElement|HTMLElement[]} _elements 
  * @returns {HTMLElement}
  * @private
  */
 
 /* istanbul ignore next */
 
-function create(tagName, _attribute) {
+function create(tagName, _attribute, _elements) {
   var element = document.createElement(tagName);
 
   if (_attribute) {
     addAttributes(element, _attribute);
+  }
+
+  if (_elements) {
+    addChildren(element, _elements);
   }
 
   return element;
@@ -759,6 +1071,7 @@ var createCode = create.bind(null, "code");
  */
 
 var createForm = create.bind(null, 'form');
+/* istanbul ignore next */
 
 function createInputAs(type, attr) {
   var input = create('input', attr);
@@ -876,6 +1189,7 @@ var createProgress = create.bind(null, 'progress');
  */
 
 var createOutput = create.bind(null, 'output');
+/* istanbul ignore next */
 
 function createButtonAs(type, attr) {
   var btn = create("button", attr);
@@ -1018,8 +1332,7 @@ var setClass = function setClass(element, c) {
 function addAttributes(element, attribute) {
   var ATTR_MAP = {
     accept: [assign],
-    children: [addChildren, element],
-    class: [setClass, element],
+    "class": [setClass, element],
     data: [Object.assign, element.dataset],
     disabled: [assign],
     draggable: [assign],
@@ -1029,16 +1342,13 @@ function addAttributes(element, attribute) {
     placeholder: [assign],
     readonly: [assign, 'readOnly'],
     style: [assign],
-    text: [assign, 'textContent'],
     title: [assign],
     value: [assign]
   };
   var DEFAULT_MAP = [echo, '']; // HTML attributes
 
-  var _arr = Object.keys(attribute);
-
-  for (var _i = 0; _i < _arr.length; _i++) {
-    var key = _arr[_i];
+  for (var _i = 0, _Object$keys = Object.keys(attribute); _i < _Object$keys.length; _i++) {
+    var key = _Object$keys[_i];
     var val = ATTR_MAP[key] || DEFAULT_MAP;
     val[0](val[1] || key, attribute[key]);
   }
@@ -1049,7 +1359,7 @@ function addAttributes(element, attribute) {
 }
 /**
  * Appends the children to the element
- * @param {HTMLElement} el element
+ * @param {HTMLElement} element element
  * @param {HTMLCollection} children children elements
  * @private
  * @memberof DOM
@@ -1057,14 +1367,16 @@ function addAttributes(element, attribute) {
 
 /* istanbul ignore next */
 
-function addChildren(el, children) {
+function addChildren(element, children) {
   if (Array.isArray(children)) {
-    appendChildren(el, children);
-  } else if (children instanceof Element) {
-    el.appendChild(children);
+    appendChildren(element, children);
+  } else if (isElement(children)) {
+    element.appendChild(children);
+  } else if (isString(children)) {
+    element.textContent = children;
   }
 
-  return el;
+  return element;
 }
 /**
  * Append a list of elements to a node.
@@ -1077,12 +1389,104 @@ function addChildren(el, children) {
 function appendChildren(parent, children) {
   var fragment = createDocFragment();
   children.forEach(function (element) {
-    fragment.appendChild(element);
+    fragment.appendChild(isString(element) ? createTextNode(element) : element);
   });
   parent.appendChild(fragment);
   fragment = null;
   return parent;
 }
+var EL = {
+  'article': createArticle,
+  'aside': createAside,
+  'br': createLineBreak,
+  'div': createDiv,
+  'dl': createDescriptionList,
+  'footer': createFooter,
+  'h1': createH1,
+  'h2': createH2,
+  'h3': createH3,
+  'h4': createH4,
+  'h5': createH5,
+  'h6': createH6,
+  'header': createHeader,
+  'hr': createThematicBreak,
+  'i': createI,
+  'input': createInput,
+  'inbutton': createInput['button'],
+  'incheckbox': createInput['checkbox'],
+  'incolor': createInput['color'],
+  'indate': createInput['date'],
+  'indatetime': createInput['datetime-local'],
+  'inemail': createInput['email'],
+  'infile': createInput['file'],
+  'inhidden': createInput['hidden'],
+  'inimage': createInput['image'],
+  'inmonth': createInput['month'],
+  'innumber': createInput['number'],
+  'inpassword': createInput['password'],
+  'inradio': createInput['radio'],
+  'inrange': createInput['range'],
+  'inreset': createInput['reset'],
+  'insearch': createInput['search'],
+  'insubmit': createInput['submit'],
+  'intel': createInput['tel'],
+  'intext': createInput['text'],
+  'intime': createInput['time'],
+  'inurl': createInput['url'],
+  'inweek': createInput['week'],
+  'li': createListItem,
+  'main': createMain,
+  'nav': createNav,
+  'ol': createOrderedList,
+  'p': createParagraph,
+  'section': createSection,
+  'ul': createUnorderedList,
+  'dt': createDescriptionTerm,
+  'dd': createDescriptionDetails,
+  'source': createSource,
+  'picture': createPicture,
+  'figure': createFigure,
+  'figcaption': createFigureCaption,
+  'span': createSpan,
+  'strong': createStrong,
+  'em': createEmphasis,
+  'mark': createMark,
+  'samp': createSample,
+  'sub': createSubscript,
+  'sup': createSuperscript,
+  'abbr': createAbbreviation,
+  'b': createB,
+  's': createS,
+  'u': createU,
+  'cite': createCite,
+  'code': createCode,
+  'form': createForm,
+  'label': createLabel,
+  'fieldset': createFieldset,
+  'legend': createLegend,
+  'datalist': createDataList,
+  'select': createSelect,
+  'option': createOption,
+  'optgroup': createOptionGroup,
+  'textarea': createTextArea,
+  'meter': createMeter,
+  'progress': createProgress,
+  'output': createOutput,
+  'button': createButton,
+  'btnbutton': createButton['button'],
+  'btnreset': createButton['reset'],
+  'btnsubmit': createButton['submit'],
+  'table': createTable,
+  'caption': createCaption,
+  'thead': createTableHeader,
+  'tbody': createTableBody,
+  'tfoot': createTableFooter,
+  'col': createTableColumn,
+  'colgroup': createTableColumnGroup,
+  'tr': createTableRow,
+  'th': createTableHeaderCell,
+  'td': createTableCell
+};
 
 /**
  * Gets the window's width
@@ -1091,26 +1495,6 @@ function appendChildren(parent, children) {
 
 function windowWidth() {
   return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-}
-/**
- * Verifies that an object is an *Element*
- * @param {Element} obj 
- * @returns {boolean} Value indicating whether the object is an *Element*
- * @memberof DOM
- */
-
-function isElement(obj) {
-  return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
-}
-/**
- * Verifies that an object is an *HTMLElement*
- * @param {Element} obj 
- * @returns {boolean} Value indicating whether the object is an *Element*
- * @memberof DOM
- */
-
-function isHTMLElement(obj) {
-  return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
 }
 /**
  * Inserts a given element before the targetted element
@@ -1210,52 +1594,6 @@ function copytoClipboard(value) {
 }
 
 /**
- * Returns a value indicating whether a string is null or made of whitespace.
- * @param {string} str string
- * @memberof TYPE
- */
-
-function isNullOrWhitespace(str) {
-  return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
-}
-/**
- * Capitalizes all words in a sequence
- * @param {string} str Sequence
- * @returns {string} Capitalized sequence
- * @memberof TYPE
- */
-
-function capitalize(str) {
-  return str.replace(/\b\w/g, function (s) {
-    return s.toUpperCase();
-  });
-}
-/**
- * Capitalizes the first letter of a sequence
- * @param {string} str Sequence
- * @returns {string} Sequence with its first letter capitalized
- * @memberof TYPE
- */
-
-function capitalizeFirstLetter(str) {
-  return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
-}
-/**
- * Removes all accents from a string
- * @param {*} str string
- * @returns {string}
- * @memberof TYPE
- */
-
-function removeAccents(str) {
-  if (String.prototype.normalize) {
-    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-  }
-
-  return str.replace(/[àâäæ]/gi, 'a').replace(/[ç]/gi, 'c').replace(/[éèê]/gi, 'e').replace(/[îï]/gi, 'i').replace(/[ôœ]/gi, 'o').replace(/[ùûü]/gi, 'u');
-}
-
-/**
  * Removes additional spaces in class attribute
  * @private
  */
@@ -1310,11 +1648,11 @@ function addClass(element, c) {
   // If c is an Array => Format c as a space-separated string
   if (Array.isArray(c)) {
     c = c.map(function (c) {
-      return valOrDefault(c.class, c);
+      return valOrDefault(c["class"], c);
     }).join(' ');
   }
 
-  var strClass = valOrDefault(c.class, c);
+  var strClass = valOrDefault(c["class"], c);
 
   if (isNullOrWhitespace(element.className)) {
     element.className = strClass;
@@ -1516,252 +1854,6 @@ function findAncestorIter(target, callback, max) {
 
   return findAncestorIter(target.parentElement, callback, max - 1);
 }
-
-/** @namespace DOM */
-
-/**
- * Inserts an item in an array at the specified index
- * @param {Object[]} arr array
- * @param {number} index 
- * @param {object} item 
- * @returns {number} The new length of the array
- * @memberof TYPE
- */
-function insert(arr, index, item) {
-  arr.splice(index, 0, item);
-  return arr.length;
-}
-/**
- * Returns last element of array.
- * @param {Object[]} arr array
- * @memberof TYPE
- */
-
-function last(arr) {
-  if (Array.isArray(arr) && arr.length - 1) {
-    return arr[arr.length - 1];
-  }
-
-  return undefined;
-}
-
-/**
- * Returns a value indicating the day of the week with monday = 0
- * @param {Date} date 
- * @memberof TYPE
- */
-
-function dayOfWeek(date) {
-  var d = date.getDay();
-  return d == 0 ? 6 : d - 1;
-} // Compare 2 times and returns
-//  1 if t1 > t2
-//  0 if t1 = t2
-// -1 if t1 < t2
-
-function compareTime(t1, t2) {
-  var arr1 = t1.split(':');
-  var arr2 = t2.split(':'); // hour comparison
-
-  if (+arr1[0] > +arr2[0]) return 1;else if (+arr1[0] < +arr2[0]) return -1;else {
-    // minute comparison
-    if (+arr1[1] > +arr2[1]) return 1;else if (+arr1[1] < +arr2[1]) return -1;else {
-      if (arr1.length == arr2.length && arr1.length == 3) {
-        // second comparison
-        if (+arr1[2] > +arr2[2]) return 1;else if (+arr1[2] < +arr2[2]) return -1;
-      }
-
-      return 0;
-    }
-  }
-}
-function parseTime(n) {
-  var hh = +n | 0;
-  var mm = '00';
-  if (!isInt(+n)) mm = (n + '').split('.')[1] * 6;
-  return hh + ':' + mm;
-} // Returns a date using the format "YYYY-mm-dd"
-
-function shortDate(myDate) {
-  var d = new Date(myDate);
-  var dd = d.getDate();
-  var mm = d.getMonth() + 1; // January = 0
-
-  var yyyy = d.getFullYear();
-  if (dd < 10) dd = '0' + dd;
-  if (mm < 10) mm = '0' + mm;
-  d = yyyy + '-' + mm + '-' + dd;
-  return d;
-} // Returns a date and time using the format "YYYY-mm-dd hh:MM"
-
-function longDate(myDate) {
-  var d = new Date(myDate);
-  var hh = d.getHours();
-  var MM = d.getMinutes();
-  if (MM < 10) MM = '0' + MM;
-  d = shortDate(d) + ' ' + hh + ':' + MM;
-  return d;
-} // Convertie une date de string (YYYY-MM-DD) en format Date
-
-function parseDate(strDate) {
-  var arrDate = strDate.split('-');
-  return new Date(arrDate[0], arrDate[1] - 1, arrDate[2], 0, 0, 0, 0);
-} // Convertie une date de string (YYYY-MM-DD hh:mm) en format Date
-
-function parseDateTime(strDate) {
-  var arrDateTime = strDate.split(' ');
-  var arrTime = arrDateTime[1].split(':');
-  var d = parseDate(arrDateTime[0]).setHours(+arrTime[0], +arrTime[1]);
-  return new Date(d);
-}
-var DICT = {
-  'en': {
-    'second': 'second(s)',
-    'minute': 'minute(s)',
-    'hour': 'hour(s)',
-    'day': 'day(s)',
-    'week': 'week(s)',
-    'month': 'month(s)',
-    'year': 'year(s)'
-  },
-  'fr': {
-    'second': 'seconde(s)',
-    'minute': 'minute(s)',
-    'hour': 'heure(s)',
-    'day': 'jour(s)',
-    'week': 'semaine(s)',
-    'month': 'mois',
-    'year': 'année(s)'
-  }
-};
-
-var trans = function translation(lang, key, isPlural) {
-  var value = DICT[lang][key];
-
-  if (value === undefined) {
-    return undefined;
-  }
-
-  if (isPlural) {
-    return value.replace(/\(([a-z]+)\)/g, '$1');
-  }
-
-  return value.replace(/\([a-z]+\)/g, '');
-};
-
-var timeAgoResponse = function timeAgoResponseBuilder(time, unit, _lang) {
-  var lang = valOrDefault(_lang, 'en');
-  var isPlural = time === 1;
-  var msg = {
-    en: "".concat(time, " ").concat(trans('en', unit, isPlural), " ago"),
-    fr: "il y a ".concat(time, " ").concat(trans('fr', unit, isPlural))
-  };
-  return msg[lang];
-};
-
-function timeAgo(time, callback) {
-  callback = valOrDefault(callback, timeAgoResponse);
-  var seconds = Math.floor((Date.now() - new Date(time).getTime()) / 1000);
-  var MINUTE = 60;
-  var HOUR = MINUTE * 60;
-  var DAY = HOUR * 24;
-  var WEEK = DAY * 7;
-  var MONTH = DAY * 30;
-  var YEAR = WEEK * 52;
-
-  if (seconds < MINUTE) {
-    return callback(seconds, 'second');
-  } else if (seconds < HOUR) {
-    return callback(~~(seconds / MINUTE), 'minute');
-  } else if (seconds < DAY) {
-    return callback(~~(seconds / HOUR), 'hour');
-  } else if (seconds < WEEK) {
-    return callback(~~(seconds / DAY), 'day');
-  } else if (seconds < MONTH) {
-    return callback(~~(seconds / WEEK), 'week');
-  } else if (seconds < YEAR) {
-    return callback(~~(seconds / MONTH), 'month');
-  } else {
-    return callback(~~(seconds / YEAR), 'year');
-  }
-}
-
-/**
- * Returns the index or value of the first element in the object
- * @param {Object|Array} obj 
- * @param {any} value 
- * @memberof TYPE
- */
-function find(obj, value) {
-  if (Array.isArray(obj)) {
-    var index = obj.indexOf(value);
-    if (index !== -1) return index;
-  } else {
-    var _arr = Object.keys(obj);
-
-    for (var _i = 0; _i < _arr.length; _i++) {
-      var e = _arr[_i];
-
-      if (obj[e] === value || obj[e].val === value) {
-        return e;
-      }
-    }
-  }
-
-  return undefined;
-}
-
-/** @private */
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-/** @private */
-
-var isPrototypeOf = Object.prototype.isPrototypeOf;
-var defProp = Object.defineProperty;
-/**
- * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
- * @param {*} obj target object
- * @param {string} key name of the property
- * @memberof TYPE
- */
-
-var hasOwn = function hasOwn(obj, key) {
-  return hasOwnProperty.call(obj, key);
-};
-/**
- * Returns a boolean indicating whether the object (child) inherit from another (parent)
- * @param {*} child 
- * @param {*} parent 
- * @memberof TYPE
- */
-
-var isDerivedOf = function isDerivedOf(child, parent) {
-  return Object.getPrototypeOf(child) !== parent && isPrototypeOf.call(parent, child);
-};
-/**
- * 
- * @param {*} obj 
- * @memberof TYPE
- */
-
-function cloneObject(obj) {
-  if (obj === null || _typeof(obj) !== 'object') {
-    return obj;
-  }
-
-  var temp = obj.constructor(); // changed
-
-  for (var key in obj) {
-    if (hasOwn(obj, key)) {
-      obj['isActiveClone'] = null;
-      temp[key] = cloneObject(obj[key]);
-      delete obj['isActiveClone'];
-    }
-  }
-
-  return temp;
-}
-
-/** @namespace TYPE */
 
 /** 
  * Ajax namespace
@@ -2067,8 +2159,8 @@ function getUrlParams(prop) {
       _iteratorError = err;
     } finally {
       try {
-        if (!_iteratorNormalCompletion && _iterator.return != null) {
-          _iterator.return();
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
         }
       } finally {
         if (_didIteratorError) {
@@ -2114,8 +2206,6 @@ function queryBuilder(query) {
   });
   return str.join('&');
 }
-
-// import * as AJAX from './ajax-utils.js';
 
 function floatingLabel(form) {
   var labels = getElements('.form-label', form);
@@ -2295,7 +2385,7 @@ var BaseSelector = {
     };
 
     for (var i = 0, len = selectorItems.length; i < len; i++) {
-      _loop(i, len);
+      _loop(i);
     }
 
     if (isNull(this.current) && !isNull(defaultItem)) {
@@ -2345,7 +2435,7 @@ var FormSelector = {
     };
 
     for (var i = 0, len = selectorItems.length; i < len; i++) {
-      _loop2(i, len);
+      _loop2(i);
     }
 
     if (isNull(this.current) && !isNull(defaultItem)) {
@@ -2501,8 +2591,6 @@ function Switch(container, _callback) {
 
   return switches;
 }
-
-/** @namespace FORM */
 
 /**
  * Shows an element
@@ -2733,4 +2821,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createElement, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, EL, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createElement, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };

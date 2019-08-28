@@ -1,5 +1,4 @@
-import { valOrDefault } from '@datatype/type-manip.js';
-import { isNullOrWhitespace } from '@datatype/type-string.js';
+import { valOrDefault, isNullOrWhitespace } from '@datatype/index.js';
 
 /**
  * Removes additional spaces in class attribute

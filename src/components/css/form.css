@@ -105,17 +105,19 @@ input.switch { display: none; }
         position: absolute;
     }
     .switch-label:before {
-        top: -3px; bottom: -3px; right: 30px;
-        width: 25px; 
-        height: 25px;
+        top: calc(50% - 11px);
+        right: 28px;
+        width: 22px; 
+        height: 22px;
         border-radius: 50%;
         background-color: #f9f9f9;
-        box-shadow: 0 2px 3px #999, 0 -1px #d5d5d5;
+        box-shadow: 0 1px 2px #777, 0 -1px #d5d5d5;
         z-index: -1;
         transition: transform .2s;
     }
     .switch-label:after {
-        top: 2px; right: 0;
+        top: calc(50% - 8px); 
+        right: 0;
         height: 15px;
         width: 50px;
         border-radius: 180px;
@@ -124,8 +126,14 @@ input.switch { display: none; }
         transition: background-color .2s .1s
     }
 
-    .switch-label[data-state="on"]:before { background-color: #fff; transform: translateX(35px); }
-    .switch-label[data-state="on"]:after { content:attr(data-on-message);  }
+    .switch-label[data-state="on"]:before { 
+        background-color: #fff; 
+        box-shadow: 0 2px 3px #999, 0 -1px #d5d5d5;
+        transform: translateX(28px) scale(1.02); 
+    }
+    .switch-label[data-state="on"]:after { 
+        content:attr(data-on-message); 
+    }
 
 /* Form component: Selector */
 .selector { display: flex; border: 1px solid; border-radius: 5px; }

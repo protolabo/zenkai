@@ -1,5 +1,5 @@
-﻿import { isNullOrUndefined } from '@datatype/type-manip.js';
-import { createTextArea } from './dom-create';
+﻿import { createTextArea } from './dom-create.js';
+import { isHTMLElement } from './checker.js';
 
 /**
  * Gets the window's width
@@ -9,25 +9,6 @@ export function windowWidth() {
     return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 }
 
-/**
- * Verifies that an object is an *Element*
- * @param {Element} obj 
- * @returns {boolean} Value indicating whether the object is an *Element*
- * @memberof DOM
- */
-export function isElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
-}
-
-/**
- * Verifies that an object is an *HTMLElement*
- * @param {Element} obj 
- * @returns {boolean} Value indicating whether the object is an *Element*
- * @memberof DOM
- */
-export function isHTMLElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
-}
 
 /**
  * Inserts a given element before the targetted element

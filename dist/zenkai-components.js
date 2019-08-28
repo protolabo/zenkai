@@ -160,20 +160,56 @@ var zcomponents = (function (exports) {
   });
 
   /**
+   * Returns a value indicating whether a string is null or made of whitespace.
+   * @param {string} str string
+   * @memberof TYPE
+   */
+
+  function isNullOrWhitespace(str) {
+    return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
+  }
+
+  /**
+   * Verifies that an object is an *Element*
+   * @param {Element} obj 
+   * @returns {boolean} Value indicating whether the object is an *Element*
+   * @memberof DOM
+   */
+
+  function isElement(obj) {
+    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
+  }
+  /**
+   * Verifies that an object is an *HTMLElement*
+   * @param {Element} obj 
+   * @returns {boolean} Value indicating whether the object is an *Element*
+   * @memberof DOM
+   */
+
+  function isHTMLElement(obj) {
+    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
+  }
+
+  /**
    * Creates an element
    * @param {string} tagName 
    * @param {object} _attribute 
+   * @param {HTMLElement|HTMLElement[]} _elements 
    * @returns {HTMLElement}
    * @private
    */
 
   /* istanbul ignore next */
 
-  function create(tagName, _attribute) {
+  function create(tagName, _attribute, _elements) {
     var element = document.createElement(tagName);
 
     if (_attribute) {
       addAttributes(element, _attribute);
+    }
+
+    if (_elements) {
+      addChildren(element, _elements);
     }
 
     return element;
@@ -187,6 +223,17 @@ var zcomponents = (function (exports) {
 
   var createDocFragment = function createDocFragment() {
     return document.createDocumentFragment();
+  };
+  /**
+   * Creates a text node
+   * @function
+   * @param {string} text
+   * @returns {Text}
+   * @memberof DOM
+   */
+
+  var createTextNode = function createTextNode(text) {
+    return document.createTextNode(text);
   };
   /**
    * Creates a `<header>` element with some attributes
@@ -314,6 +361,26 @@ var zcomponents = (function (exports) {
    */
 
   var createDiv = create.bind(null, 'div');
+  /**
+   * Creates a `br` element \
+   * Line break (carriage-return)
+   * @function
+   * @memberof DOM
+   */
+
+  var createLineBreak = function createLineBreak() {
+    return create('br');
+  };
+  /**
+   * Creates a `hr` element \
+   * Thematic break
+   * @function
+   * @memberof DOM
+   */
+
+  var createThematicBreak = function createThematicBreak() {
+    return create('hr');
+  };
   /**
    * Creates a `<p>` element with some attributes
    * @param {Object} [attr] attributes
@@ -539,6 +606,7 @@ var zcomponents = (function (exports) {
    */
 
   var createForm = create.bind(null, 'form');
+  /* istanbul ignore next */
 
   function createInputAs(type, attr) {
     var input = create('input', attr);
@@ -656,6 +724,7 @@ var zcomponents = (function (exports) {
    */
 
   var createOutput = create.bind(null, 'output');
+  /* istanbul ignore next */
 
   function createButtonAs(type, attr) {
     var btn = create("button", attr);
@@ -798,8 +867,7 @@ var zcomponents = (function (exports) {
   function addAttributes(element, attribute) {
     var ATTR_MAP = {
       accept: [assign],
-      children: [addChildren, element],
-      class: [setClass, element],
+      "class": [setClass, element],
       data: [Object.assign, element.dataset],
       disabled: [assign],
       draggable: [assign],
@@ -809,16 +877,13 @@ var zcomponents = (function (exports) {
       placeholder: [assign],
       readonly: [assign, 'readOnly'],
       style: [assign],
-      text: [assign, 'textContent'],
       title: [assign],
       value: [assign]
     };
     var DEFAULT_MAP = [echo, '']; // HTML attributes
 
-    var _arr = Object.keys(attribute);
-
-    for (var _i = 0; _i < _arr.length; _i++) {
-      var key = _arr[_i];
+    for (var _i = 0, _Object$keys = Object.keys(attribute); _i < _Object$keys.length; _i++) {
+      var key = _Object$keys[_i];
       var val = ATTR_MAP[key] || DEFAULT_MAP;
       val[0](val[1] || key, attribute[key]);
     }
@@ -829,7 +894,7 @@ var zcomponents = (function (exports) {
   }
   /**
    * Appends the children to the element
-   * @param {HTMLElement} el element
+   * @param {HTMLElement} element element
    * @param {HTMLCollection} children children elements
    * @private
    * @memberof DOM
@@ -837,14 +902,16 @@ var zcomponents = (function (exports) {
 
   /* istanbul ignore next */
 
-  function addChildren(el, children) {
+  function addChildren(element, children) {
     if (Array.isArray(children)) {
-      appendChildren(el, children);
-    } else if (children instanceof Element) {
-      el.appendChild(children);
+      appendChildren(element, children);
+    } else if (isElement(children)) {
+      element.appendChild(children);
+    } else if (isString(children)) {
+      element.textContent = children;
     }
 
-    return el;
+    return element;
   }
   /**
    * Append a list of elements to a node.
@@ -857,43 +924,104 @@ var zcomponents = (function (exports) {
   function appendChildren(parent, children) {
     var fragment = createDocFragment();
     children.forEach(function (element) {
-      fragment.appendChild(element);
+      fragment.appendChild(isString(element) ? createTextNode(element) : element);
     });
     parent.appendChild(fragment);
     fragment = null;
     return parent;
   }
-
-  /**
-   * Verifies that an object is an *Element*
-   * @param {Element} obj 
-   * @returns {boolean} Value indicating whether the object is an *Element*
-   * @memberof DOM
-   */
-
-  function isElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
-  }
-  /**
-   * Verifies that an object is an *HTMLElement*
-   * @param {Element} obj 
-   * @returns {boolean} Value indicating whether the object is an *Element*
-   * @memberof DOM
-   */
-
-  function isHTMLElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
-  }
-
-  /**
-   * Returns a value indicating whether a string is null or made of whitespace.
-   * @param {string} str string
-   * @memberof TYPE
-   */
-
-  function isNullOrWhitespace(str) {
-    return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
-  }
+  var EL = {
+    'article': createArticle,
+    'aside': createAside,
+    'br': createLineBreak,
+    'div': createDiv,
+    'dl': createDescriptionList,
+    'footer': createFooter,
+    'h1': createH1,
+    'h2': createH2,
+    'h3': createH3,
+    'h4': createH4,
+    'h5': createH5,
+    'h6': createH6,
+    'header': createHeader,
+    'hr': createThematicBreak,
+    'i': createI,
+    'input': createInput,
+    'inbutton': createInput['button'],
+    'incheckbox': createInput['checkbox'],
+    'incolor': createInput['color'],
+    'indate': createInput['date'],
+    'indatetime': createInput['datetime-local'],
+    'inemail': createInput['email'],
+    'infile': createInput['file'],
+    'inhidden': createInput['hidden'],
+    'inimage': createInput['image'],
+    'inmonth': createInput['month'],
+    'innumber': createInput['number'],
+    'inpassword': createInput['password'],
+    'inradio': createInput['radio'],
+    'inrange': createInput['range'],
+    'inreset': createInput['reset'],
+    'insearch': createInput['search'],
+    'insubmit': createInput['submit'],
+    'intel': createInput['tel'],
+    'intext': createInput['text'],
+    'intime': createInput['time'],
+    'inurl': createInput['url'],
+    'inweek': createInput['week'],
+    'li': createListItem,
+    'main': createMain,
+    'nav': createNav,
+    'ol': createOrderedList,
+    'p': createParagraph,
+    'section': createSection,
+    'ul': createUnorderedList,
+    'dt': createDescriptionTerm,
+    'dd': createDescriptionDetails,
+    'source': createSource,
+    'picture': createPicture,
+    'figure': createFigure,
+    'figcaption': createFigureCaption,
+    'span': createSpan,
+    'strong': createStrong,
+    'em': createEmphasis,
+    'mark': createMark,
+    'samp': createSample,
+    'sub': createSubscript,
+    'sup': createSuperscript,
+    'abbr': createAbbreviation,
+    'b': createB,
+    's': createS,
+    'u': createU,
+    'cite': createCite,
+    'code': createCode,
+    'form': createForm,
+    'label': createLabel,
+    'fieldset': createFieldset,
+    'legend': createLegend,
+    'datalist': createDataList,
+    'select': createSelect,
+    'option': createOption,
+    'optgroup': createOptionGroup,
+    'textarea': createTextArea,
+    'meter': createMeter,
+    'progress': createProgress,
+    'output': createOutput,
+    'button': createButton,
+    'btnbutton': createButton['button'],
+    'btnreset': createButton['reset'],
+    'btnsubmit': createButton['submit'],
+    'table': createTable,
+    'caption': createCaption,
+    'thead': createTableHeader,
+    'tbody': createTableBody,
+    'tfoot': createTableFooter,
+    'col': createTableColumn,
+    'colgroup': createTableColumnGroup,
+    'tr': createTableRow,
+    'th': createTableHeaderCell,
+    'td': createTableCell
+  };
 
   /**
    * Removes additional spaces in class attribute
@@ -950,11 +1078,11 @@ var zcomponents = (function (exports) {
     // If c is an Array => Format c as a space-separated string
     if (Array.isArray(c)) {
       c = c.map(function (c) {
-        return valOrDefault(c.class, c);
+        return valOrDefault(c["class"], c);
       }).join(' ');
     }
 
-    var strClass = valOrDefault(c.class, c);
+    var strClass = valOrDefault(c["class"], c);
 
     if (isNullOrWhitespace(element.className)) {
       element.className = strClass;
@@ -1070,26 +1198,6 @@ var zcomponents = (function (exports) {
 
     return findAncestorIter(target.parentElement, callback, max - 1);
   }
-
-  /** @namespace DOM */
-
-  /**
-   * Inserts an item in an array at the specified index
-   * @param {Object[]} arr array
-   * @param {number} index 
-   * @param {object} item 
-   * @returns {number} The new length of the array
-   * @memberof TYPE
-   */
-
-  /**
-   * Returns the index or value of the first element in the object
-   * @param {Object|Array} obj 
-   * @param {any} value 
-   * @memberof TYPE
-   */
-
-  /** @namespace TYPE */
 
   function floatingLabel(form) {
     var labels = getElements('.form-label', form);
@@ -1269,7 +1377,7 @@ var zcomponents = (function (exports) {
       };
 
       for (var i = 0, len = selectorItems.length; i < len; i++) {
-        _loop(i, len);
+        _loop(i);
       }
 
       if (isNull(this.current) && !isNull(defaultItem)) {
@@ -1319,7 +1427,7 @@ var zcomponents = (function (exports) {
       };
 
       for (var i = 0, len = selectorItems.length; i < len; i++) {
-        _loop2(i, len);
+        _loop2(i);
       }
 
       if (isNull(this.current) && !isNull(defaultItem)) {
@@ -1475,8 +1583,6 @@ var zcomponents = (function (exports) {
 
     return switches;
   }
-
-  /** @namespace FORM */
 
   /**
    * Shows an element

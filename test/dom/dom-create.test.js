@@ -51,7 +51,6 @@ const ATTRIBUTE_MAPPER = {
     id: 'id',
     placeholder: 'placeholder',
     readonly: 'readOnly',
-    text: 'textContent',
     title: 'title',
     value: 'value',
 };
@@ -64,7 +63,6 @@ function createAttribute() {
         'id',
         'placeholder',
         'readonly:boolean',
-        'text',
         'title',
     ];
     var result = {};
@@ -1660,7 +1658,6 @@ describe('DOM helpers', function () {
                 editable: false,
                 id: 'anid',
                 readonly: false,
-                text: 'some content',
                 title: 'some title'
             };
 

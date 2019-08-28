@@ -159,22 +159,6 @@ var zutils = (function (exports) {
     };
   });
 
-  /**
-   * Inserts an item in an array at the specified index
-   * @param {Object[]} arr array
-   * @param {number} index 
-   * @param {object} item 
-   * @returns {number} The new length of the array
-   * @memberof TYPE
-   */
-
-  /**
-   * Returns the index or value of the first element in the object
-   * @param {Object|Array} obj 
-   * @param {any} value 
-   * @memberof TYPE
-   */
-
   /** @private */
   var hasOwnProperty = Object.prototype.hasOwnProperty;
   /**
@@ -220,8 +204,6 @@ var zutils = (function (exports) {
   function isNullOrWhitespace(str) {
     return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
   }
-
-  /** @namespace TYPE */
 
   /** 
    * Ajax namespace
@@ -527,8 +509,8 @@ var zutils = (function (exports) {
         _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return != null) {
-            _iterator.return();
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
           }
         } finally {
           if (_didIteratorError) {
@@ -574,8 +556,6 @@ var zutils = (function (exports) {
     });
     return str.join('&');
   }
-
-  // import * as AJAX from './ajax-utils.js';
 
   exports.DELETE = DELETE;
   exports.GET = GET;

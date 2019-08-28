@@ -358,10 +358,8 @@ var ztype = (function (exports) {
       var index = obj.indexOf(value);
       if (index !== -1) return index;
     } else {
-      var _arr = Object.keys(obj);
-
-      for (var _i = 0; _i < _arr.length; _i++) {
-        var e = _arr[_i];
+      for (var _i = 0, _Object$keys = Object.keys(obj); _i < _Object$keys.length; _i++) {
+        var e = _Object$keys[_i];
 
         if (obj[e] === value || obj[e].val === value) {
           return e;
@@ -467,8 +465,6 @@ var ztype = (function (exports) {
 
     return str.replace(/[àâäæ]/gi, 'a').replace(/[ç]/gi, 'c').replace(/[éèê]/gi, 'e').replace(/[îï]/gi, 'i').replace(/[ôœ]/gi, 'o').replace(/[ùûü]/gi, 'u');
   }
-
-  /** @namespace TYPE */
 
   exports.boolToInt = boolToInt;
   exports.capitalize = capitalize;
