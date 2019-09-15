@@ -20,7 +20,7 @@ const NodeType = {
 
 // import our library
 const {
-    createElement, createDocFragment, createTextNode, createLink,
+    createDocFragment, createTextNode, createLink,
     // Sectionning element
     createHeader, createMain, createArticle, createSection, createNav, createAside, createFooter,
     createH1, createH2, createH3, createH4, createH5, createH6,
@@ -77,33 +77,6 @@ function createAttribute() {
 }
 
 describe('DOM helpers', function () {
-    describe('#createElement()', function () {
-        it("should return an element", function () {
-            var id = 'idgen';
-            var className = 'fresh';
-            var result = createElement('p', id, className);
-
-            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-            expect(result).to.have.property('id', id);
-            expect(result).to.have.property('className', className);
-        });
-        it("should return an element with an id", function () {
-            var id = 'anid';
-            var result = createElement('div', id);
-
-            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-            expect(result).to.have.property('id', id);
-            expect(result).to.have.property('className', EMPTY_STRING);
-        });
-        it("should return an element with a class", function () {
-            var className = 'aclass';
-            var result = createElement('span', null, className);
-
-            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-            expect(result).to.have.property('id', EMPTY_STRING);
-            expect(result).to.have.property('className', className);
-        });
-    });
     describe('#createDocFragment()', function () {
         it("should return a document fragment", function () {
             var result = createDocFragment();
@@ -304,23 +277,23 @@ describe('DOM helpers', function () {
             expect(result).to.have.property('rel', EMPTY_STRING);
             expect(result).to.have.property('href', EMPTY_STRING);
         });
-        it("should return a link element with a rel", function () {
-            var rel = 'stylesheet';
-            var result = createLink(rel);
-
-            expect(result).to.have.property('nodeName', 'LINK');
-            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-            expect(result).to.have.property('rel', rel);
-            expect(result).to.have.property('href', EMPTY_STRING);
-        });
         it("should return a link element with an href", function () {
             var href = 'mylink';
-            var result = createLink(null, href);
+            var result = createLink(href);
 
             expect(result).to.have.property('nodeName', 'LINK');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-            expect(result).to.have.property('rel', EMPTY_STRING);
             expect(result).to.have.property('href', href);
+            expect(result).to.have.property('rel', EMPTY_STRING);
+        });
+        it("should return a link element with a rel", function () {
+            var rel = 'stylesheet';
+            var result = createLink(null, rel);
+
+            expect(result).to.have.property('nodeName', 'LINK');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            expect(result).to.have.property('href', EMPTY_STRING);
+            expect(result).to.have.property('rel', rel);
         });
     });
     describe('#createH1()', function () {

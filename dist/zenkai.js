@@ -512,32 +512,12 @@ var zenkai = (function (exports) {
     return element;
   }
   /**
-   * Creates the element for the specified tagName
-   * @param {string} tagName element
-   * @returns {HTMLElement}
-   * @memberof DOM
-   */
-
-
-  function createElement(tagName, eId, eClass) {
-    var el = create(tagName);
-
-    if (eId) {
-      el.id = eId;
-    }
-
-    if (eClass) {
-      setClass(el, eClass);
-    }
-
-    return el;
-  }
-  /**
    * Creates a document fragment
    * @function
    * @returns {DocumentFragment}
    * @memberof DOM
    */
+
 
   var createDocFragment = function createDocFragment() {
     return document.createDocumentFragment();
@@ -555,25 +535,20 @@ var zenkai = (function (exports) {
   };
   /**
    * Creates a `<link>` element with some attributes
-   * @param {string} rel 
    * @param {string} href 
-   * @param {object} attr 
+   * @param {string} rel 
    * @memberof DOM
    */
 
-  function createLink(rel, href, attr) {
+  function createLink(href, rel) {
     var link = create("link");
-
-    if (rel) {
-      link.rel = rel;
-    }
 
     if (href) {
       link.href = href;
     }
 
-    if (attr) {
-      addAttributes(link, attr);
+    if (rel) {
+      link.rel = rel;
     }
 
     return link;
@@ -740,8 +715,8 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  function createBlockQuotation(cite, attr) {
-    var element = create('blockquote', attr);
+  function createBlockQuotation(cite, attr, el) {
+    var element = create('blockquote', attr, el);
 
     if (cite) {
       element.cite = cite;
@@ -1076,8 +1051,8 @@ var zenkai = (function (exports) {
   var createForm = create.bind(null, 'form');
   /* istanbul ignore next */
 
-  function createInputAs(type, attr) {
-    var input = create('input', attr);
+  function createInputAs(type, attr, el) {
+    var input = create('input', attr, el);
     input.type = type;
     return input;
   }
@@ -1194,8 +1169,8 @@ var zenkai = (function (exports) {
   var createOutput = create.bind(null, 'output');
   /* istanbul ignore next */
 
-  function createButtonAs(type, attr) {
-    var btn = create("button", attr);
+  function createButtonAs(type, attr, el) {
+    var btn = create("button", attr, el);
     btn.type = type;
     return btn;
   }
@@ -2863,7 +2838,6 @@ var zenkai = (function (exports) {
   exports.createDescriptionTerm = createDescriptionTerm;
   exports.createDiv = createDiv;
   exports.createDocFragment = createDocFragment;
-  exports.createElement = createElement;
   exports.createEmphasis = createEmphasis;
   exports.createFieldset = createFieldset;
   exports.createFigure = createFigure;

@@ -509,32 +509,12 @@ function create(tagName, _attribute, _elements) {
   return element;
 }
 /**
- * Creates the element for the specified tagName
- * @param {string} tagName element
- * @returns {HTMLElement}
- * @memberof DOM
- */
-
-
-function createElement(tagName, eId, eClass) {
-  var el = create(tagName);
-
-  if (eId) {
-    el.id = eId;
-  }
-
-  if (eClass) {
-    setClass(el, eClass);
-  }
-
-  return el;
-}
-/**
  * Creates a document fragment
  * @function
  * @returns {DocumentFragment}
  * @memberof DOM
  */
+
 
 var createDocFragment = function createDocFragment() {
   return document.createDocumentFragment();
@@ -552,25 +532,20 @@ var createTextNode = function createTextNode(text) {
 };
 /**
  * Creates a `<link>` element with some attributes
- * @param {string} rel 
  * @param {string} href 
- * @param {object} attr 
+ * @param {string} rel 
  * @memberof DOM
  */
 
-function createLink(rel, href, attr) {
+function createLink(href, rel) {
   var link = create("link");
-
-  if (rel) {
-    link.rel = rel;
-  }
 
   if (href) {
     link.href = href;
   }
 
-  if (attr) {
-    addAttributes(link, attr);
+  if (rel) {
+    link.rel = rel;
   }
 
   return link;
@@ -737,8 +712,8 @@ var createParagraph = create.bind(null, 'p');
  * @memberof DOM
  */
 
-function createBlockQuotation(cite, attr) {
-  var element = create('blockquote', attr);
+function createBlockQuotation(cite, attr, el) {
+  var element = create('blockquote', attr, el);
 
   if (cite) {
     element.cite = cite;
@@ -1073,8 +1048,8 @@ var createCode = create.bind(null, "code");
 var createForm = create.bind(null, 'form');
 /* istanbul ignore next */
 
-function createInputAs(type, attr) {
-  var input = create('input', attr);
+function createInputAs(type, attr, el) {
+  var input = create('input', attr, el);
   input.type = type;
   return input;
 }
@@ -1191,8 +1166,8 @@ var createProgress = create.bind(null, 'progress');
 var createOutput = create.bind(null, 'output');
 /* istanbul ignore next */
 
-function createButtonAs(type, attr) {
-  var btn = create("button", attr);
+function createButtonAs(type, attr, el) {
+  var btn = create("button", attr, el);
   btn.type = type;
   return btn;
 }
@@ -2821,4 +2796,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, EL, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createElement, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, EL, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };

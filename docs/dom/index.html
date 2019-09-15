@@ -38,12 +38,6 @@
                     <li class='h5'><span>Static members</span></li>
                     
                       <li><a
-                        href='#domcreateelement'
-                        class='regular pre-open'>
-                        .createElement
-                      </a></li>
-                    
-                      <li><a
                         href='#domcreatedocfragment'
                         class='regular pre-open'>
                         .createDocFragment
@@ -689,91 +683,6 @@
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='domcreateelement'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createElement(tagName, eId, eClass)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Creates the element for the specified tagName</p>
-
-    <div class='pre p1 fill-light mt0'>createElement(tagName: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, eId: any, eClass: any): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>tagName</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    element
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>eId</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>eClass</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></code>:
-        
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
     <div class='border-bottom' id='domcreatedocfragment'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -901,7 +810,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createLink(rel, href, attr)</span>
+            <span class='code strong strong truncate'>createLink(href, rel)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -911,7 +820,7 @@
 
   <p>Creates a <code>&#x3C;link></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createLink(rel: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, href: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</div>
+    <div class='pre p1 fill-light mt0'>createLink(href: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, rel: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
   
 
@@ -928,14 +837,6 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>rel</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
             <span class='code bold'>href</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    
           </div>
@@ -944,7 +845,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+            <span class='code bold'>rel</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    
           </div>
           
@@ -2107,7 +2008,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createBlockQuotation(cite, attr?)</span>
+            <span class='code strong strong truncate'>createBlockQuotation(cite, attr?, el)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2117,7 +2018,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;blockquote></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createBlockQuotation(cite: any, attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLQuoteElement">HTMLQuoteElement</a></div>
+    <div class='pre p1 fill-light mt0'>createBlockQuotation(cite: any, attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?, el: any): <a href="https://developer.mozilla.org/docs/Web/API/HTMLQuoteElement">HTMLQuoteElement</a></div>
   
   
 
@@ -2145,6 +2046,14 @@ Thematic break</p>
             <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
 	    attributes
 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>el</span> <code class='quiet'>(any)</code>
+	    
           </div>
           
         </div>

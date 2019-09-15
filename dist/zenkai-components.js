@@ -221,6 +221,7 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
+
   var createDocFragment = function createDocFragment() {
     return document.createDocumentFragment();
   };
@@ -608,8 +609,8 @@ var zcomponents = (function (exports) {
   var createForm = create.bind(null, 'form');
   /* istanbul ignore next */
 
-  function createInputAs(type, attr) {
-    var input = create('input', attr);
+  function createInputAs(type, attr, el) {
+    var input = create('input', attr, el);
     input.type = type;
     return input;
   }
@@ -726,8 +727,8 @@ var zcomponents = (function (exports) {
   var createOutput = create.bind(null, 'output');
   /* istanbul ignore next */
 
-  function createButtonAs(type, attr) {
-    var btn = create("button", attr);
+  function createButtonAs(type, attr, el) {
+    var btn = create("button", attr, el);
     btn.type = type;
     return btn;
   }
