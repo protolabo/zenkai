@@ -194,22 +194,22 @@ var zcomponents = (function (exports) {
    * Creates an element
    * @param {string} tagName 
    * @param {object} _attribute 
-   * @param {HTMLElement|HTMLElement[]} _elements 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @private
    */
 
   /* istanbul ignore next */
 
-  function create(tagName, _attribute, _elements) {
+  function create(tagName, _attribute, _children) {
     var element = document.createElement(tagName);
 
     if (_attribute) {
       addAttributes(element, _attribute);
     }
 
-    if (_elements) {
-      addChildren(element, _elements);
+    if (_children) {
+      addChildren(element, _children);
     }
 
     return element;
@@ -239,7 +239,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<header>` element with some attributes
    * @function
-   * @param {object} [attribute] 
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -248,7 +249,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates an `<footer>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -257,7 +259,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates an `<main>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -266,7 +269,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates an `<article>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -275,7 +279,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates an `<section>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -284,7 +289,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates an `<nav>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -293,7 +299,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates an `<aside>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -302,7 +309,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<h1>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
    * @memberof DOM
    */
@@ -311,7 +319,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<h2>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
    * @memberof DOM
    */
@@ -320,7 +329,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<h3>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
    * @memberof DOM
    */
@@ -329,7 +339,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<h4>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
    * @memberof DOM
    */
@@ -338,7 +349,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<h5>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
    * @memberof DOM
    */
@@ -347,7 +359,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<h6>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
    * @memberof DOM
    */
@@ -356,7 +369,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<div>` element with some attributes
    * @function
-   * @param {Object} [attribute] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLDivElement}
    * @memberof DOM
    */
@@ -384,7 +398,8 @@ var zcomponents = (function (exports) {
   };
   /**
    * Creates a `<p>` element with some attributes
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLParagraphElement}
    * @memberof DOM
    */
@@ -392,7 +407,8 @@ var zcomponents = (function (exports) {
   var createParagraph = create.bind(null, 'p');
   /**
    * Creates a `<ul>` element with some attributes
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLUListElement}
    * @memberof DOM
    */
@@ -400,22 +416,26 @@ var zcomponents = (function (exports) {
   var createUnorderedList = create.bind(null, 'ul');
   /**
    * Creates a `<ol>` element with some attributes
-   * @param {Object} [attr] attributes
-   * @returns {HTMLUListElement}
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLOListElement}
    * @memberof DOM
    */
 
   var createOrderedList = create.bind(null, 'ol');
   /**
    * Creates a `<li>` element with some attributes
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLLIElement}
    * @memberof DOM
    */
 
   var createListItem = create.bind(null, 'li');
   /**
    * Creates a `<dl>` element with some attributes
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLDListElement}
    * @memberof DOM
    */
@@ -423,7 +443,8 @@ var zcomponents = (function (exports) {
   var createDescriptionList = create.bind(null, 'dl');
   /**
    * Creates a `<dt>` element with some attributes
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -431,7 +452,9 @@ var zcomponents = (function (exports) {
   var createDescriptionTerm = create.bind(null, 'dt');
   /**
    * Creates a `<dd>` element with some attributes
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLElement}
    * @memberof DOM
    */
 
@@ -439,7 +462,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<source>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLSourceElement}
    * @memberof DOM
    */
@@ -448,7 +472,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<picture>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLPictureElement}
    * @memberof DOM
    */
@@ -457,7 +482,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<figure>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -466,7 +492,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<figcaption>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -475,7 +502,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<span>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLSpanElement}
    * @memberof DOM
    */
@@ -484,7 +512,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<strong>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -493,7 +522,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<em>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -502,7 +532,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<mark>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -511,7 +542,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<samp>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -520,7 +552,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<sub>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -529,7 +562,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<sup>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -538,7 +572,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<abbr>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -547,7 +582,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<b>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -556,7 +592,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<i>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -565,7 +602,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<s>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -574,7 +612,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<u>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -583,7 +622,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<cite>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -592,7 +632,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<code>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
    * @memberof DOM
    */
@@ -601,7 +642,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<form>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
    * @memberof DOM
    */
@@ -616,7 +658,8 @@ var zcomponents = (function (exports) {
   }
   /**
    * Creates a `<input>` element with some attributes
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLInputElement}
    * @memberof DOM
    */
@@ -629,7 +672,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<label>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
    * @memberof DOM
    */
@@ -638,7 +682,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<fieldset>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
    * @memberof DOM
    */
@@ -647,7 +692,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<legend>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
    * @memberof DOM
    */
@@ -656,7 +702,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<datalist>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTextAreaElement}
    * @memberof DOM
    */
@@ -665,7 +712,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<select>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
    * @memberof DOM
    */
@@ -674,7 +722,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<option>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
    * @memberof DOM
    */
@@ -683,7 +732,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<optgroup>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
    * @memberof DOM
    */
@@ -692,7 +742,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<textarea>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTextAreaElement}
    * @memberof DOM
    */
@@ -701,7 +752,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<meter>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTextAreaElement}
    * @memberof DOM
    */
@@ -710,7 +762,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<progress>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTextAreaElement}
    * @memberof DOM
    */
@@ -719,7 +772,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<output>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTextAreaElement}
    * @memberof DOM
    */
@@ -734,7 +788,8 @@ var zcomponents = (function (exports) {
   }
   /**
    * Creates a `<button>` element with some attributes
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @memberof DOM
    */
 
@@ -746,7 +801,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<table>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableElement}
    * @memberof DOM
    */
@@ -755,7 +811,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<caption>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableCaptionElement}
    * @memberof DOM
    */
@@ -764,7 +821,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<thead>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableSectionElement}
    * @memberof DOM
    */
@@ -773,7 +831,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<tbody>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableSectionElement}
    * @memberof DOM
    */
@@ -782,7 +841,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<tfoot>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableSectionElement}
    * @memberof DOM
    */
@@ -791,7 +851,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<col>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableColElement}
    * @memberof DOM
    */
@@ -800,7 +861,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<colgroup>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableColElement}
    * @memberof DOM
    */
@@ -808,7 +870,8 @@ var zcomponents = (function (exports) {
   var createTableColumnGroup = create.bind(null, "colgroup");
   /**
    * Creates a `<tr>` element with some attributes
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableRowElement}
    * @memberof DOM
    */
@@ -817,7 +880,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<th>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableHeaderCellElement}
    * @memberof DOM
    */
@@ -826,7 +890,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `<td>` element with some attributes
    * @function
-   * @param {Object} [attr] attributes
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableDataCellElement}
    * @memberof DOM
    */

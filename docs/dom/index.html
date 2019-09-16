@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>zenkai 0.9.13 | Documentation</title>
+  <title>zenkai 0.9.14 | Documentation</title>
   <meta name='description' content='Dom, Datatype helpers, utilities (AJAX, URI) and UI components'>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' rel='stylesheet' />
@@ -15,7 +15,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>zenkai</h3>
-          <div class='mb1'><code>0.9.13</code></div>
+          <div class='mb1'><code>0.9.14</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -878,7 +878,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createHeader(attribute?)</span>
+            <span class='code strong strong truncate'>createHeader(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -888,7 +888,7 @@
 
   <p>Creates a <code>&#x3C;header></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createHeader(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createHeader(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -905,7 +905,15 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>?)</code>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
 	    
           </div>
           
@@ -946,7 +954,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createFooter(attribute?)</span>
+            <span class='code strong strong truncate'>createFooter(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -956,7 +964,7 @@
 
   <p>Creates an <code>&#x3C;footer></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createFooter(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createFooter(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -973,9 +981,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1015,7 +1030,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createMain(attribute?)</span>
+            <span class='code strong strong truncate'>createMain(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1025,7 +1040,7 @@
 
   <p>Creates an <code>&#x3C;main></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createMain(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createMain(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -1042,9 +1057,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1084,7 +1106,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createArticle(attribute?)</span>
+            <span class='code strong strong truncate'>createArticle(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1094,7 +1116,7 @@
 
   <p>Creates an <code>&#x3C;article></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createArticle(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createArticle(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -1111,9 +1133,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1153,7 +1182,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createSection(attribute?)</span>
+            <span class='code strong strong truncate'>createSection(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1163,7 +1192,7 @@
 
   <p>Creates an <code>&#x3C;section></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createSection(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createSection(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -1180,9 +1209,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1222,7 +1258,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createNav(attribute?)</span>
+            <span class='code strong strong truncate'>createNav(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1232,7 +1268,7 @@
 
   <p>Creates an <code>&#x3C;nav></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createNav(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createNav(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -1249,9 +1285,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1291,7 +1334,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createAside(attribute?)</span>
+            <span class='code strong strong truncate'>createAside(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1301,7 +1344,7 @@
 
   <p>Creates an <code>&#x3C;aside></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createAside(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createAside(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -1318,9 +1361,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1360,7 +1410,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createH1(attribute?)</span>
+            <span class='code strong strong truncate'>createH1(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1370,7 +1420,7 @@
 
   <p>Creates a <code>&#x3C;h1></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createH1(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+    <div class='pre p1 fill-light mt0'>createH1(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
   
   
 
@@ -1387,9 +1437,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1429,7 +1486,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createH2(attribute?)</span>
+            <span class='code strong strong truncate'>createH2(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1439,7 +1496,7 @@
 
   <p>Creates a <code>&#x3C;h2></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createH2(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+    <div class='pre p1 fill-light mt0'>createH2(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
   
   
 
@@ -1456,9 +1513,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1498,7 +1562,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createH3(attribute?)</span>
+            <span class='code strong strong truncate'>createH3(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1508,7 +1572,7 @@
 
   <p>Creates a <code>&#x3C;h3></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createH3(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+    <div class='pre p1 fill-light mt0'>createH3(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
   
   
 
@@ -1525,9 +1589,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1567,7 +1638,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createH4(attribute?)</span>
+            <span class='code strong strong truncate'>createH4(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1577,7 +1648,7 @@
 
   <p>Creates a <code>&#x3C;h4></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createH4(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+    <div class='pre p1 fill-light mt0'>createH4(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
   
   
 
@@ -1594,9 +1665,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1636,7 +1714,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createH5(attribute?)</span>
+            <span class='code strong strong truncate'>createH5(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1646,7 +1724,7 @@
 
   <p>Creates a <code>&#x3C;h5></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createH5(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+    <div class='pre p1 fill-light mt0'>createH5(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
   
   
 
@@ -1663,9 +1741,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1705,7 +1790,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createH6(attribute?)</span>
+            <span class='code strong strong truncate'>createH6(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1715,7 +1800,7 @@
 
   <p>Creates a <code>&#x3C;h6></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createH6(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
+    <div class='pre p1 fill-light mt0'>createH6(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHeadingElement">HTMLHeadingElement</a></div>
   
   
 
@@ -1732,9 +1817,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1774,7 +1866,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createDiv(attribute?)</span>
+            <span class='code strong strong truncate'>createDiv(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1784,7 +1876,7 @@
 
   <p>Creates a <code>&#x3C;div></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createDiv(attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLDivElement">HTMLDivElement</a></div>
+    <div class='pre p1 fill-light mt0'>createDiv(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLDivElement">HTMLDivElement</a></div>
   
   
 
@@ -1801,9 +1893,16 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -1966,9 +2065,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2008,7 +2114,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createBlockQuotation(cite, attr?, el)</span>
+            <span class='code strong strong truncate'>createBlockQuotation(cite, attribute, children, _attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2018,7 +2124,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;blockquote></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createBlockQuotation(cite: any, attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?, el: any): <a href="https://developer.mozilla.org/docs/Web/API/HTMLQuoteElement">HTMLQuoteElement</a></div>
+    <div class='pre p1 fill-light mt0'>createBlockQuotation(cite: any, attribute: any, children: any, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLQuoteElement">HTMLQuoteElement</a></div>
   
   
 
@@ -2043,16 +2149,31 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>attribute</span> <code class='quiet'>(any)</code>
+	    
           </div>
           
         </div>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>el</span> <code class='quiet'>(any)</code>
+            <span class='code bold'>children</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
 	    
           </div>
           
@@ -2120,9 +2241,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2189,9 +2317,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2204,7 +2339,7 @@ Thematic break</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLUListElement">HTMLUListElement</a></code>:
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript">HTMLOListElement</a></code>:
         
 
       
@@ -2258,9 +2393,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2270,6 +2412,14 @@ Thematic break</p>
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLLIElement">HTMLLIElement</a></code>:
+        
+
+      
+    
   
 
   
@@ -2319,9 +2469,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2388,9 +2545,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2457,9 +2621,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2469,6 +2640,14 @@ Thematic break</p>
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></code>:
+        
+
+      
+    
   
 
   
@@ -2491,7 +2670,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createAnchor(href, attr?)</span>
+            <span class='code strong strong truncate'>createAnchor(href, _attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2501,7 +2680,7 @@ Thematic break</p>
 
   <p>Creates an <code>&#x3C;a></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createAnchor(href: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLAnchorElement">HTMLAnchorElement</a></div>
+    <div class='pre p1 fill-light mt0'>createAnchor(href: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLAnchorElement">HTMLAnchorElement</a></div>
   
   
 
@@ -2527,9 +2706,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2569,7 +2755,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createImage(src, alt, attr?)</span>
+            <span class='code strong strong truncate'>createImage(src, alt, attr, _attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2579,7 +2765,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;img></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createImage(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, alt: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLImageElement">HTMLImageElement</a></div>
+    <div class='pre p1 fill-light mt0'>createImage(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, alt: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, attr: any, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLImageElement">HTMLImageElement</a></div>
   
   
 
@@ -2612,9 +2798,24 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>attr</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2654,7 +2855,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createAudio(src, attr?)</span>
+            <span class='code strong strong truncate'>createAudio(src, attribute, children, _attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2664,7 +2865,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;audio></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createAudio(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): HTMLAudioElement</div>
+    <div class='pre p1 fill-light mt0'>createAudio(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, attribute: any, children: any, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLAudioElement</div>
   
   
 
@@ -2689,9 +2890,32 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>attribute</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>children</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2731,7 +2955,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createVideo(src, attr?)</span>
+            <span class='code strong strong truncate'>createVideo(src, attribute, children, _attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2741,7 +2965,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;video></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createVideo(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLVideoElement">HTMLVideoElement</a></div>
+    <div class='pre p1 fill-light mt0'>createVideo(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, attribute: any, children: any, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLVideoElement">HTMLVideoElement</a></div>
   
   
 
@@ -2766,9 +2990,32 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>attribute</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>children</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2808,7 +3055,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createSource(attr?)</span>
+            <span class='code strong strong truncate'>createSource(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2818,7 +3065,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;source></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createSource(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): HTMLSourceElement</div>
+    <div class='pre p1 fill-light mt0'>createSource(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLSourceElement</div>
   
   
 
@@ -2835,9 +3082,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2877,7 +3131,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createPicture(attr?)</span>
+            <span class='code strong strong truncate'>createPicture(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2887,7 +3141,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;picture></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createPicture(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): HTMLPictureElement</div>
+    <div class='pre p1 fill-light mt0'>createPicture(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLPictureElement</div>
   
   
 
@@ -2904,9 +3158,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -2946,7 +3207,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createFigure(attr?)</span>
+            <span class='code strong strong truncate'>createFigure(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2956,7 +3217,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;figure></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createFigure(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createFigure(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -2973,9 +3234,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3015,7 +3283,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createFigureCaption(attr?)</span>
+            <span class='code strong strong truncate'>createFigureCaption(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3025,7 +3293,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;figcaption></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createFigureCaption(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createFigureCaption(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3042,9 +3310,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3084,7 +3359,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createSpan(attr?)</span>
+            <span class='code strong strong truncate'>createSpan(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3094,7 +3369,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;span></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createSpan(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): HTMLSpanElement</div>
+    <div class='pre p1 fill-light mt0'>createSpan(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLSpanElement</div>
   
   
 
@@ -3111,9 +3386,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3153,7 +3435,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createStrong(attr?)</span>
+            <span class='code strong strong truncate'>createStrong(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3163,7 +3445,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;strong></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createStrong(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createStrong(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3180,9 +3462,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3222,7 +3511,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createEmphasis(attr?)</span>
+            <span class='code strong strong truncate'>createEmphasis(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3232,7 +3521,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;em></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createEmphasis(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createEmphasis(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3249,9 +3538,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3291,7 +3587,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createMark(attr?)</span>
+            <span class='code strong strong truncate'>createMark(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3301,7 +3597,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;mark></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createMark(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createMark(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3318,9 +3614,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3360,7 +3663,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createSample(attr?)</span>
+            <span class='code strong strong truncate'>createSample(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3370,7 +3673,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;samp></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createSample(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createSample(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3387,9 +3690,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3429,7 +3739,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createSubscript(attr?)</span>
+            <span class='code strong strong truncate'>createSubscript(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3439,7 +3749,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;sub></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createSubscript(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createSubscript(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3456,9 +3766,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3498,7 +3815,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createSuperscript(attr?)</span>
+            <span class='code strong strong truncate'>createSuperscript(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3508,7 +3825,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;sup></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createSuperscript(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createSuperscript(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3525,9 +3842,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3567,7 +3891,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createQuote(cite, attr?)</span>
+            <span class='code strong strong truncate'>createQuote(cite, attribute, children, _attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3577,7 +3901,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;q></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createQuote(cite: any, attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLQuoteElement">HTMLQuoteElement</a></div>
+    <div class='pre p1 fill-light mt0'>createQuote(cite: any, attribute: any, children: any, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLQuoteElement">HTMLQuoteElement</a></div>
   
   
 
@@ -3602,9 +3926,32 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>attribute</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>children</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3644,7 +3991,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createAbbreviation(attr?)</span>
+            <span class='code strong strong truncate'>createAbbreviation(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3654,7 +4001,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;abbr></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createAbbreviation(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createAbbreviation(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3671,9 +4018,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3713,7 +4067,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createB(attr?)</span>
+            <span class='code strong strong truncate'>createB(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3723,7 +4077,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;b></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createB(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createB(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3740,9 +4094,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3782,7 +4143,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createI(attr?)</span>
+            <span class='code strong strong truncate'>createI(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3792,7 +4153,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;i></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createI(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createI(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3809,9 +4170,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3851,7 +4219,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createS(attr?)</span>
+            <span class='code strong strong truncate'>createS(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3861,7 +4229,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;s></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createS(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createS(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3878,9 +4246,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3920,7 +4295,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createU(attr?)</span>
+            <span class='code strong strong truncate'>createU(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3930,7 +4305,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;u></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createU(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createU(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -3947,9 +4322,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -3989,7 +4371,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createCite(attr?)</span>
+            <span class='code strong strong truncate'>createCite(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3999,7 +4381,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;cite></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createCite(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createCite(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -4016,9 +4398,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4058,7 +4447,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTime(datetime, attr?)</span>
+            <span class='code strong strong truncate'>createTime(datetime, attr, _attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4068,7 +4457,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;q></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTime(datetime: any, attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): HTMLTimeElement</div>
+    <div class='pre p1 fill-light mt0'>createTime(datetime: any, attr: any, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLTimeElement</div>
   
   
 
@@ -4093,9 +4482,24 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>attr</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4135,7 +4539,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createCode(attr?)</span>
+            <span class='code strong strong truncate'>createCode(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4145,7 +4549,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;code></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createCode(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>createCode(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -4162,9 +4566,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4204,7 +4615,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createForm(attr?)</span>
+            <span class='code strong strong truncate'>createForm(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4214,7 +4625,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;form></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createForm(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
+    <div class='pre p1 fill-light mt0'>createForm(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
   
   
 
@@ -4231,9 +4642,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4300,9 +4718,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4342,7 +4767,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createLabel(attr?)</span>
+            <span class='code strong strong truncate'>createLabel(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4352,7 +4777,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;label></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createLabel(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
+    <div class='pre p1 fill-light mt0'>createLabel(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
   
   
 
@@ -4369,9 +4794,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4411,7 +4843,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createFieldset(attr?)</span>
+            <span class='code strong strong truncate'>createFieldset(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4421,7 +4853,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;fieldset></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createFieldset(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
+    <div class='pre p1 fill-light mt0'>createFieldset(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
   
   
 
@@ -4438,9 +4870,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4480,7 +4919,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createLegend(attr?)</span>
+            <span class='code strong strong truncate'>createLegend(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4490,7 +4929,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;legend></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createLegend(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
+    <div class='pre p1 fill-light mt0'>createLegend(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
   
   
 
@@ -4507,9 +4946,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4549,7 +4995,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createDataList(attr?)</span>
+            <span class='code strong strong truncate'>createDataList(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4559,7 +5005,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;datalist></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createDataList(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
+    <div class='pre p1 fill-light mt0'>createDataList(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
   
   
 
@@ -4576,9 +5022,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4618,7 +5071,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createSelect(attr?)</span>
+            <span class='code strong strong truncate'>createSelect(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4628,7 +5081,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;select></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createSelect(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
+    <div class='pre p1 fill-light mt0'>createSelect(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
   
   
 
@@ -4645,9 +5098,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4687,7 +5147,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createOption(attr?)</span>
+            <span class='code strong strong truncate'>createOption(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4697,7 +5157,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;option></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createOption(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
+    <div class='pre p1 fill-light mt0'>createOption(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
   
   
 
@@ -4714,9 +5174,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4756,7 +5223,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createOptionGroup(attr?)</span>
+            <span class='code strong strong truncate'>createOptionGroup(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4766,7 +5233,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;optgroup></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createOptionGroup(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
+    <div class='pre p1 fill-light mt0'>createOptionGroup(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
   
   
 
@@ -4783,9 +5250,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4825,7 +5299,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTextArea(attr?)</span>
+            <span class='code strong strong truncate'>createTextArea(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4835,7 +5309,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;textarea></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTextArea(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
+    <div class='pre p1 fill-light mt0'>createTextArea(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
   
   
 
@@ -4852,9 +5326,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4894,7 +5375,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createMeter(attr?)</span>
+            <span class='code strong strong truncate'>createMeter(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4904,7 +5385,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;meter></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createMeter(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
+    <div class='pre p1 fill-light mt0'>createMeter(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
   
   
 
@@ -4921,9 +5402,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -4963,7 +5451,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createProgress(attr?)</span>
+            <span class='code strong strong truncate'>createProgress(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4973,7 +5461,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;progress></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createProgress(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
+    <div class='pre p1 fill-light mt0'>createProgress(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
   
   
 
@@ -4990,9 +5478,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5032,7 +5527,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createOutput(attr?)</span>
+            <span class='code strong strong truncate'>createOutput(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5042,7 +5537,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;output></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createOutput(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
+    <div class='pre p1 fill-light mt0'>createOutput(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
   
   
 
@@ -5059,9 +5554,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5128,9 +5630,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5162,7 +5671,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTable(attr?)</span>
+            <span class='code strong strong truncate'>createTable(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5172,7 +5681,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;table></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTable(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableElement">HTMLTableElement</a></div>
+    <div class='pre p1 fill-light mt0'>createTable(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableElement">HTMLTableElement</a></div>
   
   
 
@@ -5189,9 +5698,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5231,7 +5747,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createCaption(attr?)</span>
+            <span class='code strong strong truncate'>createCaption(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5241,7 +5757,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;caption></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createCaption(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableCaptionElement">HTMLTableCaptionElement</a></div>
+    <div class='pre p1 fill-light mt0'>createCaption(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableCaptionElement">HTMLTableCaptionElement</a></div>
   
   
 
@@ -5258,9 +5774,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5300,7 +5823,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTableHeader(attr?)</span>
+            <span class='code strong strong truncate'>createTableHeader(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5310,7 +5833,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;thead></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTableHeader(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableSectionElement">HTMLTableSectionElement</a></div>
+    <div class='pre p1 fill-light mt0'>createTableHeader(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableSectionElement">HTMLTableSectionElement</a></div>
   
   
 
@@ -5327,9 +5850,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5369,7 +5899,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTableBody(attr?)</span>
+            <span class='code strong strong truncate'>createTableBody(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5379,7 +5909,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;tbody></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTableBody(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableSectionElement">HTMLTableSectionElement</a></div>
+    <div class='pre p1 fill-light mt0'>createTableBody(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableSectionElement">HTMLTableSectionElement</a></div>
   
   
 
@@ -5396,9 +5926,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5438,7 +5975,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTableFooter(attr?)</span>
+            <span class='code strong strong truncate'>createTableFooter(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5448,7 +5985,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;tfoot></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTableFooter(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableSectionElement">HTMLTableSectionElement</a></div>
+    <div class='pre p1 fill-light mt0'>createTableFooter(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableSectionElement">HTMLTableSectionElement</a></div>
   
   
 
@@ -5465,9 +6002,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5507,7 +6051,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTableColumn(attr?)</span>
+            <span class='code strong strong truncate'>createTableColumn(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5517,7 +6061,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;col></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTableColumn(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableColElement">HTMLTableColElement</a></div>
+    <div class='pre p1 fill-light mt0'>createTableColumn(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableColElement">HTMLTableColElement</a></div>
   
   
 
@@ -5534,9 +6078,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5576,7 +6127,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTableColumnGroup(attr?)</span>
+            <span class='code strong strong truncate'>createTableColumnGroup(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5586,7 +6137,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;colgroup></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTableColumnGroup(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableColElement">HTMLTableColElement</a></div>
+    <div class='pre p1 fill-light mt0'>createTableColumnGroup(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableColElement">HTMLTableColElement</a></div>
   
   
 
@@ -5603,9 +6154,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5672,9 +6230,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5714,7 +6279,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTableHeaderCell(attr?)</span>
+            <span class='code strong strong truncate'>createTableHeaderCell(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5724,7 +6289,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;th></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTableHeaderCell(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): HTMLTableHeaderCellElement</div>
+    <div class='pre p1 fill-light mt0'>createTableHeaderCell(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLTableHeaderCellElement</div>
   
   
 
@@ -5741,9 +6306,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
@@ -5783,7 +6355,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTableCell(attr?)</span>
+            <span class='code strong strong truncate'>createTableCell(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5793,7 +6365,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;td></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTableCell(attr: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): HTMLTableDataCellElement</div>
+    <div class='pre p1 fill-light mt0'>createTableCell(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLTableDataCellElement</div>
   
   
 
@@ -5810,9 +6382,16 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attr</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    attributes
-
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
           </div>
           
         </div>
