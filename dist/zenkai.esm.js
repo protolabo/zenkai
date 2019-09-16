@@ -707,13 +707,13 @@ var createParagraph = create.bind(null, 'p');
 /**
  * Creates a `<blockquote>` element with some attributes
  * @function
- * @param {Object} [attr] attributes
+ * @param {Object} [attribute] attributes
  * @returns {HTMLQuoteElement}
  * @memberof DOM
  */
 
-function createBlockQuotation(cite, attr, el) {
-  var element = create('blockquote', attr, el);
+function createBlockQuotation(cite, attribute, children) {
+  var element = create('blockquote', attribute, children);
 
   if (cite) {
     element.cite = cite;
@@ -771,13 +771,13 @@ var createDescriptionDetails = create.bind(null, 'dd'); // Inline Element
 /**
  * Creates an `<a>` element with some attributes
  * @param {string} href URL or a URL fragment that the hyperlink points to
- * @param {Object} [attr] attributes
+ * @param {Object} [attribute] attributes
  * @returns {HTMLAnchorElement}
  * @memberof DOM
  */
 
-function createAnchor(href, attr) {
-  var a = create('a', attr);
+function createAnchor(href, attribute, children) {
+  var a = create('a', attribute, children);
 
   if (href) {
     a.href = href;
@@ -810,13 +810,13 @@ function createImage(src, alt, attr) {
 /**
   * Creates a `<audio>` element with some attributes
   * @param {string} src
-  * @param {Object} [attr] attributes
+  * @param {Object} [attribute] attributes
   * @returns {HTMLAudioElement}
   * @memberof DOM
   */
 
-function createAudio(src, attr) {
-  var audio = create('audio', attr);
+function createAudio(src, attribute, children) {
+  var audio = create('audio', attribute, children);
 
   if (src) {
     audio.src = src;
@@ -827,13 +827,13 @@ function createAudio(src, attr) {
 /**
   * Creates a `<video>` element with some attributes
   * @param {string} src
-  * @param {Object} [attr] attributes
+  * @param {Object} [attribute] attributes
   * @returns {HTMLVideoElement}
   * @memberof DOM
   */
 
-function createVideo(src, attr) {
-  var video = create('video', attr);
+function createVideo(src, attribute, children) {
+  var video = create('video', attribute, children);
 
   if (src) {
     video.src = src;
@@ -1166,8 +1166,8 @@ var createProgress = create.bind(null, 'progress');
 var createOutput = create.bind(null, 'output');
 /* istanbul ignore next */
 
-function createButtonAs(type, attr, el) {
-  var btn = create("button", attr, el);
+function createButtonAs(type, attribute, element) {
+  var btn = create("button", attribute, element);
   btn.type = type;
   return btn;
 }
@@ -1511,6 +1511,8 @@ function removeChildren(node) {
   while (node.hasChildNodes()) {
     node.removeChild(node.lastChild);
   }
+
+  return node;
 }
 /**
  * Moves an element out of screen

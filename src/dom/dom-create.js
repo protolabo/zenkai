@@ -213,12 +213,12 @@ export const createParagraph = create.bind(null, 'p');
 /**
  * Creates a `<blockquote>` element with some attributes
  * @function
- * @param {Object} [attr] attributes
+ * @param {Object} [attribute] attributes
  * @returns {HTMLQuoteElement}
  * @memberof DOM
  */
-export function createBlockQuotation(cite, attr, el) {
-    var element = create('blockquote', attr, el);
+export function createBlockQuotation(cite, attribute, children) {
+    var element = create('blockquote', attribute, children);
 
     if (cite) {
         element.cite = cite;
@@ -278,12 +278,12 @@ export const createDescriptionDetails = create.bind(null, 'dd');
 /**
  * Creates an `<a>` element with some attributes
  * @param {string} href URL or a URL fragment that the hyperlink points to
- * @param {Object} [attr] attributes
+ * @param {Object} [attribute] attributes
  * @returns {HTMLAnchorElement}
  * @memberof DOM
  */
-export function createAnchor(href, attr) {
-    var a = create('a', attr);
+export function createAnchor(href, attribute, children) {
+    var a = create('a', attribute, children);
 
     if (href) {
         a.href = href;
@@ -316,12 +316,12 @@ export function createImage(src, alt, attr) {
 /**
   * Creates a `<audio>` element with some attributes
   * @param {string} src
-  * @param {Object} [attr] attributes
+  * @param {Object} [attribute] attributes
   * @returns {HTMLAudioElement}
   * @memberof DOM
   */
-export function createAudio(src, attr) {
-    var audio = create('audio', attr);
+export function createAudio(src, attribute, children) {
+    var audio = create('audio', attribute, children);
 
     if (src) {
         audio.src = src;
@@ -333,12 +333,12 @@ export function createAudio(src, attr) {
 /**
   * Creates a `<video>` element with some attributes
   * @param {string} src
-  * @param {Object} [attr] attributes
+  * @param {Object} [attribute] attributes
   * @returns {HTMLVideoElement}
   * @memberof DOM
   */
-export function createVideo(src, attr) {
-    var video = create('video', attr);
+export function createVideo(src, attribute, children) {
+    var video = create('video', attribute, children);
 
     if (src) {
         video.src = src;
@@ -680,8 +680,8 @@ export const createProgress = create.bind(null, 'progress');
 export const createOutput = create.bind(null, 'output');
 
 /* istanbul ignore next */
-function createButtonAs(type, attr, el) {
-    var btn = create("button", attr, el);
+function createButtonAs(type, attribute, element) {
+    var btn = create("button", attribute, element);
     btn.type = type;
 
     return btn;

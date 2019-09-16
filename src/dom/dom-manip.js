@@ -44,6 +44,7 @@ export function removeChildren(node) {
     while (node.hasChildNodes()) {
         node.removeChild(node.lastChild);
     }
+    return node;
 }
 
 /**

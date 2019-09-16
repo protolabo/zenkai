@@ -727,8 +727,8 @@ var zcomponents = (function (exports) {
   var createOutput = create.bind(null, 'output');
   /* istanbul ignore next */
 
-  function createButtonAs(type, attr, el) {
-    var btn = create("button", attr, el);
+  function createButtonAs(type, attribute, element) {
+    var btn = create("button", attribute, element);
     btn.type = type;
     return btn;
   }
