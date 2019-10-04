@@ -2277,29 +2277,9 @@ function floatingLabel(form) {
         }
       }
     }
-  } // add counters
-
-
-  var counters = getElements('[data-counter]', form);
-
-  var _loop = function _loop(_i) {
-    var counter = counters[_i];
-    var input = getElement("#".concat(counter.dataset['counter']));
-    counter.dataset['counterMax'] = input.maxLength;
-
-    if (input) {
-      counter.dataset['counterVal'] = input.value.length;
-      input.addEventListener('input', function (e) {
-        counter.dataset['counterVal'] = input.value.length;
-      });
-    }
-  };
-
-  for (var _i = 0; _i < counters.length; _i++) {
-    _loop(_i);
   }
   /**
-   * 
+   * Bind DOM events
    * @param {HTMLInputElement} input 
    * @param {HTMLLabelElement} label 
    */
@@ -2404,7 +2384,7 @@ var BaseSelector = {
   setCurrentItem: function setCurrentItem(item) {
     this.current = item;
     check(this.current, Status.ON);
-    this.callback(item.dataset.value, this.current);
+    this.callback.call(this, item.dataset.value, this.current);
   },
   activate: function activate() {
     var _this = this;
@@ -2452,7 +2432,7 @@ var FormSelector = {
     input.checked = true;
     this.current = item;
     check(this.current, Status.ON);
-    this.callback(input.value, this.current);
+    this.callback.call(this, input.value, this.current);
   },
   activate: function activate() {
     var _this2 = this;
@@ -2580,7 +2560,7 @@ var BaseSwitch = {
     this.container.addEventListener('click', function () {
       setState(_this.container, getState(_this.container) === Status$1.ON ? Status$1.OFF : Status$1.ON);
 
-      _this.callback(_this.container.dataset.value, _this.container);
+      _this.callback.call(_this, _this.container.dataset.value, _this.container);
     });
   }
 };
@@ -2591,13 +2571,15 @@ var FormSwitch = {
   activate: function activate() {
     var _this2 = this;
 
-    var input = getInput('checkbox', this.container);
-    setState(this.container, input.checked ? Status$1.ON : Status$1.OFF); // Bind events
+    var input = getInput('checkbox', this.container); // Init
+
+    setState(this.container, input.checked ? Status$1.ON : Status$1.OFF);
+    this.callback.call(this, input.value, this.container); // Bind events
 
     input.addEventListener('change', function (e) {
       setState(_this2.container, input.checked ? Status$1.ON : Status$1.OFF);
 
-      _this2.callback(input.value, _this2.container);
+      _this2.callback.call(_this2, input.value, _this2.container);
     });
   }
 };

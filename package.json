@@ -1,6 +1,6 @@
 {
   "name": "zenkai",
-  "version": "0.9.14",
+  "version": "0.9.15",
   "description": "Dom, Datatype helpers, utilities (AJAX, URI) and UI components",
   "main": "dist/zenkai.esm.js",
   "module": "dist/zenkai.esm.js",
