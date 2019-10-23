@@ -14,12 +14,21 @@ export function inputCounter(container) {
         if (isHTMLElement(input)) {
             counter.dataset['counterMax'] = input.maxLength;
             counter.dataset['counterVal'] = input.value.length;
-            input.addEventListener('input', function (e) {
-                counter.dataset['counterVal'] = input.value.length;
-            });
-        } else{
-            console.error(`Failed to add counter ${ref}: Input (referenced) was not found`);
+            bindEvents(input, counter);
+        } else {
+            console.error(`%c@zenkai%c #InputCounter>%cinputCounter:%c Failed to add counter ${ref}. Input (referenced) was not found.`, "text-decoration: underline", "", "font-weight: bold;","font-weight: normal;");
         }
+    }
+
+    /**
+     * Bind DOM events
+     * @param {HTMLInputElement} input 
+     * @param {HTMLElement} counter 
+     */
+    function bindEvents(input, counter) {
+        input.addEventListener('input', function (e) {
+            counter.dataset['counterVal'] = input.value.length;
+        });
     }
 
     return counters;

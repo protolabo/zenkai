@@ -2256,6 +2256,22 @@ function queryBuilder(query) {
   return str.join('&');
 }
 
+var moveDown = function moveDown(label) {
+  return addClass(label, 'down');
+};
+
+var moveUp = function moveUp(label) {
+  return removeClass(label, 'down');
+};
+
+var addFocus = function addFocus(element) {
+  return addClass(element, 'focused');
+};
+
+var removeFocus = function removeFocus(element) {
+  return removeClass(element, 'focused');
+};
+
 function floatingLabel(form) {
   var labels = getElements('.form-label', form);
 
@@ -2265,16 +2281,18 @@ function floatingLabel(form) {
     if (label.dataset['type'] == 'placeholder' && !isNullOrWhitespace(label.htmlFor)) {
       var input = getElement("#".concat(label.htmlFor));
 
-      if (isUndefined(input)) {
-        throw new Error("Missing input for label: ".concat(label.htmlFor));
-      }
+      if (isHTMLElement(input)) {
+        if (isNullOrWhitespace(input.placeholder)) {
+          bindEvents(input, label);
 
-      if (isNullOrWhitespace(input.placeholder)) {
-        bindEvents(input, label);
-
-        if (input.value.length === 0) {
-          addClass(label, 'down');
+          if (isEmpty(input.value)) {
+            moveDown(label);
+          }
+        } else {
+          console.warn("%c@zenkai%c #FloatingLabel>%cfloatingLabel:%c Input \"".concat(label.htmlFor, "\" contains a placeholder"), "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
         }
+      } else {
+        console.error("%c@zenkai%c #FloatingLabel>%cfloatingLabel:%c Missing input for label \"".concat(label.htmlFor, "\""), "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
       }
     }
   }
@@ -2289,23 +2307,23 @@ function floatingLabel(form) {
     if (isNullOrWhitespace(input.placeholder)) {
       input.addEventListener('focus', function (e) {
         input.placeholder = "";
-        removeClass(label, 'down');
-        addClass(label.parentElement, 'focused');
+        moveUp(label);
+        addFocus(label.parentElement);
       });
       input.addEventListener('blur', function (e) {
         if (isEmpty(this.value)) {
-          addClass(label, 'down');
+          moveDown(label);
         }
 
-        removeClass(label.parentElement, 'focused');
+        removeFocus(label.parentElement);
       });
       input.addEventListener('input', function (e) {
         // check if input does not have focus
         if (document.activeElement != input) {
           if (isEmpty(this.value)) {
-            addClass(label, 'down');
+            moveDown(label);
           } else {
-            removeClass(label, 'down');
+            moveUp(label);
           }
         }
       });
@@ -2313,6 +2331,43 @@ function floatingLabel(form) {
   }
 
   return labels;
+}
+
+/**
+ * Add a counter to an input element
+ * @param {HTMLElement} container 
+ */
+
+function inputCounter(container) {
+  var counters = getElements('[data-counter]', container);
+
+  for (var i = 0; i < counters.length; i++) {
+    var counter = counters[i];
+    var ref = counter.dataset['counter'];
+    var input = getElement("#".concat(ref));
+
+    if (isHTMLElement(input)) {
+      counter.dataset['counterMax'] = input.maxLength;
+      counter.dataset['counterVal'] = input.value.length;
+      bindEvents(input, counter);
+    } else {
+      console.error("%c@zenkai%c #InputCounter>%cinputCounter:%c Failed to add counter ".concat(ref, ". Input (referenced) was not found."), "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
+    }
+  }
+  /**
+   * Bind DOM events
+   * @param {HTMLInputElement} input 
+   * @param {HTMLElement} counter 
+   */
+
+
+  function bindEvents(input, counter) {
+    input.addEventListener('input', function (e) {
+      counter.dataset['counterVal'] = input.value.length;
+    });
+  }
+
+  return counters;
 }
 
 var TYPE = 'type';
@@ -2852,4 +2907,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, EL, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, EL, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };

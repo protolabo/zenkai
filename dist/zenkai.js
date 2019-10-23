@@ -2259,6 +2259,22 @@ var zenkai = (function (exports) {
     return str.join('&');
   }
 
+  var moveDown = function moveDown(label) {
+    return addClass(label, 'down');
+  };
+
+  var moveUp = function moveUp(label) {
+    return removeClass(label, 'down');
+  };
+
+  var addFocus = function addFocus(element) {
+    return addClass(element, 'focused');
+  };
+
+  var removeFocus = function removeFocus(element) {
+    return removeClass(element, 'focused');
+  };
+
   function floatingLabel(form) {
     var labels = getElements('.form-label', form);
 
@@ -2268,16 +2284,18 @@ var zenkai = (function (exports) {
       if (label.dataset['type'] == 'placeholder' && !isNullOrWhitespace(label.htmlFor)) {
         var input = getElement("#".concat(label.htmlFor));
 
-        if (isUndefined(input)) {
-          throw new Error("Missing input for label: ".concat(label.htmlFor));
-        }
+        if (isHTMLElement(input)) {
+          if (isNullOrWhitespace(input.placeholder)) {
+            bindEvents(input, label);
 
-        if (isNullOrWhitespace(input.placeholder)) {
-          bindEvents(input, label);
-
-          if (input.value.length === 0) {
-            addClass(label, 'down');
+            if (isEmpty(input.value)) {
+              moveDown(label);
+            }
+          } else {
+            console.warn("%c@zenkai%c #FloatingLabel>%cfloatingLabel:%c Input \"".concat(label.htmlFor, "\" contains a placeholder"), "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
           }
+        } else {
+          console.error("%c@zenkai%c #FloatingLabel>%cfloatingLabel:%c Missing input for label \"".concat(label.htmlFor, "\""), "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
         }
       }
     }
@@ -2292,23 +2310,23 @@ var zenkai = (function (exports) {
       if (isNullOrWhitespace(input.placeholder)) {
         input.addEventListener('focus', function (e) {
           input.placeholder = "";
-          removeClass(label, 'down');
-          addClass(label.parentElement, 'focused');
+          moveUp(label);
+          addFocus(label.parentElement);
         });
         input.addEventListener('blur', function (e) {
           if (isEmpty(this.value)) {
-            addClass(label, 'down');
+            moveDown(label);
           }
 
-          removeClass(label.parentElement, 'focused');
+          removeFocus(label.parentElement);
         });
         input.addEventListener('input', function (e) {
           // check if input does not have focus
           if (document.activeElement != input) {
             if (isEmpty(this.value)) {
-              addClass(label, 'down');
+              moveDown(label);
             } else {
-              removeClass(label, 'down');
+              moveUp(label);
             }
           }
         });
@@ -2316,6 +2334,43 @@ var zenkai = (function (exports) {
     }
 
     return labels;
+  }
+
+  /**
+   * Add a counter to an input element
+   * @param {HTMLElement} container 
+   */
+
+  function inputCounter(container) {
+    var counters = getElements('[data-counter]', container);
+
+    for (var i = 0; i < counters.length; i++) {
+      var counter = counters[i];
+      var ref = counter.dataset['counter'];
+      var input = getElement("#".concat(ref));
+
+      if (isHTMLElement(input)) {
+        counter.dataset['counterMax'] = input.maxLength;
+        counter.dataset['counterVal'] = input.value.length;
+        bindEvents(input, counter);
+      } else {
+        console.error("%c@zenkai%c #InputCounter>%cinputCounter:%c Failed to add counter ".concat(ref, ". Input (referenced) was not found."), "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
+      }
+    }
+    /**
+     * Bind DOM events
+     * @param {HTMLInputElement} input 
+     * @param {HTMLElement} counter 
+     */
+
+
+    function bindEvents(input, counter) {
+      input.addEventListener('input', function (e) {
+        counter.dataset['counterVal'] = input.value.length;
+      });
+    }
+
+    return counters;
   }
 
   var TYPE = 'type';
@@ -2969,6 +3024,7 @@ var zenkai = (function (exports) {
   exports.getUrlParams = getUrlParams;
   exports.hasClass = hasClass;
   exports.hasOwn = hasOwn;
+  exports.inputCounter = inputCounter;
   exports.insert = insert;
   exports.insertAfterElement = insertAfterElement;
   exports.insertBeforeElement = insertBeforeElement;
