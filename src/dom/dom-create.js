@@ -1,4 +1,4 @@
-import { isNullOrUndefined, isString } from "@datatype/index.js";
+import { isNullOrUndefined } from "@datatype/index.js";
 import { isElement } from "./checker.js";
 
 /**
@@ -857,8 +857,8 @@ function addChildren(element, children) {
         appendChildren(element, children);
     } else if (isElement(children)) {
         element.appendChild(children);
-    } else if (isString(children)) {
-        element.textContent = children;
+    } else {
+        element.textContent = children.toString();
     }
 
     return element;
@@ -874,7 +874,7 @@ export function appendChildren(parent, children) {
     var fragment = createDocFragment();
 
     children.forEach(element => {
-        fragment.appendChild(isString(element) ? createTextNode(element) : element);
+        fragment.appendChild(isElement(element) ? element : createTextNode(element.toString()));
     });
     parent.appendChild(fragment);
     fragment = null;
