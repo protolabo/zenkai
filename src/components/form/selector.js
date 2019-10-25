@@ -46,7 +46,7 @@ const BaseSelector = {
     setCurrentItem(item) {
         this.current = item;
         check(this.current, Status.ON);
-        this.callback(item.dataset.value, this.current);
+        this.callback.call(this, item.dataset.value, this.current);
     },
     activate() {
         var value = this.container.dataset['value'];
@@ -85,7 +85,7 @@ const FormSelector = {
         input.checked = true;
         this.current = item;
         check(this.current, Status.ON);
-        this.callback(input.value, this.current);
+        this.callback.call(this, input.value, this.current);
     },
     activate() {
         var value = this.container.dataset['value'];

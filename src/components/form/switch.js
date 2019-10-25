@@ -50,7 +50,7 @@ const BaseSwitch = {
         // Bind events
         this.container.addEventListener('click', () => {
             setState(this.container, getState(this.container) === Status.ON ? Status.OFF : Status.ON);
-            this.callback(this.container.dataset.value, this.container);
+            this.callback.call(this, this.container.dataset.value, this.container);
         });
     }
 };
@@ -61,12 +61,15 @@ const FormSwitch = {
     callback: null,
     activate() {
         var input = getInput('checkbox', this.container);
+        
+        // Init
         setState(this.container, input.checked ? Status.ON : Status.OFF);
+        this.callback.call(this, input.value, this.container);
 
         // Bind events
         input.addEventListener('change', (e) => {
             setState(this.container, input.checked ? Status.ON : Status.OFF);
-            this.callback(input.value, this.container);
+            this.callback.call(this, input.value, this.container);
         });
     }
 };

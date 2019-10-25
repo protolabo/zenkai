@@ -35,6 +35,7 @@
 
     function activateComponents(container) {
         ken.floatingLabel(container);
+        ken.inputCounter(container);
         ken.Selector(container);
         ken.Switch(container);
 

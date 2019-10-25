@@ -1,7 +1,11 @@
-import { getElement, getElements, removeClass, addClass } from '@dom/index.js';
-import { isNullOrWhitespace, isUndefined, isEmpty } from '@datatype/index.js';
+import { getElement, getElements, removeClass, addClass, isHTMLElement } from '@dom/index.js';
+import { isNullOrWhitespace, isEmpty } from '@datatype/index.js';
 
-// Label as placeholder
+const moveDown = (label) => addClass(label, 'down');
+const moveUp = (label) => removeClass(label, 'down');
+const addFocus = (element) => addClass(element, 'focused');
+const removeFocus = (element) => removeClass(element, 'focused');
+
 export function floatingLabel(form) {
     const labels = getElements('.form-label', form);
 
@@ -10,36 +14,23 @@ export function floatingLabel(form) {
         if (label.dataset['type'] == 'placeholder' && !isNullOrWhitespace(label.htmlFor)) {
             let input = getElement(`#${label.htmlFor}`);
 
-            if (isUndefined(input)) {
-                throw new Error(`Missing input for label: ${label.htmlFor}`);
-            }
-
-            if (isNullOrWhitespace(input.placeholder)) {
-                bindEvents(input, label);
-                if (input.value.length === 0) {
-                    addClass(label, 'down');
+            if (isHTMLElement(input)) {
+                if (isNullOrWhitespace(input.placeholder)) {
+                    bindEvents(input, label);
+                    if (isEmpty(input.value)) {
+                        moveDown(label);
+                    }
+                } else {
+                    console.warn(`%c@zenkai%c #FloatingLabel>%cfloatingLabel:%c Input "${label.htmlFor}" contains a placeholder`, "text-decoration: underline", "", "font-weight: bold;","font-weight: normal;");
                 }
+            } else {
+                console.error(`%c@zenkai%c #FloatingLabel>%cfloatingLabel:%c Missing input for label "${label.htmlFor}"`, "text-decoration: underline", "", "font-weight: bold;","font-weight: normal;");
             }
         }
     }
-
-    // add counters
-    var counters = getElements('[data-counter]', form);
-    for (let i = 0; i < counters.length; i++) {
-        let counter = counters[i];
-        let input = getElement(`#${counter.dataset['counter']}`);
-        counter.dataset['counterMax'] = input.maxLength;
-        if (input) {
-            counter.dataset['counterVal'] = input.value.length;
-            input.addEventListener('input', function (e) {
-                counter.dataset['counterVal'] = input.value.length;
-            });
-        }
-    }
-
 
     /**
-     * 
+     * Bind DOM events
      * @param {HTMLInputElement} input 
      * @param {HTMLLabelElement} label 
      */
@@ -47,22 +38,22 @@ export function floatingLabel(form) {
         if (isNullOrWhitespace(input.placeholder)) {
             input.addEventListener('focus', function (e) {
                 input.placeholder = "";
-                removeClass(label, 'down');
-                addClass(label.parentElement, 'focused');
+                moveUp(label);
+                addFocus(label.parentElement);
             });
             input.addEventListener('blur', function (e) {
                 if (isEmpty(this.value)) {
-                    addClass(label, 'down');
+                    moveDown(label);
                 }
-                removeClass(label.parentElement, 'focused');
+                removeFocus(label.parentElement);
             });
             input.addEventListener('input', function (e) {
                 // check if input does not have focus
                 if (document.activeElement != input) {
                     if (isEmpty(this.value)) {
-                        addClass(label, 'down');
+                        moveDown(label);
                     } else {
-                        removeClass(label, 'down');
+                        moveUp(label);
                     }
                 }
             });

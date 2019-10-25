@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Version 0 (2019-01-01)
 
+### Version 0.9.14 (2019-09-16)
+
+#### Added
+
+- All elements can have children (element or text)
+
 ### Version 0.9.13 (2019-08-27)
 
 #### Added
