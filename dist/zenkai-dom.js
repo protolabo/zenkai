@@ -1125,8 +1125,8 @@ var zdom = (function (exports) {
       appendChildren(element, children);
     } else if (isElement(children)) {
       element.appendChild(children);
-    } else if (isString(children)) {
-      element.textContent = children;
+    } else {
+      element.textContent = children.toString();
     }
 
     return element;
@@ -1142,7 +1142,7 @@ var zdom = (function (exports) {
   function appendChildren(parent, children) {
     var fragment = createDocFragment();
     children.forEach(function (element) {
-      fragment.appendChild(isString(element) ? createTextNode(element) : element);
+      fragment.appendChild(isElement(element) ? element : createTextNode(element.toString()));
     });
     parent.appendChild(fragment);
     fragment = null;
