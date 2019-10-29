@@ -170,6 +170,16 @@ var zcomponents = (function (exports) {
   }
 
   /**
+   * Verifies that an object is a *Node*
+   * @param {Element} obj 
+   * @returns {boolean} Value indicating whether the object is an *Node*
+   * @memberof DOM
+   */
+
+  function isNode(obj) {
+    return isNullOrUndefined(obj) ? false : obj instanceof Node;
+  }
+  /**
    * Verifies that an object is an *Element*
    * @param {Element} obj 
    * @returns {boolean} Value indicating whether the object is an *Element*
@@ -182,7 +192,7 @@ var zcomponents = (function (exports) {
   /**
    * Verifies that an object is an *HTMLElement*
    * @param {Element} obj 
-   * @returns {boolean} Value indicating whether the object is an *Element*
+   * @returns {boolean} Value indicating whether the object is an *HTMLElement*
    * @memberof DOM
    */
 
@@ -971,7 +981,7 @@ var zcomponents = (function (exports) {
   function addChildren(element, children) {
     if (Array.isArray(children)) {
       appendChildren(element, children);
-    } else if (isElement(children)) {
+    } else if (isNode(children)) {
       element.appendChild(children);
     } else {
       element.textContent = children.toString();
@@ -990,7 +1000,7 @@ var zcomponents = (function (exports) {
   function appendChildren(parent, children) {
     var fragment = createDocFragment();
     children.forEach(function (element) {
-      fragment.appendChild(isElement(element) ? element : createTextNode(element.toString()));
+      fragment.appendChild(isNode(element) ? element : createTextNode(element.toString()));
     });
     parent.appendChild(fragment);
     fragment = null;

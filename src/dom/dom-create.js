@@ -1,5 +1,5 @@
 import { isNullOrUndefined } from "@datatype/index.js";
-import { isElement } from "./checker.js";
+import { isElement, isNode } from "./checker.js";
 
 /**
  * Creates an element
@@ -921,7 +921,7 @@ export function addAttributes(element, attribute) {
 function addChildren(element, children) {
     if (Array.isArray(children)) {
         appendChildren(element, children);
-    } else if (isElement(children)) {
+    } else if (isNode(children)) {
         element.appendChild(children);
     } else {
         element.textContent = children.toString();
@@ -940,7 +940,7 @@ export function appendChildren(parent, children) {
     var fragment = createDocFragment();
 
     children.forEach(element => {
-        fragment.appendChild(isElement(element) ? element : createTextNode(element.toString()));
+        fragment.appendChild(isNode(element) ? element : createTextNode(element.toString()));
     });
     parent.appendChild(fragment);
     fragment = null;

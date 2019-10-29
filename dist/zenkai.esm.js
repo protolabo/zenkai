@@ -464,6 +464,16 @@ function removeAccents(str) {
 }
 
 /**
+ * Verifies that an object is a *Node*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *Node*
+ * @memberof DOM
+ */
+
+function isNode(obj) {
+  return isNullOrUndefined(obj) ? false : obj instanceof Node;
+}
+/**
  * Verifies that an object is an *Element*
  * @param {Element} obj 
  * @returns {boolean} Value indicating whether the object is an *Element*
@@ -476,12 +486,22 @@ function isElement(obj) {
 /**
  * Verifies that an object is an *HTMLElement*
  * @param {Element} obj 
- * @returns {boolean} Value indicating whether the object is an *Element*
+ * @returns {boolean} Value indicating whether the object is an *HTMLElement*
  * @memberof DOM
  */
 
 function isHTMLElement(obj) {
   return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
+}
+/**
+ * Verifies that an object is an *DocumentFragment*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *DocumentFragment*
+ * @memberof DOM
+ */
+
+function isDocumentFragment(obj) {
+  return isNullOrUndefined(obj) ? false : obj.nodeType === 11 && obj instanceof DocumentFragment;
 }
 
 /**
@@ -1417,7 +1437,7 @@ function addAttributes(element, attribute) {
 function addChildren(element, children) {
   if (Array.isArray(children)) {
     appendChildren(element, children);
-  } else if (isElement(children)) {
+  } else if (isNode(children)) {
     element.appendChild(children);
   } else {
     element.textContent = children.toString();
@@ -1436,7 +1456,7 @@ function addChildren(element, children) {
 function appendChildren(parent, children) {
   var fragment = createDocFragment();
   children.forEach(function (element) {
-    fragment.appendChild(isElement(element) ? element : createTextNode(element.toString()));
+    fragment.appendChild(isNode(element) ? element : createTextNode(element.toString()));
   });
   parent.appendChild(fragment);
   fragment = null;
@@ -2907,4 +2927,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, EL, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, EL, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };

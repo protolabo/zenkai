@@ -467,6 +467,16 @@ var zenkai = (function (exports) {
   }
 
   /**
+   * Verifies that an object is a *Node*
+   * @param {Element} obj 
+   * @returns {boolean} Value indicating whether the object is an *Node*
+   * @memberof DOM
+   */
+
+  function isNode(obj) {
+    return isNullOrUndefined(obj) ? false : obj instanceof Node;
+  }
+  /**
    * Verifies that an object is an *Element*
    * @param {Element} obj 
    * @returns {boolean} Value indicating whether the object is an *Element*
@@ -479,12 +489,22 @@ var zenkai = (function (exports) {
   /**
    * Verifies that an object is an *HTMLElement*
    * @param {Element} obj 
-   * @returns {boolean} Value indicating whether the object is an *Element*
+   * @returns {boolean} Value indicating whether the object is an *HTMLElement*
    * @memberof DOM
    */
 
   function isHTMLElement(obj) {
     return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
+  }
+  /**
+   * Verifies that an object is an *DocumentFragment*
+   * @param {Element} obj 
+   * @returns {boolean} Value indicating whether the object is an *DocumentFragment*
+   * @memberof DOM
+   */
+
+  function isDocumentFragment(obj) {
+    return isNullOrUndefined(obj) ? false : obj.nodeType === 11 && obj instanceof DocumentFragment;
   }
 
   /**
@@ -1420,7 +1440,7 @@ var zenkai = (function (exports) {
   function addChildren(element, children) {
     if (Array.isArray(children)) {
       appendChildren(element, children);
-    } else if (isElement(children)) {
+    } else if (isNode(children)) {
       element.appendChild(children);
     } else {
       element.textContent = children.toString();
@@ -1439,7 +1459,7 @@ var zenkai = (function (exports) {
   function appendChildren(parent, children) {
     var fragment = createDocFragment();
     children.forEach(function (element) {
-      fragment.appendChild(isElement(element) ? element : createTextNode(element.toString()));
+      fragment.appendChild(isNode(element) ? element : createTextNode(element.toString()));
     });
     parent.appendChild(fragment);
     fragment = null;
@@ -3030,11 +3050,13 @@ var zenkai = (function (exports) {
   exports.insertBeforeElement = insertBeforeElement;
   exports.isDate = isDate;
   exports.isDerivedOf = isDerivedOf;
+  exports.isDocumentFragment = isDocumentFragment;
   exports.isElement = isElement;
   exports.isEmpty = isEmpty;
   exports.isFunction = isFunction;
   exports.isHTMLElement = isHTMLElement;
   exports.isInt = isInt;
+  exports.isNode = isNode;
   exports.isNull = isNull;
   exports.isNullOrUndefined = isNullOrUndefined;
   exports.isNullOrWhitespace = isNullOrWhitespace;
