@@ -203,8 +203,8 @@ var zcomponents = (function (exports) {
   /**
    * Creates an element
    * @param {string} tagName 
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @param {object} [_attribute] 
+   * @param {Text|HTMLElement|HTMLElement[]} [_children] 
    * @returns {HTMLElement}
    * @private
    */
@@ -226,7 +226,7 @@ var zcomponents = (function (exports) {
   }
   /**
    * Creates a document fragment
-   * @function
+   * @function createDocFragment
    * @returns {DocumentFragment}
    * @memberof DOM
    */
@@ -237,7 +237,7 @@ var zcomponents = (function (exports) {
   };
   /**
    * Creates a text node
-   * @function
+   * @function createTextNode
    * @param {string} text
    * @returns {Text}
    * @memberof DOM
@@ -248,7 +248,7 @@ var zcomponents = (function (exports) {
   };
   /**
    * Creates a `<header>` element with some attributes
-   * @function
+   * @function createHeader
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -258,7 +258,7 @@ var zcomponents = (function (exports) {
   var createHeader = create.bind(null, 'header');
   /**
    * Creates an `<footer>` element with some attributes
-   * @function
+   * @function createFooter
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -268,7 +268,7 @@ var zcomponents = (function (exports) {
   var createFooter = create.bind(null, 'footer');
   /**
    * Creates an `<main>` element with some attributes
-   * @function
+   * @function createMain
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -278,7 +278,7 @@ var zcomponents = (function (exports) {
   var createMain = create.bind(null, 'main');
   /**
    * Creates an `<article>` element with some attributes
-   * @function
+   * @function createArticle
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -288,7 +288,7 @@ var zcomponents = (function (exports) {
   var createArticle = create.bind(null, 'article');
   /**
    * Creates an `<section>` element with some attributes
-   * @function
+   * @function createSection
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -298,7 +298,7 @@ var zcomponents = (function (exports) {
   var createSection = create.bind(null, 'section');
   /**
    * Creates an `<nav>` element with some attributes
-   * @function
+   * @function createNav
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -308,7 +308,7 @@ var zcomponents = (function (exports) {
   var createNav = create.bind(null, 'nav');
   /**
    * Creates an `<aside>` element with some attributes
-   * @function
+   * @function createAside
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -318,7 +318,7 @@ var zcomponents = (function (exports) {
   var createAside = create.bind(null, 'aside');
   /**
    * Creates a `<h1>` element with some attributes
-   * @function
+   * @function createH1
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
@@ -328,7 +328,7 @@ var zcomponents = (function (exports) {
   var createH1 = create.bind(null, 'h1');
   /**
    * Creates a `<h2>` element with some attributes
-   * @function
+   * @function createH2
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
@@ -338,7 +338,7 @@ var zcomponents = (function (exports) {
   var createH2 = create.bind(null, 'h2');
   /**
    * Creates a `<h3>` element with some attributes
-   * @function
+   * @function createH3
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
@@ -348,7 +348,7 @@ var zcomponents = (function (exports) {
   var createH3 = create.bind(null, 'h3');
   /**
    * Creates a `<h4>` element with some attributes
-   * @function
+   * @function createH4
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
@@ -358,7 +358,7 @@ var zcomponents = (function (exports) {
   var createH4 = create.bind(null, 'h4');
   /**
    * Creates a `<h5>` element with some attributes
-   * @function
+   * @function createH5
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
@@ -368,7 +368,7 @@ var zcomponents = (function (exports) {
   var createH5 = create.bind(null, 'h5');
   /**
    * Creates a `<h6>` element with some attributes
-   * @function
+   * @function createH6
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLHeadingElement}
@@ -378,7 +378,7 @@ var zcomponents = (function (exports) {
   var createH6 = create.bind(null, 'h6');
   /**
    * Creates a `<div>` element with some attributes
-   * @function
+   * @function createDiv
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLDivElement}
@@ -389,7 +389,7 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `br` element \
    * Line break (carriage-return)
-   * @function
+   * @function createLineBreak
    * @memberof DOM
    */
 
@@ -399,7 +399,7 @@ var zcomponents = (function (exports) {
   /**
    * Creates a `hr` element \
    * Thematic break
-   * @function
+   * @function createThematicBreak
    * @memberof DOM
    */
 
@@ -408,6 +408,7 @@ var zcomponents = (function (exports) {
   };
   /**
    * Creates a `<p>` element with some attributes
+   * @function createParagraph
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLParagraphElement}
@@ -417,6 +418,7 @@ var zcomponents = (function (exports) {
   var createParagraph = create.bind(null, 'p');
   /**
    * Creates a `<ul>` element with some attributes
+   * @function createUnorderedList
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLUListElement}
@@ -426,6 +428,7 @@ var zcomponents = (function (exports) {
   var createUnorderedList = create.bind(null, 'ul');
   /**
    * Creates a `<ol>` element with some attributes
+   * @function createOrderedList
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLOListElement}
@@ -435,6 +438,7 @@ var zcomponents = (function (exports) {
   var createOrderedList = create.bind(null, 'ol');
   /**
    * Creates a `<li>` element with some attributes
+   * @function createListItem
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLIElement}
@@ -444,6 +448,7 @@ var zcomponents = (function (exports) {
   var createListItem = create.bind(null, 'li');
   /**
    * Creates a `<dl>` element with some attributes
+   * @function createDescriptionList
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLDListElement}
@@ -453,6 +458,7 @@ var zcomponents = (function (exports) {
   var createDescriptionList = create.bind(null, 'dl');
   /**
    * Creates a `<dt>` element with some attributes
+   * @function createDescriptionTerm
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -462,6 +468,7 @@ var zcomponents = (function (exports) {
   var createDescriptionTerm = create.bind(null, 'dt');
   /**
    * Creates a `<dd>` element with some attributes
+   * @function createDescriptionDetails
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -471,7 +478,7 @@ var zcomponents = (function (exports) {
   var createDescriptionDetails = create.bind(null, 'dd'); // Inline Element
   /**
    * Creates a `<source>` element with some attributes
-   * @function
+   * @function createSource
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLSourceElement}
@@ -481,7 +488,7 @@ var zcomponents = (function (exports) {
   var createSource = create.bind(null, "source");
   /**
    * Creates a `<picture>` element with some attributes
-   * @function
+   * @function createPicture
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLPictureElement}
@@ -491,7 +498,7 @@ var zcomponents = (function (exports) {
   var createPicture = create.bind(null, "picture");
   /**
    * Creates a `<figure>` element with some attributes
-   * @function
+   * @function createFigure
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -501,7 +508,7 @@ var zcomponents = (function (exports) {
   var createFigure = create.bind(null, "figure");
   /**
    * Creates a `<figcaption>` element with some attributes
-   * @function
+   * @function createFigureCaption
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -511,7 +518,7 @@ var zcomponents = (function (exports) {
   var createFigureCaption = create.bind(null, "figcaption");
   /**
    * Creates a `<span>` element with some attributes
-   * @function
+   * @function createSpan
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLSpanElement}
@@ -521,7 +528,7 @@ var zcomponents = (function (exports) {
   var createSpan = create.bind(null, "span");
   /**
    * Creates a `<strong>` element with some attributes
-   * @function
+   * @function createStrong
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -531,7 +538,7 @@ var zcomponents = (function (exports) {
   var createStrong = create.bind(null, "strong");
   /**
    * Creates a `<em>` element with some attributes
-   * @function
+   * @function createEmphasis
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -541,7 +548,7 @@ var zcomponents = (function (exports) {
   var createEmphasis = create.bind(null, "em");
   /**
    * Creates a `<mark>` element with some attributes
-   * @function
+   * @function createMark
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -551,7 +558,7 @@ var zcomponents = (function (exports) {
   var createMark = create.bind(null, "mark");
   /**
    * Creates a `<samp>` element with some attributes
-   * @function
+   * @function createSample
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -561,7 +568,7 @@ var zcomponents = (function (exports) {
   var createSample = create.bind(null, "samp");
   /**
    * Creates a `<sub>` element with some attributes
-   * @function
+   * @function createSubscript
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -571,7 +578,7 @@ var zcomponents = (function (exports) {
   var createSubscript = create.bind(null, "sub");
   /**
    * Creates a `<sup>` element with some attributes
-   * @function
+   * @function createSuperscript
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -581,7 +588,7 @@ var zcomponents = (function (exports) {
   var createSuperscript = create.bind(null, "sup");
   /**
    * Creates a `<abbr>` element with some attributes
-   * @function
+   * @function createAbbreviation
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -591,7 +598,7 @@ var zcomponents = (function (exports) {
   var createAbbreviation = create.bind(null, "abbr");
   /**
    * Creates a `<b>` element with some attributes
-   * @function
+   * @function createB
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -601,7 +608,7 @@ var zcomponents = (function (exports) {
   var createB = create.bind(null, "b");
   /**
    * Creates a `<i>` element with some attributes
-   * @function
+   * @function createI
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -611,7 +618,7 @@ var zcomponents = (function (exports) {
   var createI = create.bind(null, "i");
   /**
    * Creates a `<s>` element with some attributes
-   * @function
+   * @function createS
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -621,7 +628,7 @@ var zcomponents = (function (exports) {
   var createS = create.bind(null, 's');
   /**
    * Creates a `<u>` element with some attributes
-   * @function
+   * @function createU
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -631,7 +638,7 @@ var zcomponents = (function (exports) {
   var createU = create.bind(null, 'u');
   /**
    * Creates a `<cite>` element with some attributes
-   * @function
+   * @function createCite
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -641,7 +648,7 @@ var zcomponents = (function (exports) {
   var createCite = create.bind(null, "cite");
   /**
    * Creates a `<code>` element with some attributes
-   * @function
+   * @function createCode
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLElement}
@@ -651,7 +658,7 @@ var zcomponents = (function (exports) {
   var createCode = create.bind(null, "code");
   /**
    * Creates a `<form>` element with some attributes
-   * @function
+   * @function createForm
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
@@ -668,6 +675,7 @@ var zcomponents = (function (exports) {
   }
   /**
    * Creates a `<input>` element with some attributes
+   * @function createInput
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLInputElement}
@@ -681,7 +689,7 @@ var zcomponents = (function (exports) {
   });
   /**
    * Creates a `<label>` element with some attributes
-   * @function
+   * @function createLabel
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
@@ -691,7 +699,7 @@ var zcomponents = (function (exports) {
   var createLabel = create.bind(null, 'label');
   /**
    * Creates a `<fieldset>` element with some attributes
-   * @function
+   * @function createFieldset
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
@@ -701,7 +709,7 @@ var zcomponents = (function (exports) {
   var createFieldset = create.bind(null, 'fieldset');
   /**
    * Creates a `<legend>` element with some attributes
-   * @function
+   * @function createLegend
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
@@ -711,7 +719,7 @@ var zcomponents = (function (exports) {
   var createLegend = create.bind(null, 'legend');
   /**
    * Creates a `<datalist>` element with some attributes
-   * @function
+   * @function createDataList
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTextAreaElement}
@@ -721,7 +729,7 @@ var zcomponents = (function (exports) {
   var createDataList = create.bind(null, 'datalist');
   /**
    * Creates a `<select>` element with some attributes
-   * @function
+   * @function createSelect
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
@@ -731,7 +739,7 @@ var zcomponents = (function (exports) {
   var createSelect = create.bind(null, 'select');
   /**
    * Creates a `<option>` element with some attributes
-   * @function
+   * @function createOption
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
@@ -741,7 +749,7 @@ var zcomponents = (function (exports) {
   var createOption = create.bind(null, 'option');
   /**
    * Creates a `<optgroup>` element with some attributes
-   * @function
+   * @function createOptionGroup
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLLabelElement}
@@ -751,7 +759,7 @@ var zcomponents = (function (exports) {
   var createOptionGroup = create.bind(null, 'optgroup');
   /**
    * Creates a `<textarea>` element with some attributes
-   * @function
+   * @function createTextArea
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTextAreaElement}
@@ -761,7 +769,7 @@ var zcomponents = (function (exports) {
   var createTextArea = create.bind(null, 'textarea');
   /**
    * Creates a `<meter>` element with some attributes
-   * @function
+   * @function createMeter
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTextAreaElement}
@@ -771,7 +779,7 @@ var zcomponents = (function (exports) {
   var createMeter = create.bind(null, 'meter');
   /**
    * Creates a `<progress>` element with some attributes
-   * @function
+   * @function createProgress
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTextAreaElement}
@@ -781,7 +789,7 @@ var zcomponents = (function (exports) {
   var createProgress = create.bind(null, 'progress');
   /**
    * Creates a `<output>` element with some attributes
-   * @function
+   * @function createOutput
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTextAreaElement}
@@ -798,6 +806,7 @@ var zcomponents = (function (exports) {
   }
   /**
    * Creates a `<button>` element with some attributes
+   * @function createButton
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @memberof DOM
@@ -810,7 +819,7 @@ var zcomponents = (function (exports) {
   });
   /**
    * Creates a `<table>` element with some attributes
-   * @function
+   * @function createTable
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableElement}
@@ -820,7 +829,7 @@ var zcomponents = (function (exports) {
   var createTable = create.bind(null, "table");
   /**
    * Creates a `<caption>` element with some attributes
-   * @function
+   * @function createCaption
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableCaptionElement}
@@ -830,7 +839,7 @@ var zcomponents = (function (exports) {
   var createCaption = create.bind(null, "caption");
   /**
    * Creates a `<thead>` element with some attributes
-   * @function
+   * @function createTableHeader
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableSectionElement}
@@ -840,7 +849,7 @@ var zcomponents = (function (exports) {
   var createTableHeader = create.bind(null, "thead");
   /**
    * Creates a `<tbody>` element with some attributes
-   * @function
+   * @function createTableBody
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableSectionElement}
@@ -850,7 +859,7 @@ var zcomponents = (function (exports) {
   var createTableBody = create.bind(null, "tbody");
   /**
    * Creates a `<tfoot>` element with some attributes
-   * @function
+   * @function createTableFooter
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableSectionElement}
@@ -860,7 +869,7 @@ var zcomponents = (function (exports) {
   var createTableFooter = create.bind(null, "tfoot");
   /**
    * Creates a `<col>` element with some attributes
-   * @function
+   * @function createTableColumn
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableColElement}
@@ -870,7 +879,7 @@ var zcomponents = (function (exports) {
   var createTableColumn = create.bind(null, "col");
   /**
    * Creates a `<colgroup>` element with some attributes
-   * @function
+   * @function createTableColumnGroup
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableColElement}
@@ -880,6 +889,7 @@ var zcomponents = (function (exports) {
   var createTableColumnGroup = create.bind(null, "colgroup");
   /**
    * Creates a `<tr>` element with some attributes
+   * @function createTableRow
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableRowElement}
@@ -889,7 +899,7 @@ var zcomponents = (function (exports) {
   var createTableRow = create.bind(null, "tr");
   /**
    * Creates a `<th>` element with some attributes
-   * @function
+   * @function createTableHeaderCell
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableHeaderCellElement}
@@ -899,7 +909,7 @@ var zcomponents = (function (exports) {
   var createTableHeaderCell = create.bind(null, "th");
   /**
    * Creates a `<td>` element with some attributes
-   * @function
+   * @function createTableCell
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLTableDataCellElement}
@@ -936,6 +946,7 @@ var zcomponents = (function (exports) {
    * Sets the attributes of an element
    * @param {HTMLElement} element element
    * @param {Object} attribute attribute
+   * @returns {HTMLElement}
    * @memberof DOM
    */
 
@@ -967,6 +978,8 @@ var zcomponents = (function (exports) {
     function assign(key, val) {
       element[key] = val;
     }
+
+    return element;
   }
   /**
    * Appends the children to the element
@@ -993,6 +1006,7 @@ var zcomponents = (function (exports) {
    * Append a list of elements to a node.
    * @param {HTMLElement} parent
    * @param {HTMLElement[]} children
+   * @returns {HTMLElement}
    * @memberof DOM
    */
 
@@ -1228,8 +1242,8 @@ var zcomponents = (function (exports) {
   /**
    * Finds an ancestor of an element
    * @param {Element} target 
-   * @param {*} callback 
-   * @param {number} max Maximum number of iterations
+   * @param {Function} callback Decides whether the target is found
+   * @param {number} [max] Maximum number of iterations
    * @returns {Element|null}
    * @memberof DOM
    */
@@ -1247,6 +1261,13 @@ var zcomponents = (function (exports) {
 
     return findAncestorInf(parent, callback);
   }
+  /**
+   * Look an ancestor of an element using a callback
+   * @param {Element} target 
+   * @param {Function} callback Decides whether the target is found
+   * @private
+   */
+
   /* istanbul ignore next */
 
   function findAncestorInf(target, callback) {
@@ -1260,6 +1281,14 @@ var zcomponents = (function (exports) {
 
     return findAncestorInf(target.parentElement, callback);
   }
+  /**
+   * Look for an ancestor of an element using a callback with a maximum number of iteration
+   * @param {Element} target 
+   * @param {Function} callback Decides whether the target is found
+   * @param {number} [max] Maximum number of iterations
+   * @private
+   */
+
   /* istanbul ignore next */
 
 

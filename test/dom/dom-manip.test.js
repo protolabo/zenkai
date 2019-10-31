@@ -7,7 +7,7 @@ var expect = require('chai').expect;
 
 // import the library under test
 const {
-    windowWidth, insertBeforeElement, insertAfterElement, preprendChild
+    windowWidth, insertBeforeElement, insertAfterElement, preprendChild, removeChildren
 } = require('@dom/dom-manip.js');
 
 describe('DOM manipulation helpers', function () {
