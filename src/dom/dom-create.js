@@ -858,7 +858,7 @@ export const createTableHeaderCell = create.bind(null, "th");
  * @returns {HTMLTableDataCellElement}
  * @memberof DOM
  */
-const createTableCell = create.bind(null, "td");
+export const createTableCell = create.bind(null, "td");
 
 /* istanbul ignore next */
 function echo(o) { }
@@ -892,18 +892,24 @@ const setClass = (element, c) => {
  */
 export function addAttributes(element, attribute) {
     const ATTR_MAP = {
-        accept: [assign],
+        // Global attributes
+        accesskey: [assign, 'accessKey'],
         class: [setClass, element],
         data: [Object.assign, element.dataset],
-        disabled: [assign],
-        draggable: [assign],
         editable: [assign, 'contenteditable'],
-        html: [assign, 'innerHTML'],
+        draggable: [assign],
+        hidden: [assign],
         id: [assign],
+        lang: [assign],
+        html: [assign, 'innerHTML'],
+        style: [assign],
+        tabindex: [assign, 'tabIndex'],
+        title: [assign],
+        // Form attributes
+        accept: [assign],
+        disabled: [assign],
         placeholder: [assign],
         readonly: [assign, 'readOnly'],
-        style: [assign],
-        title: [assign],
         value: [assign],
     };
     const DEFAULT_MAP = [echo, ''];

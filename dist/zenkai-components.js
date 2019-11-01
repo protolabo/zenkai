@@ -953,18 +953,24 @@ var zcomponents = (function (exports) {
 
   function addAttributes(element, attribute) {
     var ATTR_MAP = {
-      accept: [assign],
+      // Global attributes
+      accesskey: [assign, 'accessKey'],
       "class": [setClass, element],
       data: [Object.assign, element.dataset],
-      disabled: [assign],
-      draggable: [assign],
       editable: [assign, 'contenteditable'],
-      html: [assign, 'innerHTML'],
+      draggable: [assign],
+      hidden: [assign],
       id: [assign],
+      lang: [assign],
+      html: [assign, 'innerHTML'],
+      style: [assign],
+      tabindex: [assign, 'tabIndex'],
+      title: [assign],
+      // Form attributes
+      accept: [assign],
+      disabled: [assign],
       placeholder: [assign],
       readonly: [assign, 'readOnly'],
-      style: [assign],
-      title: [assign],
       value: [assign]
     };
     var DEFAULT_MAP = [echo, '']; // HTML attributes

@@ -45,31 +45,60 @@ const {
 } = require('@dom/dom-create.js');
 
 const ATTRIBUTE_MAPPER = {
+    accesskey: 'accessKey',
     class: 'className',
+    // data: 'dataset',
     draggable: 'draggable',
     editable: 'contenteditable',
+    hidden: 'hidden',
     id: 'id',
+    lang: 'lang',
     placeholder: 'placeholder',
     readonly: 'readOnly',
+    tabindex: 'tabIndex',
     title: 'title',
     value: 'value',
 };
 
+function random(min, max) {
+    if (max == null) {
+        max = min;
+        min = 0;
+    }
+
+    return min + Math.floor(Math.random() * (max - min + 1));
+}
+
 function createAttribute() {
     const attributes = [
+        'accesskey',
         'class',
         'draggable:boolean',
         'editable:boolean',
+        'hidden:boolean',
         'id',
+        'lang',
         'placeholder',
         'readonly:boolean',
+        'tabindex:number',
         'title',
     ];
+    
     var result = {};
+
     for (let i = 0; i < attributes.length; i++) {
-        if (Math.floor(Math.random() * 2) === 1) {
+        if (random(1) === 1) {
             var attr = attributes[i].split(':');
-            result[attr[0]] = attr[1] === 'boolean' ? true : "some value";
+            switch (attr[1]) {
+                case 'boolean':
+                    result[attr[0]] = true;
+                    break;
+                case 'number':
+                    result[attr[0]] = random(1, 100);
+                    break;
+                default:
+                    result[attr[0]] = "some value";
+            }
         }
     }
 
