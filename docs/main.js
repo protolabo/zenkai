@@ -22,7 +22,7 @@
         code.childNodes.forEach((node) => { if (isTextNode(node) && isEmpty(node)) node.remove(); });
         createAllChildren(code);
     }
-    
+
     main.addEventListener('click', (e) => {
         var target = e.target;
         if (ken.hasClass(target, 'btn-copy')) {
@@ -39,6 +39,9 @@
         ken.Selector(container);
         ken.Switch(container);
 
+        ken.getElement('#test').addEventListener('click', function (e) {
+            console.log("Hello");
+        });
         ken.Collapsible(container);
         ken.Accordion(container);
     }

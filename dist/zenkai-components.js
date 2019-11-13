@@ -1315,11 +1315,14 @@ var zcomponents = (function (exports) {
     function bindEvents(input, label) {
       if (isNullOrWhitespace(input.placeholder)) {
         input.addEventListener('focus', function (e) {
+          console.log("focus called");
           input.placeholder = "";
           moveUp(label);
           addFocus(label.parentElement);
         });
         input.addEventListener('blur', function (e) {
+          console.log("blur called");
+
           if (isEmpty(this.value)) {
             moveDown(label);
           }
@@ -1327,7 +1330,8 @@ var zcomponents = (function (exports) {
           removeFocus(label.parentElement);
         });
         input.addEventListener('input', function (e) {
-          // check if input does not have focus
+          console.log("input called"); // check if input does not have focus
+
           if (document.activeElement != input) {
             if (isEmpty(this.value)) {
               moveDown(label);
