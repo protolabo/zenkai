@@ -118,8 +118,8 @@ export function getNextElementSibling(el, predCb) { return getElementSibling(el,
 /**
  * Finds an ancestor of an element
  * @param {Element} target 
- * @param {*} callback 
- * @param {number} max Maximum number of iterations
+ * @param {Function} callback Decides whether the target is found
+ * @param {number} [max] Maximum number of iterations
  * @returns {Element|null}
  * @memberof DOM
  */
@@ -135,6 +135,12 @@ export function findAncestor(target, callback, max) {
     return findAncestorInf(parent, callback);
 }
 
+/**
+ * Look an ancestor of an element using a callback
+ * @param {Element} target 
+ * @param {Function} callback Decides whether the target is found
+ * @private
+ */
 /* istanbul ignore next */
 function findAncestorInf(target, callback) {
     if (isNullOrUndefined(target)) {
@@ -148,6 +154,13 @@ function findAncestorInf(target, callback) {
     return findAncestorInf(target.parentElement, callback);
 }
 
+/**
+ * Look for an ancestor of an element using a callback with a maximum number of iteration
+ * @param {Element} target 
+ * @param {Function} callback Decides whether the target is found
+ * @param {number} [max] Maximum number of iterations
+ * @private
+ */
 /* istanbul ignore next */
 function findAncestorIter(target, callback, max) {
     if (isNullOrUndefined(target) || max === 0) {

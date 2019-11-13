@@ -464,6 +464,16 @@ function removeAccents(str) {
 }
 
 /**
+ * Verifies that an object is a *Node*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *Node*
+ * @memberof DOM
+ */
+
+function isNode(obj) {
+  return isNullOrUndefined(obj) ? false : obj instanceof Node;
+}
+/**
  * Verifies that an object is an *Element*
  * @param {Element} obj 
  * @returns {boolean} Value indicating whether the object is an *Element*
@@ -476,19 +486,29 @@ function isElement(obj) {
 /**
  * Verifies that an object is an *HTMLElement*
  * @param {Element} obj 
- * @returns {boolean} Value indicating whether the object is an *Element*
+ * @returns {boolean} Value indicating whether the object is an *HTMLElement*
  * @memberof DOM
  */
 
 function isHTMLElement(obj) {
   return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
 }
+/**
+ * Verifies that an object is an *DocumentFragment*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *DocumentFragment*
+ * @memberof DOM
+ */
+
+function isDocumentFragment(obj) {
+  return isNullOrUndefined(obj) ? false : obj.nodeType === 11 && obj instanceof DocumentFragment;
+}
 
 /**
  * Creates an element
  * @param {string} tagName 
- * @param {object} _attribute 
- * @param {Text|HTMLElement|HTMLElement[]} _children 
+ * @param {object} [_attribute] 
+ * @param {Text|HTMLElement|HTMLElement[]} [_children] 
  * @returns {HTMLElement}
  * @private
  */
@@ -510,7 +530,7 @@ function create(tagName, _attribute, _children) {
 }
 /**
  * Creates a document fragment
- * @function
+ * @function createDocFragment
  * @returns {DocumentFragment}
  * @memberof DOM
  */
@@ -521,7 +541,7 @@ var createDocFragment = function createDocFragment() {
 };
 /**
  * Creates a text node
- * @function
+ * @function createTextNode
  * @param {string} text
  * @returns {Text}
  * @memberof DOM
@@ -534,6 +554,7 @@ var createTextNode = function createTextNode(text) {
  * Creates a `<link>` element with some attributes
  * @param {string} href 
  * @param {string} rel 
+ * @returns {HTMLLinkElement}
  * @memberof DOM
  */
 
@@ -552,7 +573,7 @@ function createLink(href, rel) {
 }
 /**
  * Creates a `<header>` element with some attributes
- * @function
+ * @function createHeader
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -562,7 +583,7 @@ function createLink(href, rel) {
 var createHeader = create.bind(null, 'header');
 /**
  * Creates an `<footer>` element with some attributes
- * @function
+ * @function createFooter
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -572,7 +593,7 @@ var createHeader = create.bind(null, 'header');
 var createFooter = create.bind(null, 'footer');
 /**
  * Creates an `<main>` element with some attributes
- * @function
+ * @function createMain
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -582,7 +603,7 @@ var createFooter = create.bind(null, 'footer');
 var createMain = create.bind(null, 'main');
 /**
  * Creates an `<article>` element with some attributes
- * @function
+ * @function createArticle
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -592,7 +613,7 @@ var createMain = create.bind(null, 'main');
 var createArticle = create.bind(null, 'article');
 /**
  * Creates an `<section>` element with some attributes
- * @function
+ * @function createSection
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -602,7 +623,7 @@ var createArticle = create.bind(null, 'article');
 var createSection = create.bind(null, 'section');
 /**
  * Creates an `<nav>` element with some attributes
- * @function
+ * @function createNav
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -612,7 +633,7 @@ var createSection = create.bind(null, 'section');
 var createNav = create.bind(null, 'nav');
 /**
  * Creates an `<aside>` element with some attributes
- * @function
+ * @function createAside
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -622,7 +643,7 @@ var createNav = create.bind(null, 'nav');
 var createAside = create.bind(null, 'aside');
 /**
  * Creates a `<h1>` element with some attributes
- * @function
+ * @function createH1
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLHeadingElement}
@@ -632,7 +653,7 @@ var createAside = create.bind(null, 'aside');
 var createH1 = create.bind(null, 'h1');
 /**
  * Creates a `<h2>` element with some attributes
- * @function
+ * @function createH2
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLHeadingElement}
@@ -642,7 +663,7 @@ var createH1 = create.bind(null, 'h1');
 var createH2 = create.bind(null, 'h2');
 /**
  * Creates a `<h3>` element with some attributes
- * @function
+ * @function createH3
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLHeadingElement}
@@ -652,7 +673,7 @@ var createH2 = create.bind(null, 'h2');
 var createH3 = create.bind(null, 'h3');
 /**
  * Creates a `<h4>` element with some attributes
- * @function
+ * @function createH4
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLHeadingElement}
@@ -662,7 +683,7 @@ var createH3 = create.bind(null, 'h3');
 var createH4 = create.bind(null, 'h4');
 /**
  * Creates a `<h5>` element with some attributes
- * @function
+ * @function createH5
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLHeadingElement}
@@ -672,7 +693,7 @@ var createH4 = create.bind(null, 'h4');
 var createH5 = create.bind(null, 'h5');
 /**
  * Creates a `<h6>` element with some attributes
- * @function
+ * @function createH6
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLHeadingElement}
@@ -682,7 +703,7 @@ var createH5 = create.bind(null, 'h5');
 var createH6 = create.bind(null, 'h6');
 /**
  * Creates a `<div>` element with some attributes
- * @function
+ * @function createDiv
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLDivElement}
@@ -693,7 +714,7 @@ var createDiv = create.bind(null, 'div');
 /**
  * Creates a `br` element \
  * Line break (carriage-return)
- * @function
+ * @function createLineBreak
  * @memberof DOM
  */
 
@@ -703,7 +724,7 @@ var createLineBreak = function createLineBreak() {
 /**
  * Creates a `hr` element \
  * Thematic break
- * @function
+ * @function createThematicBreak
  * @memberof DOM
  */
 
@@ -712,6 +733,7 @@ var createThematicBreak = function createThematicBreak() {
 };
 /**
  * Creates a `<p>` element with some attributes
+ * @function createParagraph
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLParagraphElement}
@@ -721,7 +743,6 @@ var createThematicBreak = function createThematicBreak() {
 var createParagraph = create.bind(null, 'p');
 /**
  * Creates a `<blockquote>` element with some attributes
- * @function
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLQuoteElement}
@@ -739,6 +760,7 @@ function createBlockQuotation(cite, attribute, children) {
 }
 /**
  * Creates a `<ul>` element with some attributes
+ * @function createUnorderedList
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLUListElement}
@@ -748,6 +770,7 @@ function createBlockQuotation(cite, attribute, children) {
 var createUnorderedList = create.bind(null, 'ul');
 /**
  * Creates a `<ol>` element with some attributes
+ * @function createOrderedList
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLOListElement}
@@ -757,6 +780,7 @@ var createUnorderedList = create.bind(null, 'ul');
 var createOrderedList = create.bind(null, 'ol');
 /**
  * Creates a `<li>` element with some attributes
+ * @function createListItem
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLLIElement}
@@ -766,6 +790,7 @@ var createOrderedList = create.bind(null, 'ol');
 var createListItem = create.bind(null, 'li');
 /**
  * Creates a `<dl>` element with some attributes
+ * @function createDescriptionList
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLDListElement}
@@ -775,6 +800,7 @@ var createListItem = create.bind(null, 'li');
 var createDescriptionList = create.bind(null, 'dl');
 /**
  * Creates a `<dt>` element with some attributes
+ * @function createDescriptionTerm
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -784,6 +810,7 @@ var createDescriptionList = create.bind(null, 'dl');
 var createDescriptionTerm = create.bind(null, 'dt');
 /**
  * Creates a `<dd>` element with some attributes
+ * @function createDescriptionDetails
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -815,7 +842,7 @@ function createAnchor(href, _attribute, _children) {
   * @param {string} src
   * @param {string} alt
   * @param {object} _attribute 
- * @param {Text|HTMLElement|HTMLElement[]} _children 
+  * @param {Text|HTMLElement|HTMLElement[]} _children 
   * @returns {HTMLImageElement}
   * @memberof DOM
   */
@@ -836,8 +863,8 @@ function createImage(src, alt, attr) {
 /**
   * Creates a `<audio>` element with some attributes
   * @param {string} src
-  * @param {object} _attribute 
- * @param {Text|HTMLElement|HTMLElement[]} _children 
+  * @param {object} attribute 
+  * @param {Text|HTMLElement|HTMLElement[]} children 
   * @returns {HTMLAudioElement}
   * @memberof DOM
   */
@@ -854,8 +881,8 @@ function createAudio(src, attribute, children) {
 /**
   * Creates a `<video>` element with some attributes
   * @param {string} src
-  * @param {object} _attribute 
- * @param {Text|HTMLElement|HTMLElement[]} _children 
+  * @param {object} attribute 
+  * @param {Text|HTMLElement|HTMLElement[]} children 
   * @returns {HTMLVideoElement}
   * @memberof DOM
   */
@@ -871,7 +898,7 @@ function createVideo(src, attribute, children) {
 }
 /**
  * Creates a `<source>` element with some attributes
- * @function
+ * @function createSource
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLSourceElement}
@@ -881,7 +908,7 @@ function createVideo(src, attribute, children) {
 var createSource = create.bind(null, "source");
 /**
  * Creates a `<picture>` element with some attributes
- * @function
+ * @function createPicture
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLPictureElement}
@@ -891,7 +918,7 @@ var createSource = create.bind(null, "source");
 var createPicture = create.bind(null, "picture");
 /**
  * Creates a `<figure>` element with some attributes
- * @function
+ * @function createFigure
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -901,7 +928,7 @@ var createPicture = create.bind(null, "picture");
 var createFigure = create.bind(null, "figure");
 /**
  * Creates a `<figcaption>` element with some attributes
- * @function
+ * @function createFigureCaption
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -911,7 +938,7 @@ var createFigure = create.bind(null, "figure");
 var createFigureCaption = create.bind(null, "figcaption");
 /**
  * Creates a `<span>` element with some attributes
- * @function
+ * @function createSpan
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLSpanElement}
@@ -921,7 +948,7 @@ var createFigureCaption = create.bind(null, "figcaption");
 var createSpan = create.bind(null, "span");
 /**
  * Creates a `<strong>` element with some attributes
- * @function
+ * @function createStrong
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -931,7 +958,7 @@ var createSpan = create.bind(null, "span");
 var createStrong = create.bind(null, "strong");
 /**
  * Creates a `<em>` element with some attributes
- * @function
+ * @function createEmphasis
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -941,7 +968,7 @@ var createStrong = create.bind(null, "strong");
 var createEmphasis = create.bind(null, "em");
 /**
  * Creates a `<mark>` element with some attributes
- * @function
+ * @function createMark
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -951,7 +978,7 @@ var createEmphasis = create.bind(null, "em");
 var createMark = create.bind(null, "mark");
 /**
  * Creates a `<samp>` element with some attributes
- * @function
+ * @function createSample
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -961,7 +988,7 @@ var createMark = create.bind(null, "mark");
 var createSample = create.bind(null, "samp");
 /**
  * Creates a `<sub>` element with some attributes
- * @function
+ * @function createSubscript
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -971,7 +998,7 @@ var createSample = create.bind(null, "samp");
 var createSubscript = create.bind(null, "sub");
 /**
  * Creates a `<sup>` element with some attributes
- * @function
+ * @function createSuperscript
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -981,7 +1008,7 @@ var createSubscript = create.bind(null, "sub");
 var createSuperscript = create.bind(null, "sup");
 /**
  * Creates a `<q>` element with some attributes
- * @function
+ * @function createQuote
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLQuoteElement}
@@ -999,7 +1026,7 @@ function createQuote(cite, attribute, children) {
 }
 /**
  * Creates a `<abbr>` element with some attributes
- * @function
+ * @function createAbbreviation
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -1009,7 +1036,7 @@ function createQuote(cite, attribute, children) {
 var createAbbreviation = create.bind(null, "abbr");
 /**
  * Creates a `<b>` element with some attributes
- * @function
+ * @function createB
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -1019,7 +1046,7 @@ var createAbbreviation = create.bind(null, "abbr");
 var createB = create.bind(null, "b");
 /**
  * Creates a `<i>` element with some attributes
- * @function
+ * @function createI
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -1029,7 +1056,7 @@ var createB = create.bind(null, "b");
 var createI = create.bind(null, "i");
 /**
  * Creates a `<s>` element with some attributes
- * @function
+ * @function createS
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -1039,7 +1066,7 @@ var createI = create.bind(null, "i");
 var createS = create.bind(null, 's');
 /**
  * Creates a `<u>` element with some attributes
- * @function
+ * @function createU
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -1049,7 +1076,7 @@ var createS = create.bind(null, 's');
 var createU = create.bind(null, 'u');
 /**
  * Creates a `<cite>` element with some attributes
- * @function
+ * @function createCite
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -1059,9 +1086,7 @@ var createU = create.bind(null, 'u');
 var createCite = create.bind(null, "cite");
 /**
  * Creates a `<q>` element with some attributes
- * @function
- * @param {object} _attribute 
- * @param {Text|HTMLElement|HTMLElement[]} _children 
+ * @param {object} attribute 
  * @returns {HTMLTimeElement}
  * @memberof DOM
  */
@@ -1077,7 +1102,7 @@ function createTime(datetime, attr) {
 }
 /**
  * Creates a `<code>` element with some attributes
- * @function
+ * @function createCode
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLElement}
@@ -1087,7 +1112,7 @@ function createTime(datetime, attr) {
 var createCode = create.bind(null, "code");
 /**
  * Creates a `<form>` element with some attributes
- * @function
+ * @function createForm
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLLabelElement}
@@ -1104,6 +1129,7 @@ function createInputAs(type, attr, el) {
 }
 /**
  * Creates a `<input>` element with some attributes
+ * @function createInput
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLInputElement}
@@ -1117,7 +1143,7 @@ var createInput = createInputAs.bind(null, "text");
 });
 /**
  * Creates a `<label>` element with some attributes
- * @function
+ * @function createLabel
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLLabelElement}
@@ -1127,7 +1153,7 @@ var createInput = createInputAs.bind(null, "text");
 var createLabel = create.bind(null, 'label');
 /**
  * Creates a `<fieldset>` element with some attributes
- * @function
+ * @function createFieldset
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLLabelElement}
@@ -1137,7 +1163,7 @@ var createLabel = create.bind(null, 'label');
 var createFieldset = create.bind(null, 'fieldset');
 /**
  * Creates a `<legend>` element with some attributes
- * @function
+ * @function createLegend
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLLabelElement}
@@ -1147,7 +1173,7 @@ var createFieldset = create.bind(null, 'fieldset');
 var createLegend = create.bind(null, 'legend');
 /**
  * Creates a `<datalist>` element with some attributes
- * @function
+ * @function createDataList
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTextAreaElement}
@@ -1157,7 +1183,7 @@ var createLegend = create.bind(null, 'legend');
 var createDataList = create.bind(null, 'datalist');
 /**
  * Creates a `<select>` element with some attributes
- * @function
+ * @function createSelect
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLLabelElement}
@@ -1167,7 +1193,7 @@ var createDataList = create.bind(null, 'datalist');
 var createSelect = create.bind(null, 'select');
 /**
  * Creates a `<option>` element with some attributes
- * @function
+ * @function createOption
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLLabelElement}
@@ -1177,7 +1203,7 @@ var createSelect = create.bind(null, 'select');
 var createOption = create.bind(null, 'option');
 /**
  * Creates a `<optgroup>` element with some attributes
- * @function
+ * @function createOptionGroup
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLLabelElement}
@@ -1187,7 +1213,7 @@ var createOption = create.bind(null, 'option');
 var createOptionGroup = create.bind(null, 'optgroup');
 /**
  * Creates a `<textarea>` element with some attributes
- * @function
+ * @function createTextArea
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTextAreaElement}
@@ -1197,7 +1223,7 @@ var createOptionGroup = create.bind(null, 'optgroup');
 var createTextArea = create.bind(null, 'textarea');
 /**
  * Creates a `<meter>` element with some attributes
- * @function
+ * @function createMeter
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTextAreaElement}
@@ -1207,7 +1233,7 @@ var createTextArea = create.bind(null, 'textarea');
 var createMeter = create.bind(null, 'meter');
 /**
  * Creates a `<progress>` element with some attributes
- * @function
+ * @function createProgress
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTextAreaElement}
@@ -1217,7 +1243,7 @@ var createMeter = create.bind(null, 'meter');
 var createProgress = create.bind(null, 'progress');
 /**
  * Creates a `<output>` element with some attributes
- * @function
+ * @function createOutput
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTextAreaElement}
@@ -1234,6 +1260,7 @@ function createButtonAs(type, attribute, element) {
 }
 /**
  * Creates a `<button>` element with some attributes
+ * @function createButton
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @memberof DOM
@@ -1246,7 +1273,7 @@ var createButton = createButtonAs.bind(null, "button");
 });
 /**
  * Creates a `<table>` element with some attributes
- * @function
+ * @function createTable
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTableElement}
@@ -1256,7 +1283,7 @@ var createButton = createButtonAs.bind(null, "button");
 var createTable = create.bind(null, "table");
 /**
  * Creates a `<caption>` element with some attributes
- * @function
+ * @function createCaption
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTableCaptionElement}
@@ -1266,7 +1293,7 @@ var createTable = create.bind(null, "table");
 var createCaption = create.bind(null, "caption");
 /**
  * Creates a `<thead>` element with some attributes
- * @function
+ * @function createTableHeader
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTableSectionElement}
@@ -1276,7 +1303,7 @@ var createCaption = create.bind(null, "caption");
 var createTableHeader = create.bind(null, "thead");
 /**
  * Creates a `<tbody>` element with some attributes
- * @function
+ * @function createTableBody
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTableSectionElement}
@@ -1286,7 +1313,7 @@ var createTableHeader = create.bind(null, "thead");
 var createTableBody = create.bind(null, "tbody");
 /**
  * Creates a `<tfoot>` element with some attributes
- * @function
+ * @function createTableFooter
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTableSectionElement}
@@ -1296,7 +1323,7 @@ var createTableBody = create.bind(null, "tbody");
 var createTableFooter = create.bind(null, "tfoot");
 /**
  * Creates a `<col>` element with some attributes
- * @function
+ * @function createTableColumn
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTableColElement}
@@ -1306,7 +1333,7 @@ var createTableFooter = create.bind(null, "tfoot");
 var createTableColumn = create.bind(null, "col");
 /**
  * Creates a `<colgroup>` element with some attributes
- * @function
+ * @function createTableColumnGroup
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTableColElement}
@@ -1316,6 +1343,7 @@ var createTableColumn = create.bind(null, "col");
 var createTableColumnGroup = create.bind(null, "colgroup");
 /**
  * Creates a `<tr>` element with some attributes
+ * @function createTableRow
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTableRowElement}
@@ -1325,7 +1353,7 @@ var createTableColumnGroup = create.bind(null, "colgroup");
 var createTableRow = create.bind(null, "tr");
 /**
  * Creates a `<th>` element with some attributes
- * @function
+ * @function createTableHeaderCell
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTableHeaderCellElement}
@@ -1335,7 +1363,7 @@ var createTableRow = create.bind(null, "tr");
 var createTableHeaderCell = create.bind(null, "th");
 /**
  * Creates a `<td>` element with some attributes
- * @function
+ * @function createTableCell
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLTableDataCellElement}
@@ -1372,24 +1400,31 @@ var setClass = function setClass(element, c) {
  * Sets the attributes of an element
  * @param {HTMLElement} element element
  * @param {Object} attribute attribute
+ * @returns {HTMLElement}
  * @memberof DOM
  */
 
 
 function addAttributes(element, attribute) {
   var ATTR_MAP = {
-    accept: [assign],
+    // Global attributes
+    accesskey: [assign, 'accessKey'],
     "class": [setClass, element],
     data: [Object.assign, element.dataset],
-    disabled: [assign],
-    draggable: [assign],
     editable: [assign, 'contenteditable'],
-    html: [assign, 'innerHTML'],
+    draggable: [assign],
+    hidden: [assign],
     id: [assign],
+    lang: [assign],
+    html: [assign, 'innerHTML'],
+    style: [assign],
+    tabindex: [assign, 'tabIndex'],
+    title: [assign],
+    // Form attributes
+    accept: [assign],
+    disabled: [assign],
     placeholder: [assign],
     readonly: [assign, 'readOnly'],
-    style: [assign],
-    title: [assign],
     value: [assign]
   };
   var DEFAULT_MAP = [echo, '']; // HTML attributes
@@ -1403,6 +1438,8 @@ function addAttributes(element, attribute) {
   function assign(key, val) {
     element[key] = val;
   }
+
+  return element;
 }
 /**
  * Appends the children to the element
@@ -1417,7 +1454,7 @@ function addAttributes(element, attribute) {
 function addChildren(element, children) {
   if (Array.isArray(children)) {
     appendChildren(element, children);
-  } else if (isElement(children)) {
+  } else if (isNode(children)) {
     element.appendChild(children);
   } else {
     element.textContent = children.toString();
@@ -1429,6 +1466,7 @@ function addChildren(element, children) {
  * Append a list of elements to a node.
  * @param {HTMLElement} parent
  * @param {HTMLElement[]} children
+ * @returns {HTMLElement}
  * @memberof DOM
  */
 
@@ -1436,7 +1474,7 @@ function addChildren(element, children) {
 function appendChildren(parent, children) {
   var fragment = createDocFragment();
   children.forEach(function (element) {
-    fragment.appendChild(isElement(element) ? element : createTextNode(element.toString()));
+    fragment.appendChild(isNode(element) ? element : createTextNode(element.toString()));
   });
   parent.appendChild(fragment);
   fragment = null;
@@ -1574,12 +1612,33 @@ function preprendChild(target, el) {
   target.insertAdjacentElement('afterbegin', el);
 }
 /**
- * Removes all children of a node from the DOM
+ * Removes all children of a node from the DOM or 
+ * those that satisfies the predicate function
  * @param {Node} node 
+ * @param {Function} [callback] Decides whether the node should be removed
  * @memberof DOM
  */
 
-function removeChildren(node) {
+function removeChildren(node, callback) {
+  if (!isFunction(callback)) {
+    removeAllChildren(node);
+  } else {
+    Array.from(node.childNodes).forEach(function (n) {
+      if (callback(n)) {
+        node.removeChild(n);
+      }
+    });
+  }
+
+  return node;
+}
+/**
+ * Removes all children of a node from the DOM
+ * @param {Node} node 
+ * @private
+ */
+
+function removeAllChildren(node) {
   while (node.hasChildNodes()) {
     node.removeChild(node.lastChild);
   }
@@ -1591,6 +1650,7 @@ function removeChildren(node) {
  * @param {HTMLElement} element Element
  * @memberof DOM
  */
+
 
 function conceal(element) {
   Object.assign(element.style, {
@@ -1857,8 +1917,8 @@ function getNextElementSibling(el, predCb) {
 /**
  * Finds an ancestor of an element
  * @param {Element} target 
- * @param {*} callback 
- * @param {number} max Maximum number of iterations
+ * @param {Function} callback Decides whether the target is found
+ * @param {number} [max] Maximum number of iterations
  * @returns {Element|null}
  * @memberof DOM
  */
@@ -1876,6 +1936,13 @@ function findAncestor(target, callback, max) {
 
   return findAncestorInf(parent, callback);
 }
+/**
+ * Look an ancestor of an element using a callback
+ * @param {Element} target 
+ * @param {Function} callback Decides whether the target is found
+ * @private
+ */
+
 /* istanbul ignore next */
 
 function findAncestorInf(target, callback) {
@@ -1889,6 +1956,14 @@ function findAncestorInf(target, callback) {
 
   return findAncestorInf(target.parentElement, callback);
 }
+/**
+ * Look for an ancestor of an element using a callback with a maximum number of iteration
+ * @param {Element} target 
+ * @param {Function} callback Decides whether the target is found
+ * @param {number} [max] Maximum number of iterations
+ * @private
+ */
+
 /* istanbul ignore next */
 
 
@@ -2077,15 +2152,26 @@ function DELETE(url, data, success, fail, options) {
  * Return a random integer between min and max (inclusive).
  * @param {number} min 
  * @param {number} [max] 
+ * @param {boolean} [secure] 
  * @memberof MATH
 */
 function random(min, max) {
+  var secure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
   if (max == null) {
     max = min;
     min = 0;
   }
 
-  return min + Math.floor(Math.random() * (max - min + 1));
+  return min + Math.floor((secure ? secureMathRandom() : Math.random()) * (max - min + 1));
+}
+/**
+ * More secure implementation of `Math.random`
+ */
+
+function secureMathRandom() {
+  // Divide a random UInt32 by the maximum value (2^32 -1) to get a result between 0 and 1
+  return window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295;
 }
 
 /**
@@ -2911,4 +2997,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, EL, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, EL, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
