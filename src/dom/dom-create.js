@@ -1,5 +1,6 @@
-import { isNullOrUndefined } from "@datatype/index.js";
 import { isNode } from "./checker.js";
+import { appendChildren } from "./dom-append.js";
+import { addAttributes } from "./element-manip.js";
 
 /**
  * Creates an element
@@ -16,7 +17,7 @@ function create(tagName, _attribute, _children) {
         addAttributes(element, _attribute);
     }
     if (_children) {
-        addChildren(element, _children);
+        addContent(element, _children);
     }
     return element;
 }
@@ -331,8 +332,8 @@ export function createAnchor(href, _attribute, _children) {
   * @returns {HTMLImageElement}
   * @memberof DOM
   */
-export function createImage(src, alt, attr) {
-    var img = create('img', attr);
+export function createImage(src, alt, _attribute) {
+    var img = create('img', _attribute);
 
     if (src) {
         img.src = src;
@@ -498,8 +499,8 @@ export const createSuperscript = create.bind(null, "sup");
  * @returns {HTMLQuoteElement}
  * @memberof DOM
  */
-export function createQuote(cite, attribute, children) {
-    var quote = create('q', attribute, children);
+export function createQuote(cite, _attribute, children) {
+    var quote = create('q', _attribute, children);
 
     if (cite) {
         quote.cite = cite;
@@ -569,13 +570,14 @@ export const createU = create.bind(null, 'u');
 export const createCite = create.bind(null, "cite");
 
 /**
- * Creates a `<q>` element with some attributes
+ * Creates a `<time>` element with optionally some attributes
+ * @param {string} datetime 
  * @param {object} attribute 
  * @returns {HTMLTimeElement}
  * @memberof DOM
  */
-export function createTime(datetime, attr) {
-    var element = create('time', attr);
+export function createTime(datetime, _attribute) {
+    var element = create('time', _attribute);
 
     if (datetime) {
         element.datetime = datetime;
@@ -605,16 +607,29 @@ export const createCode = create.bind(null, "code");
 export const createForm = create.bind(null, 'form');
 
 
-/* istanbul ignore next */
-function createInputAs(type, attr, el) {
-    var input = create('input', attr, el);
+/**
+ * Creates an `<input>` element with a specified type and 
+ * optionally some attributes
+ * @param {string} type
+ * @param {object} _attribute 
+ * @memberof DOM
+ */
+export function createInputAs(type, _attribute) {
+    if (!["button", "checkbox", "color", "date", "datetime-local", "email", "file",
+        "hidden", "image", "month", "number", "password", "radio", "range", "reset",
+        "search", "submit", "tel", "text", "time", "url", "week"].includes(type)) {
+        console.error(`Input could not be created: the given type ${type} is not valid.`);
+        return null;
+    }
+
+    var input = create('input', _attribute);
     input.type = type;
 
     return input;
 }
 
 /**
- * Creates a `<input>` element with some attributes
+ * Creates an `<input>` element with some attributes
  * @function createInput
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
@@ -622,13 +637,6 @@ function createInputAs(type, attr, el) {
  * @memberof DOM
  */
 export const createInput = createInputAs.bind(null, "text");
-
-
-["button", "checkbox", "color", "date", "datetime-local", "email", "file",
-    "hidden", "image", "month", "number", "password", "radio", "range", "reset",
-    "search", "submit", "tel", "text", "time", "url", "week"].forEach(function (type) {
-    createInput[type] = createInputAs.bind(null, type);
-});
 
 /**
  * Creates a `<label>` element with some attributes
@@ -731,7 +739,7 @@ export const createMeter = create.bind(null, 'meter');
 export const createProgress = create.bind(null, 'progress');
 
 /**
- * Creates a `<output>` element with some attributes
+ * Creates a `<output>` element with optionally some attributes and children elements
  * @function createOutput
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
@@ -740,12 +748,25 @@ export const createProgress = create.bind(null, 'progress');
  */
 export const createOutput = create.bind(null, 'output');
 
-/* istanbul ignore next */
-function createButtonAs(type, attribute, element) {
-    var btn = create("button", attribute, element);
-    btn.type = type;
 
-    return btn;
+/**
+ * Creates a `<button>` element with a specified type and 
+ * optionally some attributes and children elements
+ * @param {string} type
+ * @param {object} _attribute 
+ * @param {Text|HTMLElement|HTMLElement[]} _children 
+ * @memberof DOM
+ */
+export function createButtonAs(type, _attribute, _children) {
+    if (!["submit", "reset", "button"].includes(type)) {
+        console.error(`Button could not be created: the given type ${type} is not valid.`);
+        return null;
+    }
+
+    var button = create("button", _attribute, _children);
+    button.type = type;
+
+    return button;
 }
 
 /**
@@ -756,9 +777,6 @@ function createButtonAs(type, attribute, element) {
  * @memberof DOM
  */
 export const createButton = createButtonAs.bind(null, "button");
-["submit", "reset", "button"].forEach(function (type) {
-    createButton[type] = createButtonAs.bind(null, type);
-});
 
 /**
  * Creates a `<table>` element with some attributes
@@ -860,73 +878,6 @@ export const createTableHeaderCell = create.bind(null, "th");
  */
 export const createTableCell = create.bind(null, "td");
 
-/* istanbul ignore next */
-function echo(o) { }
-
-/**
- * 
- * @param {HTMLElement} element 
- * @param {string|string[]} c classes 
- * @private
- */
-/* istanbul ignore next */
-const setClass = (element, c) => {
-    if (!isNullOrUndefined(c)) {
-        // If c is an Array => Format c as a space-separated string
-        if (Array.isArray(c)) {
-            c = c.join(' ');
-        }
-
-        element.className = String(c);
-    }
-
-    return element;
-};
-
-/**
- * Sets the attributes of an element
- * @param {HTMLElement} element element
- * @param {Object} attribute attribute
- * @returns {HTMLElement}
- * @memberof DOM
- */
-export function addAttributes(element, attribute) {
-    const ATTR_MAP = {
-        // Global attributes
-        accesskey: [assign, 'accessKey'],
-        class: [setClass, element],
-        data: [Object.assign, element.dataset],
-        editable: [assign, 'contenteditable'],
-        draggable: [assign],
-        hidden: [assign],
-        id: [assign],
-        lang: [assign],
-        html: [assign, 'innerHTML'],
-        style: [assign],
-        tabindex: [assign, 'tabIndex'],
-        title: [assign],
-        // Form attributes
-        accept: [assign],
-        disabled: [assign],
-        placeholder: [assign],
-        readonly: [assign, 'readOnly'],
-        value: [assign],
-    };
-    const DEFAULT_MAP = [echo, ''];
-
-    // HTML attributes
-    for (const key of Object.keys(attribute)) {
-        var val = ATTR_MAP[key] || DEFAULT_MAP;
-        val[0](val[1] || key, attribute[key]);
-    }
-
-    function assign(key, val) {
-        element[key] = val;
-    }
-
-    return element;
-}
-
 /**
  * Appends the children to the element
  * @param {HTMLElement} element element
@@ -935,7 +886,7 @@ export function addAttributes(element, attribute) {
  * @memberof DOM
  */
 /* istanbul ignore next */
-function addChildren(element, children) {
+function addContent(element, children) {
     if (Array.isArray(children)) {
         appendChildren(element, children);
     } else if (isNode(children)) {
@@ -946,127 +897,3 @@ function addChildren(element, children) {
 
     return element;
 }
-
-/**
- * Append a list of elements to a node.
- * @param {HTMLElement} parent
- * @param {HTMLElement[]} children
- * @returns {HTMLElement}
- * @memberof DOM
- */
-export function appendChildren(parent, children) {
-    var fragment = createDocFragment();
-
-    children.forEach(element => {
-        fragment.appendChild(isNode(element) ? element : createTextNode(element.toString()));
-    });
-    parent.appendChild(fragment);
-    fragment = null;
-
-    return parent;
-}
-
-
-export const EL = {
-    'article': createArticle,
-    'aside': createAside,
-    'br': createLineBreak,
-    'div': createDiv,
-    'dl': createDescriptionList,
-    'footer': createFooter,
-    'h1': createH1,
-    'h2': createH2,
-    'h3': createH3,
-    'h4': createH4,
-    'h5': createH5,
-    'h6': createH6,
-    'header': createHeader,
-    'hr': createThematicBreak,
-    'i': createI,
-    'input': createInput,
-    'inbutton': createInput['button'],
-    'incheckbox': createInput['checkbox'],
-    'incolor': createInput['color'],
-    'indate': createInput['date'],
-    'indatetime': createInput['datetime-local'],
-    'inemail': createInput['email'],
-    'infile': createInput['file'],
-    'inhidden': createInput['hidden'],
-    'inimage': createInput['image'],
-    'inmonth': createInput['month'],
-    'innumber': createInput['number'],
-    'inpassword': createInput['password'],
-    'inradio': createInput['radio'],
-    'inrange': createInput['range'],
-    'inreset': createInput['reset'],
-    'insearch': createInput['search'],
-    'insubmit': createInput['submit'],
-    'intel': createInput['tel'],
-    'intext': createInput['text'],
-    'intime': createInput['time'],
-    'inurl': createInput['url'],
-    'inweek': createInput['week'],
-    'li': createListItem,
-    'main': createMain,
-    'nav': createNav,
-    'ol': createOrderedList,
-    'p': createParagraph,
-    'section': createSection,
-    'ul': createUnorderedList,
-    'dt': createDescriptionTerm,
-    'dd': createDescriptionDetails,
-    'source': createSource,
-    'picture': createPicture,
-    'figure': createFigure,
-    'figcaption': createFigureCaption,
-    'span': createSpan,
-    'strong': createStrong,
-    'em': createEmphasis,
-    'mark': createMark,
-    'samp': createSample,
-    'sub': createSubscript,
-    'sup': createSuperscript,
-    'abbr': createAbbreviation,
-    'b': createB,
-    's': createS,
-    'u': createU,
-    'cite': createCite,
-    'code': createCode,
-    'form': createForm,
-    'label': createLabel,
-    'fieldset': createFieldset,
-    'legend': createLegend,
-    'datalist': createDataList,
-    'select': createSelect,
-    'option': createOption,
-    'optgroup': createOptionGroup,
-    'textarea': createTextArea,
-    'meter': createMeter,
-    'progress': createProgress,
-    'output': createOutput,
-    'button': createButton,
-    'btnbutton': createButton['button'],
-    'btnreset': createButton['reset'],
-    'btnsubmit': createButton['submit'],
-    'table': createTable,
-    'caption': createCaption,
-    'thead': createTableHeader,
-    'tbody': createTableBody,
-    'tfoot': createTableFooter,
-    'col': createTableColumn,
-    'colgroup': createTableColumnGroup,
-    'tr': createTableRow,
-    'th': createTableHeaderCell,
-    'td': createTableCell,
-};
-
-const ElementBuilder = {
-    result: null,
-    create(element) {
-        this.result = element;
-    },
-    validate() { },
-    build() {
-        return this.result;
-    }
-};

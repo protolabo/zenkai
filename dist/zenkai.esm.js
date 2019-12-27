@@ -503,6 +503,316 @@ function isHTMLElement(obj) {
 function isDocumentFragment(obj) {
   return isNullOrUndefined(obj) ? false : obj.nodeType === 11 && obj instanceof DocumentFragment;
 }
+[isNode, isElement, isHTMLElement, isDocumentFragment].forEach(function (fn) {
+  fn['some'] = function (values) {
+    var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+    if (min === 1) {
+      for (var i = 0; i < values.length; i++) {
+        if (fn(values[i])) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    var counter = 0;
+
+    for (var _i = 0; _i < values.length; _i++) {
+      if (fn(values[_i])) {
+        counter++;
+      }
+    }
+
+    return counter >= min;
+  };
+
+  fn['all'] = function (values) {
+    for (var i = 0; i < values.length; i++) {
+      if (!fn(values[i])) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  fn['one'] = function (values) {
+    var counter = 0;
+
+    for (var i = 0; i < values.length; i++) {
+      if (fn(values[i])) {
+        counter++;
+      }
+    }
+
+    return counter === 1;
+  };
+});
+
+/**
+ * Inserts a given element before the targetted element
+ * @param {HTMLElement} target 
+ * @param {HTMLElement} el 
+ * @memberof DOM
+ */
+
+function insertBeforeElement(target, el) {
+  target.insertAdjacentElement('beforebegin', el);
+}
+/**
+ * Inserts a given element after the targetted element
+ * @param {HTMLElement} target 
+ * @param {HTMLElement} el 
+ * @memberof DOM
+ */
+
+function insertAfterElement(target, el) {
+  target.insertAdjacentElement('afterend', el);
+}
+/**
+ * Inserts a givern element as the first children of the targetted element
+ * @param {HTMLElement} target 
+ * @param {HTMLElement} el 
+ * @memberof DOM
+ */
+
+function preprendChild(target, el) {
+  target.insertAdjacentElement('afterbegin', el);
+}
+/**
+ * Append a list of elements to a node.
+ * @param {HTMLElement} parent
+ * @param {HTMLElement[]} children
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+function appendChildren(parent, children) {
+  var fragment = document.createDocumentFragment();
+  children.forEach(function (element) {
+    fragment.appendChild(isNode(element) ? element : document.createTextNode(element.toString()));
+  });
+  parent.appendChild(fragment);
+  return parent;
+}
+
+/**
+ * Removes additional spaces in class attribute
+ * @param {string} c class attribute's value
+ * @returns {string} formatted value
+ * @private
+ */
+
+var formatClass = function formatClass(c) {
+  return c.replace(/\s+/g, ' ').trim();
+};
+/**
+ * Transform a raw value to a valid class value
+ * @param {string} c raw value
+ * @returns {string} parsed value
+ * @private
+ */
+
+
+var parseClass = function parseClass(c) {
+  if (isNullOrUndefined(c)) {
+    return "";
+  } else if (Array.isArray(c)) {
+    return c.join(' ');
+  } else {
+    return c.toString();
+  }
+};
+/**
+ * Verifies that an element has a class
+ * @param {HTMLElement} element element
+ * @param {string} className class
+ * @returns {boolean} value indicating whether the element has the class
+ * @memberof DOM
+ */
+
+
+function hasClass(element, className) {
+  return element.className.split(" ").includes(className);
+}
+/**
+ * Removes a class from an element if it exists
+ * @param {HTMLElement} element element
+ * @param {string|Array} attrClass class
+ * @memberof DOM
+ */
+
+function removeClass(element, attrClass) {
+  if (!isHTMLElement(element)) {
+    console.error("The given element is not a valid HTML Element");
+    return null;
+  }
+
+  if (Array.isArray(attrClass)) {
+    attrClass.forEach(function (val) {
+      return _removeClass(element, val);
+    });
+  }
+
+  _removeClass(element, attrClass);
+
+  element.className = formatClass(element.className);
+  return element;
+}
+
+function _removeClass(el, c) {
+  if (hasClass(el, c)) {
+    el.className = el.className.replace(c, '');
+  }
+}
+/**
+ * Adds one or many classes to an element if it doesn't exist
+ * @param {HTMLElement} element Element
+ * @param {string|string[]} attrClass classes
+ * @returns {HTMLElement} the element
+ * @memberof DOM
+ */
+
+
+function addClass(element, attrClass) {
+  if (!isHTMLElement(element)) {
+    console.error("The given element is not a valid HTML Element");
+    return null;
+  }
+
+  var parsedClass = parseClass(attrClass);
+
+  if (isNullOrWhitespace(element.className)) {
+    element.className = parsedClass;
+  } else if (!hasClass(element, parsedClass)) {
+    element.className += " " + parsedClass;
+  }
+
+  element.className = formatClass(element.className);
+  return element;
+}
+/**
+ * Adds or removes a class from an element depending on the class's presence.
+ * @param {HTMLElement} element 
+ * @param {string} attrClass ClassName
+ * @returns {HTMLElement} the element
+ * @memberof DOM
+ */
+
+function toggleClass(element, attrClass) {
+  if (hasClass(element, attrClass)) {
+    removeClass(element, attrClass);
+  } else {
+    addClass(element, attrClass);
+  }
+
+  return element;
+}
+/**
+ * Sets classes to an element
+ * @param {HTMLElement} element 
+ * @param {string|string[]} attrClass classes 
+ * @returns {HTMLElement} the element
+ * @memberof DOM
+ */
+
+function setClass(element, attrClass) {
+  if (!isHTMLElement(element)) {
+    console.error("The given element is not a valid HTML Element");
+    return null;
+  }
+
+  element.className = formatClass(parseClass(attrClass));
+  return element;
+}
+
+/* istanbul ignore next */
+
+function echo(o) {}
+/**
+ * Sets the attributes of an element
+ * @param {HTMLElement} element element
+ * @param {Object} attribute attribute
+ * @returns {HTMLElement}
+ * @memberof DOM
+ */
+
+
+function addAttributes(element, attribute) {
+  var ATTR_MAP = {
+    // Global attributes
+    accesskey: [assign, 'accessKey'],
+    "class": [setClass, element],
+    data: [Object.assign, element.dataset],
+    editable: [assign, 'contenteditable'],
+    draggable: [assign],
+    hidden: [assign],
+    id: [assign],
+    lang: [assign],
+    html: [assign, 'innerHTML'],
+    style: [assign],
+    tabindex: [assign, 'tabIndex'],
+    title: [assign],
+    // Form attributes
+    accept: [assign],
+    disabled: [assign],
+    placeholder: [assign],
+    readonly: [assign, 'readOnly'],
+    value: [assign]
+  };
+  var DEFAULT_MAP = [echo, '']; // HTML attributes
+
+  for (var _i = 0, _Object$keys = Object.keys(attribute); _i < _Object$keys.length; _i++) {
+    var key = _Object$keys[_i];
+    var val = ATTR_MAP[key] || DEFAULT_MAP;
+    val[0](val[1] || key, attribute[key]);
+  }
+
+  function assign(key, val) {
+    element[key] = val;
+  }
+
+  return element;
+}
+/**
+ * Changes the selected option of a `<select>` element
+ * @param {HTMLSelectElement} select
+ * @param {string} val option value to select
+ * @returns {boolean} value indicating whether the option was found and selected
+ * @memberof DOM
+ */
+
+function changeSelectValue(select, val) {
+  var found = false;
+  var options = select.options;
+
+  for (var i = 0; !found && i < options.length; i++) {
+    var option = options[i];
+
+    if (option.value == val) {
+      option.selected = true;
+      found = true;
+    }
+  }
+
+  return found;
+}
+/**
+ * Moves an element out of screen
+ * @param {HTMLElement} element Element
+ * @memberof DOM
+ */
+
+function conceal(element) {
+  Object.assign(element.style, {
+    position: 'absolute',
+    top: '-9999px',
+    left: '-9999px'
+  });
+  return element;
+}
 
 /**
  * Creates an element
@@ -523,7 +833,7 @@ function create(tagName, _attribute, _children) {
   }
 
   if (_children) {
-    addChildren(element, _children);
+    addContent(element, _children);
   }
 
   return element;
@@ -847,8 +1157,8 @@ function createAnchor(href, _attribute, _children) {
   * @memberof DOM
   */
 
-function createImage(src, alt, attr) {
-  var img = create('img', attr);
+function createImage(src, alt, _attribute) {
+  var img = create('img', _attribute);
 
   if (src) {
     img.src = src;
@@ -1015,8 +1325,8 @@ var createSuperscript = create.bind(null, "sup");
  * @memberof DOM
  */
 
-function createQuote(cite, attribute, children) {
-  var quote = create('q', attribute, children);
+function createQuote(cite, _attribute, children) {
+  var quote = create('q', _attribute, children);
 
   if (cite) {
     quote.cite = cite;
@@ -1085,14 +1395,15 @@ var createU = create.bind(null, 'u');
 
 var createCite = create.bind(null, "cite");
 /**
- * Creates a `<q>` element with some attributes
+ * Creates a `<time>` element with optionally some attributes
+ * @param {string} datetime 
  * @param {object} attribute 
  * @returns {HTMLTimeElement}
  * @memberof DOM
  */
 
-function createTime(datetime, attr) {
-  var element = create('time', attr);
+function createTime(datetime, _attribute) {
+  var element = create('time', _attribute);
 
   if (datetime) {
     element.datetime = datetime;
@@ -1120,15 +1431,26 @@ var createCode = create.bind(null, "code");
  */
 
 var createForm = create.bind(null, 'form');
-/* istanbul ignore next */
+/**
+ * Creates an `<input>` element with a specified type and 
+ * optionally some attributes
+ * @param {string} type
+ * @param {object} _attribute 
+ * @memberof DOM
+ */
 
-function createInputAs(type, attr, el) {
-  var input = create('input', attr, el);
+function createInputAs(type, _attribute) {
+  if (!["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"].includes(type)) {
+    console.error("Input could not be created: the given type ".concat(type, " is not valid."));
+    return null;
+  }
+
+  var input = create('input', _attribute);
   input.type = type;
   return input;
 }
 /**
- * Creates a `<input>` element with some attributes
+ * Creates an `<input>` element with some attributes
  * @function createInput
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
@@ -1136,11 +1458,7 @@ function createInputAs(type, attr, el) {
  * @memberof DOM
  */
 
-
 var createInput = createInputAs.bind(null, "text");
-["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"].forEach(function (type) {
-  createInput[type] = createInputAs.bind(null, type);
-});
 /**
  * Creates a `<label>` element with some attributes
  * @function createLabel
@@ -1242,7 +1560,7 @@ var createMeter = create.bind(null, 'meter');
 
 var createProgress = create.bind(null, 'progress');
 /**
- * Creates a `<output>` element with some attributes
+ * Creates a `<output>` element with optionally some attributes and children elements
  * @function createOutput
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
@@ -1251,12 +1569,24 @@ var createProgress = create.bind(null, 'progress');
  */
 
 var createOutput = create.bind(null, 'output');
-/* istanbul ignore next */
+/**
+ * Creates a `<button>` element with a specified type and 
+ * optionally some attributes and children elements
+ * @param {string} type
+ * @param {object} _attribute 
+ * @param {Text|HTMLElement|HTMLElement[]} _children 
+ * @memberof DOM
+ */
 
-function createButtonAs(type, attribute, element) {
-  var btn = create("button", attribute, element);
-  btn.type = type;
-  return btn;
+function createButtonAs(type, _attribute, _children) {
+  if (!["submit", "reset", "button"].includes(type)) {
+    console.error("Button could not be created: the given type ".concat(type, " is not valid."));
+    return null;
+  }
+
+  var button = create("button", _attribute, _children);
+  button.type = type;
+  return button;
 }
 /**
  * Creates a `<button>` element with some attributes
@@ -1266,11 +1596,7 @@ function createButtonAs(type, attribute, element) {
  * @memberof DOM
  */
 
-
 var createButton = createButtonAs.bind(null, "button");
-["submit", "reset", "button"].forEach(function (type) {
-  createButton[type] = createButtonAs.bind(null, type);
-});
 /**
  * Creates a `<table>` element with some attributes
  * @function createTable
@@ -1371,76 +1697,6 @@ var createTableHeaderCell = create.bind(null, "th");
  */
 
 var createTableCell = create.bind(null, "td");
-/* istanbul ignore next */
-
-function echo(o) {}
-/**
- * 
- * @param {HTMLElement} element 
- * @param {string|string[]} c classes 
- * @private
- */
-
-/* istanbul ignore next */
-
-
-var setClass = function setClass(element, c) {
-  if (!isNullOrUndefined(c)) {
-    // If c is an Array => Format c as a space-separated string
-    if (Array.isArray(c)) {
-      c = c.join(' ');
-    }
-
-    element.className = String(c);
-  }
-
-  return element;
-};
-/**
- * Sets the attributes of an element
- * @param {HTMLElement} element element
- * @param {Object} attribute attribute
- * @returns {HTMLElement}
- * @memberof DOM
- */
-
-
-function addAttributes(element, attribute) {
-  var ATTR_MAP = {
-    // Global attributes
-    accesskey: [assign, 'accessKey'],
-    "class": [setClass, element],
-    data: [Object.assign, element.dataset],
-    editable: [assign, 'contenteditable'],
-    draggable: [assign],
-    hidden: [assign],
-    id: [assign],
-    lang: [assign],
-    html: [assign, 'innerHTML'],
-    style: [assign],
-    tabindex: [assign, 'tabIndex'],
-    title: [assign],
-    // Form attributes
-    accept: [assign],
-    disabled: [assign],
-    placeholder: [assign],
-    readonly: [assign, 'readOnly'],
-    value: [assign]
-  };
-  var DEFAULT_MAP = [echo, '']; // HTML attributes
-
-  for (var _i = 0, _Object$keys = Object.keys(attribute); _i < _Object$keys.length; _i++) {
-    var key = _Object$keys[_i];
-    var val = ATTR_MAP[key] || DEFAULT_MAP;
-    val[0](val[1] || key, attribute[key]);
-  }
-
-  function assign(key, val) {
-    element[key] = val;
-  }
-
-  return element;
-}
 /**
  * Appends the children to the element
  * @param {HTMLElement} element element
@@ -1451,7 +1707,7 @@ function addAttributes(element, attribute) {
 
 /* istanbul ignore next */
 
-function addChildren(element, children) {
+function addContent(element, children) {
   if (Array.isArray(children)) {
     appendChildren(element, children);
   } else if (isNode(children)) {
@@ -1462,328 +1718,70 @@ function addChildren(element, children) {
 
   return element;
 }
+
 /**
- * Append a list of elements to a node.
- * @param {HTMLElement} parent
- * @param {HTMLElement[]} children
- * @returns {HTMLElement}
+ * Finds an ancestor of an element
+ * @param {Element} target 
+ * @param {Function} callback Decides whether the target is found
+ * @param {number} [max] Maximum number of iterations
+ * @returns {Element|null}
  * @memberof DOM
  */
 
-
-function appendChildren(parent, children) {
-  var fragment = createDocFragment();
-  children.forEach(function (element) {
-    fragment.appendChild(isNode(element) ? element : createTextNode(element.toString()));
-  });
-  parent.appendChild(fragment);
-  fragment = null;
-  return parent;
-}
-var EL = {
-  'article': createArticle,
-  'aside': createAside,
-  'br': createLineBreak,
-  'div': createDiv,
-  'dl': createDescriptionList,
-  'footer': createFooter,
-  'h1': createH1,
-  'h2': createH2,
-  'h3': createH3,
-  'h4': createH4,
-  'h5': createH5,
-  'h6': createH6,
-  'header': createHeader,
-  'hr': createThematicBreak,
-  'i': createI,
-  'input': createInput,
-  'inbutton': createInput['button'],
-  'incheckbox': createInput['checkbox'],
-  'incolor': createInput['color'],
-  'indate': createInput['date'],
-  'indatetime': createInput['datetime-local'],
-  'inemail': createInput['email'],
-  'infile': createInput['file'],
-  'inhidden': createInput['hidden'],
-  'inimage': createInput['image'],
-  'inmonth': createInput['month'],
-  'innumber': createInput['number'],
-  'inpassword': createInput['password'],
-  'inradio': createInput['radio'],
-  'inrange': createInput['range'],
-  'inreset': createInput['reset'],
-  'insearch': createInput['search'],
-  'insubmit': createInput['submit'],
-  'intel': createInput['tel'],
-  'intext': createInput['text'],
-  'intime': createInput['time'],
-  'inurl': createInput['url'],
-  'inweek': createInput['week'],
-  'li': createListItem,
-  'main': createMain,
-  'nav': createNav,
-  'ol': createOrderedList,
-  'p': createParagraph,
-  'section': createSection,
-  'ul': createUnorderedList,
-  'dt': createDescriptionTerm,
-  'dd': createDescriptionDetails,
-  'source': createSource,
-  'picture': createPicture,
-  'figure': createFigure,
-  'figcaption': createFigureCaption,
-  'span': createSpan,
-  'strong': createStrong,
-  'em': createEmphasis,
-  'mark': createMark,
-  'samp': createSample,
-  'sub': createSubscript,
-  'sup': createSuperscript,
-  'abbr': createAbbreviation,
-  'b': createB,
-  's': createS,
-  'u': createU,
-  'cite': createCite,
-  'code': createCode,
-  'form': createForm,
-  'label': createLabel,
-  'fieldset': createFieldset,
-  'legend': createLegend,
-  'datalist': createDataList,
-  'select': createSelect,
-  'option': createOption,
-  'optgroup': createOptionGroup,
-  'textarea': createTextArea,
-  'meter': createMeter,
-  'progress': createProgress,
-  'output': createOutput,
-  'button': createButton,
-  'btnbutton': createButton['button'],
-  'btnreset': createButton['reset'],
-  'btnsubmit': createButton['submit'],
-  'table': createTable,
-  'caption': createCaption,
-  'thead': createTableHeader,
-  'tbody': createTableBody,
-  'tfoot': createTableFooter,
-  'col': createTableColumn,
-  'colgroup': createTableColumnGroup,
-  'tr': createTableRow,
-  'th': createTableHeaderCell,
-  'td': createTableCell
-};
-
-/**
- * Gets the window's width
- * @memberof DOM
- */
-
-function windowWidth() {
-  return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-}
-/**
- * Inserts a given element before the targetted element
- * @param {HTMLElement} target 
- * @param {HTMLElement} el 
- * @memberof DOM
- */
-
-function insertBeforeElement(target, el) {
-  target.insertAdjacentElement('beforebegin', el);
-}
-/**
- * Inserts a given element after the targetted element
- * @param {HTMLElement} target 
- * @param {HTMLElement} el 
- * @memberof DOM
- */
-
-function insertAfterElement(target, el) {
-  target.insertAdjacentElement('afterend', el);
-}
-/**
- * Inserts a givern element as the first children of the targetted element
- * @param {HTMLElement} target 
- * @param {HTMLElement} el 
- * @memberof DOM
- */
-
-function preprendChild(target, el) {
-  target.insertAdjacentElement('afterbegin', el);
-}
-/**
- * Removes all children of a node from the DOM or 
- * those that satisfies the predicate function
- * @param {Node} node 
- * @param {Function} [callback] Decides whether the node should be removed
- * @memberof DOM
- */
-
-function removeChildren(node, callback) {
-  if (!isFunction(callback)) {
-    removeAllChildren(node);
-  } else {
-    Array.from(node.childNodes).forEach(function (n) {
-      if (callback(n)) {
-        node.removeChild(n);
-      }
-    });
+function findAncestor(target, callback, max) {
+  if (!isElement(target)) {
+    return null;
   }
 
-  return node;
+  var parent = target.parentElement;
+
+  if (max > 0) {
+    return findAncestorIter(parent, callback, max);
+  }
+
+  return findAncestorInf(parent, callback);
 }
 /**
- * Removes all children of a node from the DOM
- * @param {Node} node 
+ * Look an ancestor of an element using a callback
+ * @param {Element} target 
+ * @param {Function} callback Decides whether the target is found
  * @private
  */
 
-function removeAllChildren(node) {
-  while (node.hasChildNodes()) {
-    node.removeChild(node.lastChild);
+/* istanbul ignore next */
+
+function findAncestorInf(target, callback) {
+  if (isNullOrUndefined(target)) {
+    return null;
   }
 
-  return node;
-}
-/**
- * Moves an element out of screen
- * @param {HTMLElement} element Element
- * @memberof DOM
- */
-
-
-function conceal(element) {
-  Object.assign(element.style, {
-    position: 'absolute',
-    top: '-9999px',
-    left: '-9999px'
-  });
-  return element;
-}
-/**
- * Changes the selected option of a `<select>` element
- * @param {HTMLSelectElement} select
- * @param {string} val option value to select
- * @returns {boolean} value indicating whether the option was found and selected
- * @memberof DOM
- */
-
-function changeSelectValue(select, val) {
-  var found = false;
-  var options = select.options;
-
-  for (var i = 0; !found && i < options.length; i++) {
-    var option = options[i];
-
-    if (option.value == val) {
-      option.selected = true;
-      found = true;
-    }
+  if (callback(target)) {
+    return target;
   }
 
-  return found;
+  return findAncestorInf(target.parentElement, callback);
 }
 /**
- * Copy to clipboard
- * @param {HTMLElement|string} value 
- * @returns {boolean} Value indicating whether the the content has been succesfully copied to the clipboard
- * @memberof DOM
- */
-
-function copytoClipboard(value) {
-  var element = createTextArea({
-    value: isHTMLElement(value) ? value.textContent : value,
-    readonly: true
-  });
-  document.body.appendChild(element);
-  element.select();
-  document.execCommand('copy');
-  element.remove();
-  return true;
-}
-
-/**
- * Removes additional spaces in class attribute
+ * Look for an ancestor of an element using a callback with a maximum number of iteration
+ * @param {Element} target 
+ * @param {Function} callback Decides whether the target is found
+ * @param {number} [max] Maximum number of iterations
  * @private
  */
 
-var cleanClass = function cleanClass(cn) {
-  return cn.replace(/\s+/g, ' ').trim();
-};
-/**
- * Verifies that an element has a class
- * @param {HTMLElement} e element
- * @param {string} c class
- * @memberof DOM
- */
+/* istanbul ignore next */
 
 
-function hasClass(e, c) {
-  return e.className.split(" ").indexOf(c) !== -1;
-}
-/**
- * Removes a class from an element if it exists
- * @param {HTMLElement} el element
- * @param {string|Array} c class
- * @memberof DOM
- */
-
-function removeClass(el, c) {
-  if (Array.isArray(c)) {
-    c.forEach(function (val) {
-      return _removeClass(el, val);
-    });
+function findAncestorIter(target, callback, max) {
+  if (isNullOrUndefined(target) || max === 0) {
+    return null;
   }
 
-  _removeClass(el, c);
-
-  el.className = cleanClass(el.className);
-}
-
-function _removeClass(e, c) {
-  if (hasClass(e, c)) {
-    e.className = e.className.replace(c, '');
-  }
-}
-/**
- * Adds one or many classes to an element if it doesn't exist
- * @param {HTMLElement} element Element
- * @param {string} c classes
- * @memberof DOM
- */
-
-
-function addClass(element, c) {
-  // If c is an Array => Format c as a space-separated string
-  if (Array.isArray(c)) {
-    c = c.map(function (c) {
-      return valOrDefault(c["class"], c);
-    }).join(' ');
+  if (callback(target)) {
+    return target;
   }
 
-  var strClass = valOrDefault(c["class"], c);
-
-  if (isNullOrWhitespace(element.className)) {
-    element.className = strClass;
-  } else if (!hasClass(element, c)) {
-    element.className += " " + strClass;
-  }
-
-  element.className = cleanClass(element.className);
-}
-/**
- * Adds or removes a class from an element depending on the class's presence.
- * @param {HTMLElement} el 
- * @param {string} c ClassName
- * @memberof DOM
- */
-
-function toggleClass(el, c) {
-  if (hasClass(el, c)) {
-    removeClass(el, c);
-  } else {
-    addClass(el, c);
-  }
+  return findAncestorIter(target.parentElement, callback, max - 1);
 }
 
 /**
@@ -1792,8 +1790,18 @@ function toggleClass(el, c) {
  * @private
  */
 
-var isClassName = function isClassName(selector) {
+var isClassSelector = function isClassSelector(selector) {
   return /^\.[a-zA-Z0-9_-]+$/.test(selector);
+};
+/**
+ * Checks whether the selector is an id
+ * @returns {boolean}
+ * @private
+ */
+
+
+var isIdSelector = function isIdSelector(selector) {
+  return /^#[a-zA-Z0-9_-]+$/.test(selector);
 };
 /**
  * Returns the first Element within the specified container that matches the specified selector, group or selectors.
@@ -1811,11 +1819,11 @@ function getElement(selector, _container) {
     container.querySelector(selector);
   }
 
-  if (/^#[a-zA-Z0-9_-]+$/.test(selector)) {
+  if (isIdSelector(selector)) {
     return document.getElementById(selector.substring(1));
   }
 
-  if (isClassName(selector)) {
+  if (isClassSelector(selector)) {
     return container.getElementsByClassName(selector.substring(1))[0];
   }
 
@@ -1836,7 +1844,7 @@ function getElements(selector, _container) {
     container.querySelectorAll(selector);
   }
 
-  if (isClassName(selector)) {
+  if (isClassSelector(selector)) {
     return container.getElementsByClassName(selector.substring(1));
   }
 
@@ -1914,69 +1922,67 @@ function getPreviousElementSibling(el, predCb) {
 function getNextElementSibling(el, predCb) {
   return getElementSibling(el, "nextElementSibling", predCb);
 }
+
 /**
- * Finds an ancestor of an element
- * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
- * @param {number} [max] Maximum number of iterations
- * @returns {Element|null}
+ * Removes all children of a node from the DOM or 
+ * those that satisfies the predicate function
+ * @param {Node} node 
+ * @param {Function} [callback] Decides whether the node should be removed
  * @memberof DOM
  */
 
-function findAncestor(target, callback, max) {
-  if (!isElement(target)) {
-    return null;
+function removeChildren(node, callback) {
+  if (!isFunction(callback)) {
+    removeAllChildren(node);
+  } else {
+    Array.from(node.childNodes).forEach(function (n) {
+      if (callback(n)) {
+        node.removeChild(n);
+      }
+    });
   }
 
-  var parent = target.parentElement;
-
-  if (max > 0) {
-    return findAncestorIter(parent, callback, max);
-  }
-
-  return findAncestorInf(parent, callback);
+  return node;
 }
 /**
- * Look an ancestor of an element using a callback
- * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
+ * Removes all children of a node from the DOM
+ * @param {Node} node 
  * @private
  */
 
-/* istanbul ignore next */
-
-function findAncestorInf(target, callback) {
-  if (isNullOrUndefined(target)) {
-    return null;
+function removeAllChildren(node) {
+  while (node.hasChildNodes()) {
+    node.removeChild(node.lastChild);
   }
 
-  if (callback(target)) {
-    return target;
-  }
-
-  return findAncestorInf(target.parentElement, callback);
+  return node;
 }
+
 /**
- * Look for an ancestor of an element using a callback with a maximum number of iteration
- * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
- * @param {number} [max] Maximum number of iterations
- * @private
+ * Gets the window's width
+ * @memberof DOM
+ */
+function windowWidth() {
+  return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+}
+
+/**
+ * Copy to clipboard
+ * @param {HTMLElement|string} value 
+ * @returns {boolean} Value indicating whether the the content has been succesfully copied to the clipboard
+ * @memberof DOM
  */
 
-/* istanbul ignore next */
-
-
-function findAncestorIter(target, callback, max) {
-  if (isNullOrUndefined(target) || max === 0) {
-    return null;
-  }
-
-  if (callback(target)) {
-    return target;
-  }
-
-  return findAncestorIter(target.parentElement, callback, max - 1);
+function copytoClipboard(value) {
+  var element = createTextArea({
+    value: isHTMLElement(value) ? value.textContent : value,
+    readonly: true
+  });
+  document.body.appendChild(element);
+  element.select();
+  document.execCommand('copy');
+  element.remove();
+  return true;
 }
 
 /** 
@@ -2997,4 +3003,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, EL, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, setClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };

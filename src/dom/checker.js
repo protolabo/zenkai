@@ -39,3 +39,41 @@ export function isHTMLElement(obj) {
 export function isDocumentFragment(obj) {
     return isNullOrUndefined(obj) ? false : obj.nodeType === 11 && obj instanceof DocumentFragment;
 }
+
+
+[isNode, isElement, isHTMLElement, isDocumentFragment].forEach((fn)=>{
+    fn['some'] = function (values, min = 1) {
+        if(min === 1) {
+            for (let i = 0; i < values.length; i++) {
+                if (fn(values[i])) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        var counter = 0;
+        for (let i = 0; i < values.length; i++) {
+            if (fn(values[i])) {
+                counter++;
+            }
+        }
+        return counter >= min;
+    };
+    fn['all'] = function (values) {
+        for (let i = 0; i < values.length; i++) {
+            if (!fn(values[i])) {
+                return false;
+            }
+        }
+        return true;
+    };
+    fn['one'] = function (values) {
+        var counter = 0;
+        for (let i = 0; i < values.length; i++) {
+            if (fn(values[i])) {
+                counter++;
+            }
+        }
+        return counter === 1;
+    };
+});

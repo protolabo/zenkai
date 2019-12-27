@@ -1,12 +1,18 @@
-import { valOrDefault, isNullOrUndefined, isFunction } from '@datatype/index.js';
-import { isElement } from './checker.js';
+﻿import { isFunction, isNullOrUndefined, valOrDefault } from '@datatype/index.js';
 
 /**
  * Checks whether the selector is a class
  * @returns {boolean}
  * @private
  */
-const isClassName = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
+const isClassSelector = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
+
+/**
+ * Checks whether the selector is an id
+ * @returns {boolean}
+ * @private
+ */
+const isIdSelector = (selector) => /^#[a-zA-Z0-9_-]+$/.test(selector);
 
 /**
  * Returns the first Element within the specified container that matches the specified selector, group or selectors.
@@ -22,10 +28,11 @@ export function getElement(selector, _container) {
         container.querySelector(selector);
     }
 
-    if (/^#[a-zA-Z0-9_-]+$/.test(selector)) {
+    if (isIdSelector(selector)) {
         return document.getElementById(selector.substring(1));
     }
-    if (isClassName(selector)) {
+
+    if (isClassSelector(selector)) {
         return container.getElementsByClassName(selector.substring(1))[0];
     }
 
@@ -46,7 +53,7 @@ export function getElements(selector, _container) {
         container.querySelectorAll(selector);
     }
 
-    if (isClassName(selector)) {
+    if (isClassSelector(selector)) {
         return container.getElementsByClassName(selector.substring(1));
     }
 
@@ -114,62 +121,3 @@ export function getPreviousElementSibling(el, predCb) { return getElementSibling
  * @memberof DOM
  */
 export function getNextElementSibling(el, predCb) { return getElementSibling(el, "nextElementSibling", predCb); }
-
-/**
- * Finds an ancestor of an element
- * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
- * @param {number} [max] Maximum number of iterations
- * @returns {Element|null}
- * @memberof DOM
- */
-export function findAncestor(target, callback, max) {
-    if (!isElement(target)) {
-        return null;
-    }
-
-    var parent = target.parentElement;
-    if (max > 0) {
-        return findAncestorIter(parent, callback, max);
-    }
-    return findAncestorInf(parent, callback);
-}
-
-/**
- * Look an ancestor of an element using a callback
- * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
- * @private
- */
-/* istanbul ignore next */
-function findAncestorInf(target, callback) {
-    if (isNullOrUndefined(target)) {
-        return null;
-    }
-
-    if (callback(target)) {
-        return target;
-    }
-
-    return findAncestorInf(target.parentElement, callback);
-}
-
-/**
- * Look for an ancestor of an element using a callback with a maximum number of iteration
- * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
- * @param {number} [max] Maximum number of iterations
- * @private
- */
-/* istanbul ignore next */
-function findAncestorIter(target, callback, max) {
-    if (isNullOrUndefined(target) || max === 0) {
-        return null;
-    }
-
-    if (callback(target)) {
-        return target;
-    }
-
-    return findAncestorIter(target.parentElement, callback, max - 1);
-}

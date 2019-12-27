@@ -1,5 +1,5 @@
 // require jsdom-global and run
-require('jsdom-global')();
+var jsdom = require('jsdom-global');
 
 // require chai for BDD
 var expect = require('chai').expect;
@@ -34,14 +34,12 @@ const {
     createQuote, createCite, createTime, createCode,
     createAudio, createVideo, createSource, createPicture, createFigure, createFigureCaption,
     // Forms element
-    createForm, createFieldset, createLegend, createInput, createLabel,
+    createForm, createFieldset, createLegend, createInput, createInputAs, createLabel,
     createDataList, createSelect, createOption, createOptionGroup, createTextArea,
-    createMeter, createProgress, createOutput, createButton,
+    createMeter, createProgress, createOutput, createButton, createButtonAs,
     // Table element
     createTable, createCaption, createTableHeader, createTableBody, createTableFooter,
-    createTableColumn, createTableColumnGroup, createTableRow, createTableHeaderCell, createTableCell,
-    // Helpers
-    addAttributes, appendChildren
+    createTableColumn, createTableColumnGroup, createTableRow, createTableHeaderCell, createTableCell
 } = require('@dom/dom-create.js');
 
 const ATTRIBUTE_MAPPER = {
@@ -83,7 +81,7 @@ function createAttribute() {
         'tabindex:number',
         'title',
     ];
-    
+
     var result = {};
 
     for (let i = 0; i < attributes.length; i++) {
@@ -106,6 +104,14 @@ function createAttribute() {
 }
 
 describe('DOM helpers', function () {
+    before('initialize DOM', function () {
+        const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8');
+        this.jsdom = jsdom(html);
+    });
+
+    after(function () {
+        this.jsdom();
+    });
     describe('#createDocFragment()', function () {
         it("should return a document fragment", function () {
             var result = createDocFragment();
@@ -1207,16 +1213,6 @@ describe('DOM helpers', function () {
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
             expect(result).to.have.property('type', 'text');
         });
-        it("should return an input element with the specified type", function () {
-            var values = ["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"];
-            values.forEach((val) => {
-                var result = createInput[val]();
-
-                expect(result).to.have.property('nodeName', 'INPUT');
-                expect(result).to.have.property('type', val);
-                expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-            });
-        });
         it("should return an input element with the attributes set", function () {
             var attribute = createAttribute();
 
@@ -1229,15 +1225,40 @@ describe('DOM helpers', function () {
                 expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
             }
         });
+    });
+    describe('#createInputAs()', function () {
+        it("should return an input element with the specified type", function () {
+            var values = ["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"];
+            values.forEach((type) => {
+                var result = createInputAs(type);
+
+                expect(result).to.have.property('nodeName', 'INPUT');
+                expect(result).to.have.property('type', type);
+                expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            });
+        });
+        it("should return null with a missing type", function () {
+            var result = createInputAs();
+
+            expect(result).to.be.null;
+        });
+        it("should return null with an invalid type", function () {
+            var values = ["zipcode", "creditcard", null, ""];
+            values.forEach((type) => {
+                var result = createInputAs(type);
+
+                expect(result).to.be.null;
+            });
+        });
         it("should return an input element with  the specified type and the attributes set", function () {
             var attribute = createAttribute();
 
             var values = ["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"];
-            values.forEach((val) => {
-                var result = createInput[val](attribute);
+            values.forEach((type) => {
+                var result = createInputAs(type, attribute);
 
                 expect(result).to.have.property('nodeName', 'INPUT');
-                expect(result).to.have.property('type', val);
+                expect(result).to.have.property('type', type);
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
                 for (const key in attribute) {
                     expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
@@ -1367,16 +1388,6 @@ describe('DOM helpers', function () {
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
             expect(result).to.have.property('type', 'button');
         });
-        it("should return a button element with the specified type", function () {
-            var values = ["submit", "reset", "button"];
-            values.forEach((val) => {
-                var result = createButton[val]();
-
-                expect(result).to.have.property('nodeName', 'BUTTON');
-                expect(result).to.have.property('type', val);
-                expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-            });
-        });
         it("should return a button element with the attributes set", function () {
             var attribute = createAttribute();
 
@@ -1389,15 +1400,40 @@ describe('DOM helpers', function () {
                 expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
             }
         });
+    });
+    describe('#createButtonAs()', function () {
+        it("should return a button element with the specified type", function () {
+            var values = ["submit", "reset", "button"];
+            values.forEach((type) => {
+                var result = createButtonAs(type);
+
+                expect(result).to.have.property('nodeName', 'BUTTON');
+                expect(result).to.have.property('type', type);
+                expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            });
+        });
+        it("should return null with a missing type", function () {
+            var result = createButtonAs();
+
+            expect(result).to.be.null;
+        });
+        it("should return null with an invalid type", function () {
+            var values = ["send", "primary", null, ""];
+            values.forEach((type) => {
+                var result = createButtonAs(type);
+
+                expect(result).to.be.null;
+            });
+        });
         it("should return a button element with  the specified type and the attributes set", function () {
             var attribute = createAttribute();
 
             var values = ["submit", "reset", "button"];
-            values.forEach((val) => {
-                var result = createButton[val](attribute);
+            values.forEach((type) => {
+                var result = createButtonAs(type, attribute);
 
                 expect(result).to.have.property('nodeName', 'BUTTON');
-                expect(result).to.have.property('type', val);
+                expect(result).to.have.property('type', type);
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
                 for (const key in attribute) {
                     expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
@@ -1650,35 +1686,6 @@ describe('DOM helpers', function () {
             for (const key in attribute) {
                 expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
             }
-        });
-    });
-    describe('#addAttributes()', function () {
-        it("should add attributes to an element", function () {
-            var attribute = {
-                class: 'aclass',
-                draggable: false,
-                editable: false,
-                id: 'anid',
-                readonly: false,
-                title: 'some title'
-            };
-
-            var div = createDiv();
-            addAttributes(div, attribute);
-
-            for (const key in attribute) {
-                expect(div).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
-            }
-        });
-    });
-    describe('#appendChildren()', function () {
-        it("should return append the children to an element", function () {
-            var div = createDiv();
-            var children = [createSpan(), createParagraph(), createDiv()];
-
-            var result = appendChildren(div, children);
-
-            expect(result.childElementCount).to.be.equal(children.length);
         });
     });
 });
