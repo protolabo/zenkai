@@ -85,6 +85,15 @@ var zcomponents = (function (exports) {
     return !isNull(value) && _typeof(value) === 'object';
   }
   /**
+   * Returns a value indicating whether the object is iterable
+   * @returns {boolean}
+   * @memberof TYPE
+   */
+
+  function isIterable(obj) {
+    return !isNull(obj) && typeof obj[Symbol.iterator] === 'function';
+  }
+  /**
    * Returns a value indicating whether the value is null
    * @returns {boolean}
    * @memberof TYPE
@@ -176,9 +185,13 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  function isNode(obj) {
-    return isNullOrUndefined(obj) ? false : obj instanceof Node;
-  }
+  var isNode = function isNode(obj) {
+    return !isNullOrUndefined(obj) && obj instanceof Node;
+  };
+
+  var isElementNode = function isElementNode(obj) {
+    return !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
+  };
   /**
    * Verifies that an object is an *Element*
    * @param {Element} obj 
@@ -186,9 +199,10 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  function isElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
-  }
+
+  var isElement = function isElement(obj) {
+    return isElementNode(obj) && obj instanceof Element;
+  };
   /**
    * Verifies that an object is an *HTMLElement*
    * @param {Element} obj 
@@ -196,9 +210,23 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  function isHTMLElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
-  }
+  var isHTMLElement = function isHTMLElement(obj) {
+    return isElementNode(obj) && obj instanceof HTMLElement;
+  };
+  /**
+   * Verifies that an object is an *HTMLCollection*
+   * @param {Element} obj 
+   * @returns {boolean} Value indicating whether the object is an *HTMLCollection*
+   * @memberof DOM
+   */
+
+  var isHTMLCollection = function isHTMLCollection(obj) {
+    return !isNullOrUndefined(obj) && obj instanceof HTMLCollection;
+  };
+
+  var isDocumentFragmentNode = function isDocumentFragmentNode(obj) {
+    return !isNullOrUndefined(obj) && obj.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
+  };
   /**
    * Verifies that an object is an *DocumentFragment*
    * @param {Element} obj 
@@ -206,9 +234,11 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
-  function isDocumentFragment(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 11 && obj instanceof DocumentFragment;
-  }
+
+  var isDocumentFragment = function isDocumentFragment(obj) {
+    return isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
+  }; // Add some,all,one to the checkers
+
   [isNode, isElement, isHTMLElement, isDocumentFragment].forEach(function (fn) {
     fn['some'] = function (values) {
       var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
@@ -259,15 +289,24 @@ var zcomponents = (function (exports) {
 
   /**
    * Append a list of elements to a node.
-   * @param {HTMLElement} parent
-   * @param {HTMLElement[]} children
+   * @param {Element} parent
+   * @param {HTMLElement[]|HTMLCollection} children
    * @returns {HTMLElement}
    * @memberof DOM
    */
 
   function appendChildren(parent, children) {
     var fragment = document.createDocumentFragment();
-    children.forEach(function (element) {
+
+    if (!isNode(parent)) {
+      return null;
+    }
+
+    if (!isHTMLCollection(children) && !isIterable(children) || isString(children)) {
+      return null;
+    }
+
+    Array.from(children).forEach(function (element) {
       fragment.appendChild(isNode(element) ? element : document.createTextNode(element.toString()));
     });
     parent.appendChild(fragment);
@@ -1149,71 +1188,6 @@ var zcomponents = (function (exports) {
   }
 
   /**
-   * Finds an ancestor of an element
-   * @param {Element} target 
-   * @param {Function} callback Decides whether the target is found
-   * @param {number} [max] Maximum number of iterations
-   * @returns {Element|null}
-   * @memberof DOM
-   */
-
-  function findAncestor(target, callback, max) {
-    if (!isElement(target)) {
-      return null;
-    }
-
-    var parent = target.parentElement;
-
-    if (max > 0) {
-      return findAncestorIter(parent, callback, max);
-    }
-
-    return findAncestorInf(parent, callback);
-  }
-  /**
-   * Look an ancestor of an element using a callback
-   * @param {Element} target 
-   * @param {Function} callback Decides whether the target is found
-   * @private
-   */
-
-  /* istanbul ignore next */
-
-  function findAncestorInf(target, callback) {
-    if (isNullOrUndefined(target)) {
-      return null;
-    }
-
-    if (callback(target)) {
-      return target;
-    }
-
-    return findAncestorInf(target.parentElement, callback);
-  }
-  /**
-   * Look for an ancestor of an element using a callback with a maximum number of iteration
-   * @param {Element} target 
-   * @param {Function} callback Decides whether the target is found
-   * @param {number} [max] Maximum number of iterations
-   * @private
-   */
-
-  /* istanbul ignore next */
-
-
-  function findAncestorIter(target, callback, max) {
-    if (isNullOrUndefined(target) || max === 0) {
-      return null;
-    }
-
-    if (callback(target)) {
-      return target;
-    }
-
-    return findAncestorIter(target.parentElement, callback, max - 1);
-  }
-
-  /**
    * Checks whether the selector is a class
    * @returns {boolean}
    * @private
@@ -1278,6 +1252,74 @@ var zcomponents = (function (exports) {
     }
 
     return container.querySelectorAll(selector);
+  }
+  /**
+   * Finds an ancestor of an element
+   * @param {Element} target 
+   * @param {Function} callback Decides whether the target is found
+   * @param {number} [max] Maximum number of iterations
+   * @returns {Element|null}
+   * @memberof DOM
+   */
+
+  function findAncestor(target, callback, max) {
+    if (!isElement(target)) {
+      return null;
+    }
+
+    if (!isFunction(callback)) {
+      return null;
+    }
+
+    var parent = target.parentElement;
+
+    if (max > 0) {
+      return findAncestorIter(parent, callback, max - 1);
+    }
+
+    return findAncestorInf(parent, callback);
+  }
+  /**
+   * Look an ancestor of an element using a callback
+   * @param {Element} target 
+   * @param {Function} callback Decides whether the target is found
+   * @private
+   */
+
+  /* istanbul ignore next */
+
+  function findAncestorInf(target, callback) {
+    if (isNullOrUndefined(target)) {
+      return null;
+    }
+
+    if (callback(target)) {
+      return target;
+    }
+
+    return findAncestorInf(target.parentElement, callback);
+  }
+  /**
+   * Look for an ancestor of an element using a callback with a maximum number of iteration
+   * @param {Element} target 
+   * @param {Function} callback Decides whether the target is found
+   * @param {number} [max] Maximum number of iterations
+   * @private
+   */
+
+  /* istanbul ignore next */
+
+
+  function findAncestorIter(target, callback, max) {
+    if (isNullOrUndefined(target) || max === 0) {
+      return null;
+    }
+
+    if (callback(target)) {
+      return target;
+    }
+
+    return findAncestorIter(target.parentElement, callback, max - 1);
   }
 
   var moveDown = function moveDown(label) {

@@ -103,6 +103,15 @@ function isObject(value) {
   return !isNull(value) && _typeof(value) === 'object';
 }
 /**
+ * Returns a value indicating whether the object is iterable
+ * @returns {boolean}
+ * @memberof TYPE
+ */
+
+function isIterable(obj) {
+  return !isNull(obj) && typeof obj[Symbol.iterator] === 'function';
+}
+/**
  * Returns a value indicating whether the value is null
  * @returns {boolean}
  * @memberof TYPE
@@ -448,6 +457,16 @@ function capitalize(str) {
 function capitalizeFirstLetter(str) {
   return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
 }
+function camelCase(str) {
+  var ccString = str.replace(/[_-]+/g, " ").trim();
+  var spaceIndex = ccString.indexOf(" ");
+
+  if (spaceIndex === -1) {
+    return str;
+  }
+
+  return "".concat(ccString.substring(0, spaceIndex)).concat(capitalize(ccString.substring(spaceIndex)).replace(/\s+/g, ''));
+}
 /**
  * Removes all accents from a string
  * @param {*} str string
@@ -470,9 +489,13 @@ function removeAccents(str) {
  * @memberof DOM
  */
 
-function isNode(obj) {
-  return isNullOrUndefined(obj) ? false : obj instanceof Node;
-}
+var isNode = function isNode(obj) {
+  return !isNullOrUndefined(obj) && obj instanceof Node;
+};
+
+var isElementNode = function isElementNode(obj) {
+  return !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
+};
 /**
  * Verifies that an object is an *Element*
  * @param {Element} obj 
@@ -480,9 +503,10 @@ function isNode(obj) {
  * @memberof DOM
  */
 
-function isElement(obj) {
-  return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
-}
+
+var isElement = function isElement(obj) {
+  return isElementNode(obj) && obj instanceof Element;
+};
 /**
  * Verifies that an object is an *HTMLElement*
  * @param {Element} obj 
@@ -490,9 +514,23 @@ function isElement(obj) {
  * @memberof DOM
  */
 
-function isHTMLElement(obj) {
-  return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
-}
+var isHTMLElement = function isHTMLElement(obj) {
+  return isElementNode(obj) && obj instanceof HTMLElement;
+};
+/**
+ * Verifies that an object is an *HTMLCollection*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *HTMLCollection*
+ * @memberof DOM
+ */
+
+var isHTMLCollection = function isHTMLCollection(obj) {
+  return !isNullOrUndefined(obj) && obj instanceof HTMLCollection;
+};
+
+var isDocumentFragmentNode = function isDocumentFragmentNode(obj) {
+  return !isNullOrUndefined(obj) && obj.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
+};
 /**
  * Verifies that an object is an *DocumentFragment*
  * @param {Element} obj 
@@ -500,9 +538,11 @@ function isHTMLElement(obj) {
  * @memberof DOM
  */
 
-function isDocumentFragment(obj) {
-  return isNullOrUndefined(obj) ? false : obj.nodeType === 11 && obj instanceof DocumentFragment;
-}
+
+var isDocumentFragment = function isDocumentFragment(obj) {
+  return isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
+}; // Add some,all,one to the checkers
+
 [isNode, isElement, isHTMLElement, isDocumentFragment].forEach(function (fn) {
   fn['some'] = function (values) {
     var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
@@ -554,44 +594,68 @@ function isDocumentFragment(obj) {
 /**
  * Inserts a given element before the targetted element
  * @param {HTMLElement} target 
- * @param {HTMLElement} el 
+ * @param {HTMLElement} element 
  * @memberof DOM
  */
 
-function insertBeforeElement(target, el) {
-  target.insertAdjacentElement('beforebegin', el);
+function insertBeforeElement(target, element) {
+  if (!isElement.all([target, element])) {
+    return null;
+  }
+
+  target.insertAdjacentElement('beforebegin', element);
+  return target;
 }
 /**
  * Inserts a given element after the targetted element
  * @param {HTMLElement} target 
- * @param {HTMLElement} el 
+ * @param {HTMLElement} element 
  * @memberof DOM
  */
 
-function insertAfterElement(target, el) {
-  target.insertAdjacentElement('afterend', el);
+function insertAfterElement(target, element) {
+  if (!isElement.all([target, element])) {
+    return null;
+  }
+
+  target.insertAdjacentElement('afterend', element);
+  return target;
 }
 /**
  * Inserts a givern element as the first children of the targetted element
  * @param {HTMLElement} target 
- * @param {HTMLElement} el 
+ * @param {HTMLElement} element 
  * @memberof DOM
  */
 
-function preprendChild(target, el) {
-  target.insertAdjacentElement('afterbegin', el);
+function preprendChild(target, element) {
+  if (!isElement.all([target, element])) {
+    return null;
+  }
+
+  target.insertAdjacentElement('afterbegin', element);
+  return target;
 }
 /**
  * Append a list of elements to a node.
- * @param {HTMLElement} parent
- * @param {HTMLElement[]} children
+ * @param {Element} parent
+ * @param {HTMLElement[]|HTMLCollection} children
  * @returns {HTMLElement}
  * @memberof DOM
  */
 
 function appendChildren(parent, children) {
   var fragment = document.createDocumentFragment();
-  children.forEach(function (element) {
+
+  if (!isNode(parent)) {
+    return null;
+  }
+
+  if (!isHTMLCollection(children) && !isIterable(children) || isString(children)) {
+    return null;
+  }
+
+  Array.from(children).forEach(function (element) {
     fragment.appendChild(isNode(element) ? element : document.createTextNode(element.toString()));
   });
   parent.appendChild(fragment);
@@ -1720,71 +1784,6 @@ function addContent(element, children) {
 }
 
 /**
- * Finds an ancestor of an element
- * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
- * @param {number} [max] Maximum number of iterations
- * @returns {Element|null}
- * @memberof DOM
- */
-
-function findAncestor(target, callback, max) {
-  if (!isElement(target)) {
-    return null;
-  }
-
-  var parent = target.parentElement;
-
-  if (max > 0) {
-    return findAncestorIter(parent, callback, max);
-  }
-
-  return findAncestorInf(parent, callback);
-}
-/**
- * Look an ancestor of an element using a callback
- * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
- * @private
- */
-
-/* istanbul ignore next */
-
-function findAncestorInf(target, callback) {
-  if (isNullOrUndefined(target)) {
-    return null;
-  }
-
-  if (callback(target)) {
-    return target;
-  }
-
-  return findAncestorInf(target.parentElement, callback);
-}
-/**
- * Look for an ancestor of an element using a callback with a maximum number of iteration
- * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
- * @param {number} [max] Maximum number of iterations
- * @private
- */
-
-/* istanbul ignore next */
-
-
-function findAncestorIter(target, callback, max) {
-  if (isNullOrUndefined(target) || max === 0) {
-    return null;
-  }
-
-  if (callback(target)) {
-    return target;
-  }
-
-  return findAncestorIter(target.parentElement, callback, max - 1);
-}
-
-/**
  * Checks whether the selector is a class
  * @returns {boolean}
  * @private
@@ -1880,20 +1879,22 @@ function cloneTemplate(template, deep) {
  * @private
  */
 
+/* istanbul ignore next */
+
 function getElementSibling(el, dir, pred) {
   var predicate = function predicate(el) {
-    return !isNullOrUndefined(el);
+    return true;
   };
 
   if (isFunction(pred)) {
     predicate = function predicate(el) {
-      return !isNullOrUndefined(el) && !pred(el);
+      return !isNullOrUndefined(el) && pred(el);
     };
   }
 
   var sibling = el[dir];
 
-  while (predicate(sibling)) {
+  while (!predicate(sibling)) {
     sibling = sibling[dir];
   }
 
@@ -1922,6 +1923,74 @@ function getPreviousElementSibling(el, predCb) {
 function getNextElementSibling(el, predCb) {
   return getElementSibling(el, "nextElementSibling", predCb);
 }
+/**
+ * Finds an ancestor of an element
+ * @param {Element} target 
+ * @param {Function} callback Decides whether the target is found
+ * @param {number} [max] Maximum number of iterations
+ * @returns {Element|null}
+ * @memberof DOM
+ */
+
+function findAncestor(target, callback, max) {
+  if (!isElement(target)) {
+    return null;
+  }
+
+  if (!isFunction(callback)) {
+    return null;
+  }
+
+  var parent = target.parentElement;
+
+  if (max > 0) {
+    return findAncestorIter(parent, callback, max - 1);
+  }
+
+  return findAncestorInf(parent, callback);
+}
+/**
+ * Look an ancestor of an element using a callback
+ * @param {Element} target 
+ * @param {Function} callback Decides whether the target is found
+ * @private
+ */
+
+/* istanbul ignore next */
+
+function findAncestorInf(target, callback) {
+  if (isNullOrUndefined(target)) {
+    return null;
+  }
+
+  if (callback(target)) {
+    return target;
+  }
+
+  return findAncestorInf(target.parentElement, callback);
+}
+/**
+ * Look for an ancestor of an element using a callback with a maximum number of iteration
+ * @param {Element} target 
+ * @param {Function} callback Decides whether the target is found
+ * @param {number} [max] Maximum number of iterations
+ * @private
+ */
+
+/* istanbul ignore next */
+
+
+function findAncestorIter(target, callback, max) {
+  if (isNullOrUndefined(target) || max === 0) {
+    return null;
+  }
+
+  if (callback(target)) {
+    return target;
+  }
+
+  return findAncestorIter(target.parentElement, callback, max - 1);
+}
 
 /**
  * Removes all children of a node from the DOM or 
@@ -1932,16 +2001,19 @@ function getNextElementSibling(el, predCb) {
  */
 
 function removeChildren(node, callback) {
-  if (!isFunction(callback)) {
-    removeAllChildren(node);
-  } else {
-    Array.from(node.childNodes).forEach(function (n) {
-      if (callback(n)) {
-        node.removeChild(n);
-      }
-    });
+  if (!isNode(node)) {
+    return null;
   }
 
+  if (!isFunction(callback)) {
+    return removeAllChildren(node);
+  }
+
+  Array.from(node.childNodes).forEach(function (n) {
+    if (callback(n)) {
+      node.removeChild(n);
+    }
+  });
   return node;
 }
 /**
@@ -1949,6 +2021,8 @@ function removeChildren(node, callback) {
  * @param {Node} node 
  * @private
  */
+
+/* istanbul ignore next */
 
 function removeAllChildren(node) {
   while (node.hasChildNodes()) {
@@ -3003,4 +3077,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLElement, isInt, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, setClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, appendChildren, boolToInt, camelCase, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLCollection, isHTMLElement, isInt, isIterable, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, setClass, shortDate, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };

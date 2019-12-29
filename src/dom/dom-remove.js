@@ -1,4 +1,5 @@
 import { isFunction } from '@datatype/index.js';
+import { isNode } from './checker.js';
 
 /**
  * Removes all children of a node from the DOM or 
@@ -8,15 +9,20 @@ import { isFunction } from '@datatype/index.js';
  * @memberof DOM
  */
 export function removeChildren(node, callback) {
-    if (!isFunction(callback)) {
-        removeAllChildren(node);
-    } else {
-        Array.from(node.childNodes).forEach(n => {
-            if (callback(n)) {
-                node.removeChild(n);
-            }
-        });
+    if (!isNode(node)) {
+        return null;
     }
+
+    if (!isFunction(callback)) {
+        return removeAllChildren(node);
+    }
+
+    Array.from(node.childNodes).forEach(n => {
+        if (callback(n)) {
+            node.removeChild(n);
+        }
+    });
+
 
     return node;
 }
@@ -26,6 +32,7 @@ export function removeChildren(node, callback) {
  * @param {Node} node 
  * @private
  */
+/* istanbul ignore next */
 function removeAllChildren(node) {
     while (node.hasChildNodes()) {
         node.removeChild(node.lastChild);

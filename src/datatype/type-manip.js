@@ -81,6 +81,13 @@ export function isFunction(value) { return typeof value === 'function'; }
 export function isObject(value) { return !isNull(value) && typeof value === 'object'; }
 
 /**
+ * Returns a value indicating whether the object is iterable
+ * @returns {boolean}
+ * @memberof TYPE
+ */
+export function isIterable(obj) {return !isNull(obj) && typeof obj[Symbol.iterator] === 'function'; }
+
+/**
  * Returns a value indicating whether the value is null
  * @returns {boolean}
  * @memberof TYPE

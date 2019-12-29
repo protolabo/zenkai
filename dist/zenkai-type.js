@@ -106,6 +106,15 @@ var ztype = (function (exports) {
     return !isNull(value) && _typeof(value) === 'object';
   }
   /**
+   * Returns a value indicating whether the object is iterable
+   * @returns {boolean}
+   * @memberof TYPE
+   */
+
+  function isIterable(obj) {
+    return !isNull(obj) && typeof obj[Symbol.iterator] === 'function';
+  }
+  /**
    * Returns a value indicating whether the value is null
    * @returns {boolean}
    * @memberof TYPE
@@ -451,6 +460,16 @@ var ztype = (function (exports) {
   function capitalizeFirstLetter(str) {
     return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
   }
+  function camelCase(str) {
+    var ccString = str.replace(/[_-]+/g, " ").trim();
+    var spaceIndex = ccString.indexOf(" ");
+
+    if (spaceIndex === -1) {
+      return str;
+    }
+
+    return "".concat(ccString.substring(0, spaceIndex)).concat(capitalize(ccString.substring(spaceIndex)).replace(/\s+/g, ''));
+  }
   /**
    * Removes all accents from a string
    * @param {*} str string
@@ -467,6 +486,7 @@ var ztype = (function (exports) {
   }
 
   exports.boolToInt = boolToInt;
+  exports.camelCase = camelCase;
   exports.capitalize = capitalize;
   exports.capitalizeFirstLetter = capitalizeFirstLetter;
   exports.cloneObject = cloneObject;
@@ -481,6 +501,7 @@ var ztype = (function (exports) {
   exports.isEmpty = isEmpty;
   exports.isFunction = isFunction;
   exports.isInt = isInt;
+  exports.isIterable = isIterable;
   exports.isNull = isNull;
   exports.isNullOrUndefined = isNullOrUndefined;
   exports.isNullOrWhitespace = isNullOrWhitespace;

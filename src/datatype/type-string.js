@@ -29,6 +29,15 @@ export function capitalizeFirstLetter(str) {
     return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+export function camelCase(str) {
+    var ccString = str.replace(/[_-]+/g, " ").trim();
+    var spaceIndex = ccString.indexOf(" ");
+    if (spaceIndex === -1) {
+        return str;
+    }
+    return `${ccString.substring(0, spaceIndex)}${capitalize(ccString.substring(spaceIndex)).replace(/\s+/g, '')}`;
+}
+
 /**
  * Removes all accents from a string
  * @param {*} str string

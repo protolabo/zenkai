@@ -6,9 +6,9 @@ import { isNullOrUndefined } from '@datatype/index.js';
  * @returns {boolean} Value indicating whether the object is an *Node*
  * @memberof DOM
  */
-export function isNode(obj) {
-    return isNullOrUndefined(obj) ? false : obj instanceof Node;
-}
+export const isNode = (obj) => !isNullOrUndefined(obj) && obj instanceof Node;
+
+const isElementNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
 
 /**
  * Verifies that an object is an *Element*
@@ -16,9 +16,7 @@ export function isNode(obj) {
  * @returns {boolean} Value indicating whether the object is an *Element*
  * @memberof DOM
  */
-export function isElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof Element;
-}
+export const isElement = (obj) => isElementNode(obj) && obj instanceof Element;
 
 /**
  * Verifies that an object is an *HTMLElement*
@@ -26,9 +24,17 @@ export function isElement(obj) {
  * @returns {boolean} Value indicating whether the object is an *HTMLElement*
  * @memberof DOM
  */
-export function isHTMLElement(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 1 && obj instanceof HTMLElement;
-}
+export const isHTMLElement = (obj) => isElementNode(obj) && obj instanceof HTMLElement;
+
+/**
+ * Verifies that an object is an *HTMLCollection*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *HTMLCollection*
+ * @memberof DOM
+ */
+export const isHTMLCollection = (obj) => !isNullOrUndefined(obj) && obj instanceof HTMLCollection;
+
+const isDocumentFragmentNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
 
 /**
  * Verifies that an object is an *DocumentFragment*
@@ -36,14 +42,12 @@ export function isHTMLElement(obj) {
  * @returns {boolean} Value indicating whether the object is an *DocumentFragment*
  * @memberof DOM
  */
-export function isDocumentFragment(obj) {
-    return isNullOrUndefined(obj) ? false : obj.nodeType === 11 && obj instanceof DocumentFragment;
-}
+export const isDocumentFragment = (obj) => isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
 
-
-[isNode, isElement, isHTMLElement, isDocumentFragment].forEach((fn)=>{
+// Add some,all,one to the checkers
+[isNode, isElement, isHTMLElement, isDocumentFragment].forEach((fn) => {
     fn['some'] = function (values, min = 1) {
-        if(min === 1) {
+        if (min === 1) {
             for (let i = 0; i < values.length; i++) {
                 if (fn(values[i])) {
                     return true;
