@@ -13,4 +13,5 @@
 export * from './ajax-utils.js';
 export * from './math-utils.js';
 export * from './path-utils.js';
+export * from './quantifier-utils.js';
 export * from './uri-utils.js';

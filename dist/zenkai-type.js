@@ -141,53 +141,6 @@ var ztype = (function (exports) {
   function isNullOrUndefined(value) {
     return isNull(value) || isUndefined(value);
   }
-  [isNull, isUndefined, isNullOrUndefined, isObject, isFunction, isString, isDate, isEmpty, isInt].forEach(function (fn) {
-    fn['some'] = function (values) {
-      var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
-      if (min === 1) {
-        for (var i = 0; i < values.length; i++) {
-          if (fn(values[i])) {
-            return true;
-          }
-        }
-
-        return false;
-      }
-
-      var counter = 0;
-
-      for (var _i = 0; _i < values.length; _i++) {
-        if (fn(values[_i])) {
-          counter++;
-        }
-      }
-
-      return counter >= min;
-    };
-
-    fn['all'] = function (values) {
-      for (var i = 0; i < values.length; i++) {
-        if (!fn(values[i])) {
-          return false;
-        }
-      }
-
-      return true;
-    };
-
-    fn['one'] = function (values) {
-      var counter = 0;
-
-      for (var i = 0; i < values.length; i++) {
-        if (fn(values[i])) {
-          counter++;
-        }
-      }
-
-      return counter === 1;
-    };
-  });
 
   /**
    * Inserts an item in an array at the specified index

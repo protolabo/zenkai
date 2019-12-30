@@ -8,6 +8,7 @@ import { isNullOrUndefined } from '@datatype/index.js';
  */
 export const isNode = (obj) => !isNullOrUndefined(obj) && obj instanceof Node;
 
+/* istanbul ignore next */
 const isElementNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
 
 /**
@@ -34,6 +35,7 @@ export const isHTMLElement = (obj) => isElementNode(obj) && obj instanceof HTMLE
  */
 export const isHTMLCollection = (obj) => !isNullOrUndefined(obj) && obj instanceof HTMLCollection;
 
+/* istanbul ignore next */
 const isDocumentFragmentNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
 
 /**
@@ -43,41 +45,3 @@ const isDocumentFragmentNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType 
  * @memberof DOM
  */
 export const isDocumentFragment = (obj) => isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
-
-// Add some,all,one to the checkers
-[isNode, isElement, isHTMLElement, isDocumentFragment].forEach((fn) => {
-    fn['some'] = function (values, min = 1) {
-        if (min === 1) {
-            for (let i = 0; i < values.length; i++) {
-                if (fn(values[i])) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        var counter = 0;
-        for (let i = 0; i < values.length; i++) {
-            if (fn(values[i])) {
-                counter++;
-            }
-        }
-        return counter >= min;
-    };
-    fn['all'] = function (values) {
-        for (let i = 0; i < values.length; i++) {
-            if (!fn(values[i])) {
-                return false;
-            }
-        }
-        return true;
-    };
-    fn['one'] = function (values) {
-        var counter = 0;
-        for (let i = 0; i < values.length; i++) {
-            if (fn(values[i])) {
-                counter++;
-            }
-        }
-        return counter === 1;
-    };
-});

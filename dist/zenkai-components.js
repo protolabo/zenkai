@@ -1,20 +1,6 @@
 var zcomponents = (function (exports) {
   'use strict';
 
-  function _typeof(obj) {
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function (obj) {
-        return typeof obj;
-      };
-    } else {
-      _typeof = function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-      };
-    }
-
-    return _typeof(obj);
-  }
-
   /**
    * Returns an object value or default value if undefined
    * @param {*} arg object
@@ -30,16 +16,6 @@ var zcomponents = (function (exports) {
     return isNullOrUndefined(arg) ? value : arg;
   }
   /**
-   * Determines whether the value is an *integer*
-   * @param {*} value Tested value
-   * @returns {boolean}  A value indicating whether or not the given value is an *integer*.
-   * @memberof TYPE
-   */
-
-  function isInt(value) {
-    return Number.isInteger ? Number.isInteger(value) : typeof value === 'number' && value % 1 === 0;
-  }
-  /**
    * Returns a value indicating whether the value is empty
    * @param {Object[]|string} arr array
    * @memberof TYPE
@@ -47,15 +23,6 @@ var zcomponents = (function (exports) {
 
   function isEmpty(val) {
     return (Array.isArray(val) || isString(val)) && val.length === 0;
-  }
-  /**
-   * Returns a value indicating whether the variable is a Date
-   * @param {*} value 
-   * @memberof TYPE
-   */
-
-  function isDate(value) {
-    return value instanceof Date || _typeof(value) === 'object' && Object.prototype.toString.call(value) === '[object Date]';
   }
   /**
    * Returns a value indicating whether the variable is a String
@@ -74,15 +41,6 @@ var zcomponents = (function (exports) {
 
   function isFunction(value) {
     return typeof value === 'function';
-  }
-  /**
-   * Returns a value indicating whether the value is an Object
-   * @returns {boolean}
-   * @memberof TYPE
-   */
-
-  function isObject(value) {
-    return !isNull(value) && _typeof(value) === 'object';
   }
   /**
    * Returns a value indicating whether the object is iterable
@@ -120,53 +78,6 @@ var zcomponents = (function (exports) {
   function isNullOrUndefined(value) {
     return isNull(value) || isUndefined(value);
   }
-  [isNull, isUndefined, isNullOrUndefined, isObject, isFunction, isString, isDate, isEmpty, isInt].forEach(function (fn) {
-    fn['some'] = function (values) {
-      var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
-      if (min === 1) {
-        for (var i = 0; i < values.length; i++) {
-          if (fn(values[i])) {
-            return true;
-          }
-        }
-
-        return false;
-      }
-
-      var counter = 0;
-
-      for (var _i = 0; _i < values.length; _i++) {
-        if (fn(values[_i])) {
-          counter++;
-        }
-      }
-
-      return counter >= min;
-    };
-
-    fn['all'] = function (values) {
-      for (var i = 0; i < values.length; i++) {
-        if (!fn(values[i])) {
-          return false;
-        }
-      }
-
-      return true;
-    };
-
-    fn['one'] = function (values) {
-      var counter = 0;
-
-      for (var i = 0; i < values.length; i++) {
-        if (fn(values[i])) {
-          counter++;
-        }
-      }
-
-      return counter === 1;
-    };
-  });
 
   /**
    * Returns a value indicating whether a string is null or made of whitespace.
@@ -188,6 +99,7 @@ var zcomponents = (function (exports) {
   var isNode = function isNode(obj) {
     return !isNullOrUndefined(obj) && obj instanceof Node;
   };
+  /* istanbul ignore next */
 
   var isElementNode = function isElementNode(obj) {
     return !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
@@ -224,73 +136,10 @@ var zcomponents = (function (exports) {
     return !isNullOrUndefined(obj) && obj instanceof HTMLCollection;
   };
 
-  var isDocumentFragmentNode = function isDocumentFragmentNode(obj) {
-    return !isNullOrUndefined(obj) && obj.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
-  };
-  /**
-   * Verifies that an object is an *DocumentFragment*
-   * @param {Element} obj 
-   * @returns {boolean} Value indicating whether the object is an *DocumentFragment*
-   * @memberof DOM
-   */
-
-
-  var isDocumentFragment = function isDocumentFragment(obj) {
-    return isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
-  }; // Add some,all,one to the checkers
-
-  [isNode, isElement, isHTMLElement, isDocumentFragment].forEach(function (fn) {
-    fn['some'] = function (values) {
-      var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
-      if (min === 1) {
-        for (var i = 0; i < values.length; i++) {
-          if (fn(values[i])) {
-            return true;
-          }
-        }
-
-        return false;
-      }
-
-      var counter = 0;
-
-      for (var _i = 0; _i < values.length; _i++) {
-        if (fn(values[_i])) {
-          counter++;
-        }
-      }
-
-      return counter >= min;
-    };
-
-    fn['all'] = function (values) {
-      for (var i = 0; i < values.length; i++) {
-        if (!fn(values[i])) {
-          return false;
-        }
-      }
-
-      return true;
-    };
-
-    fn['one'] = function (values) {
-      var counter = 0;
-
-      for (var i = 0; i < values.length; i++) {
-        if (fn(values[i])) {
-          counter++;
-        }
-      }
-
-      return counter === 1;
-    };
-  });
-
   /**
    * Append a list of elements to a node.
    * @param {Element} parent
-   * @param {HTMLElement[]|HTMLCollection} children
+   * @param {!HTMLElement[]|HTMLCollection} children
    * @returns {HTMLElement}
    * @memberof DOM
    */

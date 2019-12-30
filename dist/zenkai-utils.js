@@ -30,34 +30,6 @@ var zutils = (function (exports) {
     return isNullOrUndefined(arg) ? value : arg;
   }
   /**
-   * Determines whether the value is an *integer*
-   * @param {*} value Tested value
-   * @returns {boolean}  A value indicating whether or not the given value is an *integer*.
-   * @memberof TYPE
-   */
-
-  function isInt(value) {
-    return Number.isInteger ? Number.isInteger(value) : typeof value === 'number' && value % 1 === 0;
-  }
-  /**
-   * Returns a value indicating whether the value is empty
-   * @param {Object[]|string} arr array
-   * @memberof TYPE
-   */
-
-  function isEmpty(val) {
-    return (Array.isArray(val) || isString(val)) && val.length === 0;
-  }
-  /**
-   * Returns a value indicating whether the variable is a Date
-   * @param {*} value 
-   * @memberof TYPE
-   */
-
-  function isDate(value) {
-    return value instanceof Date || _typeof(value) === 'object' && Object.prototype.toString.call(value) === '[object Date]';
-  }
-  /**
    * Returns a value indicating whether the variable is a String
    * @returns {boolean}
    * @memberof TYPE
@@ -74,15 +46,6 @@ var zutils = (function (exports) {
 
   function isFunction(value) {
     return typeof value === 'function';
-  }
-  /**
-   * Returns a value indicating whether the value is an Object
-   * @returns {boolean}
-   * @memberof TYPE
-   */
-
-  function isObject(value) {
-    return !isNull(value) && _typeof(value) === 'object';
   }
   /**
    * Returns a value indicating whether the value is null
@@ -111,53 +74,6 @@ var zutils = (function (exports) {
   function isNullOrUndefined(value) {
     return isNull(value) || isUndefined(value);
   }
-  [isNull, isUndefined, isNullOrUndefined, isObject, isFunction, isString, isDate, isEmpty, isInt].forEach(function (fn) {
-    fn['some'] = function (values) {
-      var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
-      if (min === 1) {
-        for (var i = 0; i < values.length; i++) {
-          if (fn(values[i])) {
-            return true;
-          }
-        }
-
-        return false;
-      }
-
-      var counter = 0;
-
-      for (var _i = 0; _i < values.length; _i++) {
-        if (fn(values[_i])) {
-          counter++;
-        }
-      }
-
-      return counter >= min;
-    };
-
-    fn['all'] = function (values) {
-      for (var i = 0; i < values.length; i++) {
-        if (!fn(values[i])) {
-          return false;
-        }
-      }
-
-      return true;
-    };
-
-    fn['one'] = function (values) {
-      var counter = 0;
-
-      for (var i = 0; i < values.length; i++) {
-        if (fn(values[i])) {
-          counter++;
-        }
-      }
-
-      return counter === 1;
-    };
-  });
 
   /** @private */
   var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -477,6 +393,85 @@ var zutils = (function (exports) {
   }
 
   /**
+   * Verifies that at least one value satisfies the condition
+   * @param {*[]} values Set of values
+   * @param {Function} fn Condition
+   * @param {number} [min=1] Minimum number of values that must satisfy the condition
+   * @returns {boolean} A value indicating whether at least one value satisfies the condition
+   */
+  var some = function some(values, fn) {
+    var min = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+
+    if (min === 1) {
+      for (var i = 0; i < values.length; i++) {
+        if (fn(values[i])) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    return getHitCount(values, fn) >= min;
+  };
+  /**
+   * Verifies that all the values satisfy the condition
+   * @param {*[]} values Set of values
+   * @param {Function} fn Condition
+   * @returns {boolean} A value indicating whether all the values satisfy the condition
+   */
+
+  var all = function all(values, fn) {
+    for (var i = 0; i < values.length; i++) {
+      if (!fn(values[i])) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+  /**
+   * Verifies that exactly one value satisfies the condition
+   * @param {*[]} values Set of values
+   * @param {Function} fn Condition
+   * @returns {boolean} A value indicating whether exactly one value satisfies the condition
+   */
+
+  var one = function one(values, fn) {
+    return getHitCount(values, fn) === 1;
+  };
+  /**
+   * Verifies that no value satisfies the condition
+   * @param {*[]} values Set of values
+   * @param {Function} fn Condition
+   * @returns {boolean} A value indicating whether no value satisfies the condition
+   */
+
+  var no = function no(values, fn) {
+    return !some(values, fn);
+  };
+  /**
+   * 
+   * @param {*} values 
+   * @param {*} fn 
+   * @private
+   */
+
+  /* istanbul ignore next */
+
+  function getHitCount(values, fn) {
+    var counter = 0;
+
+    for (var i = 0; i < values.length; i++) {
+      if (fn(values[i])) {
+        counter++;
+      }
+    }
+
+    return counter;
+  }
+
+  /**
    * @namespace URI
    */
   var encode = encodeURIComponent;
@@ -573,13 +568,17 @@ var zutils = (function (exports) {
   exports.POST = POST;
   exports.PUT = PUT;
   exports.addPath = addPath;
+  exports.all = all;
   exports.findByPath = findByPath;
   exports.getDir = getDir;
   exports.getDirTarget = getDirTarget;
   exports.getRootUrl = getRootUrl;
   exports.getUrlParams = getUrlParams;
+  exports.no = no;
+  exports.one = one;
   exports.queryBuilder = queryBuilder;
   exports.random = random;
+  exports.some = some;
 
   return exports;
 
