@@ -1,33 +1,38 @@
-﻿import { isFunction, isNullOrUndefined, valOrDefault } from '@datatype/index.js';
+﻿import { isFunction, isNullOrUndefined, valOrDefault, isEmpty, isNullOrWhitespace } from '@datatype/index.js';
 import { isElement } from './checker.js';
 
 
 /**
- * Checks whether the selector is a class
+ * Checks whether the selector represents a `class`
  * @returns {boolean}
  * @private
  */
 const isClassSelector = (selector) => /^\.[a-zA-Z0-9_-]+$/.test(selector);
 
 /**
- * Checks whether the selector is an id
+ * Checks whether the selector represents an `id`
  * @returns {boolean}
  * @private
  */
 const isIdSelector = (selector) => /^#[a-zA-Z0-9_-]+$/.test(selector);
 
 /**
- * Returns the first Element within the specified container that matches the specified selector, group or selectors.
- * @param {string} selector A DOMString containing one or more selectors to match
+ * Returns the first element within the specified container that matches the 
+ * specified selector, group or selectors.
+ * @param {!string} selector A DOMString containing one or more selectors to match
  * @param {HTMLElement|DocumentFragment} [_container] Container queried
- * @returns {HTMLElement|null} The first Element matches that matches the specified set of CSS selectors.
+ * @returns {HTMLElement|null} The first element matches that matches the specified set of CSS selectors.
  * @memberof DOM
  */
 export function getElement(selector, _container) {
     var container = valOrDefault(_container, document);
 
+    if(isNullOrWhitespace(selector)) {
+        return null;
+    }
+
     if (container instanceof DocumentFragment) {
-        container.querySelector(selector);
+        return container.querySelector(selector);
     }
 
     if (isIdSelector(selector)) {
@@ -43,7 +48,7 @@ export function getElement(selector, _container) {
 
 /**
  * Returns all elements that match the selector query.
- * @param {string} selector A DOMString containing one or more selectors to match
+ * @param {!string} selector A DOMString containing one or more selectors to match
  * @param {HTMLElement|DocumentFragment} [_container] Container queried
  * @returns {HTMLCollection|NodeList} A live or *static* (not live) collection of the `container`'s children Element that match the `selector`.
  * @memberof DOM
@@ -51,8 +56,12 @@ export function getElement(selector, _container) {
 export function getElements(selector, _container) {
     var container = valOrDefault(_container, document);
 
+    if(isNullOrWhitespace(selector)) {
+        return null;
+    }
+
     if (container instanceof DocumentFragment) {
-        container.querySelectorAll(selector);
+        return container.querySelectorAll(selector);
     }
 
     if (isClassSelector(selector)) {

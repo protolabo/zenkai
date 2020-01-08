@@ -1,20 +1,16 @@
-import { isInt, valOrDefault } from './type-manip.js';
+import { isInt, valOrDefault, isNullOrUndefined } from './type-manip.js';
 
 /**
- * Returns a value indicating the day of the week with monday = 0
- * @param {Date} date 
- * @memberof TYPE
+ * Compare 2 times
+ * @param {string} t1 time 1
+ * @param {string} t2 time 2
+ * @returns {number} 1, 0, -1 if t1 > t2, t1 = t2 and t1 < t2 respectively
  */
-export function dayOfWeek(date) {
-    var d = date.getDay();
-    return d == 0 ? 6 : d - 1;
-}
-
-// Compare 2 times and returns
-//  1 if t1 > t2
-//  0 if t1 = t2
-// -1 if t1 < t2
 export function compareTime(t1, t2) {
+    if (isNullOrUndefined(t1) || isNullOrUndefined(t2) || !t1.includes(":") || !t2.includes(":")) {
+        return null;
+    }
+
     var arr1 = t1.split(':');
     var arr2 = t2.split(':');
 
@@ -41,14 +37,6 @@ export function compareTime(t1, t2) {
             return 0;
         }
     }
-}
-
-export function parseTime(n) {
-    var hh = +n | 0;
-    var mm = '00';
-    if (!isInt(+n))
-        mm = (n + '').split('.')[1] * 6;
-    return hh + ':' + mm;
 }
 
 // Returns a date using the format "YYYY-mm-dd"
@@ -80,7 +68,20 @@ export function longDate(myDate) {
 // Convertie une date de string (YYYY-MM-DD) en format Date
 export function parseDate(strDate) {
     var arrDate = strDate.split('-');
+
     return new Date(arrDate[0], arrDate[1] - 1, arrDate[2], 0, 0, 0, 0);
+}
+
+
+export function parseTime(n) {
+    var hh = +n | 0;
+    var mm = '00';
+
+    if (!isInt(+n)) {
+        mm = (n + '').split('.')[1] * 6;
+    }
+
+    return hh + ':' + mm;
 }
 
 // Convertie une date de string (YYYY-MM-DD hh:mm) en format Date
@@ -88,6 +89,7 @@ export function parseDateTime(strDate) {
     var arrDateTime = strDate.split(' ');
     var arrTime = arrDateTime[1].split(':');
     var d = parseDate(arrDateTime[0]).setHours(+arrTime[0], +arrTime[1]);
+
     return new Date(d);
 }
 

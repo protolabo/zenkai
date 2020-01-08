@@ -18,6 +18,7 @@ var zcomponents = (function (exports) {
   /**
    * Returns a value indicating whether the value is empty
    * @param {Object[]|string} arr array
+   * @returns {boolean}
    * @memberof TYPE
    */
 
@@ -26,15 +27,17 @@ var zcomponents = (function (exports) {
   }
   /**
    * Returns a value indicating whether the variable is a String
+   * @param {*} value
    * @returns {boolean}
    * @memberof TYPE
    */
 
-  function isString(str) {
-    return typeof str === 'string' || str instanceof String;
+  function isString(value) {
+    return typeof value === 'string' || value instanceof String;
   }
   /**
    * Returns a value indicating whether the value is a Function
+   * @param {string} value
    * @returns {boolean}
    * @memberof TYPE
    */
@@ -44,6 +47,7 @@ var zcomponents = (function (exports) {
   }
   /**
    * Returns a value indicating whether the object is iterable
+   * @param {*} obj
    * @returns {boolean}
    * @memberof TYPE
    */
@@ -53,6 +57,7 @@ var zcomponents = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is null
+   * @param {string} value
    * @returns {boolean}
    * @memberof TYPE
    */
@@ -61,7 +66,18 @@ var zcomponents = (function (exports) {
     return value === null;
   }
   /**
+   * Returns a value indicating whether a string is null or made of whitespace.
+   * @param {string} str string
+   * @returns {boolean}
+   * @memberof TYPE
+   */
+
+  function isNullOrWhitespace(str) {
+    return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
+  }
+  /**
    * Returns a value indicating whether the value is undefined
+   * @param {*} value
    * @returns {boolean}
    * @memberof TYPE
    */
@@ -77,16 +93,6 @@ var zcomponents = (function (exports) {
 
   function isNullOrUndefined(value) {
     return isNull(value) || isUndefined(value);
-  }
-
-  /**
-   * Returns a value indicating whether a string is null or made of whitespace.
-   * @param {string} str string
-   * @memberof TYPE
-   */
-
-  function isNullOrWhitespace(str) {
-    return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
   }
 
   /**
@@ -145,8 +151,6 @@ var zcomponents = (function (exports) {
    */
 
   function appendChildren(parent, children) {
-    var fragment = document.createDocumentFragment();
-
     if (!isNode(parent)) {
       return null;
     }
@@ -155,6 +159,7 @@ var zcomponents = (function (exports) {
       return null;
     }
 
+    var fragment = document.createDocumentFragment();
     Array.from(children).forEach(function (element) {
       fragment.appendChild(isNode(element) ? element : document.createTextNode(element.toString()));
     });
@@ -1037,7 +1042,7 @@ var zcomponents = (function (exports) {
   }
 
   /**
-   * Checks whether the selector is a class
+   * Checks whether the selector represents a `class`
    * @returns {boolean}
    * @private
    */
@@ -1046,7 +1051,7 @@ var zcomponents = (function (exports) {
     return /^\.[a-zA-Z0-9_-]+$/.test(selector);
   };
   /**
-   * Checks whether the selector is an id
+   * Checks whether the selector represents an `id`
    * @returns {boolean}
    * @private
    */
@@ -1056,10 +1061,11 @@ var zcomponents = (function (exports) {
     return /^#[a-zA-Z0-9_-]+$/.test(selector);
   };
   /**
-   * Returns the first Element within the specified container that matches the specified selector, group or selectors.
-   * @param {string} selector A DOMString containing one or more selectors to match
+   * Returns the first element within the specified container that matches the 
+   * specified selector, group or selectors.
+   * @param {!string} selector A DOMString containing one or more selectors to match
    * @param {HTMLElement|DocumentFragment} [_container] Container queried
-   * @returns {HTMLElement|null} The first Element matches that matches the specified set of CSS selectors.
+   * @returns {HTMLElement|null} The first element matches that matches the specified set of CSS selectors.
    * @memberof DOM
    */
 
@@ -1067,8 +1073,12 @@ var zcomponents = (function (exports) {
   function getElement(selector, _container) {
     var container = valOrDefault(_container, document);
 
+    if (isNullOrWhitespace(selector)) {
+      return null;
+    }
+
     if (container instanceof DocumentFragment) {
-      container.querySelector(selector);
+      return container.querySelector(selector);
     }
 
     if (isIdSelector(selector)) {
@@ -1083,7 +1093,7 @@ var zcomponents = (function (exports) {
   }
   /**
    * Returns all elements that match the selector query.
-   * @param {string} selector A DOMString containing one or more selectors to match
+   * @param {!string} selector A DOMString containing one or more selectors to match
    * @param {HTMLElement|DocumentFragment} [_container] Container queried
    * @returns {HTMLCollection|NodeList} A live or *static* (not live) collection of the `container`'s children Element that match the `selector`.
    * @memberof DOM
@@ -1092,8 +1102,12 @@ var zcomponents = (function (exports) {
   function getElements(selector, _container) {
     var container = valOrDefault(_container, document);
 
+    if (isNullOrWhitespace(selector)) {
+      return null;
+    }
+
     if (container instanceof DocumentFragment) {
-      container.querySelectorAll(selector);
+      return container.querySelectorAll(selector);
     }
 
     if (isClassSelector(selector)) {

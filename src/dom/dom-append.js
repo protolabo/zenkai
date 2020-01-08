@@ -58,7 +58,6 @@ export function preprendChild(target, element) {
  * @memberof DOM
  */
 export function appendChildren(parent, children) {
-    var fragment = document.createDocumentFragment();
     if (!isNode(parent)) {
         return null;
     }
@@ -66,6 +65,8 @@ export function appendChildren(parent, children) {
         return null;
     }
 
+    var fragment = document.createDocumentFragment();
+    
     Array.from(children).forEach(element => {
         fragment.appendChild(isNode(element) ? element : document.createTextNode(element.toString()));
     });

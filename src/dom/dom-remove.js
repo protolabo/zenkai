@@ -4,7 +4,7 @@ import { isNode } from './checker.js';
 /**
  * Removes all children of a node from the DOM or 
  * those that satisfies the predicate function
- * @param {Node} node 
+ * @param {!Node} node 
  * @param {Function} [callback] Decides whether the node should be removed
  * @memberof DOM
  */
@@ -29,7 +29,7 @@ export function removeChildren(node, callback) {
 
 /**
  * Removes all children of a node from the DOM
- * @param {Node} node 
+ * @param {!Node} node 
  * @private
  */
 /* istanbul ignore next */

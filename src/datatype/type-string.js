@@ -1,13 +1,4 @@
-import { isString } from "./type-manip.js";
-
-/**
- * Returns a value indicating whether a string is null or made of whitespace.
- * @param {string} str string
- * @memberof TYPE
- */
-export function isNullOrWhitespace(str) {
-    return (!str || isString(str) && (str.length === 0 || /^\s*$/.test(str)));
-}
+import { isNullOrWhitespace } from "./type-manip.js";
 
 /**
  * Capitalizes all words in a sequence
@@ -16,7 +7,7 @@ export function isNullOrWhitespace(str) {
  * @memberof TYPE
  */
 export function capitalize(str) {
-    return str.replace(/\b\w/g, function (s) { return s.toUpperCase(); });
+    return str.toLowerCase().replace(/\b\w/g, (s) => s.toUpperCase());
 }
 
 /**
@@ -29,26 +20,50 @@ export function capitalizeFirstLetter(str) {
     return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+/**
+ * Capitalizes all words in a sequence except the first one and 
+ * removes spaces or punctuation
+ * @param {!string} str Sequence
+ * @returns {string} CamelCased sequence
+ * @memberof TYPE
+ */
 export function camelCase(str) {
-    var ccString = str.replace(/[_-]+/g, " ").trim();
-    var spaceIndex = ccString.indexOf(" ");
-    if (spaceIndex === -1) {
+    if (isNullOrWhitespace(str)) {
         return str;
     }
-    return `${ccString.substring(0, spaceIndex)}${capitalize(ccString.substring(spaceIndex)).replace(/\s+/g, '')}`;
+
+    var ccString = pascalCase(str);
+
+    return ccString.charAt(0).toLowerCase() + ccString.slice(1);
+}
+
+/**
+ * Capitalizes all words in a sequence and removes spaces or punctuation
+ * @param {!string} str Sequence
+ * @returns {string} PascalCased sequence
+ * @memberof TYPE
+ */
+export function pascalCase(str) {
+    if (isNullOrWhitespace(str)) {
+        return str;
+    }
+
+    var ccString = str.replace(/[_-]+/g, " ").replace(/\s+/g, ' ').trim();
+
+    return capitalize(ccString).replace(/\s+/g, '');
 }
 
 /**
  * Removes all accents from a string
- * @param {*} str string
- * @returns {string}
+ * @param {!string} str A string
+ * @returns {string} A string without accents
  * @memberof TYPE
  */
 export function removeAccents(str) {
     if (String.prototype.normalize) {
         return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
     }
-    
+
     return str.replace(/[àâäæ]/gi, 'a')
         .replace(/[ç]/gi, 'c')
         .replace(/[éèê]/gi, 'e')

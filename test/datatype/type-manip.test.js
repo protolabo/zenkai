@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 
 const { 
     valOrDefault, boolToInt, toBoolean, isEmpty, isInt, isDate, isString, 
-    isFunction, isObject, isNull, isUndefined, isNullOrUndefined 
+    isFunction, isObject, isNull, isNullOrWhitespace, isUndefined, isNullOrUndefined 
 } = require('@datatype/type-manip.js');
 
 describe('Data type general helpers', function () {
@@ -180,6 +180,23 @@ describe('Data type general helpers', function () {
             var values = ["hello", 100, true, {}, undefined];
             values.forEach((val) => {
                 var result = isNull(val);
+                expect(result).to.be.false;
+            });
+        });
+    });
+    describe('#isNullOrWhitespace()', function () {
+        it("should return true if the value is null", function () {
+            var result = isNullOrWhitespace(null);
+            expect(result).to.be.true;
+        });
+        it("should return true if the value is a sequence of whitespace", function () {
+            var result = isNullOrWhitespace('  ');
+            expect(result).to.be.true;
+        });
+        it("should return false if the value is not a string", function () {
+            var values = [5, true, {}, []];
+            values.forEach((val) => {
+                var result = isNullOrWhitespace(val);
                 expect(result).to.be.false;
             });
         });

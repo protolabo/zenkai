@@ -36,7 +36,7 @@ export function toBoolean(value) {
 /**
  * Determines whether the value is an *integer*
  * @param {*} value Tested value
- * @returns {boolean}  A value indicating whether or not the given value is an *integer*.
+ * @returns {boolean} A value indicating whether or not the given value is an *integer*.
  * @memberof TYPE
  */
 export function isInt(value) {
@@ -46,13 +46,17 @@ export function isInt(value) {
 /**
  * Returns a value indicating whether the value is empty
  * @param {Object[]|string} arr array
+ * @returns {boolean}
  * @memberof TYPE
  */
-export function isEmpty(val) { return (Array.isArray(val) || isString(val)) && val.length === 0; }
+export function isEmpty(val) {
+    return (Array.isArray(val) || isString(val)) && val.length === 0;
+}
 
 /**
  * Returns a value indicating whether the variable is a Date
  * @param {*} value 
+ * @returns {boolean}
  * @memberof TYPE
  */
 export function isDate(value) {
@@ -61,13 +65,15 @@ export function isDate(value) {
 
 /**
  * Returns a value indicating whether the variable is a String
+ * @param {*} value
  * @returns {boolean}
  * @memberof TYPE
  */
-export function isString(str) { return typeof str === 'string' || str instanceof String; }
+export function isString(value) { return typeof value === 'string' || value instanceof String; }
 
 /**
  * Returns a value indicating whether the value is a Function
+ * @param {string} value
  * @returns {boolean}
  * @memberof TYPE
  */
@@ -75,6 +81,7 @@ export function isFunction(value) { return typeof value === 'function'; }
 
 /**
  * Returns a value indicating whether the value is an Object
+ * @param {string} value
  * @returns {boolean}
  * @memberof TYPE
  */
@@ -82,20 +89,33 @@ export function isObject(value) { return !isNull(value) && typeof value === 'obj
 
 /**
  * Returns a value indicating whether the object is iterable
+ * @param {*} obj
  * @returns {boolean}
  * @memberof TYPE
  */
-export function isIterable(obj) {return !isNull(obj) && typeof obj[Symbol.iterator] === 'function'; }
+export function isIterable(obj) { return !isNull(obj) && typeof obj[Symbol.iterator] === 'function'; }
 
 /**
  * Returns a value indicating whether the value is null
+ * @param {string} value
  * @returns {boolean}
  * @memberof TYPE
  */
 export function isNull(value) { return value === null; }
 
 /**
+ * Returns a value indicating whether a string is null or made of whitespace.
+ * @param {string} str string
+ * @returns {boolean}
+ * @memberof TYPE
+ */
+export function isNullOrWhitespace(str) {
+    return (!str || isString(str) && (str.length === 0 || /^\s*$/.test(str)));
+}
+
+/**
  * Returns a value indicating whether the value is undefined
+ * @param {*} value
  * @returns {boolean}
  * @memberof TYPE
  */

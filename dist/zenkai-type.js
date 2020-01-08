@@ -53,7 +53,7 @@ var ztype = (function (exports) {
   /**
    * Determines whether the value is an *integer*
    * @param {*} value Tested value
-   * @returns {boolean}  A value indicating whether or not the given value is an *integer*.
+   * @returns {boolean} A value indicating whether or not the given value is an *integer*.
    * @memberof TYPE
    */
 
@@ -63,6 +63,7 @@ var ztype = (function (exports) {
   /**
    * Returns a value indicating whether the value is empty
    * @param {Object[]|string} arr array
+   * @returns {boolean}
    * @memberof TYPE
    */
 
@@ -72,6 +73,7 @@ var ztype = (function (exports) {
   /**
    * Returns a value indicating whether the variable is a Date
    * @param {*} value 
+   * @returns {boolean}
    * @memberof TYPE
    */
 
@@ -80,15 +82,17 @@ var ztype = (function (exports) {
   }
   /**
    * Returns a value indicating whether the variable is a String
+   * @param {*} value
    * @returns {boolean}
    * @memberof TYPE
    */
 
-  function isString(str) {
-    return typeof str === 'string' || str instanceof String;
+  function isString(value) {
+    return typeof value === 'string' || value instanceof String;
   }
   /**
    * Returns a value indicating whether the value is a Function
+   * @param {string} value
    * @returns {boolean}
    * @memberof TYPE
    */
@@ -98,6 +102,7 @@ var ztype = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is an Object
+   * @param {string} value
    * @returns {boolean}
    * @memberof TYPE
    */
@@ -107,6 +112,7 @@ var ztype = (function (exports) {
   }
   /**
    * Returns a value indicating whether the object is iterable
+   * @param {*} obj
    * @returns {boolean}
    * @memberof TYPE
    */
@@ -116,6 +122,7 @@ var ztype = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is null
+   * @param {string} value
    * @returns {boolean}
    * @memberof TYPE
    */
@@ -124,7 +131,18 @@ var ztype = (function (exports) {
     return value === null;
   }
   /**
+   * Returns a value indicating whether a string is null or made of whitespace.
+   * @param {string} str string
+   * @returns {boolean}
+   * @memberof TYPE
+   */
+
+  function isNullOrWhitespace(str) {
+    return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
+  }
+  /**
    * Returns a value indicating whether the value is undefined
+   * @param {*} value
    * @returns {boolean}
    * @memberof TYPE
    */
@@ -169,20 +187,17 @@ var ztype = (function (exports) {
   }
 
   /**
-   * Returns a value indicating the day of the week with monday = 0
-   * @param {Date} date 
-   * @memberof TYPE
+   * Compare 2 times
+   * @param {string} t1 time 1
+   * @param {string} t2 time 2
+   * @returns {number} 1, 0, -1 if t1 > t2, t1 = t2 and t1 < t2 respectively
    */
 
-  function dayOfWeek(date) {
-    var d = date.getDay();
-    return d == 0 ? 6 : d - 1;
-  } // Compare 2 times and returns
-  //  1 if t1 > t2
-  //  0 if t1 = t2
-  // -1 if t1 < t2
-
   function compareTime(t1, t2) {
+    if (isNullOrUndefined(t1) || isNullOrUndefined(t2) || !t1.includes(":") || !t2.includes(":")) {
+      return null;
+    }
+
     var arr1 = t1.split(':');
     var arr2 = t2.split(':'); // hour comparison
 
@@ -197,12 +212,6 @@ var ztype = (function (exports) {
         return 0;
       }
     }
-  }
-  function parseTime(n) {
-    var hh = +n | 0;
-    var mm = '00';
-    if (!isInt(+n)) mm = (n + '').split('.')[1] * 6;
-    return hh + ':' + mm;
   } // Returns a date using the format "YYYY-mm-dd"
 
   function shortDate(myDate) {
@@ -229,6 +238,16 @@ var ztype = (function (exports) {
   function parseDate(strDate) {
     var arrDate = strDate.split('-');
     return new Date(arrDate[0], arrDate[1] - 1, arrDate[2], 0, 0, 0, 0);
+  }
+  function parseTime(n) {
+    var hh = +n | 0;
+    var mm = '00';
+
+    if (!isInt(+n)) {
+      mm = (n + '').split('.')[1] * 6;
+    }
+
+    return hh + ':' + mm;
   } // Convertie une date de string (YYYY-MM-DD hh:mm) en format Date
 
   function parseDateTime(strDate) {
@@ -309,29 +328,6 @@ var ztype = (function (exports) {
     }
   }
 
-  /**
-   * Returns the index or value of the first element in the object
-   * @param {Object|Array} obj 
-   * @param {any} value 
-   * @memberof TYPE
-   */
-  function find(obj, value) {
-    if (Array.isArray(obj)) {
-      var index = obj.indexOf(value);
-      if (index !== -1) return index;
-    } else {
-      for (var _i = 0, _Object$keys = Object.keys(obj); _i < _Object$keys.length; _i++) {
-        var e = _Object$keys[_i];
-
-        if (obj[e] === value || obj[e].val === value) {
-          return e;
-        }
-      }
-    }
-
-    return undefined;
-  }
-
   /** @private */
   var hasOwnProperty = Object.prototype.hasOwnProperty;
   /** @private */
@@ -349,7 +345,7 @@ var ztype = (function (exports) {
     return hasOwnProperty.call(obj, key);
   };
   /**
-   * Returns a boolean indicating whether the object (child) inherit from another (parent)
+   * Returns a boolean indicating whether the object (child) inherit from another object (parent)
    * @param {*} child 
    * @param {*} parent 
    * @memberof TYPE
@@ -383,15 +379,6 @@ var ztype = (function (exports) {
   }
 
   /**
-   * Returns a value indicating whether a string is null or made of whitespace.
-   * @param {string} str string
-   * @memberof TYPE
-   */
-
-  function isNullOrWhitespace(str) {
-    return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
-  }
-  /**
    * Capitalizes all words in a sequence
    * @param {string} str Sequence
    * @returns {string} Capitalized sequence
@@ -399,7 +386,7 @@ var ztype = (function (exports) {
    */
 
   function capitalize(str) {
-    return str.replace(/\b\w/g, function (s) {
+    return str.toLowerCase().replace(/\b\w/g, function (s) {
       return s.toUpperCase();
     });
   }
@@ -413,20 +400,41 @@ var ztype = (function (exports) {
   function capitalizeFirstLetter(str) {
     return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
   }
-  function camelCase(str) {
-    var ccString = str.replace(/[_-]+/g, " ").trim();
-    var spaceIndex = ccString.indexOf(" ");
+  /**
+   * Capitalizes all words in a sequence except the first one and 
+   * removes spaces or punctuation
+   * @param {!string} str Sequence
+   * @returns {string} CamelCased sequence
+   * @memberof TYPE
+   */
 
-    if (spaceIndex === -1) {
+  function camelCase(str) {
+    if (isNullOrWhitespace(str)) {
       return str;
     }
 
-    return "".concat(ccString.substring(0, spaceIndex)).concat(capitalize(ccString.substring(spaceIndex)).replace(/\s+/g, ''));
+    var ccString = pascalCase(str);
+    return ccString.charAt(0).toLowerCase() + ccString.slice(1);
+  }
+  /**
+   * Capitalizes all words in a sequence and removes spaces or punctuation
+   * @param {!string} str Sequence
+   * @returns {string} PascalCased sequence
+   * @memberof TYPE
+   */
+
+  function pascalCase(str) {
+    if (isNullOrWhitespace(str)) {
+      return str;
+    }
+
+    var ccString = str.replace(/[_-]+/g, " ").replace(/\s+/g, ' ').trim();
+    return capitalize(ccString).replace(/\s+/g, '');
   }
   /**
    * Removes all accents from a string
-   * @param {*} str string
-   * @returns {string}
+   * @param {!string} str A string
+   * @returns {string} A string without accents
    * @memberof TYPE
    */
 
@@ -444,9 +452,7 @@ var ztype = (function (exports) {
   exports.capitalizeFirstLetter = capitalizeFirstLetter;
   exports.cloneObject = cloneObject;
   exports.compareTime = compareTime;
-  exports.dayOfWeek = dayOfWeek;
   exports.defProp = defProp;
-  exports.find = find;
   exports.hasOwn = hasOwn;
   exports.insert = insert;
   exports.isDate = isDate;
@@ -466,6 +472,7 @@ var ztype = (function (exports) {
   exports.parseDate = parseDate;
   exports.parseDateTime = parseDateTime;
   exports.parseTime = parseTime;
+  exports.pascalCase = pascalCase;
   exports.removeAccents = removeAccents;
   exports.shortDate = shortDate;
   exports.timeAgo = timeAgo;

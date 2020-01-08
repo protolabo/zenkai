@@ -2,34 +2,17 @@
 require('jsdom-global')();
 
 const expect = require('chai').expect;
-const { isNullOrWhitespace, capitalize, capitalizeFirstLetter, removeAccents } = require('@datatype/type-string.js');
+const { capitalize, capitalizeFirstLetter, camelCase, pascalCase, removeAccents } = require('@datatype/type-string.js');
 
 describe('String helpers', function () {
-    describe('#isNullOrWhitespace()', function () {
-        it("should return true if the value is null", function () {
-            var result = isNullOrWhitespace(null);
-            expect(result).to.be.true;
-        });
-        it("should return true if the value is a sequence of whitespace", function () {
-            var result = isNullOrWhitespace('  ');
-            expect(result).to.be.true;
-        });
-        it("should return false if the value is not a string", function () {
-            var values = [5, true, {}, []];
-            values.forEach((val) => {
-                var result = isNullOrWhitespace(val);
-                expect(result).to.be.false;
-            });
-        });
-    });
-    describe('#capitalize()', function () {
+    describe('#capitalize(str)', function () {
         it("should return a string with the first character of each word turn to uppercase", function () {
             var str = "this is a test";
             var result = capitalize(str);
             expect(result).to.be.equal("This Is A Test");
         });
     });
-    describe('#capitalizeFirstLetter()', function () {
+    describe('#capitalizeFirstLetter(str)', function () {
         it("should return a string with the first character turn to uppercase", function () {
             var str = "this is a test";
             var result = capitalizeFirstLetter(str);
@@ -43,7 +26,35 @@ describe('String helpers', function () {
             });
         });
     });
-    describe('#removeAccents()', function () {
+    describe('#camelCase(str)', function () {
+        it("should return a string with the first character turn to uppercase", function () {
+            var str = "this is a test";
+            var result = camelCase(str);
+            expect(result).to.be.equal("thisIsATest");
+        });
+        it("should return the same string if it's null or a sequence of whitespace", function () {
+            var values = [null, '  '];
+            values.forEach((val) => {
+                var result = camelCase(val);
+                expect(result).to.be.equal(val);
+            });
+        });
+    });
+    describe('#pascalCase(str)', function () {
+        it("should return a string with the first character turn to uppercase", function () {
+            var str = "this is a test";
+            var result = pascalCase(str);
+            expect(result).to.be.equal("ThisIsATest");
+        });
+        it("should return the same string if it's null or a sequence of whitespace", function () {
+            var values = [null, '  '];
+            values.forEach((val) => {
+                var result = pascalCase(val);
+                expect(result).to.be.equal(val);
+            });
+        });
+    });
+    describe('#removeAccents(str)', function () {
         it("should return a string with no accents", function () {
             var str = "l'été à Paris ça va être très tôt";
 

@@ -14,7 +14,7 @@ export const defProp = Object.defineProperty;
 export const hasOwn = function (obj, key) { return hasOwnProperty.call(obj, key); };
 
 /**
- * Returns a boolean indicating whether the object (child) inherit from another (parent)
+ * Returns a boolean indicating whether the object (child) inherit from another object (parent)
  * @param {*} child 
  * @param {*} parent 
  * @memberof TYPE

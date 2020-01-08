@@ -50,7 +50,7 @@ function toBoolean(value) {
 /**
  * Determines whether the value is an *integer*
  * @param {*} value Tested value
- * @returns {boolean}  A value indicating whether or not the given value is an *integer*.
+ * @returns {boolean} A value indicating whether or not the given value is an *integer*.
  * @memberof TYPE
  */
 
@@ -60,6 +60,7 @@ function isInt(value) {
 /**
  * Returns a value indicating whether the value is empty
  * @param {Object[]|string} arr array
+ * @returns {boolean}
  * @memberof TYPE
  */
 
@@ -69,6 +70,7 @@ function isEmpty(val) {
 /**
  * Returns a value indicating whether the variable is a Date
  * @param {*} value 
+ * @returns {boolean}
  * @memberof TYPE
  */
 
@@ -77,15 +79,17 @@ function isDate(value) {
 }
 /**
  * Returns a value indicating whether the variable is a String
+ * @param {*} value
  * @returns {boolean}
  * @memberof TYPE
  */
 
-function isString(str) {
-  return typeof str === 'string' || str instanceof String;
+function isString(value) {
+  return typeof value === 'string' || value instanceof String;
 }
 /**
  * Returns a value indicating whether the value is a Function
+ * @param {string} value
  * @returns {boolean}
  * @memberof TYPE
  */
@@ -95,6 +99,7 @@ function isFunction(value) {
 }
 /**
  * Returns a value indicating whether the value is an Object
+ * @param {string} value
  * @returns {boolean}
  * @memberof TYPE
  */
@@ -104,6 +109,7 @@ function isObject(value) {
 }
 /**
  * Returns a value indicating whether the object is iterable
+ * @param {*} obj
  * @returns {boolean}
  * @memberof TYPE
  */
@@ -113,6 +119,7 @@ function isIterable(obj) {
 }
 /**
  * Returns a value indicating whether the value is null
+ * @param {string} value
  * @returns {boolean}
  * @memberof TYPE
  */
@@ -121,7 +128,18 @@ function isNull(value) {
   return value === null;
 }
 /**
+ * Returns a value indicating whether a string is null or made of whitespace.
+ * @param {string} str string
+ * @returns {boolean}
+ * @memberof TYPE
+ */
+
+function isNullOrWhitespace(str) {
+  return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
+}
+/**
  * Returns a value indicating whether the value is undefined
+ * @param {*} value
  * @returns {boolean}
  * @memberof TYPE
  */
@@ -166,20 +184,17 @@ function last(arr) {
 }
 
 /**
- * Returns a value indicating the day of the week with monday = 0
- * @param {Date} date 
- * @memberof TYPE
+ * Compare 2 times
+ * @param {string} t1 time 1
+ * @param {string} t2 time 2
+ * @returns {number} 1, 0, -1 if t1 > t2, t1 = t2 and t1 < t2 respectively
  */
 
-function dayOfWeek(date) {
-  var d = date.getDay();
-  return d == 0 ? 6 : d - 1;
-} // Compare 2 times and returns
-//  1 if t1 > t2
-//  0 if t1 = t2
-// -1 if t1 < t2
-
 function compareTime(t1, t2) {
+  if (isNullOrUndefined(t1) || isNullOrUndefined(t2) || !t1.includes(":") || !t2.includes(":")) {
+    return null;
+  }
+
   var arr1 = t1.split(':');
   var arr2 = t2.split(':'); // hour comparison
 
@@ -194,12 +209,6 @@ function compareTime(t1, t2) {
       return 0;
     }
   }
-}
-function parseTime(n) {
-  var hh = +n | 0;
-  var mm = '00';
-  if (!isInt(+n)) mm = (n + '').split('.')[1] * 6;
-  return hh + ':' + mm;
 } // Returns a date using the format "YYYY-mm-dd"
 
 function shortDate(myDate) {
@@ -226,6 +235,16 @@ function longDate(myDate) {
 function parseDate(strDate) {
   var arrDate = strDate.split('-');
   return new Date(arrDate[0], arrDate[1] - 1, arrDate[2], 0, 0, 0, 0);
+}
+function parseTime(n) {
+  var hh = +n | 0;
+  var mm = '00';
+
+  if (!isInt(+n)) {
+    mm = (n + '').split('.')[1] * 6;
+  }
+
+  return hh + ':' + mm;
 } // Convertie une date de string (YYYY-MM-DD hh:mm) en format Date
 
 function parseDateTime(strDate) {
@@ -306,29 +325,6 @@ function timeAgo(time, callback) {
   }
 }
 
-/**
- * Returns the index or value of the first element in the object
- * @param {Object|Array} obj 
- * @param {any} value 
- * @memberof TYPE
- */
-function find(obj, value) {
-  if (Array.isArray(obj)) {
-    var index = obj.indexOf(value);
-    if (index !== -1) return index;
-  } else {
-    for (var _i = 0, _Object$keys = Object.keys(obj); _i < _Object$keys.length; _i++) {
-      var e = _Object$keys[_i];
-
-      if (obj[e] === value || obj[e].val === value) {
-        return e;
-      }
-    }
-  }
-
-  return undefined;
-}
-
 /** @private */
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 /** @private */
@@ -346,7 +342,7 @@ var hasOwn = function hasOwn(obj, key) {
   return hasOwnProperty.call(obj, key);
 };
 /**
- * Returns a boolean indicating whether the object (child) inherit from another (parent)
+ * Returns a boolean indicating whether the object (child) inherit from another object (parent)
  * @param {*} child 
  * @param {*} parent 
  * @memberof TYPE
@@ -380,15 +376,6 @@ function cloneObject(obj) {
 }
 
 /**
- * Returns a value indicating whether a string is null or made of whitespace.
- * @param {string} str string
- * @memberof TYPE
- */
-
-function isNullOrWhitespace(str) {
-  return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
-}
-/**
  * Capitalizes all words in a sequence
  * @param {string} str Sequence
  * @returns {string} Capitalized sequence
@@ -396,7 +383,7 @@ function isNullOrWhitespace(str) {
  */
 
 function capitalize(str) {
-  return str.replace(/\b\w/g, function (s) {
+  return str.toLowerCase().replace(/\b\w/g, function (s) {
     return s.toUpperCase();
   });
 }
@@ -410,20 +397,41 @@ function capitalize(str) {
 function capitalizeFirstLetter(str) {
   return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
 }
-function camelCase(str) {
-  var ccString = str.replace(/[_-]+/g, " ").trim();
-  var spaceIndex = ccString.indexOf(" ");
+/**
+ * Capitalizes all words in a sequence except the first one and 
+ * removes spaces or punctuation
+ * @param {!string} str Sequence
+ * @returns {string} CamelCased sequence
+ * @memberof TYPE
+ */
 
-  if (spaceIndex === -1) {
+function camelCase(str) {
+  if (isNullOrWhitespace(str)) {
     return str;
   }
 
-  return "".concat(ccString.substring(0, spaceIndex)).concat(capitalize(ccString.substring(spaceIndex)).replace(/\s+/g, ''));
+  var ccString = pascalCase(str);
+  return ccString.charAt(0).toLowerCase() + ccString.slice(1);
+}
+/**
+ * Capitalizes all words in a sequence and removes spaces or punctuation
+ * @param {!string} str Sequence
+ * @returns {string} PascalCased sequence
+ * @memberof TYPE
+ */
+
+function pascalCase(str) {
+  if (isNullOrWhitespace(str)) {
+    return str;
+  }
+
+  var ccString = str.replace(/[_-]+/g, " ").replace(/\s+/g, ' ').trim();
+  return capitalize(ccString).replace(/\s+/g, '');
 }
 /**
  * Removes all accents from a string
- * @param {*} str string
- * @returns {string}
+ * @param {!string} str A string
+ * @returns {string} A string without accents
  * @memberof TYPE
  */
 
@@ -994,8 +1002,6 @@ function preprendChild(target, element) {
  */
 
 function appendChildren(parent, children) {
-  var fragment = document.createDocumentFragment();
-
   if (!isNode(parent)) {
     return null;
   }
@@ -1004,6 +1010,7 @@ function appendChildren(parent, children) {
     return null;
   }
 
+  var fragment = document.createDocumentFragment();
   Array.from(children).forEach(function (element) {
     fragment.appendChild(isNode(element) ? element : document.createTextNode(element.toString()));
   });
@@ -2133,7 +2140,7 @@ function addContent(element, children) {
 }
 
 /**
- * Checks whether the selector is a class
+ * Checks whether the selector represents a `class`
  * @returns {boolean}
  * @private
  */
@@ -2142,7 +2149,7 @@ var isClassSelector = function isClassSelector(selector) {
   return /^\.[a-zA-Z0-9_-]+$/.test(selector);
 };
 /**
- * Checks whether the selector is an id
+ * Checks whether the selector represents an `id`
  * @returns {boolean}
  * @private
  */
@@ -2152,10 +2159,11 @@ var isIdSelector = function isIdSelector(selector) {
   return /^#[a-zA-Z0-9_-]+$/.test(selector);
 };
 /**
- * Returns the first Element within the specified container that matches the specified selector, group or selectors.
- * @param {string} selector A DOMString containing one or more selectors to match
+ * Returns the first element within the specified container that matches the 
+ * specified selector, group or selectors.
+ * @param {!string} selector A DOMString containing one or more selectors to match
  * @param {HTMLElement|DocumentFragment} [_container] Container queried
- * @returns {HTMLElement|null} The first Element matches that matches the specified set of CSS selectors.
+ * @returns {HTMLElement|null} The first element matches that matches the specified set of CSS selectors.
  * @memberof DOM
  */
 
@@ -2163,8 +2171,12 @@ var isIdSelector = function isIdSelector(selector) {
 function getElement(selector, _container) {
   var container = valOrDefault(_container, document);
 
+  if (isNullOrWhitespace(selector)) {
+    return null;
+  }
+
   if (container instanceof DocumentFragment) {
-    container.querySelector(selector);
+    return container.querySelector(selector);
   }
 
   if (isIdSelector(selector)) {
@@ -2179,7 +2191,7 @@ function getElement(selector, _container) {
 }
 /**
  * Returns all elements that match the selector query.
- * @param {string} selector A DOMString containing one or more selectors to match
+ * @param {!string} selector A DOMString containing one or more selectors to match
  * @param {HTMLElement|DocumentFragment} [_container] Container queried
  * @returns {HTMLCollection|NodeList} A live or *static* (not live) collection of the `container`'s children Element that match the `selector`.
  * @memberof DOM
@@ -2188,8 +2200,12 @@ function getElement(selector, _container) {
 function getElements(selector, _container) {
   var container = valOrDefault(_container, document);
 
+  if (isNullOrWhitespace(selector)) {
+    return null;
+  }
+
   if (container instanceof DocumentFragment) {
-    container.querySelectorAll(selector);
+    return container.querySelectorAll(selector);
   }
 
   if (isClassSelector(selector)) {
@@ -2344,7 +2360,7 @@ function findAncestorIter(target, callback, max) {
 /**
  * Removes all children of a node from the DOM or 
  * those that satisfies the predicate function
- * @param {Node} node 
+ * @param {!Node} node 
  * @param {Function} [callback] Decides whether the node should be removed
  * @memberof DOM
  */
@@ -2367,7 +2383,7 @@ function removeChildren(node, callback) {
 }
 /**
  * Removes all children of a node from the DOM
- * @param {Node} node 
+ * @param {!Node} node 
  * @private
  */
 
@@ -3063,4 +3079,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, all, appendChildren, boolToInt, camelCase, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, dayOfWeek, defProp, find, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLCollection, isHTMLElement, isInt, isIterable, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, no, one, parseDate, parseDateTime, parseTime, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, setClass, shortDate, some, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, all, appendChildren, boolToInt, camelCase, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, defProp, findAncestor, findByPath, floatingLabel, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLCollection, isHTMLElement, isInt, isIterable, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, longDate, no, one, parseDate, parseDateTime, parseTime, pascalCase, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, setClass, shortDate, some, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
