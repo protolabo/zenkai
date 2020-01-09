@@ -212,32 +212,57 @@ var zenkai = (function (exports) {
         return 0;
       }
     }
+  }
+  /**
+   * Resolves a date value
+   * @param {*} [date] 
+   * @returns {Date}
+   * @private
+   */
+
+  function resolveDate(date) {
+    if (isNullOrUndefined(date)) {
+      return new Date();
+    } else if (isDate(date)) {
+      return date;
+    }
+
+    var _date = new Date(date);
+
+    return new Date(_date.getTime() + _date.getTimezoneOffset() * 60000);
+  }
+  /**
+   * Formats a date
+   * @param {!Date} date 
+   * @param {!string} format 
+   * @returns {string} Formatted date
+   */
+
+
+  function formatDate(date, format) {
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1; // January = 0
+
+    var yyyy = date.getFullYear().toString();
+    var hh = date.getHours();
+    var MM = date.getMinutes();
+    var ss = date.getSeconds();
+
+    var twoDigits = function twoDigits(val) {
+      return val < 10 ? "0".concat(val) : val;
+    };
+
+    return format.replace('yyyy', yyyy).replace('yy', yyyy.slice(-2)).replace('mm', twoDigits(mm)).replace('m', mm).replace('dd', twoDigits(dd)).replace('d', dd).replace('hh', twoDigits(hh)).replace('h', hh).replace('MM', twoDigits(MM)).replace('M', MM).replace('ss', twoDigits(ss)).replace('s', ss);
   } // Returns a date using the format "YYYY-mm-dd"
 
-  function shortDate(myDate) {
-    var d = new Date(myDate);
-    var dd = d.getDate();
-    var mm = d.getMonth() + 1; // January = 0
-
-    var yyyy = d.getFullYear();
-    if (dd < 10) dd = '0' + dd;
-    if (mm < 10) mm = '0' + mm;
-    d = yyyy + '-' + mm + '-' + dd;
-    return d;
+  function shortDate(_date) {
+    var date = resolveDate(_date);
+    return formatDate(date, 'yyyy-mm-dd');
   } // Returns a date and time using the format "YYYY-mm-dd hh:MM"
 
-  function longDate(myDate) {
-    var d = new Date(myDate);
-    var hh = d.getHours();
-    var MM = d.getMinutes();
-    if (MM < 10) MM = '0' + MM;
-    d = shortDate(d) + ' ' + hh + ':' + MM;
-    return d;
-  } // Convertie une date de string (YYYY-MM-DD) en format Date
-
-  function parseDate(strDate) {
-    var arrDate = strDate.split('-');
-    return new Date(arrDate[0], arrDate[1] - 1, arrDate[2], 0, 0, 0, 0);
+  function shortDateTime(_date) {
+    var date = resolveDate(_date);
+    return formatDate(new Date(date + date.getTimezoneOffset() * 60000), 'yyyy-mm-dd hh:MM');
   }
   function parseTime(n) {
     var hh = +n | 0;
@@ -248,13 +273,6 @@ var zenkai = (function (exports) {
     }
 
     return hh + ':' + mm;
-  } // Convertie une date de string (YYYY-MM-DD hh:mm) en format Date
-
-  function parseDateTime(strDate) {
-    var arrDateTime = strDate.split(' ');
-    var arrTime = arrDateTime[1].split(':');
-    var d = parseDate(arrDateTime[0]).setHours(+arrTime[0], +arrTime[1]);
-    return new Date(d);
   }
   var DICT = {
     'en': {
@@ -300,10 +318,16 @@ var zenkai = (function (exports) {
     };
     return msg[lang];
   };
+  /**
+   * Returns the ellapsed time between now and a point in time
+   * @param {*} time 
+   * @param {*} _callback 
+   */
 
-  function timeAgo(time, callback) {
-    callback = valOrDefault(callback, timeAgoResponse);
-    var seconds = Math.floor((Date.now() - new Date(time).getTime()) / 1000);
+
+  function timeAgo(time, _callback) {
+    var callback = valOrDefault(_callback, timeAgoResponse);
+    var seconds = Math.floor((Date.now() - resolveDate(time).getTime()) / 1000);
     var MINUTE = 60;
     var HOUR = MINUTE * 60;
     var DAY = HOUR * 24;
@@ -3186,6 +3210,7 @@ var zenkai = (function (exports) {
   exports.findAncestor = findAncestor;
   exports.findByPath = findByPath;
   exports.floatingLabel = floatingLabel;
+  exports.formatDate = formatDate;
   exports.getDir = getDir;
   exports.getDirTarget = getDirTarget;
   exports.getElement = getElement;
@@ -3219,11 +3244,8 @@ var zenkai = (function (exports) {
   exports.isString = isString;
   exports.isUndefined = isUndefined;
   exports.last = last;
-  exports.longDate = longDate;
   exports.no = no;
   exports.one = one;
-  exports.parseDate = parseDate;
-  exports.parseDateTime = parseDateTime;
   exports.parseTime = parseTime;
   exports.pascalCase = pascalCase;
   exports.preprendChild = preprendChild;
@@ -3234,6 +3256,7 @@ var zenkai = (function (exports) {
   exports.removeClass = removeClass;
   exports.setClass = setClass;
   exports.shortDate = shortDate;
+  exports.shortDateTime = shortDateTime;
   exports.some = some;
   exports.timeAgo = timeAgo;
   exports.toBoolean = toBoolean;

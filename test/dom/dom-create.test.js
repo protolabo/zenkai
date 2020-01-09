@@ -103,7 +103,7 @@ function createAttribute() {
     return result;
 }
 
-describe('DOM helpers', function () {
+describe('DOM create helpers', function () {
     before('initialize DOM', function () {
         const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8');
         this.jsdom = jsdom(html);

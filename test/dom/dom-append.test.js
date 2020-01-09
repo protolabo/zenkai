@@ -8,7 +8,7 @@ var expect = require('chai').expect;
 // import the library under test
 const { insertBeforeElement, insertAfterElement, preprendChild, appendChildren } = require('@dom/dom-append.js');
 
-describe('DOM manipulation helpers', function () {
+describe('DOM append helpers', function () {
     before('initialize DOM', function () {
         const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8');
         this.jsdom = jsdom(html);

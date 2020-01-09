@@ -8,7 +8,7 @@ var expect = require('chai').expect;
 // import the library under test
 const { removeChildren } = require('@dom/dom-remove.js');
 
-describe('DOM manipulation helpers', function () {
+describe('DOM remove helpers', function () {
     beforeEach('initialize DOM', function () {
         const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8');
         this.jsdom = jsdom(html);

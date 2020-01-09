@@ -8,7 +8,7 @@ var expect = require('chai').expect;
 // import the library under test
 const { getElement, getElements, getTemplate, cloneTemplate, getPreviousElementSibling, getNextElementSibling, findAncestor } = require('@dom/dom-query.js');
 
-describe('DOM manipulation helpers', function () {
+describe('DOM query helpers', function () {
     before('initialize DOM', function () {
         const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8');
         this.jsdom = jsdom(html);

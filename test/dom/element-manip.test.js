@@ -24,7 +24,7 @@ const ATTRIBUTE_MAPPER = {
 // import the library under test
 const { addAttributes } = require('@dom/element-manip.js');
 
-describe('DOM manipulation helpers', function () {
+describe('Element manipulation helpers', function () {
     before('initialize DOM', function () {
         const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8');
         this.jsdom = jsdom(html);
