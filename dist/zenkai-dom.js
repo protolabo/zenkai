@@ -171,6 +171,43 @@ var zdom = (function (exports) {
   var isDocumentFragment = function isDocumentFragment(obj) {
     return isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
   };
+  /**
+   * Creates a template with content
+   * @param {string} html 
+   * @returns {HTMLTemplateElement}
+   * @private
+   */
+
+  function createTemplate(html) {
+    var template = document.createElement('template');
+    template.innerHTML = html;
+    return template;
+  }
+  /**
+   * Converts an html string to an HTML Element
+   * @param {!string} html 
+   * @returns {Node}
+   * @memberof DOM
+   */
+
+
+  function htmlToElement(html) {
+    var template = createTemplate(html.trim());
+    return template.content.firstChild;
+  }
+  /**
+   * Converts an html string to a list of HTML Elements
+   * @param {!string} html 
+   * @returns {NodeList}
+   * @memberof DOM
+   */
+
+  function htmlToElements(html) {
+    var template = createTemplate({
+      html: html.trim()
+    });
+    return template.content.childNodes;
+  }
 
   /**
    * Inserts a given element before the targetted element
@@ -525,6 +562,16 @@ var zdom = (function (exports) {
 
     return link;
   }
+  /**
+   * Creates a `<template>` element with some attributes
+   * @function createTemplate
+   * @param {object} _attribute Global attributes
+   * @param {Text|HTMLElement|HTMLElement[]} _children Content
+   * @returns {HTMLTemplateElement}
+   * @memberof DOM
+   */
+
+  var createTemplate$1 = create.bind(null, 'template');
   /**
    * Creates a `<header>` element with some attributes
    * @function createHeader
@@ -1725,6 +1772,7 @@ var zdom = (function (exports) {
   exports.createTableHeader = createTableHeader;
   exports.createTableHeaderCell = createTableHeaderCell;
   exports.createTableRow = createTableRow;
+  exports.createTemplate = createTemplate$1;
   exports.createTextArea = createTextArea;
   exports.createTextNode = createTextNode;
   exports.createThematicBreak = createThematicBreak;
@@ -1739,6 +1787,8 @@ var zdom = (function (exports) {
   exports.getPreviousElementSibling = getPreviousElementSibling;
   exports.getTemplate = getTemplate;
   exports.hasClass = hasClass;
+  exports.htmlToElement = htmlToElement;
+  exports.htmlToElements = htmlToElements;
   exports.insertAfterElement = insertAfterElement;
   exports.insertBeforeElement = insertBeforeElement;
   exports.isDocumentFragment = isDocumentFragment;

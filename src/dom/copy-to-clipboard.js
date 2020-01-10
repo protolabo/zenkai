@@ -1,5 +1,5 @@
 import { createTextArea } from './dom-create.js';
-import { isHTMLElement } from './checker.js';
+import { isHTMLElement } from './dom-parse.js';
 
 /**
  * Copy to clipboard

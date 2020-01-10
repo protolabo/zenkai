@@ -188,6 +188,7 @@ function last(arr) {
  * @param {string} t1 time 1
  * @param {string} t2 time 2
  * @returns {number} 1, 0, -1 if t1 > t2, t1 = t2 and t1 < t2 respectively
+ * @memberof TYPE
  */
 
 function compareTime(t1, t2) {
@@ -198,12 +199,24 @@ function compareTime(t1, t2) {
   var arr1 = t1.split(':');
   var arr2 = t2.split(':'); // hour comparison
 
-  if (+arr1[0] > +arr2[0]) return 1;else if (+arr1[0] < +arr2[0]) return -1;else {
+  if (+arr1[0] > +arr2[0]) {
+    return 1;
+  } else if (+arr1[0] < +arr2[0]) {
+    return -1;
+  } else {
     // minute comparison
-    if (+arr1[1] > +arr2[1]) return 1;else if (+arr1[1] < +arr2[1]) return -1;else {
+    if (+arr1[1] > +arr2[1]) {
+      return 1;
+    } else if (+arr1[1] < +arr2[1]) {
+      return -1;
+    } else {
       if (arr1.length == arr2.length && arr1.length == 3) {
         // second comparison
-        if (+arr1[2] > +arr2[2]) return 1;else if (+arr1[2] < +arr2[2]) return -1;
+        if (+arr1[2] > +arr2[2]) {
+          return 1;
+        } else if (+arr1[2] < +arr2[2]) {
+          return -1;
+        }
       }
 
       return 0;
@@ -233,6 +246,7 @@ function resolveDate(date) {
  * @param {!Date} date 
  * @param {!string} format 
  * @returns {string} Formatted date
+ * @memberof TYPE
  */
 
 
@@ -250,12 +264,24 @@ function formatDate(date, format) {
   };
 
   return format.replace('yyyy', yyyy).replace('yy', yyyy.slice(-2)).replace('mm', twoDigits(mm)).replace('m', mm).replace('dd', twoDigits(dd)).replace('d', dd).replace('hh', twoDigits(hh)).replace('h', hh).replace('MM', twoDigits(MM)).replace('M', MM).replace('ss', twoDigits(ss)).replace('s', ss);
-} // Returns a date using the format "YYYY-mm-dd"
+}
+/**
+ * Returns a date and time using the format "YYYY-mm-dd"
+ * @param {*} _date 
+ * @returns {string}
+ * @memberof TYPE
+ */
 
 function shortDate(_date) {
   var date = resolveDate(_date);
   return formatDate(date, 'yyyy-mm-dd');
-} // Returns a date and time using the format "YYYY-mm-dd hh:MM"
+}
+/**
+ * Returns a date and time using the format "YYYY-mm-dd hh:MM"
+ * @param {*} _date 
+ * @returns {string}
+ * @memberof TYPE
+ */
 
 function shortDateTime(_date) {
   var date = resolveDate(_date);
@@ -319,6 +345,8 @@ var timeAgoResponse = function timeAgoResponseBuilder(time, unit, _lang) {
  * Returns the ellapsed time between now and a point in time
  * @param {*} time 
  * @param {*} _callback 
+ * @returns {string}
+ * @memberof TYPE
  */
 
 
@@ -971,6 +999,43 @@ var isDocumentFragmentNode = function isDocumentFragmentNode(obj) {
 var isDocumentFragment = function isDocumentFragment(obj) {
   return isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
 };
+/**
+ * Creates a template with content
+ * @param {string} html 
+ * @returns {HTMLTemplateElement}
+ * @private
+ */
+
+function createTemplate(html) {
+  var template = document.createElement('template');
+  template.innerHTML = html;
+  return template;
+}
+/**
+ * Converts an html string to an HTML Element
+ * @param {!string} html 
+ * @returns {Node}
+ * @memberof DOM
+ */
+
+
+function htmlToElement(html) {
+  var template = createTemplate(html.trim());
+  return template.content.firstChild;
+}
+/**
+ * Converts an html string to a list of HTML Elements
+ * @param {!string} html 
+ * @returns {NodeList}
+ * @memberof DOM
+ */
+
+function htmlToElements(html) {
+  var template = createTemplate({
+    html: html.trim()
+  });
+  return template.content.childNodes;
+}
 
 /**
  * Inserts a given element before the targetted element
@@ -1325,6 +1390,16 @@ function createLink(href, rel) {
 
   return link;
 }
+/**
+ * Creates a `<template>` element with some attributes
+ * @function createTemplate
+ * @param {object} _attribute Global attributes
+ * @param {Text|HTMLElement|HTMLElement[]} _children Content
+ * @returns {HTMLTemplateElement}
+ * @memberof DOM
+ */
+
+var createTemplate$1 = create.bind(null, 'template');
 /**
  * Creates a `<header>` element with some attributes
  * @function createHeader
@@ -3103,4 +3178,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, all, appendChildren, boolToInt, camelCase, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, defProp, findAncestor, findByPath, floatingLabel, formatDate, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLCollection, isHTMLElement, isInt, isIterable, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, no, one, parseTime, pascalCase, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, setClass, shortDate, shortDateTime, some, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, all, appendChildren, boolToInt, camelCase, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTemplate$1 as createTemplate, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, defProp, findAncestor, findByPath, floatingLabel, formatDate, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, htmlToElement, htmlToElements, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLCollection, isHTMLElement, isInt, isIterable, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, no, one, parseTime, pascalCase, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, setClass, shortDate, shortDateTime, some, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };

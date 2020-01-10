@@ -1,4 +1,4 @@
-import { isNode } from "./checker.js";
+import { isNode } from "./dom-parse.js";
 import { appendChildren } from "./dom-append.js";
 import { addAttributes } from "./element-manip.js";
 
@@ -58,6 +58,16 @@ export function createLink(href, rel) {
 
     return link;
 }
+
+/**
+ * Creates a `<template>` element with some attributes
+ * @function createTemplate
+ * @param {object} _attribute Global attributes
+ * @param {Text|HTMLElement|HTMLElement[]} _children Content
+ * @returns {HTMLTemplateElement}
+ * @memberof DOM
+ */
+export const createTemplate = create.bind(null, 'template');
 
 /**
  * Creates a `<header>` element with some attributes

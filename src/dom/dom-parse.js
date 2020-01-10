@@ -45,3 +45,40 @@ const isDocumentFragmentNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType 
  * @memberof DOM
  */
 export const isDocumentFragment = (obj) => isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
+
+/**
+ * Creates a template with content
+ * @param {string} html 
+ * @returns {HTMLTemplateElement}
+ * @private
+ */
+function createTemplate(html) {
+    var template = document.createElement('template');
+    template.innerHTML = html;
+
+    return template;
+}
+
+/**
+ * Converts an html string to an HTML Element
+ * @param {!string} html 
+ * @returns {Node}
+ * @memberof DOM
+ */
+export function htmlToElement(html) {
+    var template = createTemplate(html.trim());
+
+    return template.content.firstChild;
+}
+
+/**
+ * Converts an html string to a list of HTML Elements
+ * @param {!string} html 
+ * @returns {NodeList}
+ * @memberof DOM
+ */
+export function htmlToElements(html) {
+    var template = createTemplate({ html: html.trim() });
+
+    return template.content.childNodes;
+}

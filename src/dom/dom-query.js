@@ -1,5 +1,5 @@
-﻿import { isFunction, isNullOrUndefined, valOrDefault, isEmpty, isNullOrWhitespace } from '@datatype/index.js';
-import { isElement } from './checker.js';
+﻿import { isFunction, isNullOrUndefined, valOrDefault, isNullOrWhitespace } from '@datatype/index.js';
+import { isElement } from './dom-parse.js';
 
 
 /**

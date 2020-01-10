@@ -6,9 +6,9 @@ var fs = require('fs');
 var expect = require('chai').expect;
 
 // import the library under test
-const { isNode, isElement, isHTMLElement, isHTMLCollection, isDocumentFragment } = require('@dom/checker.js');
+const { isNode, isElement, isHTMLElement, isHTMLCollection, isDocumentFragment } = require('@dom/dom-parse.js');
 
-describe('DOM checkers helpers', function () {
+describe('DOM parse helpers', function () {
     before('initialize DOM', function () {
         const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8');
         this.jsdom = jsdom(html);

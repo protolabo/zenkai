@@ -1,14 +1,14 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset='utf-8'>
+  <meta charset='utf-8' />
   <title>zenkai 0.9.17 | Documentation</title>
   <meta name='description' content='Dom, Datatype helpers, utilities (AJAX, URI) and UI components'>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
-  <link href='assets/bass.css' rel='stylesheet'>
-  <link href='assets/style.css' rel='stylesheet'>
-  <link href='assets/github.css' rel='stylesheet'>
-  <link href='assets/split.css' rel='stylesheet'>
+  <link href='assets/bass.css' rel='stylesheet' />
+  <link href='assets/style.css' rel='stylesheet' />
+  <link href='assets/github.css' rel='stylesheet' />
+  <link href='assets/split.css' rel='stylesheet' />
 </head>
 <body class='documentation m0'>
     <div class='flex'>
@@ -77,6 +77,12 @@
                         href='#domcreatelink'
                         class='regular pre-open'>
                         .createLink
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreatetemplate'
+                        class='regular pre-open'>
+                        .createTemplate
                       </a></li>
                     
                       <li><a
@@ -524,6 +530,48 @@
                       </a></li>
                     
                       <li><a
+                        href='#domisnode'
+                        class='regular pre-open'>
+                        .isNode
+                      </a></li>
+                    
+                      <li><a
+                        href='#domiselement'
+                        class='regular pre-open'>
+                        .isElement
+                      </a></li>
+                    
+                      <li><a
+                        href='#domishtmlelement'
+                        class='regular pre-open'>
+                        .isHTMLElement
+                      </a></li>
+                    
+                      <li><a
+                        href='#domishtmlcollection'
+                        class='regular pre-open'>
+                        .isHTMLCollection
+                      </a></li>
+                    
+                      <li><a
+                        href='#domisdocumentfragment'
+                        class='regular pre-open'>
+                        .isDocumentFragment
+                      </a></li>
+                    
+                      <li><a
+                        href='#domhtmltoelement'
+                        class='regular pre-open'>
+                        .htmlToElement
+                      </a></li>
+                    
+                      <li><a
+                        href='#domhtmltoelements'
+                        class='regular pre-open'>
+                        .htmlToElements
+                      </a></li>
+                    
+                      <li><a
                         href='#domgetelement'
                         class='regular pre-open'>
                         .getElement
@@ -623,36 +671,6 @@
                         href='#domconceal'
                         class='regular pre-open'>
                         .conceal
-                      </a></li>
-                    
-                      <li><a
-                        href='#domisnode'
-                        class='regular pre-open'>
-                        .isNode
-                      </a></li>
-                    
-                      <li><a
-                        href='#domiselement'
-                        class='regular pre-open'>
-                        .isElement
-                      </a></li>
-                    
-                      <li><a
-                        href='#domishtmlelement'
-                        class='regular pre-open'>
-                        .isHTMLElement
-                      </a></li>
-                    
-                      <li><a
-                        href='#domishtmlcollection'
-                        class='regular pre-open'>
-                        .isHTMLCollection
-                      </a></li>
-                    
-                      <li><a
-                        href='#domisdocumentfragment'
-                        class='regular pre-open'>
-                        .isDocumentFragment
                       </a></li>
                     
                       <li><a
@@ -1176,6 +1194,84 @@
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLLinkElement">HTMLLinkElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreatetemplate'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createTemplate(_attribute, _children)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;template></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createTemplate(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLTemplateElement</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    Global attributes
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    Content
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>HTMLTemplateElement</code>:
         
 
       
@@ -6825,11 +6921,11 @@ optionally some attributes and children elements</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='domgetelement'>
+    <div class='border-bottom' id='domisnode'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getElement(selector, _container?)</span>
+            <span class='code strong strong truncate'>isNode</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6837,9 +6933,9 @@ optionally some attributes and children elements</p>
 
   
 
-  <p>Returns the first Element within the specified container that matches the specified selector, group or selectors.</p>
+  <p>Verifies that an object is a <em>Node</em></p>
 
-    <div class='pre p1 fill-light mt0'>getElement(selector: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _container: (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?): (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | null)</div>
+    <div class='pre p1 fill-light mt0'>isNode</div>
   
   
 
@@ -6856,7 +6952,489 @@ optionally some attributes and children elements</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>selector</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        Value indicating whether the object is an 
+<em>Node</em>
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domiselement'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isElement</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Verifies that an object is an <em>Element</em></p>
+
+    <div class='pre p1 fill-light mt0'>isElement</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        Value indicating whether the object is an 
+<em>Element</em>
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domishtmlelement'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isHTMLElement</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Verifies that an object is an <em>HTMLElement</em></p>
+
+    <div class='pre p1 fill-light mt0'>isHTMLElement</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        Value indicating whether the object is an 
+<em>HTMLElement</em>
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domishtmlcollection'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isHTMLCollection</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Verifies that an object is an <em>HTMLCollection</em></p>
+
+    <div class='pre p1 fill-light mt0'>isHTMLCollection</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        Value indicating whether the object is an 
+<em>HTMLCollection</em>
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domisdocumentfragment'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isDocumentFragment</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Verifies that an object is an <em>DocumentFragment</em></p>
+
+    <div class='pre p1 fill-light mt0'>isDocumentFragment</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        Value indicating whether the object is an 
+<em>DocumentFragment</em>
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domhtmltoelement'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>htmlToElement(html)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Converts an html string to an HTML Element</p>
+
+    <div class='pre p1 fill-light mt0'>htmlToElement(html: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/API/Node/nextSibling">Node</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>html</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/Node/nextSibling">Node</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domhtmltoelements'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>htmlToElements(html)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Converts an html string to a list of HTML Elements</p>
+
+    <div class='pre p1 fill-light mt0'>htmlToElements(html: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/API/NodeList">NodeList</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>html</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/NodeList">NodeList</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domgetelement'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>getElement(selector, _container?)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Returns the first element within the specified container that matches the
+specified selector, group or selectors.</p>
+
+    <div class='pre p1 fill-light mt0'>getElement(selector: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _container: (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?): (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | null)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>selector</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    A DOMString containing one or more selectors to match
 
           </div>
@@ -6881,7 +7459,7 @@ optionally some attributes and children elements</p>
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code>(<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | null)</code>:
-        The first Element matches that matches the specified set of CSS selectors.
+        The first element matches that matches the specified set of CSS selectors.
 
       
     
@@ -6917,7 +7495,7 @@ optionally some attributes and children elements</p>
 
   <p>Returns all elements that match the selector query.</p>
 
-    <div class='pre p1 fill-light mt0'>getElements(selector: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _container: (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?): (HTMLCollection | <a href="https://developer.mozilla.org/docs/Web/API/NodeList">NodeList</a>)</div>
+    <div class='pre p1 fill-light mt0'>getElements(selector: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _container: (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/API/DocumentFragment">DocumentFragment</a>)?): (HTMLCollection | <a href="https://developer.mozilla.org/docs/Web/API/NodeList">NodeList</a>)</div>
   
   
 
@@ -6934,7 +7512,7 @@ optionally some attributes and children elements</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>selector</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>selector</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    A DOMString containing one or more selectors to match
 
           </div>
@@ -7399,7 +7977,7 @@ optionally some attributes and children elements</p>
   <p>Removes all children of a node from the DOM or
 those that satisfies the predicate function</p>
 
-    <div class='pre p1 fill-light mt0'>removeChildren(node: <a href="https://developer.mozilla.org/docs/Web/API/Node/nextSibling">Node</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>?)</div>
+    <div class='pre p1 fill-light mt0'>removeChildren(node: !<a href="https://developer.mozilla.org/docs/Web/API/Node/nextSibling">Node</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>?)</div>
   
   
 
@@ -7416,7 +7994,7 @@ those that satisfies the predicate function</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>node</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Node/nextSibling">Node</a>)</code>
+            <span class='code bold'>node</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/API/Node/nextSibling">Node</a>)</code>
 	    
           </div>
           
@@ -8079,351 +8657,6 @@ those that satisfies the predicate function</p>
 
   
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domisnode'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>isNode</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Verifies that an object is a <em>Node</em></p>
-
-    <div class='pre p1 fill-light mt0'>isNode</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
-        Value indicating whether the object is an 
-<em>Node</em>
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domiselement'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>isElement</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Verifies that an object is an <em>Element</em></p>
-
-    <div class='pre p1 fill-light mt0'>isElement</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
-        Value indicating whether the object is an 
-<em>Element</em>
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domishtmlelement'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>isHTMLElement</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Verifies that an object is an <em>HTMLElement</em></p>
-
-    <div class='pre p1 fill-light mt0'>isHTMLElement</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
-        Value indicating whether the object is an 
-<em>HTMLElement</em>
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domishtmlcollection'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>isHTMLCollection</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Verifies that an object is an <em>HTMLCollection</em></p>
-
-    <div class='pre p1 fill-light mt0'>isHTMLCollection</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
-        Value indicating whether the object is an 
-<em>HTMLCollection</em>
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domisdocumentfragment'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>isDocumentFragment</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Verifies that an object is an <em>DocumentFragment</em></p>
-
-    <div class='pre p1 fill-light mt0'>isDocumentFragment</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
-        Value indicating whether the object is an 
-<em>DocumentFragment</em>
-
-      
-    
   
 
   

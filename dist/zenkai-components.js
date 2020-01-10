@@ -354,6 +354,16 @@ var zcomponents = (function (exports) {
     return element;
   }
   /**
+   * Creates a `<template>` element with some attributes
+   * @function createTemplate
+   * @param {object} _attribute Global attributes
+   * @param {Text|HTMLElement|HTMLElement[]} _children Content
+   * @returns {HTMLTemplateElement}
+   * @memberof DOM
+   */
+
+  var createTemplate = create.bind(null, 'template');
+  /**
    * Creates a `<header>` element with some attributes
    * @function createHeader
    * @param {object} _attribute 

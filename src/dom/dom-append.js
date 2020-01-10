@@ -1,6 +1,6 @@
 import { isIterable, isString } from '@datatype/index.js';
 import { all } from '@utils/index.js';
-import { isNode, isElement, isHTMLCollection } from './checker.js';
+import { isNode, isElement, isHTMLCollection } from './dom-parse.js';
 
 /**
  * Inserts a given element before the targetted element

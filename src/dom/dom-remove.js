@@ -1,5 +1,5 @@
 import { isFunction } from '@datatype/index.js';
-import { isNode } from './checker.js';
+import { isNode } from './dom-parse.js';
 
 /**
  * Removes all children of a node from the DOM or 

@@ -1,14 +1,14 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset='utf-8'>
+  <meta charset='utf-8' />
   <title>zenkai 0.9.17 | Documentation</title>
   <meta name='description' content='Dom, Datatype helpers, utilities (AJAX, URI) and UI components'>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
-  <link href='assets/bass.css' rel='stylesheet'>
-  <link href='assets/style.css' rel='stylesheet'>
-  <link href='assets/github.css' rel='stylesheet'>
-  <link href='assets/split.css' rel='stylesheet'>
+  <link href='assets/bass.css' rel='stylesheet' />
+  <link href='assets/style.css' rel='stylesheet' />
+  <link href='assets/github.css' rel='stylesheet' />
+  <link href='assets/split.css' rel='stylesheet' />
 </head>
 <body class='documentation m0'>
     <div class='flex'>
@@ -104,6 +104,12 @@
                       </a></li>
                     
                       <li><a
+                        href='#typeisnullorwhitespace'
+                        class='regular pre-open'>
+                        .isNullOrWhitespace
+                      </a></li>
+                    
+                      <li><a
                         href='#typeisundefined'
                         class='regular pre-open'>
                         .isUndefined
@@ -128,15 +134,33 @@
                       </a></li>
                     
                       <li><a
-                        href='#typedayofweek'
+                        href='#typecomparetime'
                         class='regular pre-open'>
-                        .dayOfWeek
+                        .compareTime
                       </a></li>
                     
                       <li><a
-                        href='#typefind'
+                        href='#typeformatdate'
                         class='regular pre-open'>
-                        .find
+                        .formatDate
+                      </a></li>
+                    
+                      <li><a
+                        href='#typeshortdate'
+                        class='regular pre-open'>
+                        .shortDate
+                      </a></li>
+                    
+                      <li><a
+                        href='#typeshortdatetime'
+                        class='regular pre-open'>
+                        .shortDateTime
+                      </a></li>
+                    
+                      <li><a
+                        href='#typetimeago'
+                        class='regular pre-open'>
+                        .timeAgo
                       </a></li>
                     
                       <li><a
@@ -158,12 +182,6 @@
                       </a></li>
                     
                       <li><a
-                        href='#typeisnullorwhitespace'
-                        class='regular pre-open'>
-                        .isNullOrWhitespace
-                      </a></li>
-                    
-                      <li><a
                         href='#typecapitalize'
                         class='regular pre-open'>
                         .capitalize
@@ -173,6 +191,18 @@
                         href='#typecapitalizefirstletter'
                         class='regular pre-open'>
                         .capitalizeFirstLetter
+                      </a></li>
+                    
+                      <li><a
+                        href='#typecamelcase'
+                        class='regular pre-open'>
+                        .camelCase
+                      </a></li>
+                    
+                      <li><a
+                        href='#typepascalcase'
+                        class='regular pre-open'>
+                        .pascalCase
                       </a></li>
                     
                       <li><a
@@ -540,7 +570,7 @@
 
   <p>Returns a value indicating whether the value is empty</p>
 
-    <div class='pre p1 fill-light mt0'>isEmpty(val: any, arr: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>))</div>
+    <div class='pre p1 fill-light mt0'>isEmpty(val: any, arr: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
   
   
 
@@ -578,6 +608,14 @@
   
 
   
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        
+
+      
+    
+  
 
   
 
@@ -609,7 +647,7 @@
 
   <p>Returns a value indicating whether the variable is a Date</p>
 
-    <div class='pre p1 fill-light mt0'>isDate(value: any)</div>
+    <div class='pre p1 fill-light mt0'>isDate(value: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
   
   
 
@@ -638,6 +676,14 @@
   
 
   
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        
+
+      
+    
+  
 
   
 
@@ -659,7 +705,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>isString(str)</span>
+            <span class='code strong strong truncate'>isString(value)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -669,7 +715,7 @@
 
   <p>Returns a value indicating whether the variable is a String</p>
 
-    <div class='pre p1 fill-light mt0'>isString(str: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+    <div class='pre p1 fill-light mt0'>isString(value: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
   
   
 
@@ -686,7 +732,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>str</span> <code class='quiet'>(any)</code>
+            <span class='code bold'>value</span> <code class='quiet'>(any)</code>
 	    
           </div>
           
@@ -737,7 +783,7 @@
 
   <p>Returns a value indicating whether the value is a Function</p>
 
-    <div class='pre p1 fill-light mt0'>isFunction(value: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+    <div class='pre p1 fill-light mt0'>isFunction(value: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
   
   
 
@@ -754,7 +800,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>value</span> <code class='quiet'>(any)</code>
+            <span class='code bold'>value</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    
           </div>
           
@@ -805,7 +851,7 @@
 
   <p>Returns a value indicating whether the value is an Object</p>
 
-    <div class='pre p1 fill-light mt0'>isObject(value: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+    <div class='pre p1 fill-light mt0'>isObject(value: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
   
   
 
@@ -822,7 +868,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>value</span> <code class='quiet'>(any)</code>
+            <span class='code bold'>value</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    
           </div>
           
@@ -941,7 +987,7 @@
 
   <p>Returns a value indicating whether the value is null</p>
 
-    <div class='pre p1 fill-light mt0'>isNull(value: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+    <div class='pre p1 fill-light mt0'>isNull(value: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
   
   
 
@@ -958,8 +1004,77 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>value</span> <code class='quiet'>(any)</code>
+            <span class='code bold'>value</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='typeisnullorwhitespace'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isNullOrWhitespace(str)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Returns a value indicating whether a string is null or made of whitespace.</p>
+
+    <div class='pre p1 fill-light mt0'>isNullOrWhitespace(str: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>str</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    string
+
           </div>
           
         </div>
@@ -1277,11 +1392,11 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='typedayofweek'>
+    <div class='border-bottom' id='typecomparetime'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>dayOfWeek(date)</span>
+            <span class='code strong strong truncate'>compareTime(t1, t2)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1289,9 +1404,9 @@
 
   
 
-  <p>Returns a value indicating the day of the week with monday = 0</p>
+  <p>Compare 2 times</p>
 
-    <div class='pre p1 fill-light mt0'>dayOfWeek(date: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a>)</div>
+    <div class='pre p1 fill-light mt0'>compareTime(t1: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, t2: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
   
   
 
@@ -1308,8 +1423,18 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>date</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a>)</code>
-	    
+            <span class='code bold'>t1</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    time 1
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>t2</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    time 2
+
           </div>
           
         </div>
@@ -1319,6 +1444,14 @@
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>:
+        1, 0, -1 if t1 > t2, t1 = t2 and t1 &#x3C; t2 respectively
+
+      
+    
   
 
   
@@ -1337,11 +1470,11 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='typefind'>
+    <div class='border-bottom' id='typeformatdate'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>find(obj, value)</span>
+            <span class='code strong strong truncate'>formatDate(date, format)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1349,9 +1482,9 @@
 
   
 
-  <p>Returns the index or value of the first element in the object</p>
+  <p>Formats a date</p>
 
-    <div class='pre p1 fill-light mt0'>find(obj: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>), value: any)</div>
+    <div class='pre p1 fill-light mt0'>formatDate(date: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a>, format: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
   
   
 
@@ -1368,7 +1501,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>obj</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>))</code>
+            <span class='code bold'>date</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a>)</code>
 	    
           </div>
           
@@ -1376,7 +1509,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>value</span> <code class='quiet'>(any)</code>
+            <span class='code bold'>format</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    
           </div>
           
@@ -1387,6 +1520,226 @@
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+        Formatted date
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='typeshortdate'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>shortDate(_date)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Returns a date and time using the format "YYYY-mm-dd"</p>
+
+    <div class='pre p1 fill-light mt0'>shortDate(_date: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_date</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='typeshortdatetime'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>shortDateTime(_date)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Returns a date and time using the format "YYYY-mm-dd hh:MM"</p>
+
+    <div class='pre p1 fill-light mt0'>shortDateTime(_date: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_date</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='typetimeago'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>timeAgo(time, _callback)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Returns the ellapsed time between now and a point in time</p>
+
+    <div class='pre p1 fill-light mt0'>timeAgo(time: any, _callback: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>time</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_callback</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+        
+
+      
+    
   
 
   
@@ -1487,7 +1840,7 @@
 
   
 
-  <p>Returns a boolean indicating whether the object (child) inherit from another (parent)</p>
+  <p>Returns a boolean indicating whether the object (child) inherit from another object (parent)</p>
 
     <div class='pre p1 fill-light mt0'>isDerivedOf</div>
   
@@ -1575,67 +1928,6 @@
           <div>
             <span class='code bold'>obj</span> <code class='quiet'>(any)</code>
 	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='typeisnullorwhitespace'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>isNullOrWhitespace(str)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Returns a value indicating whether a string is null or made of whitespace.</p>
-
-    <div class='pre p1 fill-light mt0'>isNullOrWhitespace(str: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>str</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    string
-
           </div>
           
         </div>
@@ -1801,11 +2093,11 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='typeremoveaccents'>
+    <div class='border-bottom' id='typecamelcase'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>removeAccents(str)</span>
+            <span class='code strong strong truncate'>camelCase(str)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1813,9 +2105,10 @@
 
   
 
-  <p>Removes all accents from a string</p>
+  <p>Capitalizes all words in a sequence except the first one and
+removes spaces or punctuation</p>
 
-    <div class='pre p1 fill-light mt0'>removeAccents(str: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+    <div class='pre p1 fill-light mt0'>camelCase(str: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
   
   
 
@@ -1832,8 +2125,8 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>str</span> <code class='quiet'>(any)</code>
-	    string
+            <span class='code bold'>str</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    Sequence
 
           </div>
           
@@ -1848,7 +2141,145 @@
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
-        
+        CamelCased sequence
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='typepascalcase'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>pascalCase(str)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Capitalizes all words in a sequence and removes spaces or punctuation</p>
+
+    <div class='pre p1 fill-light mt0'>pascalCase(str: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>str</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    Sequence
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+        PascalCased sequence
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='typeremoveaccents'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>removeAccents(str)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Removes all accents from a string</p>
+
+    <div class='pre p1 fill-light mt0'>removeAccents(str: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>str</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    A string
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+        A string without accents
 
       
     

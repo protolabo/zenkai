@@ -1,5 +1,5 @@
 import { isNullOrWhitespace, isNullOrUndefined } from '@datatype/index.js';
-import { isHTMLElement } from './checker';
+import { isHTMLElement } from './dom-parse.js';
 
 /**
  * Removes additional spaces in class attribute
