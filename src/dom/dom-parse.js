@@ -1,4 +1,10 @@
-import { isNullOrUndefined } from '@datatype/index.js';
+import { isNullOrUndefined, isNullOrWhitespace, isString } from '@datatype/index.js';
+
+/* istanbul ignore next */
+const isElementNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
+
+/* istanbul ignore next */
+const isDocumentFragmentNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
 
 /**
  * Verifies that an object is a *Node*
@@ -7,9 +13,6 @@ import { isNullOrUndefined } from '@datatype/index.js';
  * @memberof DOM
  */
 export const isNode = (obj) => !isNullOrUndefined(obj) && obj instanceof Node;
-
-/* istanbul ignore next */
-const isElementNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
 
 /**
  * Verifies that an object is an *Element*
@@ -35,9 +38,6 @@ export const isHTMLElement = (obj) => isElementNode(obj) && obj instanceof HTMLE
  */
 export const isHTMLCollection = (obj) => !isNullOrUndefined(obj) && obj instanceof HTMLCollection;
 
-/* istanbul ignore next */
-const isDocumentFragmentNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
-
 /**
  * Verifies that an object is an *DocumentFragment*
  * @param {Element} obj 
@@ -52,11 +52,12 @@ export const isDocumentFragment = (obj) => isDocumentFragmentNode(obj) && obj in
  * @returns {HTMLTemplateElement}
  * @private
  */
+/* istanbul ignore next */
 function createTemplate(html) {
     var template = document.createElement('template');
-    template.innerHTML = html;
+    template.innerHTML = html.trim();
 
-    return template;
+    return template.content;
 }
 
 /**
@@ -66,9 +67,14 @@ function createTemplate(html) {
  * @memberof DOM
  */
 export function htmlToElement(html) {
-    var template = createTemplate(html.trim());
+    if (!isString(html)) {
+        console.error("html must be a string");
+        return null;
+    }
 
-    return template.content.firstChild;
+    var template = createTemplate(html);
+
+    return template.firstChild;
 }
 
 /**
@@ -78,7 +84,12 @@ export function htmlToElement(html) {
  * @memberof DOM
  */
 export function htmlToElements(html) {
-    var template = createTemplate({ html: html.trim() });
+    if (!isString(html)) {
+        console.error("html must be a string");
+        return null;
+    }
 
-    return template.content.childNodes;
+    var template = createTemplate(html);
+
+    return template.childNodes;
 }

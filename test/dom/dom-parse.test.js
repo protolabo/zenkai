@@ -6,7 +6,21 @@ var fs = require('fs');
 var expect = require('chai').expect;
 
 // import the library under test
-const { isNode, isElement, isHTMLElement, isHTMLCollection, isDocumentFragment } = require('@dom/dom-parse.js');
+const {
+    isNode, isElement, isHTMLElement, isHTMLCollection, isDocumentFragment,
+    htmlToElement, htmlToElements
+} = require('@dom/dom-parse.js');
+
+const NodeType = {
+    ELEMENT_NODE: 1,
+    TEXT_NODE: 3,
+    CDATA_SECTION_NODE: 4,
+    PROCESSING_INSTRUCTION_NODE: 7,
+    COMMENT_NODE: 8,
+    DOCUMENT_NODE: 9,
+    DOCUMENT_TYPE_NODE: 10,
+    DOCUMENT_FRAGMENT_NODE: 11
+};
 
 describe('DOM parse helpers', function () {
     before('initialize DOM', function () {
@@ -80,6 +94,60 @@ describe('DOM parse helpers', function () {
             values.forEach((val) => {
                 var result = isDocumentFragment(val);
                 expect(result).to.be.false;
+            });
+        });
+    });
+    describe('#htmlToElement(html)', function () {
+        it("should return the first html element", function () {
+            var values = [
+                { html: "<div></div>", nodeName: "DIV", nodeType: NodeType.ELEMENT_NODE, children: 0 },
+                { html: "<div><td></td></div>", nodeName: "DIV", nodeType: NodeType.ELEMENT_NODE, children: 0 },
+                { html: "<ul><li></li></ul><p></p>", nodeName: "UL", nodeType: NodeType.ELEMENT_NODE, children: 1 },
+                { html: "<div>", nodeName: "DIV", nodeType: NodeType.ELEMENT_NODE, children: 0 },
+                { html: "lorem ipsum", nodeName: "#text", nodeType: NodeType.TEXT_NODE, children: undefined }
+            ];
+            values.forEach((val) => {
+                var result = htmlToElement(val.html);
+
+                expect(result).to.have.property('nodeName', val.nodeName);
+                expect(result).to.have.property('nodeType', val.nodeType);
+                expect(result.childElementCount).to.be.equal(val.children);
+            });
+        });
+        it("should return null if the html is not a string", function () {
+            var values = [348, null, undefined, true];
+            values.forEach((val) => {
+                var result = htmlToElement(val);
+
+                expect(result).to.be.null;
+            });
+        });
+    });
+    describe('#htmlToElements(html)', function () {
+        it("should return all html elements", function () {
+            var values = [
+                { html: "<div></div>", children: ["DIV"], length: 1 },
+                { html: "<div><span></span></div>", children: ["DIV"], length: 1 },
+                { html: "<div><span></span></div><p></p>", children: ["DIV", "P"], length: 2 }
+            ];
+            values.forEach((val) => {
+                var result = htmlToElements(val.html);
+                expect(result).to.be.an.instanceOf(NodeList);
+                expect(result.length).to.be.equal(val.length);
+
+                for (let i = 0; i < result.length; i++) {
+                    const item = result[i];
+                    expect(item).to.have.property('nodeName', val.children[i]);
+                    expect(item).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+                }
+            });
+        });
+        it("should return null if the html is not a string", function () {
+            var values = [348, null, undefined, true];
+            values.forEach((val) => {
+                var result = htmlToElement(val);
+
+                expect(result).to.be.null;
             });
         });
     });
