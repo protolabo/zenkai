@@ -1,4 +1,4 @@
-import { isNullOrWhitespace } from "./type-manip.js";
+import { isNullOrWhitespace } from "./type-parse.js";
 
 /**
  * Capitalizes all words in a sequence

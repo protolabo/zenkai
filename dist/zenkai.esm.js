@@ -16,7 +16,7 @@ function _typeof(obj) {
  * Returns an object value or default value if undefined
  * @param {*} arg object
  * @param {*} value default value
- * @param {boolean} isNullable indicates whether the value can be assigned the value *NULL*
+ * @param {boolean} [isNullable] indicates whether the value can be assigned the value *NULL*
  * @memberof TYPE
  */
 function valOrDefault(arg, value, isNullable) {
@@ -27,45 +27,14 @@ function valOrDefault(arg, value, isNullable) {
   return isNullOrUndefined(arg) ? value : arg;
 }
 /**
- * Converts the received boolean value to an integer
- * @param {boolean} value 
- * @returns {number} 1 or 0
- * @memberof TYPE
- */
-
-function boolToInt(value) {
-  return value ? 1 : 0;
-}
-/**
- * Converts the received value to a boolean
- * @param {*} value
- * @returns {boolean} A boolean equivalent of the received value
- * @memberof TYPE
- */
-
-function toBoolean(value) {
-  var val = valOrDefault(value, false);
-  return val === true || val.toString().toLowerCase() === 'true';
-}
-/**
- * Determines whether the value is an *integer*
- * @param {*} value Tested value
- * @returns {boolean} A value indicating whether or not the given value is an *integer*.
- * @memberof TYPE
- */
-
-function isInt(value) {
-  return Number.isInteger ? Number.isInteger(value) : typeof value === 'number' && value % 1 === 0;
-}
-/**
  * Returns a value indicating whether the value is empty
  * @param {Object[]|string} arr array
  * @returns {boolean}
  * @memberof TYPE
  */
 
-function isEmpty(val) {
-  return (Array.isArray(val) || isString(val)) && val.length === 0;
+function isEmpty(obj) {
+  return (Array.isArray(obj) || isString(obj)) && obj.length === 0;
 }
 /**
  * Returns a value indicating whether the variable is a Date
@@ -105,7 +74,7 @@ function isFunction(value) {
  */
 
 function isObject(value) {
-  return !isNull(value) && _typeof(value) === 'object';
+  return !isNullOrUndefined(value) && _typeof(value) === 'object';
 }
 /**
  * Returns a value indicating whether the object is iterable
@@ -115,7 +84,7 @@ function isObject(value) {
  */
 
 function isIterable(obj) {
-  return !isNull(obj) && typeof obj[Symbol.iterator] === 'function';
+  return !isNullOrUndefined(obj) && typeof obj[Symbol.iterator] === 'function';
 }
 /**
  * Returns a value indicating whether the value is null
@@ -159,28 +128,29 @@ function isNullOrUndefined(value) {
 
 /**
  * Inserts an item in an array at the specified index
- * @param {Object[]} arr array
+ * @param {*[]} arr array
  * @param {number} index 
  * @param {object} item 
  * @returns {number} The new length of the array
  * @memberof TYPE
  */
+
 function insert(arr, index, item) {
   arr.splice(index, 0, item);
   return arr.length;
 }
 /**
  * Returns last element of array.
- * @param {Object[]} arr array
+ * @param {*[]} arr array
  * @memberof TYPE
  */
 
 function last(arr) {
-  if (Array.isArray(arr) && arr.length - 1) {
-    return arr[arr.length - 1];
+  if (!Array.isArray(arr) || isEmpty(arr)) {
+    return undefined;
   }
 
-  return undefined;
+  return arr[arr.length - 1];
 }
 
 /**
@@ -291,7 +261,7 @@ function parseTime(n) {
   var hh = +n | 0;
   var mm = '00';
 
-  if (!isInt(+n)) {
+  if (!Number.isInteger(+n)) {
     mm = (n + '').split('.')[1] * 6;
   }
 
@@ -493,6 +463,28 @@ function removeAccents(str) {
   }
 
   return str.replace(/[àâäæ]/gi, 'a').replace(/[ç]/gi, 'c').replace(/[éèê]/gi, 'e').replace(/[îï]/gi, 'i').replace(/[ôœ]/gi, 'o').replace(/[ùûü]/gi, 'u');
+}
+
+/**
+ * Converts the received boolean value to an integer
+ * @param {boolean} value 
+ * @returns {number} 1 or 0
+ * @memberof TYPE
+ */
+
+function boolToInt(value) {
+  return value ? 1 : 0;
+}
+/**
+ * Converts the received value to a boolean
+ * @param {*} value
+ * @returns {boolean} A boolean equivalent of the received value
+ * @memberof TYPE
+ */
+
+function toBoolean(value) {
+  var val = valOrDefault(value, false);
+  return val === true || val.toString().toLowerCase() === 'true';
 }
 
 /** 
@@ -937,6 +929,17 @@ function queryBuilder(query) {
   return str.join('&');
 }
 
+/* istanbul ignore next */
+
+var isElementNode = function isElementNode(obj) {
+  return !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
+};
+/* istanbul ignore next */
+
+
+var isDocumentFragmentNode = function isDocumentFragmentNode(obj) {
+  return !isNullOrUndefined(obj) && obj.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
+};
 /**
  * Verifies that an object is a *Node*
  * @param {Element} obj 
@@ -944,13 +947,9 @@ function queryBuilder(query) {
  * @memberof DOM
  */
 
+
 var isNode = function isNode(obj) {
   return !isNullOrUndefined(obj) && obj instanceof Node;
-};
-/* istanbul ignore next */
-
-var isElementNode = function isElementNode(obj) {
-  return !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
 };
 /**
  * Verifies that an object is an *Element*
@@ -958,7 +957,6 @@ var isElementNode = function isElementNode(obj) {
  * @returns {boolean} Value indicating whether the object is an *Element*
  * @memberof DOM
  */
-
 
 var isElement = function isElement(obj) {
   return isElementNode(obj) && obj instanceof Element;
@@ -983,18 +981,12 @@ var isHTMLElement = function isHTMLElement(obj) {
 var isHTMLCollection = function isHTMLCollection(obj) {
   return !isNullOrUndefined(obj) && obj instanceof HTMLCollection;
 };
-/* istanbul ignore next */
-
-var isDocumentFragmentNode = function isDocumentFragmentNode(obj) {
-  return !isNullOrUndefined(obj) && obj.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
-};
 /**
  * Verifies that an object is an *DocumentFragment*
  * @param {Element} obj 
  * @returns {boolean} Value indicating whether the object is an *DocumentFragment*
  * @memberof DOM
  */
-
 
 var isDocumentFragment = function isDocumentFragment(obj) {
   return isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
@@ -1006,10 +998,12 @@ var isDocumentFragment = function isDocumentFragment(obj) {
  * @private
  */
 
+/* istanbul ignore next */
+
 function createTemplate(html) {
   var template = document.createElement('template');
-  template.innerHTML = html;
-  return template;
+  template.innerHTML = html.trim();
+  return template.content;
 }
 /**
  * Converts an html string to an HTML Element
@@ -1020,8 +1014,13 @@ function createTemplate(html) {
 
 
 function htmlToElement(html) {
-  var template = createTemplate(html.trim());
-  return template.content.firstChild;
+  if (!isString(html)) {
+    console.error("html must be a string");
+    return null;
+  }
+
+  var template = createTemplate(html);
+  return template.firstChild;
 }
 /**
  * Converts an html string to a list of HTML Elements
@@ -1031,10 +1030,13 @@ function htmlToElement(html) {
  */
 
 function htmlToElements(html) {
-  var template = createTemplate({
-    html: html.trim()
-  });
-  return template.content.childNodes;
+  if (!isString(html)) {
+    console.error("html must be a string");
+    return null;
+  }
+
+  var template = createTemplate(html);
+  return template.childNodes;
 }
 
 /**
@@ -1136,7 +1138,7 @@ var parseClass = function parseClass(c) {
 };
 /**
  * Verifies that an element has a class
- * @param {HTMLElement} element element
+ * @param {!HTMLElement} element element
  * @param {string} className class
  * @returns {boolean} value indicating whether the element has the class
  * @memberof DOM
@@ -1144,51 +1146,52 @@ var parseClass = function parseClass(c) {
 
 
 function hasClass(element, className) {
+  if (!isHTMLElement(element)) {
+    throw new Error("The given element is not a valid HTML Element");
+  }
+
   return element.className.split(" ").includes(className);
 }
 /**
  * Removes a class from an element if it exists
- * @param {HTMLElement} element element
+ * @param {!HTMLElement} element element
  * @param {string|Array} attrClass class
  * @memberof DOM
  */
 
 function removeClass(element, attrClass) {
   if (!isHTMLElement(element)) {
-    console.error("The given element is not a valid HTML Element");
-    return null;
+    throw new Error("The given element is not a valid HTML Element");
   }
+
+  var remove = function remove(el, c) {
+    if (hasClass(el, c)) {
+      el.className = el.className.replace(c, '');
+    }
+  };
 
   if (Array.isArray(attrClass)) {
     attrClass.forEach(function (val) {
-      return _removeClass(element, val);
+      return remove(element, val);
     });
+  } else {
+    remove(element, attrClass);
   }
-
-  _removeClass(element, attrClass);
 
   element.className = formatClass(element.className);
   return element;
 }
-
-function _removeClass(el, c) {
-  if (hasClass(el, c)) {
-    el.className = el.className.replace(c, '');
-  }
-}
 /**
  * Adds one or many classes to an element if it doesn't exist
- * @param {HTMLElement} element Element
+ * @param {!HTMLElement} element Element
  * @param {string|string[]} attrClass classes
  * @returns {HTMLElement} the element
  * @memberof DOM
  */
 
-
 function addClass(element, attrClass) {
   if (!isHTMLElement(element)) {
-    console.error("The given element is not a valid HTML Element");
-    return null;
+    throw new Error("The given element is not a valid HTML Element");
   }
 
   var parsedClass = parseClass(attrClass);
@@ -1204,13 +1207,17 @@ function addClass(element, attrClass) {
 }
 /**
  * Adds or removes a class from an element depending on the class's presence.
- * @param {HTMLElement} element 
+ * @param {!HTMLElement} element 
  * @param {string} attrClass ClassName
  * @returns {HTMLElement} the element
  * @memberof DOM
  */
 
 function toggleClass(element, attrClass) {
+  if (!isHTMLElement(element)) {
+    throw new Error("The given element is not a valid HTML Element");
+  }
+
   if (hasClass(element, attrClass)) {
     removeClass(element, attrClass);
   } else {
@@ -1221,7 +1228,7 @@ function toggleClass(element, attrClass) {
 }
 /**
  * Sets classes to an element
- * @param {HTMLElement} element 
+ * @param {!HTMLElement} element 
  * @param {string|string[]} attrClass classes 
  * @returns {HTMLElement} the element
  * @memberof DOM
@@ -1229,8 +1236,7 @@ function toggleClass(element, attrClass) {
 
 function setClass(element, attrClass) {
   if (!isHTMLElement(element)) {
-    console.error("The given element is not a valid HTML Element");
-    return null;
+    throw new Error("The given element is not a valid HTML Element");
   }
 
   element.className = formatClass(parseClass(attrClass));
@@ -1241,15 +1247,29 @@ function setClass(element, attrClass) {
 
 function echo(o) {}
 /**
+ * Verifies that an object is an *HTML Select Element*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *HTMLSelectElement*
+ * @private
+ */
+
+
+var isHTMLSelectElement = function isHTMLSelectElement(obj) {
+  return isHTMLElement(obj) && obj instanceof HTMLSelectElement;
+};
+/**
  * Sets the attributes of an element
- * @param {HTMLElement} element element
+ * @param {!HTMLElement} element element
  * @param {Object} attribute attribute
  * @returns {HTMLElement}
  * @memberof DOM
  */
 
-
 function addAttributes(element, attribute) {
+  if (!isHTMLElement(element)) {
+    throw new Error("The given element is not a valid HTML Element");
+  }
+
   var ATTR_MAP = {
     // Global attributes
     accesskey: [assign, 'accessKey'],
@@ -1287,13 +1307,17 @@ function addAttributes(element, attribute) {
 }
 /**
  * Changes the selected option of a `<select>` element
- * @param {HTMLSelectElement} select
+ * @param {!HTMLSelectElement} select
  * @param {string} val option value to select
  * @returns {boolean} value indicating whether the option was found and selected
  * @memberof DOM
  */
 
 function changeSelectValue(select, val) {
+  if (!isHTMLSelectElement(select)) {
+    throw new Error("The given element is not a valid HTML Select element");
+  }
+
   var found = false;
   var options = select.options;
 
@@ -1310,11 +1334,15 @@ function changeSelectValue(select, val) {
 }
 /**
  * Moves an element out of screen
- * @param {HTMLElement} element Element
+ * @param {!HTMLElement} element Element
  * @memberof DOM
  */
 
 function conceal(element) {
+  if (!isHTMLElement(element)) {
+    throw new Error("The given element is not a valid HTML Element");
+  }
+
   Object.assign(element.style, {
     position: 'absolute',
     top: '-9999px',
@@ -3178,4 +3206,4 @@ function getAccordions(container) {
   return NONE$2;
 }
 
-export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, all, appendChildren, boolToInt, camelCase, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTemplate$1 as createTemplate, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, defProp, findAncestor, findByPath, floatingLabel, formatDate, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, htmlToElement, htmlToElements, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLCollection, isHTMLElement, isInt, isIterable, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, no, one, parseTime, pascalCase, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, setClass, shortDate, shortDateTime, some, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };
+export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, all, appendChildren, boolToInt, camelCase, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTemplate$1 as createTemplate, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, defProp, findAncestor, findByPath, floatingLabel, formatDate, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, htmlToElement, htmlToElements, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLCollection, isHTMLElement, isHTMLSelectElement, isIterable, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, no, one, parseTime, pascalCase, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, setClass, shortDate, shortDateTime, some, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };

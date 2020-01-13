@@ -1,4 +1,4 @@
-import { isInt, valOrDefault, isNullOrUndefined, isDate } from './type-manip.js';
+import { valOrDefault, isNullOrUndefined, isDate } from './type-parse.js';
 
 /**
  * Compare 2 times
@@ -117,7 +117,7 @@ export function parseTime(n) {
     var hh = +n | 0;
     var mm = '00';
 
-    if (!isInt(+n)) {
+    if (!Number.isInteger(+n)) {
         mm = (n + '').split('.')[1] * 6;
     }
 

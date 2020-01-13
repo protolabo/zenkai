@@ -19,7 +19,7 @@ var zutils = (function (exports) {
    * Returns an object value or default value if undefined
    * @param {*} arg object
    * @param {*} value default value
-   * @param {boolean} isNullable indicates whether the value can be assigned the value *NULL*
+   * @param {boolean} [isNullable] indicates whether the value can be assigned the value *NULL*
    * @memberof TYPE
    */
   function valOrDefault(arg, value, isNullable) {

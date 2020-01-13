@@ -5,7 +5,7 @@ var zdom = (function (exports) {
    * Returns an object value or default value if undefined
    * @param {*} arg object
    * @param {*} value default value
-   * @param {boolean} isNullable indicates whether the value can be assigned the value *NULL*
+   * @param {boolean} [isNullable] indicates whether the value can be assigned the value *NULL*
    * @memberof TYPE
    */
   function valOrDefault(arg, value, isNullable) {
@@ -43,7 +43,7 @@ var zdom = (function (exports) {
    */
 
   function isIterable(obj) {
-    return !isNull(obj) && typeof obj[Symbol.iterator] === 'function';
+    return !isNullOrUndefined(obj) && typeof obj[Symbol.iterator] === 'function';
   }
   /**
    * Returns a value indicating whether the value is null
@@ -109,6 +109,17 @@ var zdom = (function (exports) {
     return true;
   };
 
+  /* istanbul ignore next */
+
+  var isElementNode = function isElementNode(obj) {
+    return !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
+  };
+  /* istanbul ignore next */
+
+
+  var isDocumentFragmentNode = function isDocumentFragmentNode(obj) {
+    return !isNullOrUndefined(obj) && obj.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
+  };
   /**
    * Verifies that an object is a *Node*
    * @param {Element} obj 
@@ -116,13 +127,9 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
+
   var isNode = function isNode(obj) {
     return !isNullOrUndefined(obj) && obj instanceof Node;
-  };
-  /* istanbul ignore next */
-
-  var isElementNode = function isElementNode(obj) {
-    return !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
   };
   /**
    * Verifies that an object is an *Element*
@@ -130,7 +137,6 @@ var zdom = (function (exports) {
    * @returns {boolean} Value indicating whether the object is an *Element*
    * @memberof DOM
    */
-
 
   var isElement = function isElement(obj) {
     return isElementNode(obj) && obj instanceof Element;
@@ -155,18 +161,12 @@ var zdom = (function (exports) {
   var isHTMLCollection = function isHTMLCollection(obj) {
     return !isNullOrUndefined(obj) && obj instanceof HTMLCollection;
   };
-  /* istanbul ignore next */
-
-  var isDocumentFragmentNode = function isDocumentFragmentNode(obj) {
-    return !isNullOrUndefined(obj) && obj.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
-  };
   /**
    * Verifies that an object is an *DocumentFragment*
    * @param {Element} obj 
    * @returns {boolean} Value indicating whether the object is an *DocumentFragment*
    * @memberof DOM
    */
-
 
   var isDocumentFragment = function isDocumentFragment(obj) {
     return isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
@@ -178,10 +178,12 @@ var zdom = (function (exports) {
    * @private
    */
 
+  /* istanbul ignore next */
+
   function createTemplate(html) {
     var template = document.createElement('template');
-    template.innerHTML = html;
-    return template;
+    template.innerHTML = html.trim();
+    return template.content;
   }
   /**
    * Converts an html string to an HTML Element
@@ -192,8 +194,13 @@ var zdom = (function (exports) {
 
 
   function htmlToElement(html) {
-    var template = createTemplate(html.trim());
-    return template.content.firstChild;
+    if (!isString(html)) {
+      console.error("html must be a string");
+      return null;
+    }
+
+    var template = createTemplate(html);
+    return template.firstChild;
   }
   /**
    * Converts an html string to a list of HTML Elements
@@ -203,10 +210,13 @@ var zdom = (function (exports) {
    */
 
   function htmlToElements(html) {
-    var template = createTemplate({
-      html: html.trim()
-    });
-    return template.content.childNodes;
+    if (!isString(html)) {
+      console.error("html must be a string");
+      return null;
+    }
+
+    var template = createTemplate(html);
+    return template.childNodes;
   }
 
   /**
@@ -308,7 +318,7 @@ var zdom = (function (exports) {
   };
   /**
    * Verifies that an element has a class
-   * @param {HTMLElement} element element
+   * @param {!HTMLElement} element element
    * @param {string} className class
    * @returns {boolean} value indicating whether the element has the class
    * @memberof DOM
@@ -316,51 +326,52 @@ var zdom = (function (exports) {
 
 
   function hasClass(element, className) {
+    if (!isHTMLElement(element)) {
+      throw new Error("The given element is not a valid HTML Element");
+    }
+
     return element.className.split(" ").includes(className);
   }
   /**
    * Removes a class from an element if it exists
-   * @param {HTMLElement} element element
+   * @param {!HTMLElement} element element
    * @param {string|Array} attrClass class
    * @memberof DOM
    */
 
   function removeClass(element, attrClass) {
     if (!isHTMLElement(element)) {
-      console.error("The given element is not a valid HTML Element");
-      return null;
+      throw new Error("The given element is not a valid HTML Element");
     }
+
+    var remove = function remove(el, c) {
+      if (hasClass(el, c)) {
+        el.className = el.className.replace(c, '');
+      }
+    };
 
     if (Array.isArray(attrClass)) {
       attrClass.forEach(function (val) {
-        return _removeClass(element, val);
+        return remove(element, val);
       });
+    } else {
+      remove(element, attrClass);
     }
-
-    _removeClass(element, attrClass);
 
     element.className = formatClass(element.className);
     return element;
   }
-
-  function _removeClass(el, c) {
-    if (hasClass(el, c)) {
-      el.className = el.className.replace(c, '');
-    }
-  }
   /**
    * Adds one or many classes to an element if it doesn't exist
-   * @param {HTMLElement} element Element
+   * @param {!HTMLElement} element Element
    * @param {string|string[]} attrClass classes
    * @returns {HTMLElement} the element
    * @memberof DOM
    */
 
-
   function addClass(element, attrClass) {
     if (!isHTMLElement(element)) {
-      console.error("The given element is not a valid HTML Element");
-      return null;
+      throw new Error("The given element is not a valid HTML Element");
     }
 
     var parsedClass = parseClass(attrClass);
@@ -376,13 +387,17 @@ var zdom = (function (exports) {
   }
   /**
    * Adds or removes a class from an element depending on the class's presence.
-   * @param {HTMLElement} element 
+   * @param {!HTMLElement} element 
    * @param {string} attrClass ClassName
    * @returns {HTMLElement} the element
    * @memberof DOM
    */
 
   function toggleClass(element, attrClass) {
+    if (!isHTMLElement(element)) {
+      throw new Error("The given element is not a valid HTML Element");
+    }
+
     if (hasClass(element, attrClass)) {
       removeClass(element, attrClass);
     } else {
@@ -393,7 +408,7 @@ var zdom = (function (exports) {
   }
   /**
    * Sets classes to an element
-   * @param {HTMLElement} element 
+   * @param {!HTMLElement} element 
    * @param {string|string[]} attrClass classes 
    * @returns {HTMLElement} the element
    * @memberof DOM
@@ -401,8 +416,7 @@ var zdom = (function (exports) {
 
   function setClass(element, attrClass) {
     if (!isHTMLElement(element)) {
-      console.error("The given element is not a valid HTML Element");
-      return null;
+      throw new Error("The given element is not a valid HTML Element");
     }
 
     element.className = formatClass(parseClass(attrClass));
@@ -413,15 +427,29 @@ var zdom = (function (exports) {
 
   function echo(o) {}
   /**
+   * Verifies that an object is an *HTML Select Element*
+   * @param {Element} obj 
+   * @returns {boolean} Value indicating whether the object is an *HTMLSelectElement*
+   * @private
+   */
+
+
+  var isHTMLSelectElement = function isHTMLSelectElement(obj) {
+    return isHTMLElement(obj) && obj instanceof HTMLSelectElement;
+  };
+  /**
    * Sets the attributes of an element
-   * @param {HTMLElement} element element
+   * @param {!HTMLElement} element element
    * @param {Object} attribute attribute
    * @returns {HTMLElement}
    * @memberof DOM
    */
 
-
   function addAttributes(element, attribute) {
+    if (!isHTMLElement(element)) {
+      throw new Error("The given element is not a valid HTML Element");
+    }
+
     var ATTR_MAP = {
       // Global attributes
       accesskey: [assign, 'accessKey'],
@@ -459,13 +487,17 @@ var zdom = (function (exports) {
   }
   /**
    * Changes the selected option of a `<select>` element
-   * @param {HTMLSelectElement} select
+   * @param {!HTMLSelectElement} select
    * @param {string} val option value to select
    * @returns {boolean} value indicating whether the option was found and selected
    * @memberof DOM
    */
 
   function changeSelectValue(select, val) {
+    if (!isHTMLSelectElement(select)) {
+      throw new Error("The given element is not a valid HTML Select element");
+    }
+
     var found = false;
     var options = select.options;
 
@@ -482,11 +514,15 @@ var zdom = (function (exports) {
   }
   /**
    * Moves an element out of screen
-   * @param {HTMLElement} element Element
+   * @param {!HTMLElement} element Element
    * @memberof DOM
    */
 
   function conceal(element) {
+    if (!isHTMLElement(element)) {
+      throw new Error("The given element is not a valid HTML Element");
+    }
+
     Object.assign(element.style, {
       position: 'absolute',
       top: '-9999px',
@@ -1795,6 +1831,7 @@ var zdom = (function (exports) {
   exports.isElement = isElement;
   exports.isHTMLCollection = isHTMLCollection;
   exports.isHTMLElement = isHTMLElement;
+  exports.isHTMLSelectElement = isHTMLSelectElement;
   exports.isNode = isNode;
   exports.preprendChild = preprendChild;
   exports.removeChildren = removeChildren;

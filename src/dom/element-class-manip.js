@@ -27,55 +27,57 @@ const parseClass = (c) => {
 
 /**
  * Verifies that an element has a class
- * @param {HTMLElement} element element
+ * @param {!HTMLElement} element element
  * @param {string} className class
  * @returns {boolean} value indicating whether the element has the class
  * @memberof DOM
  */
 export function hasClass(element, className) {
+    if (!isHTMLElement(element)) {
+        throw new Error("The given element is not a valid HTML Element");
+    }
+
     return element.className.split(" ").includes(className);
 }
 
 /**
  * Removes a class from an element if it exists
- * @param {HTMLElement} element element
+ * @param {!HTMLElement} element element
  * @param {string|Array} attrClass class
  * @memberof DOM
  */
 export function removeClass(element, attrClass) {
     if (!isHTMLElement(element)) {
-        console.error("The given element is not a valid HTML Element");
-        return null;
+        throw new Error("The given element is not a valid HTML Element");
     }
+
+    const remove = function (el, c) {
+        if (hasClass(el, c)) {
+            el.className = el.className.replace(c, '');
+        }
+    };
 
     if (Array.isArray(attrClass)) {
-        attrClass.forEach((val) => _removeClass(element, val));
+        attrClass.forEach((val) => remove(element, val));
+    } else {
+        remove(element, attrClass);
     }
-
-    _removeClass(element, attrClass);
-
+    
     element.className = formatClass(element.className);
 
     return element;
 }
 
-function _removeClass(el, c) {
-    if (hasClass(el, c)) {
-        el.className = el.className.replace(c, '');
-    }
-}
-
 /**
  * Adds one or many classes to an element if it doesn't exist
- * @param {HTMLElement} element Element
+ * @param {!HTMLElement} element Element
  * @param {string|string[]} attrClass classes
  * @returns {HTMLElement} the element
  * @memberof DOM
  */
 export function addClass(element, attrClass) {
     if (!isHTMLElement(element)) {
-        console.error("The given element is not a valid HTML Element");
-        return null;
+        throw new Error("The given element is not a valid HTML Element");
     }
 
     var parsedClass = parseClass(attrClass);
@@ -93,12 +95,16 @@ export function addClass(element, attrClass) {
 
 /**
  * Adds or removes a class from an element depending on the class's presence.
- * @param {HTMLElement} element 
+ * @param {!HTMLElement} element 
  * @param {string} attrClass ClassName
  * @returns {HTMLElement} the element
  * @memberof DOM
  */
 export function toggleClass(element, attrClass) {
+    if (!isHTMLElement(element)) {
+        throw new Error("The given element is not a valid HTML Element");
+    }
+
     if (hasClass(element, attrClass)) {
         removeClass(element, attrClass);
     } else {
@@ -110,15 +116,14 @@ export function toggleClass(element, attrClass) {
 
 /**
  * Sets classes to an element
- * @param {HTMLElement} element 
+ * @param {!HTMLElement} element 
  * @param {string|string[]} attrClass classes 
  * @returns {HTMLElement} the element
  * @memberof DOM
  */
 export function setClass(element, attrClass) {
     if (!isHTMLElement(element)) {
-        console.error("The given element is not a valid HTML Element");
-        return null;
+        throw new Error("The given element is not a valid HTML Element");
     }
 
     element.className = formatClass(parseClass(attrClass));

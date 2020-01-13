@@ -5,7 +5,7 @@ var zcomponents = (function (exports) {
    * Returns an object value or default value if undefined
    * @param {*} arg object
    * @param {*} value default value
-   * @param {boolean} isNullable indicates whether the value can be assigned the value *NULL*
+   * @param {boolean} [isNullable] indicates whether the value can be assigned the value *NULL*
    * @memberof TYPE
    */
   function valOrDefault(arg, value, isNullable) {
@@ -22,8 +22,8 @@ var zcomponents = (function (exports) {
    * @memberof TYPE
    */
 
-  function isEmpty(val) {
-    return (Array.isArray(val) || isString(val)) && val.length === 0;
+  function isEmpty(obj) {
+    return (Array.isArray(obj) || isString(obj)) && obj.length === 0;
   }
   /**
    * Returns a value indicating whether the variable is a String
@@ -53,7 +53,7 @@ var zcomponents = (function (exports) {
    */
 
   function isIterable(obj) {
-    return !isNull(obj) && typeof obj[Symbol.iterator] === 'function';
+    return !isNullOrUndefined(obj) && typeof obj[Symbol.iterator] === 'function';
   }
   /**
    * Returns a value indicating whether the value is null
@@ -95,6 +95,11 @@ var zcomponents = (function (exports) {
     return isNull(value) || isUndefined(value);
   }
 
+  /* istanbul ignore next */
+
+  var isElementNode = function isElementNode(obj) {
+    return !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
+  };
   /**
    * Verifies that an object is a *Node*
    * @param {Element} obj 
@@ -102,13 +107,9 @@ var zcomponents = (function (exports) {
    * @memberof DOM
    */
 
+
   var isNode = function isNode(obj) {
     return !isNullOrUndefined(obj) && obj instanceof Node;
-  };
-  /* istanbul ignore next */
-
-  var isElementNode = function isElementNode(obj) {
-    return !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
   };
   /**
    * Verifies that an object is an *Element*
@@ -116,7 +117,6 @@ var zcomponents = (function (exports) {
    * @returns {boolean} Value indicating whether the object is an *Element*
    * @memberof DOM
    */
-
 
   var isElement = function isElement(obj) {
     return isElementNode(obj) && obj instanceof Element;
@@ -196,7 +196,7 @@ var zcomponents = (function (exports) {
   };
   /**
    * Verifies that an element has a class
-   * @param {HTMLElement} element element
+   * @param {!HTMLElement} element element
    * @param {string} className class
    * @returns {boolean} value indicating whether the element has the class
    * @memberof DOM
@@ -204,51 +204,52 @@ var zcomponents = (function (exports) {
 
 
   function hasClass(element, className) {
+    if (!isHTMLElement(element)) {
+      throw new Error("The given element is not a valid HTML Element");
+    }
+
     return element.className.split(" ").includes(className);
   }
   /**
    * Removes a class from an element if it exists
-   * @param {HTMLElement} element element
+   * @param {!HTMLElement} element element
    * @param {string|Array} attrClass class
    * @memberof DOM
    */
 
   function removeClass(element, attrClass) {
     if (!isHTMLElement(element)) {
-      console.error("The given element is not a valid HTML Element");
-      return null;
+      throw new Error("The given element is not a valid HTML Element");
     }
+
+    var remove = function remove(el, c) {
+      if (hasClass(el, c)) {
+        el.className = el.className.replace(c, '');
+      }
+    };
 
     if (Array.isArray(attrClass)) {
       attrClass.forEach(function (val) {
-        return _removeClass(element, val);
+        return remove(element, val);
       });
+    } else {
+      remove(element, attrClass);
     }
-
-    _removeClass(element, attrClass);
 
     element.className = formatClass(element.className);
     return element;
   }
-
-  function _removeClass(el, c) {
-    if (hasClass(el, c)) {
-      el.className = el.className.replace(c, '');
-    }
-  }
   /**
    * Adds one or many classes to an element if it doesn't exist
-   * @param {HTMLElement} element Element
+   * @param {!HTMLElement} element Element
    * @param {string|string[]} attrClass classes
    * @returns {HTMLElement} the element
    * @memberof DOM
    */
 
-
   function addClass(element, attrClass) {
     if (!isHTMLElement(element)) {
-      console.error("The given element is not a valid HTML Element");
-      return null;
+      throw new Error("The given element is not a valid HTML Element");
     }
 
     var parsedClass = parseClass(attrClass);
@@ -264,7 +265,7 @@ var zcomponents = (function (exports) {
   }
   /**
    * Sets classes to an element
-   * @param {HTMLElement} element 
+   * @param {!HTMLElement} element 
    * @param {string|string[]} attrClass classes 
    * @returns {HTMLElement} the element
    * @memberof DOM
@@ -272,8 +273,7 @@ var zcomponents = (function (exports) {
 
   function setClass(element, attrClass) {
     if (!isHTMLElement(element)) {
-      console.error("The given element is not a valid HTML Element");
-      return null;
+      throw new Error("The given element is not a valid HTML Element");
     }
 
     element.className = formatClass(parseClass(attrClass));
@@ -285,14 +285,17 @@ var zcomponents = (function (exports) {
   function echo(o) {}
   /**
    * Sets the attributes of an element
-   * @param {HTMLElement} element element
+   * @param {!HTMLElement} element element
    * @param {Object} attribute attribute
    * @returns {HTMLElement}
    * @memberof DOM
    */
 
-
   function addAttributes(element, attribute) {
+    if (!isHTMLElement(element)) {
+      throw new Error("The given element is not a valid HTML Element");
+    }
+
     var ATTR_MAP = {
       // Global attributes
       accesskey: [assign, 'accessKey'],

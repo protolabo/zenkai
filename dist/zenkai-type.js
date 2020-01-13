@@ -19,7 +19,7 @@ var ztype = (function (exports) {
    * Returns an object value or default value if undefined
    * @param {*} arg object
    * @param {*} value default value
-   * @param {boolean} isNullable indicates whether the value can be assigned the value *NULL*
+   * @param {boolean} [isNullable] indicates whether the value can be assigned the value *NULL*
    * @memberof TYPE
    */
   function valOrDefault(arg, value, isNullable) {
@@ -30,45 +30,14 @@ var ztype = (function (exports) {
     return isNullOrUndefined(arg) ? value : arg;
   }
   /**
-   * Converts the received boolean value to an integer
-   * @param {boolean} value 
-   * @returns {number} 1 or 0
-   * @memberof TYPE
-   */
-
-  function boolToInt(value) {
-    return value ? 1 : 0;
-  }
-  /**
-   * Converts the received value to a boolean
-   * @param {*} value
-   * @returns {boolean} A boolean equivalent of the received value
-   * @memberof TYPE
-   */
-
-  function toBoolean(value) {
-    var val = valOrDefault(value, false);
-    return val === true || val.toString().toLowerCase() === 'true';
-  }
-  /**
-   * Determines whether the value is an *integer*
-   * @param {*} value Tested value
-   * @returns {boolean} A value indicating whether or not the given value is an *integer*.
-   * @memberof TYPE
-   */
-
-  function isInt(value) {
-    return Number.isInteger ? Number.isInteger(value) : typeof value === 'number' && value % 1 === 0;
-  }
-  /**
    * Returns a value indicating whether the value is empty
    * @param {Object[]|string} arr array
    * @returns {boolean}
    * @memberof TYPE
    */
 
-  function isEmpty(val) {
-    return (Array.isArray(val) || isString(val)) && val.length === 0;
+  function isEmpty(obj) {
+    return (Array.isArray(obj) || isString(obj)) && obj.length === 0;
   }
   /**
    * Returns a value indicating whether the variable is a Date
@@ -108,7 +77,7 @@ var ztype = (function (exports) {
    */
 
   function isObject(value) {
-    return !isNull(value) && _typeof(value) === 'object';
+    return !isNullOrUndefined(value) && _typeof(value) === 'object';
   }
   /**
    * Returns a value indicating whether the object is iterable
@@ -118,7 +87,7 @@ var ztype = (function (exports) {
    */
 
   function isIterable(obj) {
-    return !isNull(obj) && typeof obj[Symbol.iterator] === 'function';
+    return !isNullOrUndefined(obj) && typeof obj[Symbol.iterator] === 'function';
   }
   /**
    * Returns a value indicating whether the value is null
@@ -162,28 +131,29 @@ var ztype = (function (exports) {
 
   /**
    * Inserts an item in an array at the specified index
-   * @param {Object[]} arr array
+   * @param {*[]} arr array
    * @param {number} index 
    * @param {object} item 
    * @returns {number} The new length of the array
    * @memberof TYPE
    */
+
   function insert(arr, index, item) {
     arr.splice(index, 0, item);
     return arr.length;
   }
   /**
    * Returns last element of array.
-   * @param {Object[]} arr array
+   * @param {*[]} arr array
    * @memberof TYPE
    */
 
   function last(arr) {
-    if (Array.isArray(arr) && arr.length - 1) {
-      return arr[arr.length - 1];
+    if (!Array.isArray(arr) || isEmpty(arr)) {
+      return undefined;
     }
 
-    return undefined;
+    return arr[arr.length - 1];
   }
 
   /**
@@ -294,7 +264,7 @@ var ztype = (function (exports) {
     var hh = +n | 0;
     var mm = '00';
 
-    if (!isInt(+n)) {
+    if (!Number.isInteger(+n)) {
       mm = (n + '').split('.')[1] * 6;
     }
 
@@ -498,6 +468,28 @@ var ztype = (function (exports) {
     return str.replace(/[àâäæ]/gi, 'a').replace(/[ç]/gi, 'c').replace(/[éèê]/gi, 'e').replace(/[îï]/gi, 'i').replace(/[ôœ]/gi, 'o').replace(/[ùûü]/gi, 'u');
   }
 
+  /**
+   * Converts the received boolean value to an integer
+   * @param {boolean} value 
+   * @returns {number} 1 or 0
+   * @memberof TYPE
+   */
+
+  function boolToInt(value) {
+    return value ? 1 : 0;
+  }
+  /**
+   * Converts the received value to a boolean
+   * @param {*} value
+   * @returns {boolean} A boolean equivalent of the received value
+   * @memberof TYPE
+   */
+
+  function toBoolean(value) {
+    var val = valOrDefault(value, false);
+    return val === true || val.toString().toLowerCase() === 'true';
+  }
+
   exports.boolToInt = boolToInt;
   exports.camelCase = camelCase;
   exports.capitalize = capitalize;
@@ -512,7 +504,6 @@ var ztype = (function (exports) {
   exports.isDerivedOf = isDerivedOf;
   exports.isEmpty = isEmpty;
   exports.isFunction = isFunction;
-  exports.isInt = isInt;
   exports.isIterable = isIterable;
   exports.isNull = isNull;
   exports.isNullOrUndefined = isNullOrUndefined;
