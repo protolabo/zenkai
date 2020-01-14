@@ -38,10 +38,6 @@
         ken.inputCounter(container);
         ken.Selector(container);
         ken.Switch(container);
-
-        ken.getElement('#test').addEventListener('click', function (e) {
-            console.log("Hello");
-        });
         ken.Collapsible(container);
         ken.Accordion(container);
     }
@@ -94,7 +90,7 @@
     function encodeTextNodes(element) {
         element.childNodes.forEach((val) => {
             if (isTextNode(val) && !isEmpty(val))
-                element.replaceChild(ken.createSpan({ text: val.nodeValue, class: 'text' }), val);
+                element.replaceChild(ken.createSpan({ class: 'text' }, val.nodeValue), val);
         });
     }
 

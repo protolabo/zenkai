@@ -4,6 +4,7 @@
  * @param {Function} fn Condition
  * @param {number} [min=1] Minimum number of values that must satisfy the condition
  * @returns {boolean} A value indicating whether at least one value satisfies the condition
+ * @memberof LOGIC
  */
 export const some = function (values, fn, min = 1) {
     if (min === 1) {
@@ -24,6 +25,7 @@ export const some = function (values, fn, min = 1) {
  * @param {*[]} values Set of values
  * @param {Function} fn Condition
  * @returns {boolean} A value indicating whether all the values satisfy the condition
+ * @memberof LOGIC
  */
 export const all = function (values, fn) {
     for (let i = 0; i < values.length; i++) {
@@ -40,6 +42,7 @@ export const all = function (values, fn) {
  * @param {*[]} values Set of values
  * @param {Function} fn Condition
  * @returns {boolean} A value indicating whether exactly one value satisfies the condition
+ * @memberof LOGIC
  */
 export const one = function (values, fn) {
     return getHitCount(values, fn) === 1;
@@ -50,6 +53,7 @@ export const one = function (values, fn) {
  * @param {*[]} values Set of values
  * @param {Function} fn Condition
  * @returns {boolean} A value indicating whether no value satisfies the condition
+ * @memberof LOGIC
  */
 export const no = function (values, fn) {
     return !some(values, fn);

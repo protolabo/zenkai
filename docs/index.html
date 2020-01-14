@@ -241,31 +241,41 @@
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
                         <pre><code class="html-code">
+<div class="selector" data-type="selector" data-value="b">
+    <label class="selector-item" data-value="r" data-selector="">Red</label>
+    <label class="selector-item" data-value="g" data-selector="">Green</label>
+    <label class="selector-item" data-value="b" data-selector="">Blue</label>
+</div>
+</code></pre>
+                    </div>
+                    <div class="selector" data-type="selector" data-value="b">
+                        <label class="form-label selector-item" data-value="r" data-selector="">Red</label>
+                        <label class="form-label selector-item" data-value="g" data-selector="">Green</label>
+                        <label class="form-label selector-item" data-value="b" data-selector="">Blue</label>
+                    </div>
+                    <br>
+                    <div class="html-code-container">
+                        <button class="btn btn-copy">Copy</button>
+                        <pre><code class="html-code">
 <div class="selector" data-type="selector">
     <label class="selector-item" data-selector="">
-        <input type="radio" name="selector" value="selector"> Brother
+        <input type="radio" name="selector2" value="apple"> Apple
     </label>
     <label class="selector-item" data-selector="">
-        <input type="radio" name="selector" value="sister"> Sister
+        <input type="radio" checked name="selector2" value="grape"> Grape
     </label>
     <label class="selector-item" data-selector="">
-        <input type="radio" checked="checked" name="selector" value="cousin"> Cousin
+        <input type="radio" name="selector2" value="banana"> Banana
     </label>
 </div>
 </code></pre>
                     </div>
-                    <div class="selector" data-type="selector" data-value="cuz">
-                        <label class="form-label selector-item" data-value="bro" data-selector="">Brother</label>
-                        <label class="form-label selector-item" data-value="sis" data-selector="">Sister</label>
-                        <label class="form-label selector-item" data-value="cuz" data-selector="">Cousin</label>
-                    </div>
-                    <br>
                     <div class="selector" data-type="form-selector" data-value="grape">
                         <label class="form-label selector-item" data-selector="">
                             <input type="radio" name="selector2" value="apple"> Apple
                         </label>
                         <label class="form-label selector-item" data-selector="">
-                            <input type="radio" name="selector2" value="grape"> Grape
+                            <input type="radio" checked name="selector2" value="grape"> Grape
                         </label>
                         <label class="form-label selector-item" data-selector="">
                             <input type="radio" name="selector2" value="banana"> Banana
@@ -280,13 +290,21 @@
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
                         <pre><code class="html-code">
+    <span class="switch-label" data-type="switch">Click me</span>
+</code>
+</pre>
+                    </div>
+                    <span class="form-label switch-label" data-type="switch">Click me</span>
+                    <br>
+                    <div class="html-code-container">
+                        <button class="btn btn-copy">Copy</button>
+                        <pre><code class="html-code">
 <label class="switch-label" data-type="switch">
     <input type="checkbox" class="switch"> Click me
 </label>
 </code>
 </pre>
                     </div>
-                    <span class="form-label switch-label" data-type="switch">Click me</span>
                     <label class="form-label switch-label" data-type="form-switch">
                         <input type="checkbox" checked="checked" class="switch"> Click me
                     </label>
@@ -301,18 +319,18 @@
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
                         <pre><code class="html-code">
-    <div class="collapsible" data-collapsible="collapsed">
-        <div class="collapsible-header" data-collapsible-header="">My header</div>
-        <div class="collapsible-content" data-collapsible-content="">
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit cupiditate unde eos 
-                dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam, laudantium, 
-                dignissimos ex praesentium amet! Fugit.
-            </p>
-        </div>
+<div class="collapsible" data-collapsible="collapsed">
+    <div class="collapsible-header" data-collapsible-header="">My header</div>
+    <div class="collapsible-content" data-collapsible-content="">
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit cupiditate unde eos 
+            dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam, laudantium, 
+            dignissimos ex praesentium amet! Fugit.
+        </p>
     </div>
-    </code>
-    </pre>
+</div>
+</code>
+</pre>
                     </div>
                     <div class="collapsible" data-collapsible="collapsed">
                         <div class="collapsible-header" data-collapsible-header="">My header</div>
@@ -333,30 +351,30 @@
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
                         <pre><code class="html-code">
-    <div class="accordion-container" data-boost="accordion">
-        <div class="collapsible" data-accordion="expanded">
-            <div class="collapsible-header" data-accordion-header="">My header</div>
-            <div class="collapsible-content" data-accordion-content="">
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit
-                    cupiditate unde eos dolores deserunt facilis autem quibusdam soluta adipisci sed 
-                    assumenda laboriosam, laudantium, dignissimos ex praesentium amet! Fugit.
-                </p>
-            </div>
-        </div>
-        <div class="collapsible" data-accordion="collapsed">
-            <div class="collapsible-header" data-accordion-header="">My header</div>
-            <div class="collapsible-content" data-accordion-content="">
-                <p>
-                    Le football est un sport d'association, entre les membres d'une meme formation.
-                    dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam,
-                    dignissimos ex praesentium amet! Fugit.
-                </p>
-            </div>
+<div class="accordion-container" data-boost="accordion">
+    <div class="collapsible" data-accordion="expanded">
+        <div class="collapsible-header" data-accordion-header="">My header</div>
+        <div class="collapsible-content" data-accordion-content="">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit
+                cupiditate unde eos dolores deserunt facilis autem quibusdam soluta adipisci sed 
+                assumenda laboriosam, laudantium, dignissimos ex praesentium amet! Fugit.
+            </p>
         </div>
     </div>
-    </code>
-    </pre>
+    <div class="collapsible" data-accordion="collapsed">
+        <div class="collapsible-header" data-accordion-header="">My header</div>
+        <div class="collapsible-content" data-accordion-content="">
+            <p>
+                Le football est un sport d'association, entre les membres d'une meme formation.
+                dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam,
+                dignissimos ex praesentium amet! Fugit.
+            </p>
+        </div>
+    </div>
+</div>
+</code>
+</pre>
                     </div>
                     <div class="accordion-container" data-boost="accordion">
                         <div class="collapsible" data-accordion="expanded">
@@ -388,8 +406,8 @@
     <footer class="site-footer">
         <div class="content-wrapper">
             <p class="float-right">
-                &copy; 2019, ProtoLabo. All rights reserverd.<br />
-                Last updated <time datetime="2019-08-16">October 04, 2019</time>
+                &copy; 2019 &ndash; 2020, ProtoLabo. All rights reserverd.<br />
+                Last updated <time datetime="2020-01-14">January 14, 2020</time>
             </p>
         </div>
     </footer>

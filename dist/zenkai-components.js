@@ -1519,8 +1519,17 @@ var zcomponents = (function (exports) {
     ON: 'on',
     OFF: 'off'
   };
+
+  var createDomQuery$1 = function createDomQuery(selector) {
+    return "[data-type=\"".concat(selector.name, "\"]");
+  };
+
+  var isSwitch = function isSwitch(element) {
+    return RegExp('switch|form-switch').test(element.dataset['type']);
+  };
+
   var SwitchFactory = {
-    create: function create(container, callback) {
+    create: function create(container, options) {
       if (!isHTMLElement(container)) {
         console.error('%c@zenkai%c #Switch>%SwitchFactory:%c Container must be an HTML Element', "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
         return ERROR$1;
@@ -1538,62 +1547,204 @@ var zcomponents = (function (exports) {
           break;
       }
 
-      Object.assign(widget, {
+      Object.assign(widget, options, {
         container: container,
-        querySelector: createDomQuery$1(widget),
-        callback: isFunction(callback) ? callback : function (val, el) {}
+        querySelector: createDomQuery$1(widget)
       });
       return widget;
     }
   };
   var BaseSwitch = {
     name: 'switch',
+
+    /** @type {HTMLElement} */
     container: null,
-    callback: null,
+
+    /** @type {Function} */
+    beforeChange: null,
+
+    /** @type {Function} */
+    afterChange: null,
+
+    get value() {
+      return this.container.dataset['value'];
+    },
+
+    /**
+     * Verifies that the switch is checked
+     * @param {boolean} check 
+     * @returns {boolean} A value indicating whether the switch is checked
+     */
+    isChecked: function isChecked() {
+      return getState(this.container) === Status$1.ON;
+    },
+
+    /**
+     * Changes the state of the switch
+     * @param {boolean} isChecked 
+     * @returns {boolean} A value indicating whether the operation was a success
+     */
+    setChecked: function setChecked(isChecked) {
+      if (isNullOrUndefined(isChecked)) {
+        return false;
+      }
+
+      if (isChecked) {
+        check(this.container, Status$1.ON);
+      } else {
+        uncheck(this.container, Status$1.OFF);
+      }
+
+      return true;
+    },
+    toggle: function toggle() {
+      if (this.isChecked()) {
+        this.setChecked(false);
+      } else {
+        this.setChecked(true);
+      }
+    },
     activate: function activate() {
       var _this = this;
 
-      if (getState(this.container) === Status$1.ON) {
+      // Init
+      if (this.isChecked()) {
         check(this.container, Status$1.ON);
       } // Bind events
 
 
       this.container.addEventListener('click', function () {
-        setState(_this.container, getState(_this.container) === Status$1.ON ? Status$1.OFF : Status$1.ON);
+        var halt = false;
 
-        _this.callback.call(_this, _this.container.dataset.value, _this.container);
+        if (isFunction(_this.beforeChange)) {
+          halt = _this.beforeChange(_this) === false;
+        }
+
+        if (halt) {
+          _this.setChecked(!_this.isChecked());
+
+          return;
+        }
+
+        _this.toggle();
+
+        if (isFunction(_this.afterChange)) {
+          _this.afterChange(_this);
+        }
       });
     }
   };
   var FormSwitch = {
     name: 'form-switch',
+
+    /** @type {HTMLElement} */
     container: null,
-    callback: null,
+
+    /** @type {HTMLInputElement} */
+    input: null,
+
+    /** @type {Function} */
+    beforeChange: null,
+
+    /** @type {Function} */
+    afterChange: null,
+
+    get value() {
+      return this.input.value;
+    },
+
+    /**
+     * Verifies that the switch is checked
+     * @param {boolean} check 
+     * @returns {boolean} A value indicating whether the switch is checked
+     */
+    isChecked: function isChecked() {
+      // return this.input.checked;
+      return getState(this.container) === Status$1.ON;
+    },
+
+    /**
+     * Changes the state of the switch
+     * @param {boolean} isChecked 
+     * @returns {boolean} A value indicating whether the operation was a success
+     */
+    setChecked: function setChecked(isChecked) {
+      if (isNullOrUndefined(isChecked)) {
+        return false;
+      }
+
+      this.input.checked = isChecked;
+
+      if (isChecked) {
+        check(this.container, Status$1.ON);
+      } else {
+        uncheck(this.container, Status$1.OFF);
+      }
+
+      return true;
+    },
+    toggle: function toggle() {
+      if (this.isChecked()) {
+        this.setChecked(false);
+      } else {
+        this.setChecked(true);
+      }
+    },
     activate: function activate() {
       var _this2 = this;
 
-      var input = getInput('checkbox', this.container); // Init
+      this.input = getInput('checkbox', this.container);
 
-      setState(this.container, input.checked ? Status$1.ON : Status$1.OFF);
-      this.callback.call(this, input.value, this.container); // Bind events
+      if (!isHTMLElement(this.input)) {
+        throw new Error("Missing input: FormSwitch requires an input in the container");
+      } // Init
 
-      input.addEventListener('change', function (e) {
-        setState(_this2.container, input.checked ? Status$1.ON : Status$1.OFF);
 
-        _this2.callback.call(_this2, input.value, _this2.container);
+      if (this.input.checked) {
+        this.setChecked(true);
+      } // Bind events
+
+
+      this.input.addEventListener('change', function (e) {
+        var halt = false;
+
+        if (isFunction(_this2.beforeChange)) {
+          halt = _this2.beforeChange(_this2) === false;
+        }
+
+        if (halt) {
+          _this2.setChecked(!_this2.isChecked());
+
+          return;
+        }
+
+        _this2.toggle();
+
+        if (isFunction(_this2.afterChange)) {
+          _this2.afterChange(_this2);
+        }
       });
     }
   };
-
-  var createDomQuery$1 = function createDomQuery(selector) {
-    return "[data-type=\"".concat(selector.name, "\"]");
-  };
-
-  var isSwitch = function isSwitch(element) {
-    return RegExp('switch|form-switch').test(element.dataset['type']);
-  };
-
   var domQuery$1 = [createDomQuery$1(BaseSwitch), createDomQuery$1(FormSwitch)].join(',');
+  function Switch(container, _options) {
+    var switcheElements = getSliders(container);
+    var options = valOrDefault(_options, {});
+
+    if (switcheElements === NONE$1) {
+      return null;
+    }
+
+    var switches = [];
+
+    for (var i = 0; i < switcheElements.length; i++) {
+      var $switch = SwitchFactory.create(switcheElements[i], options);
+      $switch.activate();
+      switches.push($switch);
+    }
+
+    return switches;
+  }
 
   function getSliders(container) {
     if (isHTMLElement(container)) {
@@ -1607,21 +1758,6 @@ var zcomponents = (function (exports) {
     }
 
     return NONE$1;
-  }
-
-  function Switch(container, _callback) {
-    var switches = getSliders(container);
-
-    if (switches === NONE$1) {
-      return null;
-    }
-
-    for (var i = 0; i < switches.length; i++) {
-      var switchWidget = SwitchFactory.create(switches[i], _callback);
-      switchWidget.activate();
-    }
-
-    return switches;
   }
 
   /**
@@ -1661,9 +1797,15 @@ var zcomponents = (function (exports) {
 
   var CollapsibleFactory = {
     /** @returns {CollapsibleFactory} */
-    create: function create(args) {
+    create: function create(container, options) {
+      if (!isHTMLElement(container)) {
+        throw new Error("Missing container: A collapsible requires a container");
+      }
+
       var instance = Object.create(this);
-      Object.assign(instance, args);
+      Object.assign(instance, options, {
+        container: container
+      });
       return instance;
     },
     name: 'collapsible',
@@ -1713,8 +1855,14 @@ var zcomponents = (function (exports) {
         return this;
       }
 
+      var halt = false;
+
       if (isFunction(this.beforeOpen)) {
-        this.beforeOpen(this);
+        halt = this.beforeOpen(this) === false;
+      }
+
+      if (halt) {
+        return this;
       }
 
       this.toggle(show, State.OPEN, addClass);
@@ -1733,8 +1881,14 @@ var zcomponents = (function (exports) {
         return this;
       }
 
+      var halt = false;
+
       if (isFunction(this.beforeClose)) {
-        this.beforeClose(this);
+        halt = this.beforeClose(this) === false;
+      }
+
+      if (halt) {
+        return this;
       }
 
       this.toggle(hide, State.CLOSED, removeClass);
@@ -1792,9 +1946,15 @@ var zcomponents = (function (exports) {
   };
   var AccordionFactory = {
     /** @returns {AccordionFactory} */
-    create: function create(args) {
+    create: function create(container, options) {
+      if (!isHTMLElement(container)) {
+        throw new Error("Missing container: A collapsible requires a container");
+      }
+
       var instance = Object.create(this);
-      Object.assign(instance, args);
+      Object.assign(instance, options, {
+        container: container
+      });
       return instance;
     },
 
@@ -1824,8 +1984,7 @@ var zcomponents = (function (exports) {
 
       for (var i = 0; i < accordionElements.length; i++) {
         var element = accordionElements[i];
-        var collapsible = CollapsibleFactory.create({
-          container: element,
+        var collapsible = CollapsibleFactory.create(element, {
           name: 'accordion',
           index: i,
           afterOpen: function afterOpen(selected) {
@@ -1860,17 +2019,19 @@ var zcomponents = (function (exports) {
    */
 
   function Collapsible(container, _options) {
-    var collapsibles = getCollapsibles(container);
+    var collapsibleElements = getCollapsibles(container);
     var options = valOrDefault(_options, {});
 
-    if (collapsibles === NONE$2) {
+    if (collapsibleElements === NONE$2) {
       return null;
     }
 
-    for (var i = 0; i < collapsibles.length; i++) {
-      CollapsibleFactory.create(Object.assign(options, {
-        container: collapsibles[i]
-      })).activate();
+    var collapsibles = [];
+
+    for (var i = 0; i < collapsibleElements.length; i++) {
+      var collapsible = CollapsibleFactory.create(collapsibleElements[i], options);
+      collapsible.activate();
+      collapsibles.push(collapsible);
     }
 
     return collapsibles;
@@ -1882,17 +2043,19 @@ var zcomponents = (function (exports) {
    */
 
   function Accordion(container, _options) {
-    var accordions = getAccordions(container);
+    var accordionElements = getAccordions(container);
     var options = valOrDefault(_options, {});
 
-    if (accordions === NONE$2) {
+    if (accordionElements === NONE$2) {
       return null;
     }
 
-    for (var i = 0; i < accordions.length; i++) {
-      AccordionFactory.create(Object.assign(options, {
-        container: accordions[i]
-      })).activate();
+    var accordions = [];
+
+    for (var i = 0; i < accordionElements.length; i++) {
+      var accordion = AccordionFactory.create(accordionElements[i], options);
+      accordion.activate();
+      accordions.push(accordion);
     }
 
     return accordions;

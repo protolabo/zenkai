@@ -91,12 +91,14 @@ var zdom = (function (exports) {
    * @param {Function} fn Condition
    * @param {number} [min=1] Minimum number of values that must satisfy the condition
    * @returns {boolean} A value indicating whether at least one value satisfies the condition
+   * @memberof LOGIC
    */
   /**
    * Verifies that all the values satisfy the condition
    * @param {*[]} values Set of values
    * @param {Function} fn Condition
    * @returns {boolean} A value indicating whether all the values satisfy the condition
+   * @memberof LOGIC
    */
 
   var all = function all(values, fn) {

@@ -2,7 +2,7 @@
  * @namespace URI
  */
 
-import { isNullOrWhitespace } from '@datatype/index.js';
+import { isNullOrWhitespace, valOrDefault } from '@datatype/index.js';
 
 const encode = encodeURIComponent;
 
@@ -18,9 +18,10 @@ export function getRootUrl(url) {
 /**
  * Extracts and returns the parameters of a URL
  * @param {string} [prop] Searched parameter
+ * @param {string} [defValue] Searched parameter default value
  * @memberof URI
  */
-export function getUrlParams(prop) {
+export function getUrlParams(prop, defValue) {
     var search = decodeURIComponent(window.location.search);
 
     if (isNullOrWhitespace(search)) {
@@ -45,8 +46,9 @@ export function getUrlParams(prop) {
         var parts = val.split('=', 2);
         params[parts[0]] = parts[1];
     });
+    
     if (prop) {
-        return params[prop];
+        return valOrDefault(params[prop], defValue);
     }
 
     return params;

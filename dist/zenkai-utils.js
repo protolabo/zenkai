@@ -313,6 +313,7 @@ var zutils = (function (exports) {
   }
   /**
    * More secure implementation of `Math.random`
+   * @private
    */
 
   function secureMathRandom() {
@@ -402,6 +403,7 @@ var zutils = (function (exports) {
    * @param {Function} fn Condition
    * @param {number} [min=1] Minimum number of values that must satisfy the condition
    * @returns {boolean} A value indicating whether at least one value satisfies the condition
+   * @memberof LOGIC
    */
   var some = function some(values, fn) {
     var min = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
@@ -423,6 +425,7 @@ var zutils = (function (exports) {
    * @param {*[]} values Set of values
    * @param {Function} fn Condition
    * @returns {boolean} A value indicating whether all the values satisfy the condition
+   * @memberof LOGIC
    */
 
   var all = function all(values, fn) {
@@ -439,6 +442,7 @@ var zutils = (function (exports) {
    * @param {*[]} values Set of values
    * @param {Function} fn Condition
    * @returns {boolean} A value indicating whether exactly one value satisfies the condition
+   * @memberof LOGIC
    */
 
   var one = function one(values, fn) {
@@ -449,6 +453,7 @@ var zutils = (function (exports) {
    * @param {*[]} values Set of values
    * @param {Function} fn Condition
    * @returns {boolean} A value indicating whether no value satisfies the condition
+   * @memberof LOGIC
    */
 
   var no = function no(values, fn) {
@@ -491,10 +496,11 @@ var zutils = (function (exports) {
   /**
    * Extracts and returns the parameters of a URL
    * @param {string} [prop] Searched parameter
+   * @param {string} [defValue] Searched parameter default value
    * @memberof URI
    */
 
-  function getUrlParams(prop) {
+  function getUrlParams(prop, defValue) {
     var search = decodeURIComponent(window.location.search);
 
     if (isNullOrWhitespace(search)) {
@@ -543,7 +549,7 @@ var zutils = (function (exports) {
     });
 
     if (prop) {
-      return params[prop];
+      return valOrDefault(params[prop], defValue);
     }
 
     return params;

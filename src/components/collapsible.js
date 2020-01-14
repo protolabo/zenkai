@@ -19,10 +19,16 @@ const isAccordion = (el) => el.dataset['boost'] === 'accordion';
 
 const CollapsibleFactory = {
     /** @returns {CollapsibleFactory} */
-    create(args) {
+    create(container, options) {
+        if (!isHTMLElement(container)) {
+            throw new Error("Missing container: A collapsible requires a container");
+        }
+
         var instance = Object.create(this);
 
-        Object.assign(instance, args);
+        Object.assign(instance, options, {
+            container: container
+        });
 
         return instance;
     },
@@ -55,8 +61,14 @@ const CollapsibleFactory = {
             return this;
         }
 
+        var halt = false;
+
         if (isFunction(this.beforeOpen)) {
-            this.beforeOpen(this);
+            halt = this.beforeOpen(this) === false;
+        }
+
+        if (halt) {
+            return this;
         }
 
         this.toggle(show, State.OPEN, addClass);
@@ -75,8 +87,14 @@ const CollapsibleFactory = {
             return this;
         }
 
+        var halt = false;
+
         if (isFunction(this.beforeClose)) {
-            this.beforeClose(this);
+            halt = this.beforeClose(this) === false;
+        }
+
+        if (halt) {
+            return this;
         }
 
         this.toggle(hide, State.CLOSED, removeClass);
@@ -109,7 +127,7 @@ const CollapsibleFactory = {
             this.open();
         }
         this.bindEvents();
-        
+
         this.isInitialized = true;
     },
     bindEvents() {
@@ -132,10 +150,16 @@ const CollapsibleFactory = {
 
 const AccordionFactory = {
     /** @returns {AccordionFactory} */
-    create(args) {
+    create(container, options) {
+        if (!isHTMLElement(container)) {
+            throw new Error("Missing container: A collapsible requires a container");
+        }
+
         var instance = Object.create(this);
 
-        Object.assign(instance, args);
+        Object.assign(instance, options, {
+            container: container
+        });
 
         return instance;
     },
@@ -158,11 +182,10 @@ const AccordionFactory = {
         this.init();
 
         var accordionElements = getElements('[data-accordion]', this.container);
-        
+
         for (let i = 0; i < accordionElements.length; i++) {
             let element = accordionElements[i];
-            let collapsible = CollapsibleFactory.create({
-                container: element,
+            let collapsible = CollapsibleFactory.create(element, {
                 name: 'accordion',
                 index: i,
                 afterOpen: (selected) => {
@@ -183,11 +206,10 @@ const AccordionFactory = {
             this.sections.push(collapsible);
             collapsible.activate();
         }
-        
+
         return this;
     }
 };
-
 
 /**
  * Makes a container collapsible
@@ -195,17 +217,19 @@ const AccordionFactory = {
  * @param {Object} [options]
  */
 export function Collapsible(container, _options) {
-    var collapsibles = getCollapsibles(container);
+    var collapsibleElements = getCollapsibles(container);
     var options = valOrDefault(_options, {});
 
-    if (collapsibles === NONE) {
+    if (collapsibleElements === NONE) {
         return null;
     }
 
-    for (let i = 0; i < collapsibles.length; i++) {
-        CollapsibleFactory.create(Object.assign(options, {
-            container: collapsibles[i]
-        })).activate();
+    var collapsibles = [];
+
+    for (let i = 0; i < collapsibleElements.length; i++) {
+        let collapsible = CollapsibleFactory.create(collapsibleElements[i], options);
+        collapsible.activate();
+        collapsibles.push(collapsible);
     }
 
     return collapsibles;
@@ -217,17 +241,19 @@ export function Collapsible(container, _options) {
  * @param {Object} [_options]
  */
 export function Accordion(container, _options) {
-    var accordions = getAccordions(container);
+    var accordionElements = getAccordions(container);
     var options = valOrDefault(_options, {});
 
-    if (accordions === NONE) {
+    if (accordionElements === NONE) {
         return null;
     }
 
-    for (let i = 0; i < accordions.length; i++) {
-        AccordionFactory.create(Object.assign(options, {
-            container: accordions[i]
-        })).activate();
+    var accordions = [];
+
+    for (let i = 0; i < accordionElements.length; i++) {
+        let accordion = AccordionFactory.create(accordionElements[i], options);
+        accordion.activate();
+        accordions.push(accordion);
     }
 
     return accordions;

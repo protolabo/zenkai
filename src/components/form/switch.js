@@ -1,6 +1,6 @@
 import { getElement, getElements, isHTMLElement } from '@dom/index.js';
-import { isFunction, isString, isNullOrUndefined, isEmpty } from '@datatype/index.js';
-import { check, setState, getState, getType } from './global.js';
+import { isFunction, isString, isNullOrUndefined, isEmpty, valOrDefault } from '@datatype/index.js';
+import { check, uncheck, setState, getState, getType } from './global.js';
 import { getInput } from "./utils.js";
 
 const NONE = -1;
@@ -11,10 +11,14 @@ const Status = {
     OFF: 'off'
 };
 
+const createDomQuery = (selector) => `[data-type="${selector.name}"]`;
+
+const isSwitch = (element) => RegExp('switch|form-switch').test(element.dataset['type']);
+
 const SwitchFactory = {
-    create(container, callback) {
+    create(container, options) {
         if (!isHTMLElement(container)) {
-            console.error('%c@zenkai%c #Switch>%SwitchFactory:%c Container must be an HTML Element', "text-decoration: underline", "", "font-weight: bold;","font-weight: normal;");
+            console.error('%c@zenkai%c #Switch>%SwitchFactory:%c Container must be an HTML Element', "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
             return ERROR;
         }
 
@@ -27,10 +31,9 @@ const SwitchFactory = {
                 widget = Object.create(FormSwitch);
                 break;
         }
-        Object.assign(widget, {
+        Object.assign(widget, options, {
             container: container,
             querySelector: createDomQuery(widget),
-            callback: isFunction(callback) ? callback : function (val, el) { }
         });
 
 
@@ -40,45 +43,179 @@ const SwitchFactory = {
 
 const BaseSwitch = {
     name: 'switch',
+    /** @type {HTMLElement} */
     container: null,
-    callback: null,
+    /** @type {Function} */
+    beforeChange: null,
+    /** @type {Function} */
+    afterChange: null,
+    get value() {
+        return this.container.dataset['value'];
+    },
+    /**
+     * Verifies that the switch is checked
+     * @param {boolean} check 
+     * @returns {boolean} A value indicating whether the switch is checked
+     */
+    isChecked() {
+        return getState(this.container) === Status.ON;
+    },
+    /**
+     * Changes the state of the switch
+     * @param {boolean} isChecked 
+     * @returns {boolean} A value indicating whether the operation was a success
+     */
+    setChecked(isChecked) {
+        if (isNullOrUndefined(isChecked)) {
+            return false;
+        }
+
+        if (isChecked) {
+            check(this.container, Status.ON);
+        } else {
+            uncheck(this.container, Status.OFF);
+        }
+
+        return true;
+    },
+    toggle() {
+        if (this.isChecked()) {
+            this.setChecked(false);
+        } else {
+            this.setChecked(true);
+        }
+    },
     activate() {
-        if (getState(this.container) === Status.ON) {
+        // Init
+        if (this.isChecked()) {
             check(this.container, Status.ON);
         }
 
         // Bind events
         this.container.addEventListener('click', () => {
-            setState(this.container, getState(this.container) === Status.ON ? Status.OFF : Status.ON);
-            this.callback.call(this, this.container.dataset.value, this.container);
+            var halt = false;
+
+            if (isFunction(this.beforeChange)) {
+                halt = this.beforeChange(this) === false;
+            }
+
+            if (halt) {
+                this.setChecked(!this.isChecked());
+                return;
+            }
+
+            this.toggle();
+            
+            if (isFunction(this.afterChange)) {
+                this.afterChange(this);
+            }
         });
     }
 };
 
 const FormSwitch = {
     name: 'form-switch',
+    /** @type {HTMLElement} */
     container: null,
-    callback: null,
+    /** @type {HTMLInputElement} */
+    input: null,
+    /** @type {Function} */
+    beforeChange: null,
+    /** @type {Function} */
+    afterChange: null,
+    get value() {
+        return this.input.value;
+    },
+
+    /**
+     * Verifies that the switch is checked
+     * @param {boolean} check 
+     * @returns {boolean} A value indicating whether the switch is checked
+     */
+    isChecked() {
+        // return this.input.checked;
+        return getState(this.container) === Status.ON;
+    },
+    /**
+     * Changes the state of the switch
+     * @param {boolean} isChecked 
+     * @returns {boolean} A value indicating whether the operation was a success
+     */
+    setChecked(isChecked) {
+        if (isNullOrUndefined(isChecked)) {
+            return false;
+        }
+
+        this.input.checked = isChecked;
+
+        if (isChecked) {
+            check(this.container, Status.ON);
+        } else {
+            uncheck(this.container, Status.OFF);
+        }
+
+        return true;
+    },
+    toggle() {
+        if (this.isChecked()) {
+            this.setChecked(false);
+        } else {
+            this.setChecked(true);
+        }
+    },
     activate() {
-        var input = getInput('checkbox', this.container);
-        
+        this.input = getInput('checkbox', this.container);
+        if (!isHTMLElement(this.input)) {
+            throw new Error("Missing input: FormSwitch requires an input in the container");
+        }
+
         // Init
-        setState(this.container, input.checked ? Status.ON : Status.OFF);
-        this.callback.call(this, input.value, this.container);
+        if (this.input.checked) {
+            this.setChecked(true);
+        }
 
         // Bind events
-        input.addEventListener('change', (e) => {
-            setState(this.container, input.checked ? Status.ON : Status.OFF);
-            this.callback.call(this, input.value, this.container);
+        this.input.addEventListener('change', (e) => {
+            var halt = false;
+
+            if (isFunction(this.beforeChange)) {
+                halt = this.beforeChange(this) === false;
+            }
+
+            if (halt) {
+                this.setChecked(!this.isChecked());
+                return;
+            }
+
+            this.toggle();
+            
+            if (isFunction(this.afterChange)) {
+                this.afterChange(this);
+            }
         });
     }
 };
 
-const createDomQuery = (selector) => `[data-type="${selector.name}"]`;
-
-const isSwitch = (element) => RegExp('switch|form-switch').test(element.dataset['type']);
-
 const domQuery = [createDomQuery(BaseSwitch), createDomQuery(FormSwitch)].join(',');
+
+export function Switch(container, _options) {
+    const switcheElements = getSliders(container);
+    var options = valOrDefault(_options, {});
+
+    if (switcheElements === NONE) {
+        return null;
+    }
+
+    var switches = [];
+
+    for (let i = 0; i < switcheElements.length; i++) {
+        let $switch = SwitchFactory.create(switcheElements[i], options);
+        $switch.activate();
+        switches.push($switch);
+    }
+
+    return switches;
+}
 
 function getSliders(container) {
     if (isHTMLElement(container)) {
@@ -91,19 +228,4 @@ function getSliders(container) {
     }
 
     return NONE;
-}
-
-export function Switch(container, _callback) {
-    const switches = getSliders(container);
-
-    if (switches === NONE) {
-        return null;
-    }
-
-    for (let i = 0; i < switches.length; i++) {
-        let switchWidget = SwitchFactory.create(switches[i], _callback);
-        switchWidget.activate();
-    }
-
-    return switches;
 }
