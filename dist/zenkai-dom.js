@@ -195,7 +195,7 @@ var zdom = (function (exports) {
 
   function htmlToElement(html) {
     if (!isString(html)) {
-      console.error("html must be a string");
+      console.error("dom-parse>htmlToElement(html): html must be a string");
       return null;
     }
 
@@ -211,7 +211,7 @@ var zdom = (function (exports) {
 
   function htmlToElements(html) {
     if (!isString(html)) {
-      console.error("html must be a string");
+      console.error("dom-parse>htmlToElements(html): html must be a string");
       return null;
     }
 

@@ -1,4 +1,4 @@
-import { isNullOrUndefined, isNullOrWhitespace, isString } from '@datatype/index.js';
+import { isNullOrUndefined, isString } from '@datatype/index.js';
 
 /* istanbul ignore next */
 const isElementNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType === Node.ELEMENT_NODE;
@@ -68,7 +68,7 @@ function createTemplate(html) {
  */
 export function htmlToElement(html) {
     if (!isString(html)) {
-        console.error("html must be a string");
+        console.error("dom-parse>htmlToElement(html): html must be a string");
         return null;
     }
 
@@ -85,7 +85,7 @@ export function htmlToElement(html) {
  */
 export function htmlToElements(html) {
     if (!isString(html)) {
-        console.error("html must be a string");
+        console.error("dom-parse>htmlToElements(html): html must be a string");
         return null;
     }
 

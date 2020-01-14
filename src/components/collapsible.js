@@ -1,5 +1,5 @@
 import { getElement, getElements, addClass, removeClass, isHTMLElement, findAncestor } from '@dom/index.js';
-import { isString, isNullOrUndefined, isEmpty, isFunction } from '@datatype/index.js';
+import { isString, isNullOrUndefined, isEmpty, isFunction, valOrDefault } from '@datatype/index.js';
 import { show, hide } from './utils.js';
 
 const ATTRIBUTE = 'collapsible';
@@ -18,36 +18,85 @@ const isCollapsible = (el) => ATTRIBUTE in el.dataset;
 const isAccordion = (el) => el.dataset['boost'] === 'accordion';
 
 const CollapsibleFactory = {
+    /** @returns {CollapsibleFactory} */
     create(args) {
         var instance = Object.create(this);
 
         Object.assign(instance, args);
-        if (!isFunction(instance.callback)) {
-            instance.callback = function (val, el) { };
-        }
 
         return instance;
     },
-    container: null,
-    callback: null,
-    header: null,
-    content: null,
     name: 'collapsible',
+    /** @type {HTMLElement} */
+    container: null,
+    /** @type {HTMLElement} */
+    header: null,
+    /** @type {HTMLElement} */
+    content: null,
+    /** @type {Function} */
+    beforeOpen: null,
+    /** @type {Function} */
+    afterOpen: null,
+    /** @type {Function} */
+    beforeClose: null,
+    /** @type {Function} */
+    afterClose: null,
     getState() { return this.container.dataset[this.name]; },
     setState(val) { this.container.dataset[this.name] = val; },
+    /** Verifies that the container is collapsed (closed) */
     isCollapsed() { return this.getState() === State.CLOSED; },
+    /** Verifies that the container is expanded (open) */
     isExpanded() { return this.getState() === State.OPEN; },
-    open() { this.toggle(show, State.OPEN, addClass); },
-    close() { this.toggle(hide, State.CLOSED, removeClass); },
+    isClosed: false,
+    isInitialized: false,
+    /** Opens the container and calls the defined pre/post operations */
+    open() {
+        if (this.isInitialized && !this.isClosed) {
+            return this;
+        }
+
+        if (isFunction(this.beforeOpen)) {
+            this.beforeOpen(this);
+        }
+
+        this.toggle(show, State.OPEN, addClass);
+
+        if (isFunction(this.afterOpen)) {
+            this.afterOpen(this);
+        }
+
+        this.isClosed = false;
+
+        return this;
+    },
+    /** Closes the container and calls the defined pre/post operations */
+    close() {
+        if (this.isInitialized && this.isClosed) {
+            return this;
+        }
+
+        if (isFunction(this.beforeClose)) {
+            this.beforeClose(this);
+        }
+
+        this.toggle(hide, State.CLOSED, removeClass);
+
+        if (isFunction(this.afterClose)) {
+            this.afterClose(this);
+        }
+
+        this.isClosed = true;
+
+        return this;
+    },
     toggle(displayCb, state, classCb) {
         displayCb(this.content);
         this.setState(state);
         classCb(this.container, 'expanded');
     },
     init() {
-        const container = this.container;
-        this.header = getElement(`[data-${this.name}-header]`, container);
-        this.content = getElement(`[data-${this.name}-content]`, container);
+        this.header = getElement(`[data-${this.name}-header]`, this.container);
+        this.content = getElement(`[data-${this.name}-content]`, this.container);
 
         return this;
     },
@@ -56,9 +105,12 @@ const CollapsibleFactory = {
         if (this.isCollapsed()) {
             this.close();
         } else if (this.isExpanded()) {
+            this.isClosed = true;
             this.open();
         }
         this.bindEvents();
+        
+        this.isInitialized = true;
     },
     bindEvents() {
         const container = this.container;
@@ -68,9 +120,8 @@ const CollapsibleFactory = {
             var target = e.target;
             var targetCollapsible = findAncestor(target, (el) => this.name in el.dataset);
             if (container === targetCollapsible) {
-                if (this.getState() === State.CLOSED) {
+                if (this.isCollapsed()) {
                     this.open();
-                    this.callback(this);
                 } else if (header.parentNode === container) {
                     this.close();
                 }
@@ -80,88 +131,113 @@ const CollapsibleFactory = {
 };
 
 const AccordionFactory = {
+    /** @returns {AccordionFactory} */
     create(args) {
         var instance = Object.create(this);
 
         Object.assign(instance, args);
-        if (!isFunction(instance.callback)) {
-            instance.callback = function (val, el) { };
-        }
 
         return instance;
     },
+    /** @type {HTMLElement} */
     container: null,
-    items: null,
-    callback: null,
+    /** @type {CollapsibleFactory[]} */
+    sections: null,
+    /** @type {CollapsibleFactory} */
+    selectedSection: null,
+    /** @type {Function} */
+    beforeChange: null,
+    /** @type {Function} */
+    afterChange: null,
     init() {
-        this.items = [];
+        this.sections = [];
 
         return this;
     },
     activate() {
         this.init();
+
         var accordionElements = getElements('[data-accordion]', this.container);
+        
         for (let i = 0; i < accordionElements.length; i++) {
-            let accordionElement = accordionElements[i];
+            let element = accordionElements[i];
             let collapsible = CollapsibleFactory.create({
-                container: accordionElement,
+                container: element,
                 name: 'accordion',
-                callback: (selectedItem) => {
-                    this.items.filter((item) => item !== selectedItem && item.isExpanded())
+                index: i,
+                afterOpen: (selected) => {
+                    if (isFunction(this.beforeChange)) {
+                        this.beforeChange(selected);
+                    }
+
+                    this.sections.filter((section) => section.index !== selected.index)
                         .forEach((other) => other.close());
+
+                    if (isFunction(this.afterChange)) {
+                        this.afterChange(selected);
+                    }
+
+                    this.selectedSection = selected;
                 }
             });
-            this.items.push(collapsible);
+            this.sections.push(collapsible);
             collapsible.activate();
         }
+        
+        return this;
     }
 };
 
 
 /**
- * Collapsible
- * @param {HTMLElement} container 
- * @param {*} _callback
+ * Makes a container collapsible
+ * @param {!HTMLElement} container 
+ * @param {Object} [options]
  */
-export function Collapsible(container, _callback) {
+export function Collapsible(container, _options) {
     var collapsibles = getCollapsibles(container);
+    var options = valOrDefault(_options, {});
 
     if (collapsibles === NONE) {
         return null;
     }
 
     for (let i = 0; i < collapsibles.length; i++) {
-        CollapsibleFactory.create({
-            container: collapsibles[i],
-            callback: _callback
-        }).activate();
+        CollapsibleFactory.create(Object.assign(options, {
+            container: collapsibles[i]
+        })).activate();
     }
 
     return collapsibles;
 }
 
 /**
- * Accordion
- * @param {HTMLElement} container 
- * @param {*} _callback
+ * Transforms a container into an accordion
+ * @param {!HTMLElement} container 
+ * @param {Object} [_options]
  */
-export function Accordion(container, _callback) {
+export function Accordion(container, _options) {
     var accordions = getAccordions(container);
+    var options = valOrDefault(_options, {});
 
     if (accordions === NONE) {
         return null;
     }
 
     for (let i = 0; i < accordions.length; i++) {
-        AccordionFactory.create({
-            container: accordions[i],
-            callback: _callback
-        }).activate();
+        AccordionFactory.create(Object.assign(options, {
+            container: accordions[i]
+        })).activate();
     }
 
     return accordions;
 }
 
+/**
+ * Get all collapsibles within the specified container or on the page
+ * @param {HTMLElement|string} [container] 
+ * @private
+ */
 function getCollapsibles(container) {
     if (isHTMLElement(container)) {
         return isCollapsible(container) ? [container] : getElements('[data-collapsible]', container);
@@ -175,6 +251,11 @@ function getCollapsibles(container) {
     return NONE;
 }
 
+/**
+ * Get all accordions within the specified container or on the page
+ * @param {HTMLElement|string} [container] 
+ * @private
+ */
 function getAccordions(container) {
     if (isHTMLElement(container)) {
         return isAccordion(container) ? [container] : getElements(toData('accordion'), container);

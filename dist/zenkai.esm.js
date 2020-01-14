@@ -1015,7 +1015,7 @@ function createTemplate(html) {
 
 function htmlToElement(html) {
   if (!isString(html)) {
-    console.error("html must be a string");
+    console.error("dom-parse>htmlToElement(html): html must be a string");
     return null;
   }
 
@@ -1031,7 +1031,7 @@ function htmlToElement(html) {
 
 function htmlToElements(html) {
   if (!isString(html)) {
-    console.error("html must be a string");
+    console.error("dom-parse>htmlToElements(html): html must be a string");
     return null;
   }
 
@@ -3013,38 +3013,91 @@ var isAccordion = function isAccordion(el) {
 };
 
 var CollapsibleFactory = {
+  /** @returns {CollapsibleFactory} */
   create: function create(args) {
     var instance = Object.create(this);
     Object.assign(instance, args);
-
-    if (!isFunction(instance.callback)) {
-      instance.callback = function (val, el) {};
-    }
-
     return instance;
   },
-  container: null,
-  callback: null,
-  header: null,
-  content: null,
   name: 'collapsible',
+
+  /** @type {HTMLElement} */
+  container: null,
+
+  /** @type {HTMLElement} */
+  header: null,
+
+  /** @type {HTMLElement} */
+  content: null,
+
+  /** @type {Function} */
+  beforeOpen: null,
+
+  /** @type {Function} */
+  afterOpen: null,
+
+  /** @type {Function} */
+  beforeClose: null,
+
+  /** @type {Function} */
+  afterClose: null,
   getState: function getState() {
     return this.container.dataset[this.name];
   },
   setState: function setState(val) {
     this.container.dataset[this.name] = val;
   },
+
+  /** Verifies that the container is collapsed (closed) */
   isCollapsed: function isCollapsed() {
     return this.getState() === State$1.CLOSED;
   },
+
+  /** Verifies that the container is expanded (open) */
   isExpanded: function isExpanded() {
     return this.getState() === State$1.OPEN;
   },
+  isClosed: false,
+  isInitialized: false,
+
+  /** Opens the container and calls the defined pre/post operations */
   open: function open() {
+    if (this.isInitialized && !this.isClosed) {
+      return this;
+    }
+
+    if (isFunction(this.beforeOpen)) {
+      this.beforeOpen(this);
+    }
+
     this.toggle(show, State$1.OPEN, addClass);
+
+    if (isFunction(this.afterOpen)) {
+      this.afterOpen(this);
+    }
+
+    this.isClosed = false;
+    return this;
   },
+
+  /** Closes the container and calls the defined pre/post operations */
   close: function close() {
+    if (this.isInitialized && this.isClosed) {
+      return this;
+    }
+
+    if (isFunction(this.beforeClose)) {
+      this.beforeClose(this);
+    }
+
     this.toggle(hide, State$1.CLOSED, removeClass);
+
+    if (isFunction(this.afterClose)) {
+      this.afterClose(this);
+    }
+
+    this.isClosed = true;
+    return this;
   },
   toggle: function toggle(displayCb, state, classCb) {
     displayCb(this.content);
@@ -3052,9 +3105,8 @@ var CollapsibleFactory = {
     classCb(this.container, 'expanded');
   },
   init: function init() {
-    var container = this.container;
-    this.header = getElement("[data-".concat(this.name, "-header]"), container);
-    this.content = getElement("[data-".concat(this.name, "-content]"), container);
+    this.header = getElement("[data-".concat(this.name, "-header]"), this.container);
+    this.content = getElement("[data-".concat(this.name, "-content]"), this.container);
     return this;
   },
   activate: function activate() {
@@ -3063,10 +3115,12 @@ var CollapsibleFactory = {
     if (this.isCollapsed()) {
       this.close();
     } else if (this.isExpanded()) {
+      this.isClosed = true;
       this.open();
     }
 
     this.bindEvents();
+    this.isInitialized = true;
   },
   bindEvents: function bindEvents() {
     var _this = this;
@@ -3080,10 +3134,8 @@ var CollapsibleFactory = {
       });
 
       if (container === targetCollapsible) {
-        if (_this.getState() === State$1.CLOSED) {
+        if (_this.isCollapsed()) {
           _this.open();
-
-          _this.callback(_this);
         } else if (header.parentNode === container) {
           _this.close();
         }
@@ -3092,21 +3144,29 @@ var CollapsibleFactory = {
   }
 };
 var AccordionFactory = {
+  /** @returns {AccordionFactory} */
   create: function create(args) {
     var instance = Object.create(this);
     Object.assign(instance, args);
-
-    if (!isFunction(instance.callback)) {
-      instance.callback = function (val, el) {};
-    }
-
     return instance;
   },
+
+  /** @type {HTMLElement} */
   container: null,
-  items: null,
-  callback: null,
+
+  /** @type {CollapsibleFactory[]} */
+  sections: null,
+
+  /** @type {CollapsibleFactory} */
+  selectedSection: null,
+
+  /** @type {Function} */
+  beforeChange: null,
+
+  /** @type {Function} */
+  afterChange: null,
   init: function init() {
-    this.items = [];
+    this.sections = [];
     return this;
   },
   activate: function activate() {
@@ -3116,67 +3176,85 @@ var AccordionFactory = {
     var accordionElements = getElements('[data-accordion]', this.container);
 
     for (var i = 0; i < accordionElements.length; i++) {
-      var accordionElement = accordionElements[i];
+      var element = accordionElements[i];
       var collapsible = CollapsibleFactory.create({
-        container: accordionElement,
+        container: element,
         name: 'accordion',
-        callback: function callback(selectedItem) {
-          _this2.items.filter(function (item) {
-            return item !== selectedItem && item.isExpanded();
+        index: i,
+        afterOpen: function afterOpen(selected) {
+          if (isFunction(_this2.beforeChange)) {
+            _this2.beforeChange(selected);
+          }
+
+          _this2.sections.filter(function (section) {
+            return section.index !== selected.index;
           }).forEach(function (other) {
             return other.close();
           });
+
+          if (isFunction(_this2.afterChange)) {
+            _this2.afterChange(selected);
+          }
+
+          _this2.selectedSection = selected;
         }
       });
-      this.items.push(collapsible);
+      this.sections.push(collapsible);
       collapsible.activate();
     }
+
+    return this;
   }
 };
 /**
- * Collapsible
- * @param {HTMLElement} container 
- * @param {*} _callback
+ * Makes a container collapsible
+ * @param {!HTMLElement} container 
+ * @param {Object} [options]
  */
 
-function Collapsible(container, _callback) {
+function Collapsible(container, _options) {
   var collapsibles = getCollapsibles(container);
+  var options = valOrDefault(_options, {});
 
   if (collapsibles === NONE$2) {
     return null;
   }
 
   for (var i = 0; i < collapsibles.length; i++) {
-    CollapsibleFactory.create({
-      container: collapsibles[i],
-      callback: _callback
-    }).activate();
+    CollapsibleFactory.create(Object.assign(options, {
+      container: collapsibles[i]
+    })).activate();
   }
 
   return collapsibles;
 }
 /**
- * Accordion
- * @param {HTMLElement} container 
- * @param {*} _callback
+ * Transforms a container into an accordion
+ * @param {!HTMLElement} container 
+ * @param {Object} [_options]
  */
 
-function Accordion(container, _callback) {
+function Accordion(container, _options) {
   var accordions = getAccordions(container);
+  var options = valOrDefault(_options, {});
 
   if (accordions === NONE$2) {
     return null;
   }
 
   for (var i = 0; i < accordions.length; i++) {
-    AccordionFactory.create({
-      container: accordions[i],
-      callback: _callback
-    }).activate();
+    AccordionFactory.create(Object.assign(options, {
+      container: accordions[i]
+    })).activate();
   }
 
   return accordions;
 }
+/**
+ * Get all collapsibles within the specified container or on the page
+ * @param {HTMLElement|string} [container] 
+ * @private
+ */
 
 function getCollapsibles(container) {
   if (isHTMLElement(container)) {
@@ -3191,6 +3269,12 @@ function getCollapsibles(container) {
 
   return NONE$2;
 }
+/**
+ * Get all accordions within the specified container or on the page
+ * @param {HTMLElement|string} [container] 
+ * @private
+ */
+
 
 function getAccordions(container) {
   if (isHTMLElement(container)) {
