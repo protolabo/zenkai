@@ -33,6 +33,10 @@
 
     activateComponents(ken.getElement('.body'));
 
+    /**
+     * Activates all the zenkai components in the container
+     * @param {HTMLElement} container 
+     */
     function activateComponents(container) {
         ken.floatingLabel(container);
         ken.inputCounter(container);

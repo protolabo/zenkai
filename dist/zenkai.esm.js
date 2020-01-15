@@ -2873,7 +2873,14 @@ function Selector(container, _callback) {
 }
 
 var NONE$1 = -1;
-var ERROR$1 = -10;
+var ErrorCode = {
+  BAD_CONTAINER: 'BAD_CONTAINER',
+  BAD_INPUT: 'BAD_INPUT'
+};
+var ErrorHandler = {
+  BAD_CONTAINER: new Error("Missing container: A switch requires a container"),
+  BAD_INPUT: new Error("Missing input: FormSwitch requires an input in the container")
+};
 var Status$1 = {
   ON: 'on',
   OFF: 'off'
@@ -2890,11 +2897,11 @@ var isSwitch = function isSwitch(element) {
 var SwitchFactory = {
   create: function create(container, options) {
     if (!isHTMLElement(container)) {
-      console.error('%c@zenkai%c #Switch>%SwitchFactory:%c Container must be an HTML Element', "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
-      return ERROR$1;
+      return ErrorCode.BAD_CONTAINER;
     }
 
     var widget = null;
+    var input = null;
 
     switch (getType(container)) {
       case 'switch':
@@ -2902,6 +2909,13 @@ var SwitchFactory = {
         break;
 
       case 'form-switch':
+        input = getInput('checkbox', container);
+
+        if (!isHTMLElement(input)) {
+          return ErrorCode.BAD_INPUT;
+        }
+
+        options.input = input;
         widget = Object.create(FormSwitch);
         break;
     }
@@ -2963,32 +2977,34 @@ var BaseSwitch = {
       this.setChecked(true);
     }
   },
-  activate: function activate() {
-    var _this = this;
+  init: function init(args) {
+    Object.assign(this, args);
 
-    // Init
     if (this.isChecked()) {
       check(this.container, Status$1.ON);
-    } // Bind events
+    }
 
+    this.bindEvents();
+    return this;
+  },
+  bindEvents: function bindEvents() {
+    var _this = this;
 
-    this.container.addEventListener('click', function () {
+    this.container.addEventListener('click', function (event) {
       var halt = false;
 
       if (isFunction(_this.beforeChange)) {
-        halt = _this.beforeChange(_this) === false;
+        halt = _this.beforeChange(_this, event) === false;
       }
 
       if (halt) {
-        _this.setChecked(!_this.isChecked());
-
         return;
       }
 
       _this.toggle();
 
       if (isFunction(_this.afterChange)) {
-        _this.afterChange(_this);
+        _this.afterChange(_this, event);
       }
     });
   }
@@ -3049,38 +3065,35 @@ var FormSwitch = {
       this.setChecked(true);
     }
   },
-  activate: function activate() {
-    var _this2 = this;
-
-    this.input = getInput('checkbox', this.container);
-
-    if (!isHTMLElement(this.input)) {
-      throw new Error("Missing input: FormSwitch requires an input in the container");
-    } // Init
-
+  init: function init(args) {
+    Object.assign(this, args);
 
     if (this.input.checked) {
       this.setChecked(true);
-    } // Bind events
+    }
 
+    this.bindEvents();
+    return this;
+  },
+  bindEvents: function bindEvents() {
+    var _this2 = this;
 
-    this.input.addEventListener('change', function (e) {
+    this.input.addEventListener('change', function (event) {
       var halt = false;
 
       if (isFunction(_this2.beforeChange)) {
-        halt = _this2.beforeChange(_this2) === false;
+        halt = _this2.beforeChange(_this2, event) === false;
       }
 
       if (halt) {
-        _this2.setChecked(!_this2.isChecked());
-
+        _this2.input.checked = !_this2.input.checked;
         return;
       }
 
       _this2.toggle();
 
       if (isFunction(_this2.afterChange)) {
-        _this2.afterChange(_this2);
+        _this2.afterChange(_this2, event);
       }
     });
   }
@@ -3090,7 +3103,7 @@ function Switch(container, _options) {
   var switcheElements = getSliders(container);
   var options = valOrDefault(_options, {});
 
-  if (switcheElements === NONE$1) {
+  if (isNullOrUndefined(switcheElements) || switcheElements === NONE$1) {
     return null;
   }
 
@@ -3098,7 +3111,12 @@ function Switch(container, _options) {
 
   for (var i = 0; i < switcheElements.length; i++) {
     var $switch = SwitchFactory.create(switcheElements[i], options);
-    $switch.activate();
+
+    if (hasOwn(ErrorHandler, $switch)) {
+      throw ErrorHandler[$switch];
+    }
+
+    $switch.init();
     switches.push($switch);
   }
 
