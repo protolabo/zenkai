@@ -1,17 +1,23 @@
 import { getElement, getElements, addClass, removeClass, isHTMLElement, findAncestor } from '@dom/index.js';
-import { isString, isNullOrUndefined, isEmpty, isFunction, valOrDefault } from '@datatype/index.js';
+import { isNullOrUndefined, isFunction, valOrDefault, hasOwn } from '@datatype/index.js';
 import { show, hide } from './utils.js';
+import { getComponentElement } from './form/global.js';
 
 const ATTRIBUTE = 'collapsible';
 
-const NONE = -1;
+const ErrorCode = {
+    BAD_CONTAINER_COLLAPSIBLE: 'BAD_CONTAINER_COLLAPSIBLE',
+    BAD_CONTAINER_ACCORDION: 'BAD_CONTAINER_ACCORDION',
+};
+const ErrorHandler = {
+    BAD_CONTAINER_COLLAPSIBLE: new Error("Missing container: A collapsible requires a container"),
+    BAD_CONTAINER_ACCORDION: new Error("Missing container: An accordion requires a container"),
+};
 
 const State = {
     OPEN: 'expanded',
     CLOSED: 'collapsed'
 };
-
-const toData = (name) => `[data-boost=${name}]`;
 
 const isCollapsible = (el) => ATTRIBUTE in el.dataset;
 
@@ -21,7 +27,7 @@ const CollapsibleFactory = {
     /** @returns {CollapsibleFactory} */
     create(container, options) {
         if (!isHTMLElement(container)) {
-            throw new Error("Missing container: A collapsible requires a container");
+            return ErrorCode.BAD_CONTAINER_COLLAPSIBLE;
         }
 
         var instance = Object.create(this);
@@ -112,14 +118,12 @@ const CollapsibleFactory = {
         this.setState(state);
         classCb(this.container, 'expanded');
     },
-    init() {
+    init(args) {
+        Object.assign(this, args);
+
         this.header = getElement(`[data-${this.name}-header]`, this.container);
         this.content = getElement(`[data-${this.name}-content]`, this.container);
 
-        return this;
-    },
-    activate() {
-        this.init();
         if (this.isCollapsed()) {
             this.close();
         } else if (this.isExpanded()) {
@@ -129,6 +133,7 @@ const CollapsibleFactory = {
         this.bindEvents();
 
         this.isInitialized = true;
+        return this;
     },
     bindEvents() {
         const container = this.container;
@@ -152,7 +157,7 @@ const AccordionFactory = {
     /** @returns {AccordionFactory} */
     create(container, options) {
         if (!isHTMLElement(container)) {
-            throw new Error("Missing container: A collapsible requires a container");
+            return ErrorCode.BAD_CONTAINER_ACCORDION;
         }
 
         var instance = Object.create(this);
@@ -176,11 +181,6 @@ const AccordionFactory = {
     init() {
         this.sections = [];
 
-        return this;
-    },
-    activate() {
-        this.init();
-
         var accordionElements = getElements('[data-accordion]', this.container);
 
         for (let i = 0; i < accordionElements.length; i++) {
@@ -203,8 +203,11 @@ const AccordionFactory = {
                     this.selectedSection = selected;
                 }
             });
+            if (hasOwn(ErrorCode, collapsible)) {
+                return collapsible;
+            }
             this.sections.push(collapsible);
-            collapsible.activate();
+            collapsible.init();
         }
 
         return this;
@@ -217,10 +220,10 @@ const AccordionFactory = {
  * @param {Object} [options]
  */
 export function Collapsible(container, _options) {
-    var collapsibleElements = getCollapsibles(container);
+    var collapsibleElements = getComponentElement(container, isCollapsible, '[data-collapsible]');
     var options = valOrDefault(_options, {});
 
-    if (collapsibleElements === NONE) {
+    if (isNullOrUndefined(collapsibleElements)) {
         return null;
     }
 
@@ -228,7 +231,11 @@ export function Collapsible(container, _options) {
 
     for (let i = 0; i < collapsibleElements.length; i++) {
         let collapsible = CollapsibleFactory.create(collapsibleElements[i], options);
-        collapsible.activate();
+        if (hasOwn(ErrorHandler, collapsible)) {
+            throw ErrorHandler[collapsible];
+        }
+        collapsible.init();
+
         collapsibles.push(collapsible);
     }
 
@@ -241,10 +248,10 @@ export function Collapsible(container, _options) {
  * @param {Object} [_options]
  */
 export function Accordion(container, _options) {
-    var accordionElements = getAccordions(container);
+    var accordionElements = getComponentElement(container, isAccordion, '[data-boost=accordion]');
     var options = valOrDefault(_options, {});
 
-    if (accordionElements === NONE) {
+    if (isNullOrUndefined(accordionElements)) {
         return null;
     }
 
@@ -252,45 +259,12 @@ export function Accordion(container, _options) {
 
     for (let i = 0; i < accordionElements.length; i++) {
         let accordion = AccordionFactory.create(accordionElements[i], options);
-        accordion.activate();
+        if (hasOwn(ErrorHandler, accordion)) {
+            throw ErrorHandler[accordion];
+        }
+        accordion.init();
         accordions.push(accordion);
     }
 
     return accordions;
-}
-
-/**
- * Get all collapsibles within the specified container or on the page
- * @param {HTMLElement|string} [container] 
- * @private
- */
-function getCollapsibles(container) {
-    if (isHTMLElement(container)) {
-        return isCollapsible(container) ? [container] : getElements('[data-collapsible]', container);
-    } else if (isString(container) && !isEmpty(container)) {
-        let _container = getElement(container);
-        return isNullOrUndefined(_container) ? NONE : getCollapsibles(_container);
-    } else if (isNullOrUndefined(container)) {
-        return getElements('[data-collapsible]');
-    }
-
-    return NONE;
-}
-
-/**
- * Get all accordions within the specified container or on the page
- * @param {HTMLElement|string} [container] 
- * @private
- */
-function getAccordions(container) {
-    if (isHTMLElement(container)) {
-        return isAccordion(container) ? [container] : getElements(toData('accordion'), container);
-    } else if (isString(container) && !isEmpty(container)) {
-        let _container = getElement(container);
-        return isNullOrUndefined(_container) ? NONE : getAccordions(_container);
-    } else if (isNullOrUndefined(container)) {
-        return getElements(toData('accordion'));
-    }
-
-    return NONE;
 }

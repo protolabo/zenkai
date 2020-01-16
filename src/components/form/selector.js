@@ -1,10 +1,16 @@
-import { getElement, getElements, isHTMLElement } from '@dom/index.js';
-import { isFunction, isString, isNullOrUndefined, isEmpty, isNull, valOrDefault, isUndefined } from '@datatype/index.js';
-import { check, uncheck, setState, getState, getType } from './global.js';
+import { getElements, isHTMLElement } from '@dom/index.js';
+import { isFunction, isNullOrUndefined, isNull, valOrDefault, isUndefined, hasOwn } from '@datatype/index.js';
+import { check, uncheck, setState, getState, getType, getComponentElement } from './global.js';
 import { getInput } from "./utils.js";
 
-const NONE = -1;
-const ERROR = -10;
+const ErrorCode = {
+    BAD_CONTAINER: 'BAD_CONTAINER',
+    BAD_INPUT: 'BAD_INPUT'
+};
+const ErrorHandler = {
+    BAD_CONTAINER: new Error("Missing container: A selector requires a container"),
+    BAD_INPUT: new Error("Missing input: FormSelector requires an input in the container"),
+};
 
 const Status = {
     ON: 'on',
@@ -12,48 +18,63 @@ const Status = {
 };
 
 const SelectorFactory = {
-    create(container, callback) {
+    create(container, options) {
         if (!isHTMLElement(container)) {
-            console.error('%c@zenkai%c #Selector>%cSelectorFactory:%c Container must be an HTML Element', "text-decoration: underline", "", "font-weight: bold;","font-weight: normal;");
-            return ERROR;
+            return ErrorCode.BAD_CONTAINER;
         }
 
-        var selector = null;
+        var widget = null;
+        var input = null;
+
         switch (getType(container)) {
             case 'selector':
-                selector = Object.create(BaseSelector);
+                widget = Object.create(BaseSelector);
                 break;
             case 'form-selector':
-                selector = Object.create(FormSelector);
+                input = getInput('radio', container);
+                if (!isHTMLElement(input)) {
+                    return ErrorCode.BAD_INPUT;
+                }
+                options.input = input;
+                widget = Object.create(FormSelector);
                 break;
         }
-        Object.assign(selector, {
+
+        Object.assign(widget, options, {
             container: container,
-            querySelector: createDomQuery(selector),
-            callback: isFunction(callback) ? callback : function (val, el) { }
+            querySelector: createDomQuery(widget),
         });
 
 
-        return selector;
+        return widget;
     }
 };
 
 const BaseSelector = {
     name: 'selector',
+    /** @type {HTMLElement} */
     container: null,
     current: null,
-    callback: null,
+    /** @type {Function} */
+    beforeChange: null,
+    /** @type {Function} */
+    afterChange: null,
+    get value() {
+        return this.current.dataset['value'];
+    },
     setCurrentItem(item) {
         this.current = item;
         check(this.current, Status.ON);
-        this.callback.call(this, item.dataset.value, this.current);
+
+        return true;
     },
-    activate() {
+    init() {
         var value = this.container.dataset['value'];
         var defaultItem = null;
-        var selectorItems = getElements('[data-selector]', this.container);
-        for (let i = 0, len = selectorItems.length; i < len; i++) {
-            let item = selectorItems[i];
+        var selectorElements = getElements('[data-selector]', this.container);
+
+        for (let i = 0; i < selectorElements.length; i++) {
+            let item = selectorElements[i];
 
             if (getState(item) === Status.ON) {
                 this.setCurrentItem(item);
@@ -61,33 +82,60 @@ const BaseSelector = {
             if (!isUndefined(value) && item.dataset.value === value) {
                 defaultItem = item;
             }
-            item.addEventListener('click', () => {
-                if (this.current) {
-                    uncheck(this.current, Status.OFF);
-                }
-                this.setCurrentItem(item);
-            });
         }
 
         if (isNull(this.current) && !isNull(defaultItem)) {
             this.setCurrentItem(defaultItem);
         }
+
+        this.bindEvents();
+
+        return this;
+    },
+    bindEvents() {
+        this.container.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!hasOwn(event.target.dataset, 'selector')) {
+                return;
+            }
+            var halt = false;
+
+            if (isFunction(this.beforeChange)) {
+                halt = this.beforeChange(this, event) === false;
+            }
+
+            if (halt) {
+                return;
+            }
+
+            if (this.current) {
+                uncheck(this.current, Status.OFF);
+            }
+            this.setCurrentItem(target);
+
+            if (isFunction(this.afterChange)) {
+                this.afterChange(this, event);
+            }
+        });
     }
 };
 
 const FormSelector = {
     name: 'form-selector',
+    /** @type {HTMLElement} */
     container: null,
     current: null,
-    callback: null,
+    /** @type {Function} */
+    beforeChange: null,
+    /** @type {Function} */
+    afterChange: null,
     setCurrentItem(item, _input) {
         var input = valOrDefault(_input, getInput('radio', item));
         input.checked = true;
         this.current = item;
         check(this.current, Status.ON);
-        this.callback.call(this, input.value, this.current);
     },
-    activate() {
+    init() {
         var value = this.container.dataset['value'];
         var defaultItem = null;
         var selectorItems = getElements('[data-selector]', this.container);
@@ -101,17 +149,41 @@ const FormSelector = {
             if (input.value === value) {
                 defaultItem = item;
             }
-            input.addEventListener('change', () => {
-                if (this.current) {
-                    uncheck(this.current, Status.OFF);
-                }
-                this.setCurrentItem(item, input);
-            });
+            // input.addEventListener('change', () => {
+            //     if (this.current) {
+            //         uncheck(this.current, Status.OFF);
+            //     }
+            //     this.setCurrentItem(item, input);
+            // });
         }
 
         if (isNull(this.current) && !isNull(defaultItem)) {
             this.setCurrentItem(defaultItem);
         }
+
+        return this;
+    },
+    bindEvents() {
+        this.container.addEventListener('change', (event) => {
+            var halt = false;
+            var target = event.target;
+
+            if (isFunction(this.beforeChange)) {
+                halt = this.beforeChange(this, event) === false;
+            }
+
+            if (halt) {
+                return;
+            }
+            if (this.current) {
+                uncheck(this.current, Status.OFF);
+            }
+            // this.setCurrentItem(item, input);
+            this.setCurrentItem(target, target);
+            if (isFunction(this.afterChange)) {
+                this.afterChange(this, event);
+            }
+        });
     }
 };
 
@@ -121,29 +193,24 @@ const isSelector = (element) => RegExp('selector|form-selector').test(element.da
 
 const domQuery = [createDomQuery(BaseSelector), createDomQuery(FormSelector)].join(',');
 
-function getSelectors(container) {
-    if (isHTMLElement(container)) {
-        return isSelector(container) ? [container] : getElements(domQuery, container);
-    } else if (isString(container) && !isEmpty(container)) {
-        let _container = getElement(container);
-        return isNullOrUndefined(_container) ? NONE : getSelectors(_container);
-    } else if (isNullOrUndefined(container)) {
-        return getElements(domQuery);
-    }
+export function Selector(container, _options) {
+    const selectorElements = getComponentElement(container, isSelector, domQuery);
+    var options = valOrDefault(_options, {});
 
-    return NONE;
-}
-
-export function Selector(container, _callback) {
-    const selectors = getSelectors(container);
-
-    if (selectors === NONE) {
+    if (isNullOrUndefined(selectorElements)) {
         return null;
     }
 
-    for (let i = 0; i < selectors.length; i++) {
-        let selector = SelectorFactory.create(selectors[i], _callback);
-        selector.activate();
+    var selectors = [];
+
+    for (let i = 0; i < selectorElements.length; i++) {
+        let selector = SelectorFactory.create(selectorElements[i], options);
+        if (hasOwn(ErrorHandler, selector)) {
+            throw ErrorHandler[selector];
+        }
+        selector.init();
+
+        selectors.push(selector);
     }
 
     return selectors;

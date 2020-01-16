@@ -2694,6 +2694,19 @@ var check = function check(element, value) {
 var uncheck = function uncheck(element, value) {
   return setState(element, valOrDefault(value, UNCHECKED));
 };
+function getComponentElement(container, pred, selector) {
+  if (isHTMLElement(container)) {
+    return pred(container) ? [container] : getElements(selector, container);
+  } else if (isString(container) && !isEmpty(container)) {
+    var _container = getElement(container);
+
+    return isNullOrUndefined(_container) ? null : getComponentElement(_container);
+  } else if (isNullOrUndefined(container)) {
+    return getElements(selector);
+  }
+
+  return null;
+}
 
 function getInput(type, label) {
   if (isNullOrWhitespace(label.htmlFor)) {
@@ -2703,133 +2716,204 @@ function getInput(type, label) {
   return getElement("#".concat(label.htmlFor));
 }
 
-var NONE = -1;
-var ERROR = -10;
+var ErrorCode = {
+  BAD_CONTAINER: 'BAD_CONTAINER',
+  BAD_INPUT: 'BAD_INPUT'
+};
+var ErrorHandler = {
+  BAD_CONTAINER: new Error("Missing container: A selector requires a container"),
+  BAD_INPUT: new Error("Missing input: FormSelector requires an input in the container")
+};
 var Status = {
   ON: 'on',
   OFF: 'off'
 };
 var SelectorFactory = {
-  create: function create(container, callback) {
+  create: function create(container, options) {
     if (!isHTMLElement(container)) {
-      console.error('%c@zenkai%c #Selector>%cSelectorFactory:%c Container must be an HTML Element', "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
-      return ERROR;
+      return ErrorCode.BAD_CONTAINER;
     }
 
-    var selector = null;
+    var widget = null;
+    var input = null;
 
     switch (getType(container)) {
       case 'selector':
-        selector = Object.create(BaseSelector);
+        widget = Object.create(BaseSelector);
         break;
 
       case 'form-selector':
-        selector = Object.create(FormSelector);
+        input = getInput('radio', container);
+
+        if (!isHTMLElement(input)) {
+          return ErrorCode.BAD_INPUT;
+        }
+
+        options.input = input;
+        widget = Object.create(FormSelector);
         break;
     }
 
-    Object.assign(selector, {
+    Object.assign(widget, options, {
       container: container,
-      querySelector: createDomQuery(selector),
-      callback: isFunction(callback) ? callback : function (val, el) {}
+      querySelector: createDomQuery(widget)
     });
-    return selector;
+    return widget;
   }
 };
 var BaseSelector = {
   name: 'selector',
+
+  /** @type {HTMLElement} */
   container: null,
   current: null,
-  callback: null,
+
+  /** @type {Function} */
+  beforeChange: null,
+
+  /** @type {Function} */
+  afterChange: null,
+
+  get value() {
+    return this.current.dataset['value'];
+  },
+
   setCurrentItem: function setCurrentItem(item) {
     this.current = item;
     check(this.current, Status.ON);
-    this.callback.call(this, item.dataset.value, this.current);
+    return true;
   },
-  activate: function activate() {
-    var _this = this;
-
+  init: function init() {
     var value = this.container.dataset['value'];
     var defaultItem = null;
-    var selectorItems = getElements('[data-selector]', this.container);
+    var selectorElements = getElements('[data-selector]', this.container);
 
-    var _loop = function _loop(i, len) {
-      var item = selectorItems[i];
+    for (var i = 0; i < selectorElements.length; i++) {
+      var item = selectorElements[i];
 
       if (getState(item) === Status.ON) {
-        _this.setCurrentItem(item);
+        this.setCurrentItem(item);
       }
 
       if (!isUndefined(value) && item.dataset.value === value) {
         defaultItem = item;
       }
-
-      item.addEventListener('click', function () {
-        if (_this.current) {
-          uncheck(_this.current, Status.OFF);
-        }
-
-        _this.setCurrentItem(item);
-      });
-    };
-
-    for (var i = 0, len = selectorItems.length; i < len; i++) {
-      _loop(i);
     }
 
     if (isNull(this.current) && !isNull(defaultItem)) {
       this.setCurrentItem(defaultItem);
     }
+
+    this.bindEvents();
+    return this;
+  },
+  bindEvents: function bindEvents() {
+    var _this = this;
+
+    this.container.addEventListener('click', function (event) {
+      var target = event.target;
+
+      if (!hasOwn(event.target.dataset, 'selector')) {
+        return;
+      }
+
+      var halt = false;
+
+      if (isFunction(_this.beforeChange)) {
+        halt = _this.beforeChange(_this, event) === false;
+      }
+
+      if (halt) {
+        return;
+      }
+
+      if (_this.current) {
+        uncheck(_this.current, Status.OFF);
+      }
+
+      _this.setCurrentItem(target);
+
+      if (isFunction(_this.afterChange)) {
+        _this.afterChange(_this, event);
+      }
+    });
   }
 };
 var FormSelector = {
   name: 'form-selector',
+
+  /** @type {HTMLElement} */
   container: null,
   current: null,
-  callback: null,
+
+  /** @type {Function} */
+  beforeChange: null,
+
+  /** @type {Function} */
+  afterChange: null,
   setCurrentItem: function setCurrentItem(item, _input) {
     var input = valOrDefault(_input, getInput('radio', item));
     input.checked = true;
     this.current = item;
     check(this.current, Status.ON);
-    this.callback.call(this, input.value, this.current);
   },
-  activate: function activate() {
-    var _this2 = this;
-
+  init: function init() {
     var value = this.container.dataset['value'];
     var defaultItem = null;
     var selectorItems = getElements('[data-selector]', this.container);
 
-    var _loop2 = function _loop2(i, len) {
+    for (var i = 0, len = selectorItems.length; i < len; i++) {
       var item = selectorItems[i];
       var input = getInput('radio', item);
       setState(item, input.checked ? Status.ON : Status.OFF);
 
       if (input.checked) {
-        _this2.setCurrentItem(item, input);
+        this.setCurrentItem(item, input);
       }
 
       if (input.value === value) {
         defaultItem = item;
-      }
+      } // input.addEventListener('change', () => {
+      //     if (this.current) {
+      //         uncheck(this.current, Status.OFF);
+      //     }
+      //     this.setCurrentItem(item, input);
+      // });
 
-      input.addEventListener('change', function () {
-        if (_this2.current) {
-          uncheck(_this2.current, Status.OFF);
-        }
-
-        _this2.setCurrentItem(item, input);
-      });
-    };
-
-    for (var i = 0, len = selectorItems.length; i < len; i++) {
-      _loop2(i);
     }
 
     if (isNull(this.current) && !isNull(defaultItem)) {
       this.setCurrentItem(defaultItem);
     }
+
+    return this;
+  },
+  bindEvents: function bindEvents() {
+    var _this2 = this;
+
+    this.container.addEventListener('change', function (event) {
+      var halt = false;
+      var target = event.target;
+
+      if (isFunction(_this2.beforeChange)) {
+        halt = _this2.beforeChange(_this2, event) === false;
+      }
+
+      if (halt) {
+        return;
+      }
+
+      if (_this2.current) {
+        uncheck(_this2.current, Status.OFF);
+      } // this.setCurrentItem(item, input);
+
+
+      _this2.setCurrentItem(target, target);
+
+      if (isFunction(_this2.afterChange)) {
+        _this2.afterChange(_this2, event);
+      }
+    });
   }
 };
 
@@ -2842,42 +2926,35 @@ var isSelector = function isSelector(element) {
 };
 
 var domQuery = [createDomQuery(BaseSelector), createDomQuery(FormSelector)].join(',');
+function Selector(container, _options) {
+  var selectorElements = getComponentElement(container, isSelector, domQuery);
+  var options = valOrDefault(_options, {});
 
-function getSelectors(container) {
-  if (isHTMLElement(container)) {
-    return isSelector(container) ? [container] : getElements(domQuery, container);
-  } else if (isString(container) && !isEmpty(container)) {
-    var _container = getElement(container);
-
-    return isNullOrUndefined(_container) ? NONE : getSelectors(_container);
-  } else if (isNullOrUndefined(container)) {
-    return getElements(domQuery);
-  }
-
-  return NONE;
-}
-
-function Selector(container, _callback) {
-  var selectors = getSelectors(container);
-
-  if (selectors === NONE) {
+  if (isNullOrUndefined(selectorElements)) {
     return null;
   }
 
-  for (var i = 0; i < selectors.length; i++) {
-    var selector = SelectorFactory.create(selectors[i], _callback);
-    selector.activate();
+  var selectors = [];
+
+  for (var i = 0; i < selectorElements.length; i++) {
+    var selector = SelectorFactory.create(selectorElements[i], options);
+
+    if (hasOwn(ErrorHandler, selector)) {
+      throw ErrorHandler[selector];
+    }
+
+    selector.init();
+    selectors.push(selector);
   }
 
   return selectors;
 }
 
-var NONE$1 = -1;
-var ErrorCode = {
+var ErrorCode$1 = {
   BAD_CONTAINER: 'BAD_CONTAINER',
   BAD_INPUT: 'BAD_INPUT'
 };
-var ErrorHandler = {
+var ErrorHandler$1 = {
   BAD_CONTAINER: new Error("Missing container: A switch requires a container"),
   BAD_INPUT: new Error("Missing input: FormSwitch requires an input in the container")
 };
@@ -2897,7 +2974,7 @@ var isSwitch = function isSwitch(element) {
 var SwitchFactory = {
   create: function create(container, options) {
     if (!isHTMLElement(container)) {
-      return ErrorCode.BAD_CONTAINER;
+      return ErrorCode$1.BAD_CONTAINER;
     }
 
     var widget = null;
@@ -2912,7 +2989,7 @@ var SwitchFactory = {
         input = getInput('checkbox', container);
 
         if (!isHTMLElement(input)) {
-          return ErrorCode.BAD_INPUT;
+          return ErrorCode$1.BAD_INPUT;
         }
 
         options.input = input;
@@ -3034,7 +3111,6 @@ var FormSwitch = {
    * @returns {boolean} A value indicating whether the switch is checked
    */
   isChecked: function isChecked() {
-    // return this.input.checked;
     return getState(this.container) === Status$1.ON;
   },
 
@@ -3086,7 +3162,8 @@ var FormSwitch = {
       }
 
       if (halt) {
-        _this2.input.checked = !_this2.input.checked;
+        _this2.input.checked = !_this2.input.checked; // revert input checked state
+
         return;
       }
 
@@ -3100,10 +3177,10 @@ var FormSwitch = {
 };
 var domQuery$1 = [createDomQuery$1(BaseSwitch), createDomQuery$1(FormSwitch)].join(',');
 function Switch(container, _options) {
-  var switcheElements = getSliders(container);
+  var switcheElements = getComponentElement(container, isSwitch, domQuery$1);
   var options = valOrDefault(_options, {});
 
-  if (isNullOrUndefined(switcheElements) || switcheElements === NONE$1) {
+  if (isNullOrUndefined(switcheElements)) {
     return null;
   }
 
@@ -3112,8 +3189,8 @@ function Switch(container, _options) {
   for (var i = 0; i < switcheElements.length; i++) {
     var $switch = SwitchFactory.create(switcheElements[i], options);
 
-    if (hasOwn(ErrorHandler, $switch)) {
-      throw ErrorHandler[$switch];
+    if (hasOwn(ErrorHandler$1, $switch)) {
+      throw ErrorHandler$1[$switch];
     }
 
     $switch.init();
@@ -3121,20 +3198,6 @@ function Switch(container, _options) {
   }
 
   return switches;
-}
-
-function getSliders(container) {
-  if (isHTMLElement(container)) {
-    return isSwitch(container) ? [container] : getElements(domQuery$1, container);
-  } else if (isString(container) && !isEmpty(container)) {
-    var _container = getElement(container);
-
-    return isNullOrUndefined(_container) ? NONE$1 : getSliders(_container);
-  } else if (isNullOrUndefined(container)) {
-    return getElements(domQuery$1);
-  }
-
-  return NONE$1;
 }
 
 /**
@@ -3154,14 +3217,17 @@ function hide(element) {
 }
 
 var ATTRIBUTE = 'collapsible';
-var NONE$2 = -1;
+var ErrorCode$2 = {
+  BAD_CONTAINER_COLLAPSIBLE: 'BAD_CONTAINER_COLLAPSIBLE',
+  BAD_CONTAINER_ACCORDION: 'BAD_CONTAINER_ACCORDION'
+};
+var ErrorHandler$2 = {
+  BAD_CONTAINER_COLLAPSIBLE: new Error("Missing container: A collapsible requires a container"),
+  BAD_CONTAINER_ACCORDION: new Error("Missing container: An accordion requires a container")
+};
 var State$1 = {
   OPEN: 'expanded',
   CLOSED: 'collapsed'
-};
-
-var toData = function toData(name) {
-  return "[data-boost=".concat(name, "]");
 };
 
 var isCollapsible = function isCollapsible(el) {
@@ -3176,7 +3242,7 @@ var CollapsibleFactory = {
   /** @returns {CollapsibleFactory} */
   create: function create(container, options) {
     if (!isHTMLElement(container)) {
-      throw new Error("Missing container: A collapsible requires a container");
+      return ErrorCode$2.BAD_CONTAINER_COLLAPSIBLE;
     }
 
     var instance = Object.create(this);
@@ -3282,13 +3348,10 @@ var CollapsibleFactory = {
     this.setState(state);
     classCb(this.container, 'expanded');
   },
-  init: function init() {
+  init: function init(args) {
+    Object.assign(this, args);
     this.header = getElement("[data-".concat(this.name, "-header]"), this.container);
     this.content = getElement("[data-".concat(this.name, "-content]"), this.container);
-    return this;
-  },
-  activate: function activate() {
-    this.init();
 
     if (this.isCollapsed()) {
       this.close();
@@ -3299,6 +3362,7 @@ var CollapsibleFactory = {
 
     this.bindEvents();
     this.isInitialized = true;
+    return this;
   },
   bindEvents: function bindEvents() {
     var _this = this;
@@ -3325,7 +3389,7 @@ var AccordionFactory = {
   /** @returns {AccordionFactory} */
   create: function create(container, options) {
     if (!isHTMLElement(container)) {
-      throw new Error("Missing container: A collapsible requires a container");
+      return ErrorCode$2.BAD_CONTAINER_ACCORDION;
     }
 
     var instance = Object.create(this);
@@ -3350,13 +3414,9 @@ var AccordionFactory = {
   /** @type {Function} */
   afterChange: null,
   init: function init() {
-    this.sections = [];
-    return this;
-  },
-  activate: function activate() {
     var _this2 = this;
 
-    this.init();
+    this.sections = [];
     var accordionElements = getElements('[data-accordion]', this.container);
 
     for (var i = 0; i < accordionElements.length; i++) {
@@ -3382,8 +3442,13 @@ var AccordionFactory = {
           _this2.selectedSection = selected;
         }
       });
+
+      if (hasOwn(ErrorCode$2, collapsible)) {
+        return collapsible;
+      }
+
       this.sections.push(collapsible);
-      collapsible.activate();
+      collapsible.init();
     }
 
     return this;
@@ -3396,10 +3461,10 @@ var AccordionFactory = {
  */
 
 function Collapsible(container, _options) {
-  var collapsibleElements = getCollapsibles(container);
+  var collapsibleElements = getComponentElement(container, isCollapsible, '[data-collapsible]');
   var options = valOrDefault(_options, {});
 
-  if (collapsibleElements === NONE$2) {
+  if (isNullOrUndefined(collapsibleElements)) {
     return null;
   }
 
@@ -3407,7 +3472,12 @@ function Collapsible(container, _options) {
 
   for (var i = 0; i < collapsibleElements.length; i++) {
     var collapsible = CollapsibleFactory.create(collapsibleElements[i], options);
-    collapsible.activate();
+
+    if (hasOwn(ErrorHandler$2, collapsible)) {
+      throw ErrorHandler$2[collapsible];
+    }
+
+    collapsible.init();
     collapsibles.push(collapsible);
   }
 
@@ -3420,10 +3490,10 @@ function Collapsible(container, _options) {
  */
 
 function Accordion(container, _options) {
-  var accordionElements = getAccordions(container);
+  var accordionElements = getComponentElement(container, isAccordion, '[data-boost=accordion]');
   var options = valOrDefault(_options, {});
 
-  if (accordionElements === NONE$2) {
+  if (isNullOrUndefined(accordionElements)) {
     return null;
   }
 
@@ -3431,50 +3501,16 @@ function Accordion(container, _options) {
 
   for (var i = 0; i < accordionElements.length; i++) {
     var accordion = AccordionFactory.create(accordionElements[i], options);
-    accordion.activate();
+
+    if (hasOwn(ErrorHandler$2, accordion)) {
+      throw ErrorHandler$2[accordion];
+    }
+
+    accordion.init();
     accordions.push(accordion);
   }
 
   return accordions;
-}
-/**
- * Get all collapsibles within the specified container or on the page
- * @param {HTMLElement|string} [container] 
- * @private
- */
-
-function getCollapsibles(container) {
-  if (isHTMLElement(container)) {
-    return isCollapsible(container) ? [container] : getElements('[data-collapsible]', container);
-  } else if (isString(container) && !isEmpty(container)) {
-    var _container = getElement(container);
-
-    return isNullOrUndefined(_container) ? NONE$2 : getCollapsibles(_container);
-  } else if (isNullOrUndefined(container)) {
-    return getElements('[data-collapsible]');
-  }
-
-  return NONE$2;
-}
-/**
- * Get all accordions within the specified container or on the page
- * @param {HTMLElement|string} [container] 
- * @private
- */
-
-
-function getAccordions(container) {
-  if (isHTMLElement(container)) {
-    return isAccordion(container) ? [container] : getElements(toData('accordion'), container);
-  } else if (isString(container) && !isEmpty(container)) {
-    var _container = getElement(container);
-
-    return isNullOrUndefined(_container) ? NONE$2 : getAccordions(_container);
-  } else if (isNullOrUndefined(container)) {
-    return getElements(toData('accordion'));
-  }
-
-  return NONE$2;
 }
 
 export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, Switch, addAttributes, addClass, addPath, all, appendChildren, boolToInt, camelCase, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, conceal, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTemplate$1 as createTemplate, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, defProp, findAncestor, findByPath, floatingLabel, formatDate, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, htmlToElement, htmlToElements, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLCollection, isHTMLElement, isHTMLSelectElement, isIterable, isNode, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, no, one, parseTime, pascalCase, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, setClass, shortDate, shortDateTime, some, timeAgo, toBoolean, toggleClass, valOrDefault, windowWidth };

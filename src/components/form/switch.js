@@ -1,6 +1,6 @@
-import { getElement, getElements, isHTMLElement } from '@dom/index.js';
-import { isFunction, isString, isNullOrUndefined, isEmpty, valOrDefault, hasOwn } from '@datatype/index.js';
-import { check, uncheck, getState, getType } from './global.js';
+import { isHTMLElement } from '@dom/index.js';
+import { isFunction, isNullOrUndefined, valOrDefault, hasOwn } from '@datatype/index.js';
+import { check, uncheck, getState, getType, getComponentElement } from './global.js';
 import { getInput } from "./utils.js";
 
 const ErrorCode = {
@@ -215,7 +215,7 @@ const FormSwitch = {
 const domQuery = [createDomQuery(BaseSwitch), createDomQuery(FormSwitch)].join(',');
 
 export function Switch(container, _options) {
-    const switcheElements = getSliders(container);
+    const switcheElements = getComponentElement(container, isSwitch, domQuery);
     var options = valOrDefault(_options, {});
 
     if (isNullOrUndefined(switcheElements)) {
@@ -235,17 +235,4 @@ export function Switch(container, _options) {
     }
 
     return switches;
-}
-
-function getSliders(container) {
-    if (isHTMLElement(container)) {
-        return isSwitch(container) ? [container] : getElements(domQuery, container);
-    } else if (isString(container) && !isEmpty(container)) {
-        let _container = getElement(container);
-        return isNullOrUndefined(_container) ? null : getSliders(_container);
-    } else if (isNullOrUndefined(container)) {
-        return getElements(domQuery);
-    }
-
-    return null;
 }
