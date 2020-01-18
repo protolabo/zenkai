@@ -15,6 +15,14 @@ const isDocumentFragmentNode = (obj) => !isNullOrUndefined(obj) && obj.nodeType 
 export const isNode = (obj) => !isNullOrUndefined(obj) && obj instanceof Node;
 
 /**
+ * Verifies that an object is a *NodeList*
+ * @param {Element} obj 
+ * @returns {boolean} Value indicating whether the object is an *NodeList*
+ * @memberof DOM
+ */
+export const isNodeList = (obj) => !isNullOrUndefined(obj) && obj instanceof NodeList;
+
+/**
  * Verifies that an object is an *Element*
  * @param {Element} obj 
  * @returns {boolean} Value indicating whether the object is an *Element*

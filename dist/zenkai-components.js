@@ -125,6 +125,16 @@ var zcomponents = (function (exports) {
     return !isNullOrUndefined(obj) && obj instanceof Node;
   };
   /**
+   * Verifies that an object is a *NodeList*
+   * @param {Element} obj 
+   * @returns {boolean} Value indicating whether the object is an *NodeList*
+   * @memberof DOM
+   */
+
+  var isNodeList = function isNodeList(obj) {
+    return !isNullOrUndefined(obj) && obj instanceof NodeList;
+  };
+  /**
    * Verifies that an object is an *Element*
    * @param {Element} obj 
    * @returns {boolean} Value indicating whether the object is an *Element*
@@ -1370,49 +1380,50 @@ var zcomponents = (function (exports) {
     return getElement("#".concat(label.htmlFor));
   }
 
-  var ErrorCode = {
-    BAD_CONTAINER: 'BAD_CONTAINER',
-    BAD_INPUT: 'BAD_INPUT'
-  };
-  var ErrorHandler = {
-    BAD_CONTAINER: new Error("Missing container: A selector requires a container"),
-    BAD_INPUT: new Error("Missing input: FormSelector requires an input in the container")
-  };
   var Status = {
     ON: 'on',
     OFF: 'off'
   };
-  var SelectorFactory = {
-    create: function create(container, options) {
-      if (!isHTMLElement(container)) {
-        return ErrorCode.BAD_CONTAINER;
+  var BaseSelectorItem = {
+    init: function init(args) {
+      Object.assign(this, args);
+
+      if (this.isChecked()) {
+        check(this.container, Status.ON);
       }
 
-      var widget = null;
-      var input = null;
+      return this;
+    },
 
-      switch (getType(container)) {
-        case 'selector':
-          widget = Object.create(BaseSelector);
-          break;
+    /** @type {HTMLElement} */
+    container: null,
 
-        case 'form-selector':
-          input = getInput('radio', container);
+    /** @type {number} */
+    index: null,
 
-          if (!isHTMLElement(input)) {
-            return ErrorCode.BAD_INPUT;
-          }
+    /** @returns {string} */
+    get value() {
+      return this.container.dataset['value'];
+    },
 
-          options.input = input;
-          widget = Object.create(FormSelector);
-          break;
+    /** @returns {boolean} */
+    isChecked: function isChecked() {
+      return getState(this.container) === Status.ON;
+    },
+
+    /** @returns {boolean} */
+    setChecked: function setChecked(isChecked) {
+      if (isNullOrUndefined(isChecked)) {
+        return false;
       }
 
-      Object.assign(widget, options, {
-        container: container,
-        querySelector: createDomQuery(widget)
-      });
-      return widget;
+      if (isChecked) {
+        check(this.container, Status.ON);
+      } else {
+        uncheck(this.container, Status.OFF);
+      }
+
+      return true;
     }
   };
   var BaseSelector = {
@@ -1420,7 +1431,15 @@ var zcomponents = (function (exports) {
 
     /** @type {HTMLElement} */
     container: null,
-    current: null,
+
+    /** @type {HTMLElement[]} */
+    items: null,
+
+    /** @type {number} */
+    selectedIndex: null,
+
+    /** @type {HTMLElement} */
+    selectedItem: null,
 
     /** @type {Function} */
     beforeChange: null,
@@ -1429,33 +1448,40 @@ var zcomponents = (function (exports) {
     afterChange: null,
 
     get value() {
-      return this.current.dataset['value'];
+      return this.selectedItem.value;
     },
 
-    setCurrentItem: function setCurrentItem(item) {
-      this.current = item;
-      check(this.current, Status.ON);
+    setSelectedItem: function setSelectedItem(item) {
+      if (!this.items.includes(item)) {
+        return null;
+      }
+
+      if (this.selectedItem) {
+        this.selectedItem.setChecked(false);
+      }
+
+      this.selectedItem = item;
+      this.selectedItem.setChecked(true);
       return true;
     },
     init: function init() {
       var value = this.container.dataset['value'];
       var defaultItem = null;
-      var selectorElements = getElements('[data-selector]', this.container);
 
-      for (var i = 0; i < selectorElements.length; i++) {
-        var item = selectorElements[i];
+      for (var i = 0; i < this.items.length; i++) {
+        var item = this.items[i];
 
-        if (getState(item) === Status.ON) {
-          this.setCurrentItem(item);
+        if (item.isChecked()) {
+          this.setSelectedItem(item);
         }
 
-        if (!isUndefined(value) && item.dataset.value === value) {
+        if (item.value === value) {
           defaultItem = item;
         }
       }
 
-      if (isNull(this.current) && !isNull(defaultItem)) {
-        this.setCurrentItem(defaultItem);
+      if (isNull(this.selectedItem) && !isNull(defaultItem)) {
+        this.setSelectedItem(defaultItem);
       }
 
       this.bindEvents();
@@ -1467,7 +1493,7 @@ var zcomponents = (function (exports) {
       this.container.addEventListener('click', function (event) {
         var target = event.target;
 
-        if (!hasOwn(event.target.dataset, 'selector')) {
+        if (!hasOwn(target.dataset, 'selector')) {
           return;
         }
 
@@ -1481,11 +1507,15 @@ var zcomponents = (function (exports) {
           return;
         }
 
-        if (_this.current) {
-          uncheck(_this.current, Status.OFF);
+        var item = _this.items.find(function (i) {
+          return i.index === +valOrDefault(target.dataset.selectorIndex, -1);
+        });
+
+        if (isNullOrUndefined(item)) {
+          return;
         }
 
-        _this.setCurrentItem(target);
+        _this.setSelectedItem(item);
 
         if (isFunction(_this.afterChange)) {
           _this.afterChange(_this, event);
@@ -1493,93 +1523,245 @@ var zcomponents = (function (exports) {
       });
     }
   };
+
+  var Status$1 = {
+    ON: 'on',
+    OFF: 'off'
+  };
+  var FormSelectorItem = {
+    init: function init(args) {
+      Object.assign(this, args);
+
+      if (this.isChecked()) {
+        check(this.container, Status$1.ON);
+      }
+
+      return this;
+    },
+
+    /** @type {HTMLElement} */
+    container: null,
+
+    /** @type {HTMLInputElement} */
+    input: null,
+
+    /** @type {number} */
+    index: null,
+
+    /** @returns {string} */
+    get value() {
+      return this.input['value'];
+    },
+
+    /** @returns {boolean} */
+    isChecked: function isChecked() {
+      return this.input.checked;
+    },
+
+    /** @returns {boolean} */
+    setChecked: function setChecked(isChecked) {
+      if (isNullOrUndefined(isChecked)) {
+        return false;
+      }
+
+      if (isChecked) {
+        this.input.checked = true;
+        check(this.container, Status$1.ON);
+      } else {
+        this.input.checked = false;
+        uncheck(this.container, Status$1.OFF);
+      }
+
+      return true;
+    }
+  };
   var FormSelector = {
     name: 'form-selector',
 
     /** @type {HTMLElement} */
     container: null,
-    current: null,
+
+    /** @type {FormSelectorItem[]} */
+    items: null,
+
+    /** @type {number} */
+    selectedIndex: null,
+
+    /** @type {HTMLElement} */
+    selectedItem: null,
 
     /** @type {Function} */
     beforeChange: null,
 
     /** @type {Function} */
     afterChange: null,
-    setCurrentItem: function setCurrentItem(item, _input) {
-      var input = valOrDefault(_input, getInput('radio', item));
-      input.checked = true;
-      this.current = item;
-      check(this.current, Status.ON);
+
+    get value() {
+      return this.selectedItem.value;
+    },
+
+    setSelectedItem: function setSelectedItem(item) {
+      if (!this.items.includes(item)) {
+        return null;
+      }
+
+      if (this.selectedItem) {
+        this.selectedItem.setChecked(false);
+      }
+
+      this.selectedItem = item;
+      this.selectedItem.setChecked(true);
+      return true;
     },
     init: function init() {
       var value = this.container.dataset['value'];
       var defaultItem = null;
-      var selectorItems = getElements('[data-selector]', this.container);
 
-      for (var i = 0, len = selectorItems.length; i < len; i++) {
-        var item = selectorItems[i];
-        var input = getInput('radio', item);
-        setState(item, input.checked ? Status.ON : Status.OFF);
+      for (var i = 0; i < this.items.length; i++) {
+        var item = this.items[i];
 
-        if (input.checked) {
-          this.setCurrentItem(item, input);
+        if (item.isChecked()) {
+          this.setSelectedItem(item);
         }
 
-        if (input.value === value) {
+        if (item.value === value) {
           defaultItem = item;
-        } // input.addEventListener('change', () => {
-        //     if (this.current) {
-        //         uncheck(this.current, Status.OFF);
-        //     }
-        //     this.setCurrentItem(item, input);
-        // });
-
+        }
       }
 
-      if (isNull(this.current) && !isNull(defaultItem)) {
-        this.setCurrentItem(defaultItem);
+      if (isNull(this.selectedItem) && !isNull(defaultItem)) {
+        this.setSelectedItem(defaultItem);
       }
 
+      this.bindEvents();
       return this;
     },
     bindEvents: function bindEvents() {
-      var _this2 = this;
+      var _this = this;
 
       this.container.addEventListener('change', function (event) {
-        var halt = false;
         var target = event.target;
+        var halt = false;
 
-        if (isFunction(_this2.beforeChange)) {
-          halt = _this2.beforeChange(_this2, event) === false;
+        if (isFunction(_this.beforeChange)) {
+          halt = _this.beforeChange(_this, event) === false;
         }
 
         if (halt) {
+          target.checked = false;
+
+          _this.items[_this.selectedIndex].setChecked(true);
+
           return;
         }
 
-        if (_this2.current) {
-          uncheck(_this2.current, Status.OFF);
-        } // this.setCurrentItem(item, input);
+        var item = _this.items.find(function (i) {
+          return i.index === +valOrDefault(target.dataset.selectorIndex, -1);
+        });
 
+        if (isNullOrUndefined(item)) {
+          return;
+        }
 
-        _this2.setCurrentItem(target, target);
+        _this.setSelectedItem(item);
 
-        if (isFunction(_this2.afterChange)) {
-          _this2.afterChange(_this2, event);
+        if (isFunction(_this.afterChange)) {
+          _this.afterChange(_this, event);
         }
       });
     }
+  };
+
+  var ErrorCode = {
+    BAD_CONTAINER: 'BAD_CONTAINER',
+    BAD_INPUT: 'BAD_INPUT'
   };
 
   var createDomQuery = function createDomQuery(selector) {
     return "[data-type=\"".concat(selector.name, "\"]");
   };
 
+  var DOMQuerySelector = {
+    BaseSelector: createDomQuery(BaseSelector),
+    FormSelector: createDomQuery(FormSelector)
+  };
+  var Factory = {
+    create: function create(container, options) {
+      if (!isHTMLElement(container)) {
+        return ErrorCode.BAD_CONTAINER;
+      }
+
+      var itemContainers = getElements('[data-selector]', container);
+
+      if (!isNodeList(itemContainers)) {
+        return ErrorCode.BAD_CONTAINER;
+      }
+
+      var widget = null;
+      var items = [];
+
+      switch (getType(container)) {
+        case 'selector':
+          for (var i = 0; i < itemContainers.length; i++) {
+            var itemContainer = itemContainers[i];
+            itemContainer.dataset.selectorIndex = i;
+            var item = Object.create(BaseSelectorItem);
+            item.init({
+              container: itemContainer,
+              index: i
+            });
+            items.push(item);
+          }
+
+          widget = Object.create(BaseSelector);
+          break;
+
+        case 'form-selector':
+          for (var _i = 0; _i < itemContainers.length; _i++) {
+            var _itemContainer = itemContainers[_i];
+            _itemContainer.dataset.selectorIndex = _i;
+            var input = getInput('radio', _itemContainer);
+
+            if (!isHTMLElement(input)) {
+              return ErrorCode.BAD_INPUT;
+            }
+
+            input.dataset.selectorIndex = _i;
+
+            var _item = Object.create(FormSelectorItem);
+
+            _item.init({
+              container: _itemContainer,
+              input: input,
+              index: _i
+            });
+
+            items.push(_item);
+          }
+
+          widget = Object.create(FormSelector);
+          break;
+      }
+
+      Object.assign(widget, options, {
+        container: container,
+        items: items,
+        querySelector: createDomQuery(widget)
+      });
+      return widget;
+    }
+  };
+
+  var ErrorHandler = {
+    BAD_CONTAINER: new Error("Missing container: A selector requires a container"),
+    BAD_INPUT: new Error("Missing input: FormSelector requires an input in the container")
+  };
+
   var isSelector = function isSelector(element) {
     return RegExp('selector|form-selector').test(element.dataset['type']);
   };
 
-  var domQuery = [createDomQuery(BaseSelector), createDomQuery(FormSelector)].join(',');
+  var domQuery = [DOMQuerySelector.BaseSelector, DOMQuerySelector.FormSelector].join(',');
   function Selector(container, _options) {
     var selectorElements = getComponentElement(container, isSelector, domQuery);
     var options = valOrDefault(_options, {});
@@ -1591,7 +1773,7 @@ var zcomponents = (function (exports) {
     var selectors = [];
 
     for (var i = 0; i < selectorElements.length; i++) {
-      var selector = SelectorFactory.create(selectorElements[i], options);
+      var selector = Factory.create(selectorElements[i], options);
 
       if (hasOwn(ErrorHandler, selector)) {
         throw ErrorHandler[selector];
@@ -1603,6 +1785,7 @@ var zcomponents = (function (exports) {
 
     return selectors;
   }
+  var SelectorFactory = Factory;
 
   var ErrorCode$1 = {
     BAD_CONTAINER: 'BAD_CONTAINER',
@@ -1612,7 +1795,7 @@ var zcomponents = (function (exports) {
     BAD_CONTAINER: new Error("Missing container: A switch requires a container"),
     BAD_INPUT: new Error("Missing input: FormSwitch requires an input in the container")
   };
-  var Status$1 = {
+  var Status$2 = {
     ON: 'on',
     OFF: 'off'
   };
@@ -1680,7 +1863,7 @@ var zcomponents = (function (exports) {
      * @returns {boolean} A value indicating whether the switch is checked
      */
     isChecked: function isChecked() {
-      return getState(this.container) === Status$1.ON;
+      return getState(this.container) === Status$2.ON;
     },
 
     /**
@@ -1694,9 +1877,9 @@ var zcomponents = (function (exports) {
       }
 
       if (isChecked) {
-        check(this.container, Status$1.ON);
+        check(this.container, Status$2.ON);
       } else {
-        uncheck(this.container, Status$1.OFF);
+        uncheck(this.container, Status$2.OFF);
       }
 
       return true;
@@ -1712,7 +1895,7 @@ var zcomponents = (function (exports) {
       Object.assign(this, args);
 
       if (this.isChecked()) {
-        check(this.container, Status$1.ON);
+        check(this.container, Status$2.ON);
       }
 
       this.bindEvents();
@@ -1765,7 +1948,7 @@ var zcomponents = (function (exports) {
      * @returns {boolean} A value indicating whether the switch is checked
      */
     isChecked: function isChecked() {
-      return getState(this.container) === Status$1.ON;
+      return getState(this.container) === Status$2.ON;
     },
 
     /**
@@ -1781,9 +1964,9 @@ var zcomponents = (function (exports) {
       this.input.checked = isChecked;
 
       if (isChecked) {
-        check(this.container, Status$1.ON);
+        check(this.container, Status$2.ON);
       } else {
-        uncheck(this.container, Status$1.OFF);
+        uncheck(this.container, Status$2.OFF);
       }
 
       return true;
@@ -2170,6 +2353,7 @@ var zcomponents = (function (exports) {
   exports.Accordion = Accordion;
   exports.Collapsible = Collapsible;
   exports.Selector = Selector;
+  exports.SelectorFactory = SelectorFactory;
   exports.Switch = Switch;
   exports.floatingLabel = floatingLabel;
   exports.inputCounter = inputCounter;

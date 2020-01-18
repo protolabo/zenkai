@@ -134,6 +134,16 @@ var zdom = (function (exports) {
     return !isNullOrUndefined(obj) && obj instanceof Node;
   };
   /**
+   * Verifies that an object is a *NodeList*
+   * @param {Element} obj 
+   * @returns {boolean} Value indicating whether the object is an *NodeList*
+   * @memberof DOM
+   */
+
+  var isNodeList = function isNodeList(obj) {
+    return !isNullOrUndefined(obj) && obj instanceof NodeList;
+  };
+  /**
    * Verifies that an object is an *Element*
    * @param {Element} obj 
    * @returns {boolean} Value indicating whether the object is an *Element*
@@ -1835,6 +1845,7 @@ var zdom = (function (exports) {
   exports.isHTMLElement = isHTMLElement;
   exports.isHTMLSelectElement = isHTMLSelectElement;
   exports.isNode = isNode;
+  exports.isNodeList = isNodeList;
   exports.preprendChild = preprendChild;
   exports.removeChildren = removeChildren;
   exports.removeClass = removeClass;
