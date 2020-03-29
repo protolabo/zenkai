@@ -1,4 +1,5 @@
 (function (ken) {
+
     const ihtml = (val, ival) => `${val}<i>${ken.valOrDefault(ival, '=')}</i>`;
 
     const obl = "<i class='bracket'>&lt;</i>";

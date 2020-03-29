@@ -15,6 +15,64 @@ var zenkai = (function (exports) {
     return _typeof(obj);
   }
 
+  function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+  }
+
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+  }
+
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    }
+  }
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  }
+
+  function _iterableToArrayLimit(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"] != null) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance");
+  }
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  }
+
   /**
    * Returns an object value or default value if undefined
    * @param {*} arg object
@@ -135,7 +193,7 @@ var zenkai = (function (exports) {
    * @param {number} index 
    * @param {object} item 
    * @returns {number} The new length of the array
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function insert(arr, index, item) {
@@ -145,7 +203,7 @@ var zenkai = (function (exports) {
   /**
    * Returns last element of array.
    * @param {*[]} arr array
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function last(arr) {
@@ -156,344 +214,6 @@ var zenkai = (function (exports) {
     return arr[arr.length - 1];
   }
 
-  /**
-   * Compare 2 times
-   * @param {string} t1 time 1
-   * @param {string} t2 time 2
-   * @returns {number} 1, 0, -1 if t1 > t2, t1 = t2 and t1 < t2 respectively
-   * @memberof TYPE
-   */
-
-  function compareTime(t1, t2) {
-    if (isNullOrUndefined(t1) || isNullOrUndefined(t2) || !t1.includes(":") || !t2.includes(":")) {
-      return null;
-    }
-
-    var arr1 = t1.split(':');
-    var arr2 = t2.split(':'); // hour comparison
-
-    if (+arr1[0] > +arr2[0]) {
-      return 1;
-    } else if (+arr1[0] < +arr2[0]) {
-      return -1;
-    } else {
-      // minute comparison
-      if (+arr1[1] > +arr2[1]) {
-        return 1;
-      } else if (+arr1[1] < +arr2[1]) {
-        return -1;
-      } else {
-        if (arr1.length == arr2.length && arr1.length == 3) {
-          // second comparison
-          if (+arr1[2] > +arr2[2]) {
-            return 1;
-          } else if (+arr1[2] < +arr2[2]) {
-            return -1;
-          }
-        }
-
-        return 0;
-      }
-    }
-  }
-  /**
-   * Resolves a date value
-   * @param {*} [date] 
-   * @returns {Date}
-   * @private
-   */
-
-  function resolveDate(date) {
-    if (isNullOrUndefined(date)) {
-      return new Date();
-    } else if (isDate(date)) {
-      return date;
-    }
-
-    var _date = new Date(date);
-
-    return new Date(_date.getTime() + _date.getTimezoneOffset() * 60000);
-  }
-  /**
-   * Formats a date
-   * @param {!Date} date 
-   * @param {!string} format 
-   * @returns {string} Formatted date
-   * @memberof TYPE
-   */
-
-
-  function formatDate(date, format) {
-    var dd = date.getDate();
-    var mm = date.getMonth() + 1; // January = 0
-
-    var yyyy = date.getFullYear().toString();
-    var hh = date.getHours();
-    var MM = date.getMinutes();
-    var ss = date.getSeconds();
-
-    var twoDigits = function twoDigits(val) {
-      return val < 10 ? "0".concat(val) : val;
-    };
-
-    return format.replace('yyyy', yyyy).replace('yy', yyyy.slice(-2)).replace('mm', twoDigits(mm)).replace('m', mm).replace('dd', twoDigits(dd)).replace('d', dd).replace('hh', twoDigits(hh)).replace('h', hh).replace('MM', twoDigits(MM)).replace('M', MM).replace('ss', twoDigits(ss)).replace('s', ss);
-  }
-  /**
-   * Returns a date and time using the format "YYYY-mm-dd"
-   * @param {*} _date 
-   * @returns {string}
-   * @memberof TYPE
-   */
-
-  function shortDate(_date) {
-    var date = resolveDate(_date);
-    return formatDate(date, 'yyyy-mm-dd');
-  }
-  /**
-   * Returns a date and time using the format "YYYY-mm-dd hh:MM"
-   * @param {*} _date 
-   * @returns {string}
-   * @memberof TYPE
-   */
-
-  function shortDateTime(_date) {
-    var date = resolveDate(_date);
-    return formatDate(new Date(date + date.getTimezoneOffset() * 60000), 'yyyy-mm-dd hh:MM');
-  }
-  function parseTime(n) {
-    var hh = +n | 0;
-    var mm = '00';
-
-    if (!Number.isInteger(+n)) {
-      mm = (n + '').split('.')[1] * 6;
-    }
-
-    return hh + ':' + mm;
-  }
-  var DICT = {
-    'en': {
-      'second': 'second(s)',
-      'minute': 'minute(s)',
-      'hour': 'hour(s)',
-      'day': 'day(s)',
-      'week': 'week(s)',
-      'month': 'month(s)',
-      'year': 'year(s)'
-    },
-    'fr': {
-      'second': 'seconde(s)',
-      'minute': 'minute(s)',
-      'hour': 'heure(s)',
-      'day': 'jour(s)',
-      'week': 'semaine(s)',
-      'month': 'mois',
-      'year': 'année(s)'
-    }
-  };
-
-  var trans = function translation(lang, key, isPlural) {
-    var value = DICT[lang][key];
-
-    if (value === undefined) {
-      return undefined;
-    }
-
-    if (isPlural) {
-      return value.replace(/\(([a-z]+)\)/g, '$1');
-    }
-
-    return value.replace(/\([a-z]+\)/g, '');
-  };
-
-  var timeAgoResponse = function timeAgoResponseBuilder(time, unit, _lang) {
-    var lang = valOrDefault(_lang, 'en');
-    var isPlural = time === 1;
-    var msg = {
-      en: "".concat(time, " ").concat(trans('en', unit, isPlural), " ago"),
-      fr: "il y a ".concat(time, " ").concat(trans('fr', unit, isPlural))
-    };
-    return msg[lang];
-  };
-  /**
-   * Returns the ellapsed time between now and a point in time
-   * @param {*} time 
-   * @param {*} _callback 
-   * @returns {string}
-   * @memberof TYPE
-   */
-
-
-  function timeAgo(time, _callback) {
-    var callback = valOrDefault(_callback, timeAgoResponse);
-    var seconds = Math.floor((Date.now() - resolveDate(time).getTime()) / 1000);
-    var MINUTE = 60;
-    var HOUR = MINUTE * 60;
-    var DAY = HOUR * 24;
-    var WEEK = DAY * 7;
-    var MONTH = DAY * 30;
-    var YEAR = WEEK * 52;
-
-    if (seconds < MINUTE) {
-      return callback(seconds, 'second');
-    } else if (seconds < HOUR) {
-      return callback(~~(seconds / MINUTE), 'minute');
-    } else if (seconds < DAY) {
-      return callback(~~(seconds / HOUR), 'hour');
-    } else if (seconds < WEEK) {
-      return callback(~~(seconds / DAY), 'day');
-    } else if (seconds < MONTH) {
-      return callback(~~(seconds / WEEK), 'week');
-    } else if (seconds < YEAR) {
-      return callback(~~(seconds / MONTH), 'month');
-    } else {
-      return callback(~~(seconds / YEAR), 'year');
-    }
-  }
-
-  /** @private */
-  var hasOwnProperty = Object.prototype.hasOwnProperty;
-  /** @private */
-
-  var isPrototypeOf = Object.prototype.isPrototypeOf;
-  var defProp = Object.defineProperty;
-  /**
-   * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
-   * @param {*} obj target object
-   * @param {string} key name of the property
-   * @memberof TYPE
-   */
-
-  var hasOwn = function hasOwn(obj, key) {
-    return hasOwnProperty.call(obj, key);
-  };
-  /**
-   * Returns a boolean indicating whether the object (child) inherit from another object (parent)
-   * @param {*} child 
-   * @param {*} parent 
-   * @memberof TYPE
-   */
-
-  var isDerivedOf = function isDerivedOf(child, parent) {
-    return Object.getPrototypeOf(child) !== parent && isPrototypeOf.call(parent, child);
-  };
-  /**
-   * 
-   * @param {*} obj 
-   * @memberof TYPE
-   */
-
-  function cloneObject(obj) {
-    if (obj === null || _typeof(obj) !== 'object') {
-      return obj;
-    }
-
-    var temp = obj.constructor(); // changed
-
-    for (var key in obj) {
-      if (hasOwn(obj, key)) {
-        obj['isActiveClone'] = null;
-        temp[key] = cloneObject(obj[key]);
-        delete obj['isActiveClone'];
-      }
-    }
-
-    return temp;
-  }
-
-  /**
-   * Capitalizes all words in a sequence
-   * @param {string} str Sequence
-   * @returns {string} Capitalized sequence
-   * @memberof TYPE
-   */
-
-  function capitalize(str) {
-    return str.toLowerCase().replace(/\b\w/g, function (s) {
-      return s.toUpperCase();
-    });
-  }
-  /**
-   * Capitalizes the first letter of a sequence
-   * @param {string} str Sequence
-   * @returns {string} Sequence with its first letter capitalized
-   * @memberof TYPE
-   */
-
-  function capitalizeFirstLetter(str) {
-    return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
-  }
-  /**
-   * Capitalizes all words in a sequence except the first one and 
-   * removes spaces or punctuation
-   * @param {!string} str Sequence
-   * @returns {string} CamelCased sequence
-   * @memberof TYPE
-   */
-
-  function camelCase(str) {
-    if (isNullOrWhitespace(str)) {
-      return str;
-    }
-
-    var ccString = pascalCase(str);
-    return ccString.charAt(0).toLowerCase() + ccString.slice(1);
-  }
-  /**
-   * Capitalizes all words in a sequence and removes spaces or punctuation
-   * @param {!string} str Sequence
-   * @returns {string} PascalCased sequence
-   * @memberof TYPE
-   */
-
-  function pascalCase(str) {
-    if (isNullOrWhitespace(str)) {
-      return str;
-    }
-
-    var ccString = str.replace(/[_-]+/g, " ").replace(/\s+/g, ' ').trim();
-    return capitalize(ccString).replace(/\s+/g, '');
-  }
-  /**
-   * Removes all accents from a string
-   * @param {!string} str A string
-   * @returns {string} A string without accents
-   * @memberof TYPE
-   */
-
-  function removeAccents(str) {
-    if (String.prototype.normalize) {
-      return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-    }
-
-    return str.replace(/[àâäæ]/gi, 'a').replace(/[ç]/gi, 'c').replace(/[éèê]/gi, 'e').replace(/[îï]/gi, 'i').replace(/[ôœ]/gi, 'o').replace(/[ùûü]/gi, 'u');
-  }
-
-  /**
-   * Converts the received boolean value to an integer
-   * @param {boolean} value 
-   * @returns {number} 1 or 0
-   * @memberof TYPE
-   */
-
-  function boolToInt(value) {
-    return value ? 1 : 0;
-  }
-  /**
-   * Converts the received value to a boolean
-   * @param {*} value
-   * @returns {boolean} A boolean equivalent of the received value
-   * @memberof TYPE
-   */
-
-  function toBoolean(value) {
-    var val = valOrDefault(value, false);
-    return val === true || val.toString().toLowerCase() === 'true';
-  }
-
-  /** 
-   * Ajax namespace
-   * @namespace AJAX 
-   */
   var HttpResponse = {
     // Successful
     OK: 200,
@@ -587,7 +307,7 @@ var zenkai = (function (exports) {
    * @param {string} url The URL to send the request 
    * @param {xhrCallback} [success] A callback function to handle a successful request
    * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof AJAX
+   * @memberof STD
    */
 
 
@@ -606,7 +326,7 @@ var zenkai = (function (exports) {
    * @param {*} data The data to be sent in the request
    * @param {xhrCallback} [success] A callback function to handle a successful request
    * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof AJAX
+   * @memberof STD
    */
 
   function POST(url, data, success, fail, options) {
@@ -624,7 +344,7 @@ var zenkai = (function (exports) {
    * @param {*} data The data to be sent in the request
    * @param {xhrCallback} [success] A callback function to handle a successful request
    * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof AJAX
+   * @memberof STD
    */
 
   function PUT(url, data, success, fail, options) {
@@ -642,7 +362,7 @@ var zenkai = (function (exports) {
    * @param {*} data The data to be sent in the request
    * @param {xhrCallback} [success] A callback function to handle a successful request
    * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof AJAX
+   * @memberof STD
    */
 
   function DELETE(url, data, success, fail, options) {
@@ -656,20 +376,510 @@ var zenkai = (function (exports) {
   }
 
   /**
-   * @namespace MATH
+   * Compare 2 times
+   * @param {string} t1 time 1
+   * @param {string} t2 time 2
+   * @returns {number} 1, 0, -1 if t1 > t2, t1 = t2 and t1 < t2 respectively
+   * @memberof STD
    */
+
+  function compareTime(t1, t2) {
+    if (isNullOrUndefined(t1) || isNullOrUndefined(t2) || !t1.includes(":") || !t2.includes(":")) {
+      return null;
+    }
+
+    var arr1 = t1.split(':');
+    var arr2 = t2.split(':'); // hour comparison
+
+    if (+arr1[0] > +arr2[0]) {
+      return 1;
+    } else if (+arr1[0] < +arr2[0]) {
+      return -1;
+    } else {
+      // minute comparison
+      if (+arr1[1] > +arr2[1]) {
+        return 1;
+      } else if (+arr1[1] < +arr2[1]) {
+        return -1;
+      } else {
+        if (arr1.length == arr2.length && arr1.length == 3) {
+          // second comparison
+          if (+arr1[2] > +arr2[2]) {
+            return 1;
+          } else if (+arr1[2] < +arr2[2]) {
+            return -1;
+          }
+        }
+
+        return 0;
+      }
+    }
+  }
+  /**
+   * Resolves a date value
+   * @param {*} [date] 
+   * @returns {Date}
+   * @private
+   */
+
+  function resolveDate(date) {
+    if (isNullOrUndefined(date)) {
+      return new Date();
+    } else if (isDate(date)) {
+      return date;
+    }
+
+    var _date = new Date(date);
+
+    return new Date(_date.getTime() + _date.getTimezoneOffset() * 60000);
+  }
+  /**
+   * Formats a date
+   * @param {!Date} date 
+   * @param {!string} format 
+   * @returns {string} Formatted date
+   * @memberof STD
+   */
+
+
+  function formatDate(date, format) {
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1; // January = 0
+
+    var yyyy = date.getFullYear().toString();
+    var hh = date.getHours();
+    var MM = date.getMinutes();
+    var ss = date.getSeconds();
+
+    var twoDigits = function twoDigits(val) {
+      return val < 10 ? "0".concat(val) : val;
+    };
+
+    return format.replace('yyyy', yyyy).replace('yy', yyyy.slice(-2)).replace('mm', twoDigits(mm)).replace('m', mm).replace('dd', twoDigits(dd)).replace('d', dd).replace('hh', twoDigits(hh)).replace('h', hh).replace('MM', twoDigits(MM)).replace('M', MM).replace('ss', twoDigits(ss)).replace('s', ss);
+  }
+  /**
+   * Returns a date and time using the format "YYYY-mm-dd"
+   * @param {*} _date 
+   * @returns {string}
+   * @memberof STD
+   */
+
+  function shortDate(_date) {
+    var date = resolveDate(_date);
+    return formatDate(date, 'yyyy-mm-dd');
+  }
+  /**
+   * Returns a date and time using the format "YYYY-mm-dd hh:MM"
+   * @param {*} _date 
+   * @returns {string}
+   * @memberof STD
+   */
+
+  function shortDateTime(_date) {
+    var date = resolveDate(_date);
+    return formatDate(new Date(date + date.getTimezoneOffset() * 60000), 'yyyy-mm-dd hh:MM');
+  }
+  function parseTime(n) {
+    var hh = +n | 0;
+    var mm = '00';
+
+    if (!Number.isInteger(+n)) {
+      mm = (n + '').split('.')[1] * 6;
+    }
+
+    return hh + ':' + mm;
+  }
+  var DICT = {
+    'en': {
+      'second': 'second(s)',
+      'minute': 'minute(s)',
+      'hour': 'hour(s)',
+      'day': 'day(s)',
+      'week': 'week(s)',
+      'month': 'month(s)',
+      'year': 'year(s)'
+    },
+    'fr': {
+      'second': 'seconde(s)',
+      'minute': 'minute(s)',
+      'hour': 'heure(s)',
+      'day': 'jour(s)',
+      'week': 'semaine(s)',
+      'month': 'mois',
+      'year': 'année(s)'
+    }
+  };
+
+  var trans = function translation(lang, key, isPlural) {
+    var value = DICT[lang][key];
+
+    if (value === undefined) {
+      return undefined;
+    }
+
+    if (isPlural) {
+      return value.replace(/\(([a-z]+)\)/g, '$1');
+    }
+
+    return value.replace(/\([a-z]+\)/g, '');
+  };
+
+  var timeAgoResponse = function timeAgoResponseBuilder(time, unit, _lang) {
+    var lang = valOrDefault(_lang, 'en');
+    var isPlural = time === 1;
+    var msg = {
+      en: "".concat(time, " ").concat(trans('en', unit, isPlural), " ago"),
+      fr: "il y a ".concat(time, " ").concat(trans('fr', unit, isPlural))
+    };
+    return msg[lang];
+  };
+  /**
+   * Returns the ellapsed time between now and a point in time
+   * @param {*} time 
+   * @param {*} _callback 
+   * @returns {string}
+   * @memberof STD
+   */
+
+
+  function timeAgo(time, _callback) {
+    var callback = valOrDefault(_callback, timeAgoResponse);
+    var seconds = Math.floor((Date.now() - resolveDate(time).getTime()) / 1000);
+    var MINUTE = 60;
+    var HOUR = MINUTE * 60;
+    var DAY = HOUR * 24;
+    var WEEK = DAY * 7;
+    var MONTH = DAY * 30;
+    var YEAR = WEEK * 52;
+
+    if (seconds < MINUTE) {
+      return callback(seconds, 'second');
+    } else if (seconds < HOUR) {
+      return callback(~~(seconds / MINUTE), 'minute');
+    } else if (seconds < DAY) {
+      return callback(~~(seconds / HOUR), 'hour');
+    } else if (seconds < WEEK) {
+      return callback(~~(seconds / DAY), 'day');
+    } else if (seconds < MONTH) {
+      return callback(~~(seconds / WEEK), 'week');
+    } else if (seconds < YEAR) {
+      return callback(~~(seconds / MONTH), 'month');
+    } else {
+      return callback(~~(seconds / YEAR), 'year');
+    }
+  }
+
+  /** @private */
+  var hasOwnProperty = Object.prototype.hasOwnProperty;
+  /** @private */
+
+  var isPrototypeOf = Object.prototype.isPrototypeOf;
+  var defProp = Object.defineProperty;
+  /**
+   * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
+   * @param {*} obj target object
+   * @param {string} key name of the property
+   * @memberof STD
+   */
+
+  var hasOwn = function hasOwn(obj, key) {
+    return hasOwnProperty.call(obj, key);
+  };
+  /**
+   * Returns a boolean indicating whether the object (child) inherit from another object (parent)
+   * @param {*} child 
+   * @param {*} parent 
+   * @memberof STD
+   */
+
+  var isDerivedOf = function isDerivedOf(child, parent) {
+    return Object.getPrototypeOf(child) !== parent && isPrototypeOf.call(parent, child);
+  };
+  /**
+   * 
+   * @param {*} obj 
+   * @memberof STD
+   */
+
+  function cloneObject(obj) {
+    if (obj === null || _typeof(obj) !== 'object') {
+      return obj;
+    }
+
+    var temp = obj.constructor(); // changed
+
+    for (var key in obj) {
+      if (hasOwn(obj, key)) {
+        obj['isActiveClone'] = null;
+        temp[key] = cloneObject(obj[key]);
+        delete obj['isActiveClone'];
+      }
+    }
+
+    return temp;
+  }
+
+  /**
+   * Capitalizes all words in a sequence
+   * @param {string} str Sequence
+   * @returns {string} Capitalized sequence
+   * @memberof STD
+   */
+
+  function capitalize(str) {
+    return str.toLowerCase().replace(/\b\w/g, function (s) {
+      return s.toUpperCase();
+    });
+  }
+  /**
+   * Capitalizes the first letter of a sequence
+   * @param {string} str Sequence
+   * @returns {string} Sequence with its first letter capitalized
+   * @memberof STD
+   */
+
+  function capitalizeFirstLetter(str) {
+    return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
+  }
+  var CaseHandler = {
+    'camel': function camel(str) {
+      return camelCase(str);
+    },
+    'pascal': function pascal(str) {
+      return pascalCase(str);
+    },
+    'upper': function upper(str) {
+      return str.toUpperCase();
+    },
+    'lower': function lower(str) {
+      return str.toLowerCase();
+    }
+  };
+  /**
+   * Format a sequence according to a specified case
+   * @param {!string} str Sequence
+   * @param {!string} casing Sequence
+   * @returns {string} Formatted sequence
+   * @memberof STD
+   */
+
+  function formatCase(str, casing) {
+    if (isNullOrWhitespace(str)) {
+      return str;
+    }
+
+    if (!hasOwn(CaseHandler, casing)) {
+      return str;
+    }
+
+    return CaseHandler[casing](str);
+  }
+  /**
+   * Capitalizes all words in a sequence except the first one and 
+   * removes spaces or punctuation
+   * @param {!string} str Sequence
+   * @returns {string} camelCased sequence
+   * @memberof STD
+   */
+
+  function camelCase(str) {
+    if (isNullOrWhitespace(str)) {
+      return str;
+    }
+
+    var ccString = pascalCase(str);
+    return ccString.charAt(0).toLowerCase() + ccString.slice(1);
+  }
+  /**
+   * Capitalizes all words in a sequence and removes spaces or punctuation
+   * @param {!string} str Sequence
+   * @returns {string} PascalCased sequence
+   * @memberof STD
+   */
+
+  function pascalCase(str) {
+    if (isNullOrWhitespace(str)) {
+      return str;
+    }
+
+    var ccString = str.replace(/[_-]+/g, " ").replace(/\s+/g, ' ').trim();
+    return capitalize(ccString).replace(/\s+/g, '');
+  }
+  /**
+   * Removes all accents from a string
+   * @param {!string} str A string
+   * @returns {string} A string without accents
+   * @memberof STD
+   */
+
+  function removeAccents(str) {
+    if (String.prototype.normalize) {
+      return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    }
+
+    return str.replace(/[àâäæ]/gi, 'a').replace(/[ç]/gi, 'c').replace(/[éèê]/gi, 'e').replace(/[îï]/gi, 'i').replace(/[ôœ]/gi, 'o').replace(/[ùûü]/gi, 'u');
+  }
+
+  /**
+   * Converts the received boolean value to an integer
+   * @param {boolean} value 
+   * @returns {number} 1 or 0
+   * @memberof STD
+   */
+
+  function boolToInt(value) {
+    return value ? 1 : 0;
+  }
+  /**
+   * Converts the received value to a boolean
+   * @param {*} value
+   * @returns {boolean} A boolean equivalent of the received value
+   * @memberof STD
+   */
+
+  function toBoolean(value) {
+    var val = valOrDefault(value, false);
+    return val === true || val.toString().toLowerCase() === 'true';
+  }
+
+  /**
+   * Verifies that at least one value satisfies the condition
+   * @param {*[]} values Set of values
+   * @param {Function} pred Condition
+   * @returns {boolean} A value indicating whether at least one value satisfies the condition
+   * @memberof STD
+   */
+
+  var some = function some(values, pred) {
+    for (var i = 0; i < values.length; i++) {
+      var value = values[i];
+
+      if (pred.apply(void 0, _toConsumableArray(Array.isArray(value) ? value : [value]))) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+  /**
+   * Verifies that at the condition is satisfied for a a number of value
+   * @param {*[]} values Set of values
+   * @param {Function} pred Condition
+   * @param {number} [min=1] Minimum number of values that must satisfy the condition
+   * @param {number} [max=-1] Minimum number of values that must satisfy the condition
+   * @returns {boolean} A value indicating whether at least one value satisfies the condition
+   * @memberof STD
+   */
+
+  var assert = function assert(values, pred, min, max) {
+    if (max < min) {
+      console.error("`max` must be greater than `min`");
+      return;
+    }
+
+    var hitCount = getHitCount(values, pred);
+
+    if (all([min, max], Number.isInteger)) {
+      return hitCount >= min && hitCount <= max;
+    }
+
+    if (Number.isInteger(min)) {
+      return hitCount >= min;
+    }
+
+    if (Number.isInteger(max)) {
+      return hitCount <= max;
+    }
+
+    return false;
+  };
+  /**
+   * Verifies that all the values satisfy the condition
+   * @param {*[]} values Set of values
+   * @param {Function} pred Condition
+   * @returns {boolean} A value indicating whether all the values satisfy the condition
+   * @memberof STD
+   */
+
+  var all = function all(values, pred) {
+    for (var i = 0; i < values.length; i++) {
+      var value = values[i];
+
+      if (!pred.apply(void 0, _toConsumableArray(Array.isArray(value) ? value : [value]))) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+  /**
+   * Verifies that exactly one value satisfies the condition
+   * @param {*[]} values Set of values
+   * @param {Function} pred Condition
+   * @returns {boolean} A value indicating whether exactly one value satisfies the condition
+   * @memberof STD
+   */
+
+  var one = function one(values, pred) {
+    return getHitCount(values, pred) === 1;
+  };
+  /**
+   * Verifies that no value satisfies the condition
+   * @param {*[]} values Set of values
+   * @param {Function} pred Condition
+   * @returns {boolean} A value indicating whether no value satisfies the condition
+   * @memberof STD
+   */
+
+  var no = function no(values, pred) {
+    return getHitCount(values, pred) === 0;
+  };
+  /**
+   * Verifies that at most one value satisfies the condition
+   * @param {*[]} values Set of values
+   * @param {Function} pred Condition
+   * @returns {boolean} A value indicating whether at most one value satisfies the condition
+   * @memberof STD
+   */
+
+  var lone = function lone(values, pred) {
+    return getHitCount(values, pred) <= 1;
+  };
+  /**
+   * 
+   * @param {*} values 
+   * @param {*} pred 
+   * @private
+   */
+
+  /* istanbul ignore next */
+
+  function getHitCount(values, pred) {
+    var counter = 0;
+
+    for (var i = 0; i < values.length; i++) {
+      var value = values[i];
+
+      if (pred.apply(void 0, _toConsumableArray(Array.isArray(value) ? value : [value]))) {
+        counter++;
+      }
+    }
+
+    return counter;
+  }
 
   /**
    * Return a random integer between min and max (inclusive).
    * @param {number} min 
    * @param {number} [max] 
    * @param {boolean} [secure] 
-   * @memberof MATH
+   * @memberof STD
   */
+
   function random(min, max) {
     var secure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-    if (max == null) {
+    if (isNullOrUndefined(max)) {
       max = min;
       min = 0;
     }
@@ -687,13 +897,10 @@ var zenkai = (function (exports) {
   }
 
   /**
-   * @namespace PATH
-   */
-  /**
    * Append the path to the current path
    * @param {string} target 
    * @param {string} path 
-   * @memberof PATH
+   * @memberof STD
    */
 
   function addPath(target, path) {
@@ -702,7 +909,7 @@ var zenkai = (function (exports) {
   /**
    * Returns the directory of the path
    * @param {string} path 
-   * @memberof PATH
+   * @memberof STD
    */
 
   function getDir(path) {
@@ -711,7 +918,7 @@ var zenkai = (function (exports) {
   /**
    * Returns the directory of the path from the target
    * @param {string} path 
-   * @memberof PATH
+   * @memberof STD
    */
 
   function getDirTarget(path, target) {
@@ -728,7 +935,7 @@ var zenkai = (function (exports) {
    * @param {Object} obj
    * @param {string} path  
    * @param {string} [_separator=.]
-   * @memberof PATH
+   * @memberof STD
    */
 
 
@@ -763,180 +970,20 @@ var zenkai = (function (exports) {
   }
 
   /**
-   * Verifies that at least one value satisfies the condition
-   * @param {*[]} values Set of values
-   * @param {Function} fn Condition
-   * @param {number} [min=1] Minimum number of values that must satisfy the condition
-   * @returns {boolean} A value indicating whether at least one value satisfies the condition
-   * @memberof LOGIC
+   * Gets the window's width
+   * @memberof DOM
    */
-  var some = function some(values, fn) {
-    var min = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-
-    if (min === 1) {
-      for (var i = 0; i < values.length; i++) {
-        if (fn(values[i])) {
-          return true;
-        }
-      }
-
-      return false;
-    }
-
-    return getHitCount(values, fn) >= min;
+  var windowWidth = function windowWidth() {
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   };
   /**
-   * Verifies that all the values satisfy the condition
-   * @param {*[]} values Set of values
-   * @param {Function} fn Condition
-   * @returns {boolean} A value indicating whether all the values satisfy the condition
-   * @memberof LOGIC
+   * Gets the window's height
+   * @memberof DOM
    */
 
-  var all = function all(values, fn) {
-    for (var i = 0; i < values.length; i++) {
-      if (!fn(values[i])) {
-        return false;
-      }
-    }
-
-    return true;
+  var windowHeight = function windowHeight() {
+    return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
   };
-  /**
-   * Verifies that exactly one value satisfies the condition
-   * @param {*[]} values Set of values
-   * @param {Function} fn Condition
-   * @returns {boolean} A value indicating whether exactly one value satisfies the condition
-   * @memberof LOGIC
-   */
-
-  var one = function one(values, fn) {
-    return getHitCount(values, fn) === 1;
-  };
-  /**
-   * Verifies that no value satisfies the condition
-   * @param {*[]} values Set of values
-   * @param {Function} fn Condition
-   * @returns {boolean} A value indicating whether no value satisfies the condition
-   * @memberof LOGIC
-   */
-
-  var no = function no(values, fn) {
-    return !some(values, fn);
-  };
-  /**
-   * 
-   * @param {*} values 
-   * @param {*} fn 
-   * @private
-   */
-
-  /* istanbul ignore next */
-
-  function getHitCount(values, fn) {
-    var counter = 0;
-
-    for (var i = 0; i < values.length; i++) {
-      if (fn(values[i])) {
-        counter++;
-      }
-    }
-
-    return counter;
-  }
-
-  /**
-   * @namespace URI
-   */
-  var encode = encodeURIComponent;
-  /**
-   * Extracts and returns the protocol and host of a given url
-   * @param {string} url 
-   * @memberof URI
-   */
-
-  function getRootUrl(url) {
-    return url.toString().replace(/^(.*\/\/[^/?#]*).*$/, "$1");
-  }
-  /**
-   * Extracts and returns the parameters of a URL
-   * @param {string} [prop] Searched parameter
-   * @param {string} [defValue] Searched parameter default value
-   * @memberof URI
-   */
-
-  function getUrlParams(prop, defValue) {
-    var search = decodeURIComponent(window.location.search);
-
-    if (isNullOrWhitespace(search)) {
-      return null;
-    }
-
-    var params = {};
-
-    if ('URLSearchParams' in window) {
-      var searchParams = new URLSearchParams(search.substring(1));
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = searchParams.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var pair = _step.value;
-          params[pair[0]] = pair[1];
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-
-      if (prop) {
-        return searchParams.get(prop);
-      }
-
-      return params;
-    }
-
-    var defs = search.substring(1).split('&');
-    defs.forEach(function (val) {
-      var parts = val.split('=', 2);
-      params[parts[0]] = parts[1];
-    });
-
-    if (prop) {
-      return valOrDefault(params[prop], defValue);
-    }
-
-    return params;
-  }
-  /**
-   * Creates a query string
-   * @param {Object} query 
-   * @returns {string} Query string
-   * @memberof URI
-   */
-
-
-  function queryBuilder(query) {
-    var ignoreNullOrEmpty = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-    var str = [];
-    Object.keys(query).forEach(function (prop) {
-      if (!ignoreNullOrEmpty || !isNullOrWhitespace(query[prop])) {
-        str.push("".concat(encode(prop), "=").concat(encode(query[prop])));
-      }
-    });
-    return str.join('&');
-  }
 
   /* istanbul ignore next */
 
@@ -958,7 +1005,7 @@ var zenkai = (function (exports) {
 
 
   var isNode = function isNode(obj) {
-    return !isNullOrUndefined(obj) && obj instanceof Node;
+    return obj instanceof Node;
   };
   /**
    * Verifies that an object is a *NodeList*
@@ -968,7 +1015,7 @@ var zenkai = (function (exports) {
    */
 
   var isNodeList = function isNodeList(obj) {
-    return !isNullOrUndefined(obj) && obj instanceof NodeList;
+    return obj instanceof NodeList;
   };
   /**
    * Verifies that an object is an *Element*
@@ -981,15 +1028,103 @@ var zenkai = (function (exports) {
     return isElementNode(obj) && obj instanceof Element;
   };
   /**
-   * Verifies that an object is an *HTMLElement*
+   * Verifies that an object is an *HTML Element*
    * @param {Element} obj 
+   * @param {string|string[]|string[][]} [kind] 
    * @returns {boolean} Value indicating whether the object is an *HTMLElement*
    * @memberof DOM
    */
 
-  var isHTMLElement = function isHTMLElement(obj) {
-    return isElementNode(obj) && obj instanceof HTMLElement;
+  var isHTMLElement = function isHTMLElement(obj, kind) {
+    if (!(isElementNode(obj) && obj instanceof HTMLElement)) {
+      return false;
+    }
+
+    if (isIterable(kind)) {
+      return isHTMLElementKind(obj, Array.isArray(kind) ? kind : [kind]);
+    }
+
+    return true;
   };
+  var TagNameMapping = {
+    'a': "Anchor",
+    'br': "BR",
+    'dl': "DList",
+    'datalist': "DataList",
+    'fieldset': "FieldSet",
+    'frameset': "FrameSet",
+    'hr': "HR",
+    'h1': "Heading",
+    'h2': "Heading",
+    'h3': "Heading",
+    'h4': "Heading",
+    'h5': "Heading",
+    'h6': "Heading",
+    'li': "LI",
+    'ol': "OList",
+    'optgroup': "OptGroup",
+    'p': "Paragraph",
+    'q': "Quote",
+    'blockquote': "Quote",
+    'caption': "TableCaption",
+    'td': "TableCell",
+    'th': "TableCell",
+    'col': "TableCol",
+    'tr': "TableRow",
+    'tbody': "TableSection",
+    'thead': "TableSection",
+    'tfoot': "TableSection",
+    'textarea': "TextArea",
+    'ul': "UList"
+  };
+  /**
+   * Verifies the tag of an *HTML Element*
+   * @param {HTMLElement} element 
+   * @param {string[]|string[][]} kinds
+   * @returns {boolean}
+   */
+
+  function isHTMLElementKind(element, kinds) {
+    var isInstanceOf = function isInstanceOf(obj) {
+      return element instanceof obj;
+    };
+
+    var hasTag = function hasTag(tag) {
+      return element.tagName === tag.toUpperCase();
+    };
+
+    var isOfType = function isOfType(type) {
+      return Array.isArray(type) ? type.includes(element.type) : element.type === type;
+    };
+
+    some(kinds, function (kind) {
+      if (!isIterable(kind)) {
+        return false;
+      }
+
+      var name = kind;
+      var type = null;
+
+      if (Array.isArray(kind)) {
+        var _kind = _slicedToArray(kind, 2);
+
+        name = _kind[0];
+        type = _kind[1];
+      }
+
+      var interfaceName = "HTML".concat(hasOwn(TagNameMapping, name) ? TagNameMapping[name] : pascalCase(name), "Element");
+
+      if (!(isInstanceOf(window[interfaceName]) || hasTag(name))) {
+        return false;
+      }
+
+      if (isIterable(type) && !isEmpty(type)) {
+        return isOfType(type);
+      }
+
+      return true;
+    });
+  }
   /**
    * Verifies that an object is an *HTMLCollection*
    * @param {Element} obj 
@@ -997,8 +1132,9 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
+
   var isHTMLCollection = function isHTMLCollection(obj) {
-    return !isNullOrUndefined(obj) && obj instanceof HTMLCollection;
+    return obj instanceof HTMLCollection;
   };
   /**
    * Verifies that an object is an *DocumentFragment*
@@ -1024,6 +1160,17 @@ var zenkai = (function (exports) {
     template.innerHTML = html.trim();
     return template.content;
   }
+  /* istanbul ignore next */
+
+
+  function _htmlToElement(prop, html) {
+    if (!isString(html)) {
+      return null;
+    }
+
+    var template = createTemplate(html);
+    return template[prop];
+  }
   /**
    * Converts an html string to an HTML Element
    * @param {!string} html 
@@ -1032,15 +1179,7 @@ var zenkai = (function (exports) {
    */
 
 
-  function htmlToElement(html) {
-    if (!isString(html)) {
-      console.error("dom-parse>htmlToElement(html): html must be a string");
-      return null;
-    }
-
-    var template = createTemplate(html);
-    return template.firstChild;
-  }
+  var htmlToElement = _htmlToElement.bind('firstChild');
   /**
    * Converts an html string to a list of HTML Elements
    * @param {!string} html 
@@ -1048,14 +1187,55 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  function htmlToElements(html) {
-    if (!isString(html)) {
-      console.error("dom-parse>htmlToElements(html): html must be a string");
-      return null;
+  var htmlToElements = _htmlToElement.bind('childNodes');
+  /**
+   * Verifies that an element is visible
+   * @param {!HTMLElement} element 
+   * @returns {boolean}
+   * @memberof DOM
+   */
+
+  function isInViewport(element) {
+    if (!isHTMLElement(element)) {
+      throw new Error("The given element is not a valid HTML Element");
     }
 
-    var template = createTemplate(html);
-    return template.childNodes;
+    var _element$getBoundingC = element.getBoundingClientRect(),
+        top = _element$getBoundingC.top,
+        right = _element$getBoundingC.right,
+        bottom = _element$getBoundingC.bottom,
+        left = _element$getBoundingC.left;
+
+    return top >= 0 && left >= 0 && bottom <= windowHeight() && right <= windowWidth();
+  }
+  /**
+   * Verifies that an element is displayed inside a target element
+   * @param {!HTMLElement} element 
+   * @param {!HTMLElement} target
+   * @returns {boolean}
+   * @memberof DOM
+   */
+
+  function isInElement(element, target) {
+    if (!all([element, target], isHTMLElement)) {
+      throw new Error("The given element is not a valid HTML Element");
+    }
+
+    var _element$getBoundingC2 = element.getBoundingClientRect(),
+        top1 = _element$getBoundingC2.top,
+        right1 = _element$getBoundingC2.right,
+        bottom1 = _element$getBoundingC2.bottom,
+        left1 = _element$getBoundingC2.left;
+
+    var _target$getBoundingCl = target.getBoundingClientRect(),
+        top2 = _target$getBoundingCl.top,
+        right2 = _target$getBoundingCl.right,
+        bottom2 = _target$getBoundingCl.bottom,
+        left2 = _target$getBoundingCl.left;
+
+    return all([[top2, top1], [left2, left1], [right1, right2], [bottom1, bottom2]], function (inner, outer) {
+      return inner <= outer;
+    });
   }
 
   /**
@@ -1067,7 +1247,7 @@ var zenkai = (function (exports) {
 
   function insertBeforeElement(target, element) {
     if (!all([target, element], isElement)) {
-      return null;
+      throw new Error("The given element or target is not a valid HTML Element");
     }
 
     target.insertAdjacentElement('beforebegin', element);
@@ -1082,7 +1262,7 @@ var zenkai = (function (exports) {
 
   function insertAfterElement(target, element) {
     if (!all([target, element], isElement)) {
-      return null;
+      throw new Error("The given element or target is not a valid HTML Element");
     }
 
     target.insertAdjacentElement('afterend', element);
@@ -1097,7 +1277,7 @@ var zenkai = (function (exports) {
 
   function preprendChild(target, element) {
     if (!all([target, element], isElement)) {
-      return null;
+      throw new Error("The given element or target is not a valid HTML Element");
     }
 
     target.insertAdjacentElement('afterbegin', element);
@@ -1113,11 +1293,11 @@ var zenkai = (function (exports) {
 
   function appendChildren(parent, children) {
     if (!isNode(parent)) {
-      return null;
+      throw new Error("The given parent is not a valid Node");
     }
 
     if (!isHTMLCollection(children) && !isIterable(children) || isString(children)) {
-      return null;
+      throw new Error("The given children is not a valid HTMLCollection/HTMLElement array");
     }
 
     var fragment = document.createDocumentFragment();
@@ -1151,9 +1331,9 @@ var zenkai = (function (exports) {
       return "";
     } else if (Array.isArray(c)) {
       return c.join(' ');
-    } else {
-      return c.toString();
     }
+
+    return c.toString();
   };
   /**
    * Verifies that an element has a class
@@ -1266,17 +1446,6 @@ var zenkai = (function (exports) {
 
   function echo(o) {}
   /**
-   * Verifies that an object is an *HTML Select Element*
-   * @param {Element} obj 
-   * @returns {boolean} Value indicating whether the object is an *HTMLSelectElement*
-   * @private
-   */
-
-
-  var isHTMLSelectElement = function isHTMLSelectElement(obj) {
-    return isHTMLElement(obj) && obj instanceof HTMLSelectElement;
-  };
-  /**
    * Sets the attributes of an element
    * @param {!HTMLElement} element element
    * @param {Object} attribute attribute
@@ -1284,9 +1453,14 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
+
   function addAttributes(element, attribute) {
     if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
+      throw new Error("The given element parameter is not a valid HTML Element");
+    }
+
+    if (!isObject(attribute)) {
+      return element;
     }
 
     var ATTR_MAP = {
@@ -1294,15 +1468,24 @@ var zenkai = (function (exports) {
       accesskey: [assign, 'accessKey'],
       "class": [setClass, element],
       data: [Object.assign, element.dataset],
-      editable: [assign, 'contenteditable'],
+      editable: [assign, 'contentEditable'],
       draggable: [assign],
       hidden: [assign],
       id: [assign],
       lang: [assign],
       html: [assign, 'innerHTML'],
       style: [assign],
+      target: [assign],
       tabindex: [assign, 'tabIndex'],
+      text: [assign, 'textContent'],
       title: [assign],
+      // Quote attributes
+      cite: [assign],
+      // Anchor attributes
+      href: [assign],
+      // Link attributes
+      alt: [assign],
+      src: [assign],
       // Form attributes
       accept: [assign],
       disabled: [assign],
@@ -1327,47 +1510,32 @@ var zenkai = (function (exports) {
   /**
    * Changes the selected option of a `<select>` element
    * @param {!HTMLSelectElement} select
-   * @param {string} val option value to select
+   * @param {string} value option value to select
    * @returns {boolean} value indicating whether the option was found and selected
    * @memberof DOM
    */
 
-  function changeSelectValue(select, val) {
-    if (!isHTMLSelectElement(select)) {
-      throw new Error("The given element is not a valid HTML Select element");
+  function changeSelectValue(select, value) {
+    if (!isHTMLElement(select, "select")) {
+      throw new Error("The given select parameter is not a valid HTML Select element");
     }
 
-    var found = false;
+    if (isNullOrUndefined(value)) {
+      throw new Error("The given value parameter is a null or undefined");
+    }
+
     var options = select.options;
 
-    for (var i = 0; !found && i < options.length; i++) {
+    for (var i = 0; i < options.length; i++) {
       var option = options[i];
 
-      if (option.value == val) {
+      if (option.value === value.toString()) {
         option.selected = true;
-        found = true;
+        return true;
       }
     }
 
-    return found;
-  }
-  /**
-   * Moves an element out of screen
-   * @param {!HTMLElement} element Element
-   * @memberof DOM
-   */
-
-  function conceal(element) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
-    }
-
-    Object.assign(element.style, {
-      position: 'absolute',
-      top: '-9999px',
-      left: '-9999px'
-    });
-    return element;
+    return false;
   }
 
   /**
@@ -1384,11 +1552,11 @@ var zenkai = (function (exports) {
   function create(tagName, _attribute, _children) {
     var element = document.createElement(tagName);
 
-    if (_attribute) {
+    if (!isNullOrUndefined(_attribute)) {
       addAttributes(element, _attribute);
     }
 
-    if (_children) {
+    if (!isNullOrUndefined(_children)) {
       addContent(element, _children);
     }
 
@@ -1402,9 +1570,15 @@ var zenkai = (function (exports) {
    */
 
 
-  var createDocFragment = function createDocFragment() {
-    return document.createDocumentFragment();
-  };
+  function createDocFragment(_children) {
+    var fragment = document.createDocumentFragment();
+
+    if (!isNullOrUndefined(_children)) {
+      addContent(fragment, _children);
+    }
+
+    return fragment;
+  }
   /**
    * Creates a text node
    * @function createTextNode
@@ -1591,6 +1765,7 @@ var zenkai = (function (exports) {
    * Creates a `br` element \
    * Line break (carriage-return)
    * @function createLineBreak
+   * @returns {HTMLBRElement}
    * @memberof DOM
    */
 
@@ -1601,6 +1776,7 @@ var zenkai = (function (exports) {
    * Creates a `hr` element \
    * Thematic break
    * @function createThematicBreak
+   * @returns {HTMLHRElement}
    * @memberof DOM
    */
 
@@ -1619,21 +1795,14 @@ var zenkai = (function (exports) {
   var createParagraph = create.bind(null, 'p');
   /**
    * Creates a `<blockquote>` element with some attributes
+   * @function createBlockQuotation
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLQuoteElement}
    * @memberof DOM
    */
 
-  function createBlockQuotation(cite, attribute, children) {
-    var element = create('blockquote', attribute, children);
-
-    if (cite) {
-      element.cite = cite;
-    }
-
-    return element;
-  }
+  var createBlockQuotation = create.bind(null, 'blockquote');
   /**
    * Creates a `<ul>` element with some attributes
    * @function createUnorderedList
@@ -1997,6 +2166,7 @@ var zenkai = (function (exports) {
    */
 
   var createForm = create.bind(null, 'form');
+  var inputTypes = ["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"];
   /**
    * Creates an `<input>` element with a specified type and 
    * optionally some attributes
@@ -2006,8 +2176,7 @@ var zenkai = (function (exports) {
    */
 
   function createInputAs(type, _attribute) {
-    if (!["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"].includes(type)) {
-      console.error("Input could not be created: the given type ".concat(type, " is not valid."));
+    if (!inputTypes.includes(type)) {
       return null;
     }
 
@@ -2019,7 +2188,6 @@ var zenkai = (function (exports) {
    * Creates an `<input>` element with some attributes
    * @function createInput
    * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLInputElement}
    * @memberof DOM
    */
@@ -2135,6 +2303,7 @@ var zenkai = (function (exports) {
    */
 
   var createOutput = create.bind(null, 'output');
+  var buttonTypes = ["button", "submit", "reset"];
   /**
    * Creates a `<button>` element with a specified type and 
    * optionally some attributes and children elements
@@ -2145,8 +2314,7 @@ var zenkai = (function (exports) {
    */
 
   function createButtonAs(type, _attribute, _children) {
-    if (!["submit", "reset", "button"].includes(type)) {
-      console.error("Button could not be created: the given type ".concat(type, " is not valid."));
+    if (!buttonTypes.includes(type)) {
       return null;
     }
 
@@ -2248,7 +2416,7 @@ var zenkai = (function (exports) {
    * @function createTableHeaderCell
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLTableHeaderCellElement}
+   * @returns {HTMLTableCellElement}
    * @memberof DOM
    */
 
@@ -2258,7 +2426,7 @@ var zenkai = (function (exports) {
    * @function createTableCell
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLTableDataCellElement}
+   * @returns {HTMLTableCellElement}
    * @memberof DOM
    */
 
@@ -2274,6 +2442,14 @@ var zenkai = (function (exports) {
   /* istanbul ignore next */
 
   function addContent(element, children) {
+    if (!isHTMLElement(element)) {
+      throw new Error("The given element is not a valid HTML Element");
+    }
+
+    if (isNullOrUndefined(children)) {
+      return element;
+    }
+
     if (Array.isArray(children)) {
       appendChildren(element, children);
     } else if (isNode(children)) {
@@ -2384,148 +2560,138 @@ var zenkai = (function (exports) {
   }
   /**
    * Gets the previous or next element of the specified element
-   * @param {HTMLElement} el element
    * @param {string} dir sibling direction
+   * @param {HTMLElement} element element
    * @returns {(Element|null)} Element or null
    * @private
    */
 
   /* istanbul ignore next */
 
-  function getElementSibling(el, dir, pred) {
-    var predicate = function predicate(el) {
-      return true;
-    };
+  function getElementSibling(dir, element, pred) {
+    var sibling = element[dir];
 
     if (isFunction(pred)) {
-      predicate = function predicate(el) {
-        return !isNullOrUndefined(el) && pred(el);
-      };
-    }
-
-    var sibling = el[dir];
-
-    while (!predicate(sibling)) {
-      sibling = sibling[dir];
+      while (isElement(sibling) && pred(sibling)) {
+        sibling = sibling[dir];
+      }
     }
 
     return sibling;
   }
   /**
    * Gets the previous element of the specified one in its parent's children list
+   * @function getPreviousElementSibling
    * @param {HTMLElement} el element
-   * @param {*} predCb Search end condition
+   * @param {*} pred Search end condition
    * @returns {(Element|null)} Element or null if the specified element is the first one in the list
    * @memberof DOM
    */
 
 
-  function getPreviousElementSibling(el, predCb) {
-    return getElementSibling(el, "previousElementSibling", predCb);
-  }
+  var getPreviousElementSibling = getElementSibling.bind(null, "previousElementSibling");
   /**
    * Gets the element following the specified one in its parent's children list
+   * @function getNextElementSibling
    * @param {HTMLElement} el element
-   * @param {*} predCb Search end condition
+   * @param {*} pred Search end condition
    * @returns {(Element|null)} Element or null if the specified element is the last one in the list
    * @memberof DOM
    */
 
-  function getNextElementSibling(el, predCb) {
-    return getElementSibling(el, "nextElementSibling", predCb);
-  }
+  var getNextElementSibling = getElementSibling.bind(null, "nextElementSibling");
   /**
    * Finds an ancestor of an element
    * @param {Element} target 
-   * @param {Function} callback Decides whether the target is found
-   * @param {number} [max] Maximum number of iterations
+   * @param {Function} pred Decides whether the target is found
+   * @param {number} [_max] Maximum number of iterations
    * @returns {Element|null}
    * @memberof DOM
    */
 
-  function findAncestor(target, callback, max) {
+  function findAncestor(target, pred, _max) {
     if (!isElement(target)) {
-      return null;
+      throw new Error("The given target parameter is not a valid HTML Element");
     }
 
-    if (!isFunction(callback)) {
-      return null;
+    if (!isFunction(pred)) {
+      throw new Error("The given pred parameter is not a valid Function");
     }
 
     var parent = target.parentElement;
 
-    if (max > 0) {
-      return findAncestorIter(parent, callback, max - 1);
+    if (_max > 0) {
+      return findAncestorIter(parent, pred, _max - 1);
     }
 
-    return findAncestorInf(parent, callback);
+    return findAncestorInf(parent, pred);
   }
   /**
    * Look an ancestor of an element using a callback
    * @param {Element} target 
-   * @param {Function} callback Decides whether the target is found
+   * @param {Function} pred Decides whether the target is found
    * @private
    */
 
   /* istanbul ignore next */
 
-  function findAncestorInf(target, callback) {
+  function findAncestorInf(target, pred) {
     if (isNullOrUndefined(target)) {
       return null;
     }
 
-    if (callback(target)) {
+    if (pred(target)) {
       return target;
     }
 
-    return findAncestorInf(target.parentElement, callback);
+    return findAncestorInf(target.parentElement, pred);
   }
   /**
    * Look for an ancestor of an element using a callback with a maximum number of iteration
    * @param {Element} target 
-   * @param {Function} callback Decides whether the target is found
-   * @param {number} [max] Maximum number of iterations
+   * @param {Function} pred Decides whether the target is found
+   * @param {number} max Maximum number of iterations
    * @private
    */
 
   /* istanbul ignore next */
 
 
-  function findAncestorIter(target, callback, max) {
+  function findAncestorIter(target, pred, max) {
     if (isNullOrUndefined(target) || max === 0) {
       return null;
     }
 
-    if (callback(target)) {
+    if (pred(target)) {
       return target;
     }
 
-    return findAncestorIter(target.parentElement, callback, max - 1);
+    return findAncestorIter(target.parentElement, pred, max - 1);
   }
 
   /**
    * Removes all children of a node from the DOM or 
-   * those that satisfies the predicate function
+   * those that satisfy the predicate function if given
    * @param {!Node} node 
-   * @param {Function} [callback] Decides whether the node should be removed
+   * @param {Function} [_callback] Decides whether the node should be removed
    * @memberof DOM
    */
 
-  function removeChildren(node, callback) {
+  function removeChildren(node, _callback) {
     if (!isNode(node)) {
-      return null;
+      throw new Error("The given node parameter is not a valid Node");
     }
 
-    if (!isFunction(callback)) {
-      return removeAllChildren(node);
+    if (isFunction(_callback)) {
+      Array.from(node.childNodes).forEach(function (n) {
+        if (_callback(n)) {
+          node.removeChild(n);
+        }
+      });
+      return node;
     }
 
-    Array.from(node.childNodes).forEach(function (n) {
-      if (callback(n)) {
-        node.removeChild(n);
-      }
-    });
-    return node;
+    return removeAllChildren(node);
   }
   /**
    * Removes all children of a node from the DOM
@@ -2544,25 +2710,26 @@ var zenkai = (function (exports) {
   }
 
   /**
-   * Gets the window's width
-   * @memberof DOM
-   */
-  function windowWidth() {
-    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-  }
-
-  /**
-   * Copy to clipboard
-   * @param {HTMLElement|string} value 
-   * @returns {boolean} Value indicating whether the the content has been succesfully copied to the clipboard
+   * Copy content to clipboard
+   * @param {HTMLElement|string} value
+   * @returns {boolean} Value indicating whether the content has been succesfully copied to the clipboard
    * @memberof DOM
    */
 
   function copytoClipboard(value) {
+    if (isNullOrUndefined(value)) {
+      return false;
+    }
+
     var element = createTextArea({
-      value: isHTMLElement(value) ? value.textContent : value,
+      value: isHTMLElement(value) ? value.textContent : value.toString(),
       readonly: true
     });
+
+    if (!isHTMLElement(element)) {
+      return false;
+    }
+
     document.body.appendChild(element);
     element.select();
     document.execCommand('copy');
@@ -2720,7 +2887,6 @@ var zenkai = (function (exports) {
 
     return null;
   }
-
   function getInput(type, label) {
     if (isNullOrWhitespace(label.htmlFor)) {
       return getElement("input[type='".concat(valOrDefault(type, 'text'), "']"), label);
@@ -2907,7 +3073,11 @@ var zenkai = (function (exports) {
       return this.input.checked;
     },
 
-    /** @returns {boolean} */
+    /**
+     * Set the state of the item
+     * @param {boolean} isChecked 
+     * @returns {boolean} Value indicating the success of the operation
+     */
     setChecked: function setChecked(isChecked) {
       if (isNullOrUndefined(isChecked)) {
         return false;
@@ -3047,47 +3217,17 @@ var zenkai = (function (exports) {
       }
 
       var widget = null;
-      var items = [];
+      var items = null;
+      var type = getType(container);
 
-      switch (getType(container)) {
+      switch (type) {
         case 'selector':
-          for (var i = 0; i < itemContainers.length; i++) {
-            var itemContainer = itemContainers[i];
-            itemContainer.dataset.selectorIndex = i;
-            var item = Object.create(BaseSelectorItem);
-            item.init({
-              container: itemContainer,
-              index: i
-            });
-            items.push(item);
-          }
-
+          items = createSelectorItem(itemContainers, type, false);
           widget = Object.create(BaseSelector);
           break;
 
         case 'form-selector':
-          for (var _i = 0; _i < itemContainers.length; _i++) {
-            var _itemContainer = itemContainers[_i];
-            _itemContainer.dataset.selectorIndex = _i;
-            var input = getInput('radio', _itemContainer);
-
-            if (!isHTMLElement(input)) {
-              return ErrorCode.BAD_INPUT;
-            }
-
-            input.dataset.selectorIndex = _i;
-
-            var _item = Object.create(FormSelectorItem);
-
-            _item.init({
-              container: _itemContainer,
-              input: input,
-              index: _i
-            });
-
-            items.push(_item);
-          }
-
+          items = createSelectorItem(itemContainers, type, true);
           widget = Object.create(FormSelector);
           break;
       }
@@ -3100,6 +3240,41 @@ var zenkai = (function (exports) {
       return widget;
     }
   };
+
+  function createSelectorItem(itemContainers, type, hasInput) {
+    var items = [];
+    var typeHandler = {
+      'selector': Object.create(BaseSelectorItem),
+      'form-selector': Object.create(FormSelectorItem)
+    };
+
+    for (var i = 0; i < itemContainers.length; i++) {
+      var itemContainer = itemContainers[i];
+      itemContainer.dataset.selectorIndex = i;
+      var args = {
+        container: itemContainer,
+        index: i
+      };
+
+      if (hasInput) {
+        var input = getInput('radio', itemContainer);
+
+        if (!isHTMLElement(input)) {
+          return ErrorCode.BAD_INPUT;
+        }
+
+        input.dataset.selectorIndex = i;
+        Object.assign(args, {
+          input: input
+        });
+      }
+
+      var item = typeHandler[type]().init(args);
+      items.push(item);
+    }
+
+    return items;
+  }
 
   var ErrorHandler = {
     BAD_CONTAINER: new Error("Missing container: A selector requires a container"),
@@ -3699,6 +3874,99 @@ var zenkai = (function (exports) {
     return accordions;
   }
 
+  /**
+   * @namespace URI
+   */
+  var encode = encodeURIComponent;
+  /**
+   * Extracts and returns the protocol and host of a given url
+   * @param {string} url 
+   * @memberof URI
+   */
+
+  function getRootUrl(url) {
+    return url.toString().replace(/^(.*\/\/[^/?#]*).*$/, "$1");
+  }
+  /**
+   * Extracts and returns the parameters of a URL
+   * @param {string} [prop] Searched parameter
+   * @param {string} [defValue] Searched parameter default value
+   * @memberof URI
+   */
+
+  function getUrlParams(prop, defValue) {
+    var search = decodeURIComponent(window.location.search);
+
+    if (isNullOrWhitespace(search)) {
+      return null;
+    }
+
+    var params = {};
+
+    if ('URLSearchParams' in window) {
+      var searchParams = new URLSearchParams(search.substring(1));
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = searchParams.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var pair = _step.value;
+          params[pair[0]] = pair[1];
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      if (prop) {
+        return searchParams.get(prop);
+      }
+
+      return params;
+    }
+
+    var defs = search.substring(1).split('&');
+    defs.forEach(function (val) {
+      var parts = val.split('=', 2);
+      params[parts[0]] = parts[1];
+    });
+
+    if (prop) {
+      return valOrDefault(params[prop], defValue);
+    }
+
+    return params;
+  }
+  /**
+   * Creates a query string
+   * @param {Object} query 
+   * @returns {string} Query string
+   * @memberof URI
+   */
+
+
+  function queryBuilder(query) {
+    var ignoreNullOrEmpty = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var str = [];
+    Object.keys(query).forEach(function (prop) {
+      if (!ignoreNullOrEmpty || !isNullOrWhitespace(query[prop])) {
+        str.push("".concat(encode(prop), "=").concat(encode(query[prop])));
+      }
+    });
+    return str.join('&');
+  }
+
   exports.Accordion = Accordion;
   exports.Collapsible = Collapsible;
   exports.DELETE = DELETE;
@@ -3713,6 +3981,7 @@ var zenkai = (function (exports) {
   exports.addPath = addPath;
   exports.all = all;
   exports.appendChildren = appendChildren;
+  exports.assert = assert;
   exports.boolToInt = boolToInt;
   exports.camelCase = camelCase;
   exports.capitalize = capitalize;
@@ -3721,7 +3990,6 @@ var zenkai = (function (exports) {
   exports.cloneObject = cloneObject;
   exports.cloneTemplate = cloneTemplate;
   exports.compareTime = compareTime;
-  exports.conceal = conceal;
   exports.copytoClipboard = copytoClipboard;
   exports.createAbbreviation = createAbbreviation;
   exports.createAnchor = createAnchor;
@@ -3805,6 +4073,7 @@ var zenkai = (function (exports) {
   exports.findAncestor = findAncestor;
   exports.findByPath = findByPath;
   exports.floatingLabel = floatingLabel;
+  exports.formatCase = formatCase;
   exports.formatDate = formatDate;
   exports.getDir = getDir;
   exports.getDirTarget = getDirTarget;
@@ -3831,7 +4100,8 @@ var zenkai = (function (exports) {
   exports.isFunction = isFunction;
   exports.isHTMLCollection = isHTMLCollection;
   exports.isHTMLElement = isHTMLElement;
-  exports.isHTMLSelectElement = isHTMLSelectElement;
+  exports.isInElement = isInElement;
+  exports.isInViewport = isInViewport;
   exports.isIterable = isIterable;
   exports.isNode = isNode;
   exports.isNodeList = isNodeList;
@@ -3842,6 +4112,7 @@ var zenkai = (function (exports) {
   exports.isString = isString;
   exports.isUndefined = isUndefined;
   exports.last = last;
+  exports.lone = lone;
   exports.no = no;
   exports.one = one;
   exports.parseTime = parseTime;
@@ -3860,6 +4131,7 @@ var zenkai = (function (exports) {
   exports.toBoolean = toBoolean;
   exports.toggleClass = toggleClass;
   exports.valOrDefault = valOrDefault;
+  exports.windowHeight = windowHeight;
   exports.windowWidth = windowWidth;
 
   return exports;

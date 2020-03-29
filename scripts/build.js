@@ -10,7 +10,7 @@ var bundle = new CleanCSS({
     sourceMap: true,
     rebaseTo: `${DIRECTORY}/form.min.css`
 }).minify([
-    './src/components/css/form.css'
+    './src/ui/css/form.css'
 ]);
 
 // log bundle result

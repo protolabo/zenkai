@@ -1,6 +1,78 @@
 var zdom = (function (exports) {
   'use strict';
 
+  function _typeof(obj) {
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function (obj) {
+        return typeof obj;
+      };
+    } else {
+      _typeof = function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
+    }
+
+    return _typeof(obj);
+  }
+
+  function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+  }
+
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+  }
+
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    }
+  }
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  }
+
+  function _iterableToArrayLimit(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"] != null) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance");
+  }
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  }
+
   /**
    * Returns an object value or default value if undefined
    * @param {*} arg object
@@ -14,6 +86,16 @@ var zdom = (function (exports) {
     }
 
     return isNullOrUndefined(arg) ? value : arg;
+  }
+  /**
+   * Returns a value indicating whether the value is empty
+   * @param {Object[]|string} arr array
+   * @returns {boolean}
+   * @memberof TYPE
+   */
+
+  function isEmpty(obj) {
+    return (Array.isArray(obj) || isString(obj)) && obj.length === 0;
   }
   /**
    * Returns a value indicating whether the variable is a String
@@ -34,6 +116,16 @@ var zdom = (function (exports) {
 
   function isFunction(value) {
     return typeof value === 'function';
+  }
+  /**
+   * Returns a value indicating whether the value is an Object
+   * @param {string} value
+   * @returns {boolean}
+   * @memberof TYPE
+   */
+
+  function isObject(value) {
+    return !isNullOrUndefined(value) && _typeof(value) === 'object';
   }
   /**
    * Returns a value indicating whether the object is iterable
@@ -85,30 +177,100 @@ var zdom = (function (exports) {
     return isNull(value) || isUndefined(value);
   }
 
+  /** @private */
+  var hasOwnProperty = Object.prototype.hasOwnProperty;
+  /**
+   * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
+   * @param {*} obj target object
+   * @param {string} key name of the property
+   * @memberof STD
+   */
+
+  var hasOwn = function hasOwn(obj, key) {
+    return hasOwnProperty.call(obj, key);
+  };
+
+  /**
+   * Capitalizes all words in a sequence
+   * @param {string} str Sequence
+   * @returns {string} Capitalized sequence
+   * @memberof STD
+   */
+
+  function capitalize(str) {
+    return str.toLowerCase().replace(/\b\w/g, function (s) {
+      return s.toUpperCase();
+    });
+  }
+  /**
+   * Capitalizes all words in a sequence and removes spaces or punctuation
+   * @param {!string} str Sequence
+   * @returns {string} PascalCased sequence
+   * @memberof STD
+   */
+
+  function pascalCase(str) {
+    if (isNullOrWhitespace(str)) {
+      return str;
+    }
+
+    var ccString = str.replace(/[_-]+/g, " ").replace(/\s+/g, ' ').trim();
+    return capitalize(ccString).replace(/\s+/g, '');
+  }
+
   /**
    * Verifies that at least one value satisfies the condition
    * @param {*[]} values Set of values
-   * @param {Function} fn Condition
-   * @param {number} [min=1] Minimum number of values that must satisfy the condition
+   * @param {Function} pred Condition
    * @returns {boolean} A value indicating whether at least one value satisfies the condition
-   * @memberof LOGIC
+   * @memberof STD
    */
+
+  var some = function some(values, pred) {
+    for (var i = 0; i < values.length; i++) {
+      var value = values[i];
+
+      if (pred.apply(void 0, _toConsumableArray(Array.isArray(value) ? value : [value]))) {
+        return true;
+      }
+    }
+
+    return false;
+  };
   /**
    * Verifies that all the values satisfy the condition
    * @param {*[]} values Set of values
-   * @param {Function} fn Condition
+   * @param {Function} pred Condition
    * @returns {boolean} A value indicating whether all the values satisfy the condition
-   * @memberof LOGIC
+   * @memberof STD
    */
 
-  var all = function all(values, fn) {
+  var all = function all(values, pred) {
     for (var i = 0; i < values.length; i++) {
-      if (!fn(values[i])) {
+      var value = values[i];
+
+      if (!pred.apply(void 0, _toConsumableArray(Array.isArray(value) ? value : [value]))) {
         return false;
       }
     }
 
     return true;
+  };
+
+  /**
+   * Gets the window's width
+   * @memberof DOM
+   */
+  var windowWidth = function windowWidth() {
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  };
+  /**
+   * Gets the window's height
+   * @memberof DOM
+   */
+
+  var windowHeight = function windowHeight() {
+    return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
   };
 
   /* istanbul ignore next */
@@ -131,7 +293,7 @@ var zdom = (function (exports) {
 
 
   var isNode = function isNode(obj) {
-    return !isNullOrUndefined(obj) && obj instanceof Node;
+    return obj instanceof Node;
   };
   /**
    * Verifies that an object is a *NodeList*
@@ -141,7 +303,7 @@ var zdom = (function (exports) {
    */
 
   var isNodeList = function isNodeList(obj) {
-    return !isNullOrUndefined(obj) && obj instanceof NodeList;
+    return obj instanceof NodeList;
   };
   /**
    * Verifies that an object is an *Element*
@@ -154,15 +316,103 @@ var zdom = (function (exports) {
     return isElementNode(obj) && obj instanceof Element;
   };
   /**
-   * Verifies that an object is an *HTMLElement*
+   * Verifies that an object is an *HTML Element*
    * @param {Element} obj 
+   * @param {string|string[]|string[][]} [kind] 
    * @returns {boolean} Value indicating whether the object is an *HTMLElement*
    * @memberof DOM
    */
 
-  var isHTMLElement = function isHTMLElement(obj) {
-    return isElementNode(obj) && obj instanceof HTMLElement;
+  var isHTMLElement = function isHTMLElement(obj, kind) {
+    if (!(isElementNode(obj) && obj instanceof HTMLElement)) {
+      return false;
+    }
+
+    if (isIterable(kind)) {
+      return isHTMLElementKind(obj, Array.isArray(kind) ? kind : [kind]);
+    }
+
+    return true;
   };
+  var TagNameMapping = {
+    'a': "Anchor",
+    'br': "BR",
+    'dl': "DList",
+    'datalist': "DataList",
+    'fieldset': "FieldSet",
+    'frameset': "FrameSet",
+    'hr': "HR",
+    'h1': "Heading",
+    'h2': "Heading",
+    'h3': "Heading",
+    'h4': "Heading",
+    'h5': "Heading",
+    'h6': "Heading",
+    'li': "LI",
+    'ol': "OList",
+    'optgroup': "OptGroup",
+    'p': "Paragraph",
+    'q': "Quote",
+    'blockquote': "Quote",
+    'caption': "TableCaption",
+    'td': "TableCell",
+    'th': "TableCell",
+    'col': "TableCol",
+    'tr': "TableRow",
+    'tbody': "TableSection",
+    'thead': "TableSection",
+    'tfoot': "TableSection",
+    'textarea': "TextArea",
+    'ul': "UList"
+  };
+  /**
+   * Verifies the tag of an *HTML Element*
+   * @param {HTMLElement} element 
+   * @param {string[]|string[][]} kinds
+   * @returns {boolean}
+   */
+
+  function isHTMLElementKind(element, kinds) {
+    var isInstanceOf = function isInstanceOf(obj) {
+      return element instanceof obj;
+    };
+
+    var hasTag = function hasTag(tag) {
+      return element.tagName === tag.toUpperCase();
+    };
+
+    var isOfType = function isOfType(type) {
+      return Array.isArray(type) ? type.includes(element.type) : element.type === type;
+    };
+
+    some(kinds, function (kind) {
+      if (!isIterable(kind)) {
+        return false;
+      }
+
+      var name = kind;
+      var type = null;
+
+      if (Array.isArray(kind)) {
+        var _kind = _slicedToArray(kind, 2);
+
+        name = _kind[0];
+        type = _kind[1];
+      }
+
+      var interfaceName = "HTML".concat(hasOwn(TagNameMapping, name) ? TagNameMapping[name] : pascalCase(name), "Element");
+
+      if (!(isInstanceOf(window[interfaceName]) || hasTag(name))) {
+        return false;
+      }
+
+      if (isIterable(type) && !isEmpty(type)) {
+        return isOfType(type);
+      }
+
+      return true;
+    });
+  }
   /**
    * Verifies that an object is an *HTMLCollection*
    * @param {Element} obj 
@@ -170,8 +420,9 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
+
   var isHTMLCollection = function isHTMLCollection(obj) {
-    return !isNullOrUndefined(obj) && obj instanceof HTMLCollection;
+    return obj instanceof HTMLCollection;
   };
   /**
    * Verifies that an object is an *DocumentFragment*
@@ -197,6 +448,17 @@ var zdom = (function (exports) {
     template.innerHTML = html.trim();
     return template.content;
   }
+  /* istanbul ignore next */
+
+
+  function _htmlToElement(prop, html) {
+    if (!isString(html)) {
+      return null;
+    }
+
+    var template = createTemplate(html);
+    return template[prop];
+  }
   /**
    * Converts an html string to an HTML Element
    * @param {!string} html 
@@ -205,15 +467,7 @@ var zdom = (function (exports) {
    */
 
 
-  function htmlToElement(html) {
-    if (!isString(html)) {
-      console.error("dom-parse>htmlToElement(html): html must be a string");
-      return null;
-    }
-
-    var template = createTemplate(html);
-    return template.firstChild;
-  }
+  var htmlToElement = _htmlToElement.bind('firstChild');
   /**
    * Converts an html string to a list of HTML Elements
    * @param {!string} html 
@@ -221,14 +475,55 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  function htmlToElements(html) {
-    if (!isString(html)) {
-      console.error("dom-parse>htmlToElements(html): html must be a string");
-      return null;
+  var htmlToElements = _htmlToElement.bind('childNodes');
+  /**
+   * Verifies that an element is visible
+   * @param {!HTMLElement} element 
+   * @returns {boolean}
+   * @memberof DOM
+   */
+
+  function isInViewport(element) {
+    if (!isHTMLElement(element)) {
+      throw new Error("The given element is not a valid HTML Element");
     }
 
-    var template = createTemplate(html);
-    return template.childNodes;
+    var _element$getBoundingC = element.getBoundingClientRect(),
+        top = _element$getBoundingC.top,
+        right = _element$getBoundingC.right,
+        bottom = _element$getBoundingC.bottom,
+        left = _element$getBoundingC.left;
+
+    return top >= 0 && left >= 0 && bottom <= windowHeight() && right <= windowWidth();
+  }
+  /**
+   * Verifies that an element is displayed inside a target element
+   * @param {!HTMLElement} element 
+   * @param {!HTMLElement} target
+   * @returns {boolean}
+   * @memberof DOM
+   */
+
+  function isInElement(element, target) {
+    if (!all([element, target], isHTMLElement)) {
+      throw new Error("The given element is not a valid HTML Element");
+    }
+
+    var _element$getBoundingC2 = element.getBoundingClientRect(),
+        top1 = _element$getBoundingC2.top,
+        right1 = _element$getBoundingC2.right,
+        bottom1 = _element$getBoundingC2.bottom,
+        left1 = _element$getBoundingC2.left;
+
+    var _target$getBoundingCl = target.getBoundingClientRect(),
+        top2 = _target$getBoundingCl.top,
+        right2 = _target$getBoundingCl.right,
+        bottom2 = _target$getBoundingCl.bottom,
+        left2 = _target$getBoundingCl.left;
+
+    return all([[top2, top1], [left2, left1], [right1, right2], [bottom1, bottom2]], function (inner, outer) {
+      return inner <= outer;
+    });
   }
 
   /**
@@ -240,7 +535,7 @@ var zdom = (function (exports) {
 
   function insertBeforeElement(target, element) {
     if (!all([target, element], isElement)) {
-      return null;
+      throw new Error("The given element or target is not a valid HTML Element");
     }
 
     target.insertAdjacentElement('beforebegin', element);
@@ -255,7 +550,7 @@ var zdom = (function (exports) {
 
   function insertAfterElement(target, element) {
     if (!all([target, element], isElement)) {
-      return null;
+      throw new Error("The given element or target is not a valid HTML Element");
     }
 
     target.insertAdjacentElement('afterend', element);
@@ -270,7 +565,7 @@ var zdom = (function (exports) {
 
   function preprendChild(target, element) {
     if (!all([target, element], isElement)) {
-      return null;
+      throw new Error("The given element or target is not a valid HTML Element");
     }
 
     target.insertAdjacentElement('afterbegin', element);
@@ -286,11 +581,11 @@ var zdom = (function (exports) {
 
   function appendChildren(parent, children) {
     if (!isNode(parent)) {
-      return null;
+      throw new Error("The given parent is not a valid Node");
     }
 
     if (!isHTMLCollection(children) && !isIterable(children) || isString(children)) {
-      return null;
+      throw new Error("The given children is not a valid HTMLCollection/HTMLElement array");
     }
 
     var fragment = document.createDocumentFragment();
@@ -324,9 +619,9 @@ var zdom = (function (exports) {
       return "";
     } else if (Array.isArray(c)) {
       return c.join(' ');
-    } else {
-      return c.toString();
     }
+
+    return c.toString();
   };
   /**
    * Verifies that an element has a class
@@ -439,17 +734,6 @@ var zdom = (function (exports) {
 
   function echo(o) {}
   /**
-   * Verifies that an object is an *HTML Select Element*
-   * @param {Element} obj 
-   * @returns {boolean} Value indicating whether the object is an *HTMLSelectElement*
-   * @private
-   */
-
-
-  var isHTMLSelectElement = function isHTMLSelectElement(obj) {
-    return isHTMLElement(obj) && obj instanceof HTMLSelectElement;
-  };
-  /**
    * Sets the attributes of an element
    * @param {!HTMLElement} element element
    * @param {Object} attribute attribute
@@ -457,9 +741,14 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
+
   function addAttributes(element, attribute) {
     if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
+      throw new Error("The given element parameter is not a valid HTML Element");
+    }
+
+    if (!isObject(attribute)) {
+      return element;
     }
 
     var ATTR_MAP = {
@@ -467,15 +756,24 @@ var zdom = (function (exports) {
       accesskey: [assign, 'accessKey'],
       "class": [setClass, element],
       data: [Object.assign, element.dataset],
-      editable: [assign, 'contenteditable'],
+      editable: [assign, 'contentEditable'],
       draggable: [assign],
       hidden: [assign],
       id: [assign],
       lang: [assign],
       html: [assign, 'innerHTML'],
       style: [assign],
+      target: [assign],
       tabindex: [assign, 'tabIndex'],
+      text: [assign, 'textContent'],
       title: [assign],
+      // Quote attributes
+      cite: [assign],
+      // Anchor attributes
+      href: [assign],
+      // Link attributes
+      alt: [assign],
+      src: [assign],
       // Form attributes
       accept: [assign],
       disabled: [assign],
@@ -500,47 +798,32 @@ var zdom = (function (exports) {
   /**
    * Changes the selected option of a `<select>` element
    * @param {!HTMLSelectElement} select
-   * @param {string} val option value to select
+   * @param {string} value option value to select
    * @returns {boolean} value indicating whether the option was found and selected
    * @memberof DOM
    */
 
-  function changeSelectValue(select, val) {
-    if (!isHTMLSelectElement(select)) {
-      throw new Error("The given element is not a valid HTML Select element");
+  function changeSelectValue(select, value) {
+    if (!isHTMLElement(select, "select")) {
+      throw new Error("The given select parameter is not a valid HTML Select element");
     }
 
-    var found = false;
+    if (isNullOrUndefined(value)) {
+      throw new Error("The given value parameter is a null or undefined");
+    }
+
     var options = select.options;
 
-    for (var i = 0; !found && i < options.length; i++) {
+    for (var i = 0; i < options.length; i++) {
       var option = options[i];
 
-      if (option.value == val) {
+      if (option.value === value.toString()) {
         option.selected = true;
-        found = true;
+        return true;
       }
     }
 
-    return found;
-  }
-  /**
-   * Moves an element out of screen
-   * @param {!HTMLElement} element Element
-   * @memberof DOM
-   */
-
-  function conceal(element) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
-    }
-
-    Object.assign(element.style, {
-      position: 'absolute',
-      top: '-9999px',
-      left: '-9999px'
-    });
-    return element;
+    return false;
   }
 
   /**
@@ -557,11 +840,11 @@ var zdom = (function (exports) {
   function create(tagName, _attribute, _children) {
     var element = document.createElement(tagName);
 
-    if (_attribute) {
+    if (!isNullOrUndefined(_attribute)) {
       addAttributes(element, _attribute);
     }
 
-    if (_children) {
+    if (!isNullOrUndefined(_children)) {
       addContent(element, _children);
     }
 
@@ -575,9 +858,15 @@ var zdom = (function (exports) {
    */
 
 
-  var createDocFragment = function createDocFragment() {
-    return document.createDocumentFragment();
-  };
+  function createDocFragment(_children) {
+    var fragment = document.createDocumentFragment();
+
+    if (!isNullOrUndefined(_children)) {
+      addContent(fragment, _children);
+    }
+
+    return fragment;
+  }
   /**
    * Creates a text node
    * @function createTextNode
@@ -764,6 +1053,7 @@ var zdom = (function (exports) {
    * Creates a `br` element \
    * Line break (carriage-return)
    * @function createLineBreak
+   * @returns {HTMLBRElement}
    * @memberof DOM
    */
 
@@ -774,6 +1064,7 @@ var zdom = (function (exports) {
    * Creates a `hr` element \
    * Thematic break
    * @function createThematicBreak
+   * @returns {HTMLHRElement}
    * @memberof DOM
    */
 
@@ -792,21 +1083,14 @@ var zdom = (function (exports) {
   var createParagraph = create.bind(null, 'p');
   /**
    * Creates a `<blockquote>` element with some attributes
+   * @function createBlockQuotation
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLQuoteElement}
    * @memberof DOM
    */
 
-  function createBlockQuotation(cite, attribute, children) {
-    var element = create('blockquote', attribute, children);
-
-    if (cite) {
-      element.cite = cite;
-    }
-
-    return element;
-  }
+  var createBlockQuotation = create.bind(null, 'blockquote');
   /**
    * Creates a `<ul>` element with some attributes
    * @function createUnorderedList
@@ -1170,6 +1454,7 @@ var zdom = (function (exports) {
    */
 
   var createForm = create.bind(null, 'form');
+  var inputTypes = ["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"];
   /**
    * Creates an `<input>` element with a specified type and 
    * optionally some attributes
@@ -1179,8 +1464,7 @@ var zdom = (function (exports) {
    */
 
   function createInputAs(type, _attribute) {
-    if (!["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"].includes(type)) {
-      console.error("Input could not be created: the given type ".concat(type, " is not valid."));
+    if (!inputTypes.includes(type)) {
       return null;
     }
 
@@ -1192,7 +1476,6 @@ var zdom = (function (exports) {
    * Creates an `<input>` element with some attributes
    * @function createInput
    * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLInputElement}
    * @memberof DOM
    */
@@ -1308,6 +1591,7 @@ var zdom = (function (exports) {
    */
 
   var createOutput = create.bind(null, 'output');
+  var buttonTypes = ["button", "submit", "reset"];
   /**
    * Creates a `<button>` element with a specified type and 
    * optionally some attributes and children elements
@@ -1318,8 +1602,7 @@ var zdom = (function (exports) {
    */
 
   function createButtonAs(type, _attribute, _children) {
-    if (!["submit", "reset", "button"].includes(type)) {
-      console.error("Button could not be created: the given type ".concat(type, " is not valid."));
+    if (!buttonTypes.includes(type)) {
       return null;
     }
 
@@ -1421,7 +1704,7 @@ var zdom = (function (exports) {
    * @function createTableHeaderCell
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLTableHeaderCellElement}
+   * @returns {HTMLTableCellElement}
    * @memberof DOM
    */
 
@@ -1431,7 +1714,7 @@ var zdom = (function (exports) {
    * @function createTableCell
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLTableDataCellElement}
+   * @returns {HTMLTableCellElement}
    * @memberof DOM
    */
 
@@ -1447,6 +1730,14 @@ var zdom = (function (exports) {
   /* istanbul ignore next */
 
   function addContent(element, children) {
+    if (!isHTMLElement(element)) {
+      throw new Error("The given element is not a valid HTML Element");
+    }
+
+    if (isNullOrUndefined(children)) {
+      return element;
+    }
+
     if (Array.isArray(children)) {
       appendChildren(element, children);
     } else if (isNode(children)) {
@@ -1557,148 +1848,138 @@ var zdom = (function (exports) {
   }
   /**
    * Gets the previous or next element of the specified element
-   * @param {HTMLElement} el element
    * @param {string} dir sibling direction
+   * @param {HTMLElement} element element
    * @returns {(Element|null)} Element or null
    * @private
    */
 
   /* istanbul ignore next */
 
-  function getElementSibling(el, dir, pred) {
-    var predicate = function predicate(el) {
-      return true;
-    };
+  function getElementSibling(dir, element, pred) {
+    var sibling = element[dir];
 
     if (isFunction(pred)) {
-      predicate = function predicate(el) {
-        return !isNullOrUndefined(el) && pred(el);
-      };
-    }
-
-    var sibling = el[dir];
-
-    while (!predicate(sibling)) {
-      sibling = sibling[dir];
+      while (isElement(sibling) && pred(sibling)) {
+        sibling = sibling[dir];
+      }
     }
 
     return sibling;
   }
   /**
    * Gets the previous element of the specified one in its parent's children list
+   * @function getPreviousElementSibling
    * @param {HTMLElement} el element
-   * @param {*} predCb Search end condition
+   * @param {*} pred Search end condition
    * @returns {(Element|null)} Element or null if the specified element is the first one in the list
    * @memberof DOM
    */
 
 
-  function getPreviousElementSibling(el, predCb) {
-    return getElementSibling(el, "previousElementSibling", predCb);
-  }
+  var getPreviousElementSibling = getElementSibling.bind(null, "previousElementSibling");
   /**
    * Gets the element following the specified one in its parent's children list
+   * @function getNextElementSibling
    * @param {HTMLElement} el element
-   * @param {*} predCb Search end condition
+   * @param {*} pred Search end condition
    * @returns {(Element|null)} Element or null if the specified element is the last one in the list
    * @memberof DOM
    */
 
-  function getNextElementSibling(el, predCb) {
-    return getElementSibling(el, "nextElementSibling", predCb);
-  }
+  var getNextElementSibling = getElementSibling.bind(null, "nextElementSibling");
   /**
    * Finds an ancestor of an element
    * @param {Element} target 
-   * @param {Function} callback Decides whether the target is found
-   * @param {number} [max] Maximum number of iterations
+   * @param {Function} pred Decides whether the target is found
+   * @param {number} [_max] Maximum number of iterations
    * @returns {Element|null}
    * @memberof DOM
    */
 
-  function findAncestor(target, callback, max) {
+  function findAncestor(target, pred, _max) {
     if (!isElement(target)) {
-      return null;
+      throw new Error("The given target parameter is not a valid HTML Element");
     }
 
-    if (!isFunction(callback)) {
-      return null;
+    if (!isFunction(pred)) {
+      throw new Error("The given pred parameter is not a valid Function");
     }
 
     var parent = target.parentElement;
 
-    if (max > 0) {
-      return findAncestorIter(parent, callback, max - 1);
+    if (_max > 0) {
+      return findAncestorIter(parent, pred, _max - 1);
     }
 
-    return findAncestorInf(parent, callback);
+    return findAncestorInf(parent, pred);
   }
   /**
    * Look an ancestor of an element using a callback
    * @param {Element} target 
-   * @param {Function} callback Decides whether the target is found
+   * @param {Function} pred Decides whether the target is found
    * @private
    */
 
   /* istanbul ignore next */
 
-  function findAncestorInf(target, callback) {
+  function findAncestorInf(target, pred) {
     if (isNullOrUndefined(target)) {
       return null;
     }
 
-    if (callback(target)) {
+    if (pred(target)) {
       return target;
     }
 
-    return findAncestorInf(target.parentElement, callback);
+    return findAncestorInf(target.parentElement, pred);
   }
   /**
    * Look for an ancestor of an element using a callback with a maximum number of iteration
    * @param {Element} target 
-   * @param {Function} callback Decides whether the target is found
-   * @param {number} [max] Maximum number of iterations
+   * @param {Function} pred Decides whether the target is found
+   * @param {number} max Maximum number of iterations
    * @private
    */
 
   /* istanbul ignore next */
 
 
-  function findAncestorIter(target, callback, max) {
+  function findAncestorIter(target, pred, max) {
     if (isNullOrUndefined(target) || max === 0) {
       return null;
     }
 
-    if (callback(target)) {
+    if (pred(target)) {
       return target;
     }
 
-    return findAncestorIter(target.parentElement, callback, max - 1);
+    return findAncestorIter(target.parentElement, pred, max - 1);
   }
 
   /**
    * Removes all children of a node from the DOM or 
-   * those that satisfies the predicate function
+   * those that satisfy the predicate function if given
    * @param {!Node} node 
-   * @param {Function} [callback] Decides whether the node should be removed
+   * @param {Function} [_callback] Decides whether the node should be removed
    * @memberof DOM
    */
 
-  function removeChildren(node, callback) {
+  function removeChildren(node, _callback) {
     if (!isNode(node)) {
-      return null;
+      throw new Error("The given node parameter is not a valid Node");
     }
 
-    if (!isFunction(callback)) {
-      return removeAllChildren(node);
+    if (isFunction(_callback)) {
+      Array.from(node.childNodes).forEach(function (n) {
+        if (_callback(n)) {
+          node.removeChild(n);
+        }
+      });
+      return node;
     }
 
-    Array.from(node.childNodes).forEach(function (n) {
-      if (callback(n)) {
-        node.removeChild(n);
-      }
-    });
-    return node;
+    return removeAllChildren(node);
   }
   /**
    * Removes all children of a node from the DOM
@@ -1717,25 +1998,26 @@ var zdom = (function (exports) {
   }
 
   /**
-   * Gets the window's width
-   * @memberof DOM
-   */
-  function windowWidth() {
-    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-  }
-
-  /**
-   * Copy to clipboard
-   * @param {HTMLElement|string} value 
-   * @returns {boolean} Value indicating whether the the content has been succesfully copied to the clipboard
+   * Copy content to clipboard
+   * @param {HTMLElement|string} value
+   * @returns {boolean} Value indicating whether the content has been succesfully copied to the clipboard
    * @memberof DOM
    */
 
   function copytoClipboard(value) {
+    if (isNullOrUndefined(value)) {
+      return false;
+    }
+
     var element = createTextArea({
-      value: isHTMLElement(value) ? value.textContent : value,
+      value: isHTMLElement(value) ? value.textContent : value.toString(),
       readonly: true
     });
+
+    if (!isHTMLElement(element)) {
+      return false;
+    }
+
     document.body.appendChild(element);
     element.select();
     document.execCommand('copy');
@@ -1748,7 +2030,6 @@ var zdom = (function (exports) {
   exports.appendChildren = appendChildren;
   exports.changeSelectValue = changeSelectValue;
   exports.cloneTemplate = cloneTemplate;
-  exports.conceal = conceal;
   exports.copytoClipboard = copytoClipboard;
   exports.createAbbreviation = createAbbreviation;
   exports.createAnchor = createAnchor;
@@ -1843,7 +2124,8 @@ var zdom = (function (exports) {
   exports.isElement = isElement;
   exports.isHTMLCollection = isHTMLCollection;
   exports.isHTMLElement = isHTMLElement;
-  exports.isHTMLSelectElement = isHTMLSelectElement;
+  exports.isInElement = isInElement;
+  exports.isInViewport = isInViewport;
   exports.isNode = isNode;
   exports.isNodeList = isNodeList;
   exports.preprendChild = preprendChild;
@@ -1851,6 +2133,7 @@ var zdom = (function (exports) {
   exports.removeClass = removeClass;
   exports.setClass = setClass;
   exports.toggleClass = toggleClass;
+  exports.windowHeight = windowHeight;
   exports.windowWidth = windowWidth;
 
   return exports;

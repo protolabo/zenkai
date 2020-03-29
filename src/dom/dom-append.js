@@ -1,5 +1,4 @@
-import { isIterable, isString } from '@datatype/index.js';
-import { all } from '@utils/index.js';
+import { isIterable, isString, all } from '@std/index.js';
 import { isNode, isElement, isHTMLCollection } from './dom-parse.js';
 
 /**
@@ -10,7 +9,7 @@ import { isNode, isElement, isHTMLCollection } from './dom-parse.js';
  */
 export function insertBeforeElement(target, element) {
     if (!all([target, element], isElement)) {
-        return null;
+        throw new Error("The given element or target is not a valid HTML Element");
     }
 
     target.insertAdjacentElement('beforebegin', element);
@@ -26,7 +25,7 @@ export function insertBeforeElement(target, element) {
  */
 export function insertAfterElement(target, element) {
     if (!all([target, element], isElement)) {
-        return null;
+        throw new Error("The given element or target is not a valid HTML Element");
     }
 
     target.insertAdjacentElement('afterend', element);
@@ -42,7 +41,7 @@ export function insertAfterElement(target, element) {
  */
 export function preprendChild(target, element) {
     if (!all([target, element], isElement)) {
-        return null;
+        throw new Error("The given element or target is not a valid HTML Element");
     }
 
     target.insertAdjacentElement('afterbegin', element);
@@ -59,10 +58,11 @@ export function preprendChild(target, element) {
  */
 export function appendChildren(parent, children) {
     if (!isNode(parent)) {
-        return null;
+        throw new Error("The given parent is not a valid Node");
     }
+    
     if (!isHTMLCollection(children) && !isIterable(children) || isString(children)) {
-        return null;
+        throw new Error("The given children is not a valid HTMLCollection/HTMLElement array");
     }
 
     var fragment = document.createDocumentFragment();

@@ -2,7 +2,7 @@
  * @namespace URI
  */
 
-import { isNullOrWhitespace, valOrDefault } from '@datatype/index.js';
+import { isNullOrWhitespace, valOrDefault } from '@std/index.js';
 
 const encode = encodeURIComponent;
 

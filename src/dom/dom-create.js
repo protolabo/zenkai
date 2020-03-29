@@ -1,4 +1,5 @@
-import { isNode } from "./dom-parse.js";
+import { isNullOrUndefined } from "@std/index.js";
+import { isNode, isHTMLElement } from "./dom-parse.js";
 import { appendChildren } from "./dom-append.js";
 import { addAttributes } from "./element-manip.js";
 
@@ -13,12 +14,15 @@ import { addAttributes } from "./element-manip.js";
 /* istanbul ignore next */
 function create(tagName, _attribute, _children) {
     var element = document.createElement(tagName);
-    if (_attribute) {
+
+    if (!isNullOrUndefined(_attribute)) {
         addAttributes(element, _attribute);
     }
-    if (_children) {
+
+    if (!isNullOrUndefined(_children)) {
         addContent(element, _children);
     }
+
     return element;
 }
 
@@ -28,7 +32,15 @@ function create(tagName, _attribute, _children) {
  * @returns {DocumentFragment}
  * @memberof DOM
  */
-export const createDocFragment = () => document.createDocumentFragment();
+export function createDocFragment(_children) {
+    var fragment = document.createDocumentFragment();
+
+    if (!isNullOrUndefined(_children)) {
+        addContent(fragment, _children);
+    }
+
+    return fragment;
+}
 
 /**
  * Creates a text node
@@ -52,6 +64,7 @@ export function createLink(href, rel) {
     if (href) {
         link.href = href;
     }
+
     if (rel) {
         link.rel = rel;
     }
@@ -213,6 +226,7 @@ export const createDiv = create.bind(null, 'div');
  * Creates a `br` element \
  * Line break (carriage-return)
  * @function createLineBreak
+ * @returns {HTMLBRElement}
  * @memberof DOM
  */
 export const createLineBreak = () => create('br');
@@ -221,6 +235,7 @@ export const createLineBreak = () => create('br');
  * Creates a `hr` element \
  * Thematic break
  * @function createThematicBreak
+ * @returns {HTMLHRElement}
  * @memberof DOM
  */
 export const createThematicBreak = () => create('hr');
@@ -238,20 +253,13 @@ export const createParagraph = create.bind(null, 'p');
 
 /**
  * Creates a `<blockquote>` element with some attributes
+ * @function createBlockQuotation
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLQuoteElement}
  * @memberof DOM
  */
-export function createBlockQuotation(cite, attribute, children) {
-    var element = create('blockquote', attribute, children);
-
-    if (cite) {
-        element.cite = cite;
-    }
-
-    return element;
-}
+export const createBlockQuotation = create.bind(null, 'blockquote');
 
 /**
  * Creates a `<ul>` element with some attributes
@@ -348,6 +356,7 @@ export function createImage(src, alt, _attribute) {
     if (src) {
         img.src = src;
     }
+
     if (alt) {
         img.alt = alt;
     }
@@ -616,6 +625,9 @@ export const createCode = create.bind(null, "code");
  */
 export const createForm = create.bind(null, 'form');
 
+const inputTypes = ["button", "checkbox", "color", "date", "datetime-local", "email", "file",
+    "hidden", "image", "month", "number", "password", "radio", "range", "reset",
+    "search", "submit", "tel", "text", "time", "url", "week"];
 
 /**
  * Creates an `<input>` element with a specified type and 
@@ -625,10 +637,7 @@ export const createForm = create.bind(null, 'form');
  * @memberof DOM
  */
 export function createInputAs(type, _attribute) {
-    if (!["button", "checkbox", "color", "date", "datetime-local", "email", "file",
-        "hidden", "image", "month", "number", "password", "radio", "range", "reset",
-        "search", "submit", "tel", "text", "time", "url", "week"].includes(type)) {
-        console.error(`Input could not be created: the given type ${type} is not valid.`);
+    if (!inputTypes.includes(type)) {
         return null;
     }
 
@@ -642,7 +651,6 @@ export function createInputAs(type, _attribute) {
  * Creates an `<input>` element with some attributes
  * @function createInput
  * @param {object} _attribute 
- * @param {Text|HTMLElement|HTMLElement[]} _children 
  * @returns {HTMLInputElement}
  * @memberof DOM
  */
@@ -758,6 +766,7 @@ export const createProgress = create.bind(null, 'progress');
  */
 export const createOutput = create.bind(null, 'output');
 
+const buttonTypes = ["button", "submit", "reset"];
 
 /**
  * Creates a `<button>` element with a specified type and 
@@ -768,8 +777,7 @@ export const createOutput = create.bind(null, 'output');
  * @memberof DOM
  */
 export function createButtonAs(type, _attribute, _children) {
-    if (!["submit", "reset", "button"].includes(type)) {
-        console.error(`Button could not be created: the given type ${type} is not valid.`);
+    if (!buttonTypes.includes(type)) {
         return null;
     }
 
@@ -873,7 +881,7 @@ export const createTableRow = create.bind(null, "tr");
  * @function createTableHeaderCell
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
- * @returns {HTMLTableHeaderCellElement}
+ * @returns {HTMLTableCellElement}
  * @memberof DOM
  */
 export const createTableHeaderCell = create.bind(null, "th");
@@ -883,7 +891,7 @@ export const createTableHeaderCell = create.bind(null, "th");
  * @function createTableCell
  * @param {object} _attribute 
  * @param {Text|HTMLElement|HTMLElement[]} _children 
- * @returns {HTMLTableDataCellElement}
+ * @returns {HTMLTableCellElement}
  * @memberof DOM
  */
 export const createTableCell = create.bind(null, "td");
@@ -897,6 +905,14 @@ export const createTableCell = create.bind(null, "td");
  */
 /* istanbul ignore next */
 function addContent(element, children) {
+    if (!isHTMLElement(element)) {
+        throw new Error("The given element is not a valid HTML Element");
+    }
+
+    if (isNullOrUndefined(children)) {
+        return element;
+    }
+
     if (Array.isArray(children)) {
         appendChildren(element, children);
     } else if (isNode(children)) {

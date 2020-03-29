@@ -1,30 +1,30 @@
-import { isFunction } from '@datatype/index.js';
+import { isFunction } from '@std/index.js';
 import { isNode } from './dom-parse.js';
 
 /**
  * Removes all children of a node from the DOM or 
- * those that satisfies the predicate function
+ * those that satisfy the predicate function if given
  * @param {!Node} node 
- * @param {Function} [callback] Decides whether the node should be removed
+ * @param {Function} [_callback] Decides whether the node should be removed
  * @memberof DOM
  */
-export function removeChildren(node, callback) {
+export function removeChildren(node, _callback) {
     if (!isNode(node)) {
-        return null;
+        throw new Error("The given node parameter is not a valid Node");
     }
 
-    if (!isFunction(callback)) {
-        return removeAllChildren(node);
+    if (isFunction(_callback)) {
+        Array.from(node.childNodes).forEach(n => {
+            if (_callback(n)) {
+                node.removeChild(n);
+            }
+        });
+
+        return node;
     }
 
-    Array.from(node.childNodes).forEach(n => {
-        if (callback(n)) {
-            node.removeChild(n);
-        }
-    });
+    return removeAllChildren(node);
 
-
-    return node;
 }
 
 /**

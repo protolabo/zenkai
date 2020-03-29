@@ -28,16 +28,13 @@ export default [
     buildExport('./src/index.js', buildOutput('zenkai.min.js', 'zenkai')),
     buildExport('./src/index.js', buildOutput('zenkai.js', 'zenkai', { sourcemap: false })),
     buildExport('./src/index.js', buildOutput('zenkai.esm.js', 'zenkai', { sourcemap: false, format: 'esm' })),
-    // Utils bundle
-    buildExport('./src/utils/index.js', buildOutput('zenkai-utils.min.js', 'zutils')),
-    buildExport('./src/utils/index.js', buildOutput('zenkai-utils.js', 'zutils', { sourcemap: false })),
-    // Components bundle
-    buildExport('./src/components/index.js', buildOutput('zenkai-components.min.js', 'zcomponents')),
-    buildExport('./src/components/index.js', buildOutput('zenkai-components.js', 'zcomponents', { sourcemap: false })),
+    // UI bundle
+    buildExport('./src/ui/index.js', buildOutput('zenkai-ui.min.js', 'zui')),
+    buildExport('./src/ui/index.js', buildOutput('zenkai-ui.js', 'zui', { sourcemap: false })),
     // DOM bundle
     buildExport('./src/dom/index.js', buildOutput('zenkai-dom.min.js', 'zdom')),
     buildExport('./src/dom/index.js', buildOutput('zenkai-dom.js', 'zdom', { sourcemap: false })),
-    // DataType bundle
-    buildExport('./src/datatype/index.js', buildOutput('zenkai-type.min.js', 'ztype')),
-    buildExport('./src/datatype/index.js', buildOutput('zenkai-type.js', 'ztype', { sourcemap: false }), false)
+    // STD bundle
+    buildExport('./src/std/index.js', buildOutput('zenkai-std.min.js', 'zstd')),
+    buildExport('./src/std/index.js', buildOutput('zenkai-std.js', 'zstd', { sourcemap: false }), false)
 ];

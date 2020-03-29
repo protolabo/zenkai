@@ -1,4 +1,4 @@
-import { isNullOrWhitespace, isNullOrUndefined } from '@datatype/index.js';
+import { isNullOrWhitespace, isNullOrUndefined } from '@std/index.js';
 import { isHTMLElement } from './dom-parse.js';
 
 /**
@@ -20,9 +20,9 @@ const parseClass = (c) => {
         return "";
     } else if (Array.isArray(c)) {
         return c.join(' ');
-    } else {
-        return c.toString();
     }
+
+    return c.toString();
 };
 
 /**
@@ -62,7 +62,7 @@ export function removeClass(element, attrClass) {
     } else {
         remove(element, attrClass);
     }
-    
+
     element.className = formatClass(element.className);
 
     return element;

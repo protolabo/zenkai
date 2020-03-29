@@ -1,17 +1,10 @@
-import { setClass } from './element-class-manip.js';
+import { isObject, isNullOrUndefined } from '@std/index.js';
 import { isHTMLElement } from './dom-parse.js';
+import { setClass } from './element-class-manip.js';
 
 /* istanbul ignore next */
 function echo(o) { }
 
-
-/**
- * Verifies that an object is an *HTML Select Element*
- * @param {Element} obj 
- * @returns {boolean} Value indicating whether the object is an *HTMLSelectElement*
- * @private
- */
-export const isHTMLSelectElement = (obj) => isHTMLElement(obj) && obj instanceof HTMLSelectElement;
 
 /**
  * Sets the attributes of an element
@@ -22,7 +15,11 @@ export const isHTMLSelectElement = (obj) => isHTMLElement(obj) && obj instanceof
  */
 export function addAttributes(element, attribute) {
     if (!isHTMLElement(element)) {
-        throw new Error("The given element is not a valid HTML Element");
+        throw new Error("The given element parameter is not a valid HTML Element");
+    }
+
+    if (!isObject(attribute)) {
+        return element;
     }
 
     const ATTR_MAP = {
@@ -30,15 +27,24 @@ export function addAttributes(element, attribute) {
         accesskey: [assign, 'accessKey'],
         class: [setClass, element],
         data: [Object.assign, element.dataset],
-        editable: [assign, 'contenteditable'],
+        editable: [assign, 'contentEditable'],
         draggable: [assign],
         hidden: [assign],
         id: [assign],
         lang: [assign],
         html: [assign, 'innerHTML'],
         style: [assign],
+        target: [assign],
         tabindex: [assign, 'tabIndex'],
+        text: [assign, 'textContent'],
         title: [assign],
+        // Quote attributes
+        cite: [assign],
+        // Anchor attributes
+        href: [assign],
+        // Link attributes
+        alt: [assign],
+        src: [assign],
         // Form attributes
         accept: [assign],
         disabled: [assign],
@@ -64,43 +70,28 @@ export function addAttributes(element, attribute) {
 /**
  * Changes the selected option of a `<select>` element
  * @param {!HTMLSelectElement} select
- * @param {string} val option value to select
+ * @param {string} value option value to select
  * @returns {boolean} value indicating whether the option was found and selected
  * @memberof DOM
  */
-export function changeSelectValue(select, val) {
-    if (!isHTMLSelectElement(select)) {
-        throw new Error("The given element is not a valid HTML Select element");
+export function changeSelectValue(select, value) {
+    if (!isHTMLElement(select, "select")) {
+        throw new Error("The given select parameter is not a valid HTML Select element");
     }
 
-    var found = false;
+    if (isNullOrUndefined(value)) {
+        throw new Error("The given value parameter is a null or undefined");
+    }
+
     var options = select.options;
-    for (let i = 0; !found && i < options.length; i++) {
+    for (let i = 0; i < options.length; i++) {
         let option = options[i];
-        if (option.value == val) {
+
+        if (option.value === value.toString()) {
             option.selected = true;
-            found = true;
+            return true;
         }
     }
 
-    return found;
-}
-
-/**
- * Moves an element out of screen
- * @param {!HTMLElement} element Element
- * @memberof DOM
- */
-export function conceal(element) {
-    if (!isHTMLElement(element)) {
-        throw new Error("The given element is not a valid HTML Element");
-    }
-
-    Object.assign(element.style, {
-        position: 'absolute',
-        top: '-9999px',
-        left: '-9999px'
-    });
-
-    return element;
+    return false;
 }

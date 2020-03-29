@@ -10,7 +10,7 @@ const ATTRIBUTE_MAPPER = {
     class: 'className',
     // data: 'dataset',
     draggable: 'draggable',
-    editable: 'contenteditable',
+    editable: 'contentEditable',
     hidden: 'hidden',
     id: 'id',
     lang: 'lang',
@@ -18,6 +18,7 @@ const ATTRIBUTE_MAPPER = {
     readonly: 'readOnly',
     tabindex: 'tabIndex',
     title: 'title',
+    text: 'textContent',
     value: 'value',
 };
 
@@ -41,7 +42,8 @@ describe('Element manipulation helpers', function () {
                 editable: false,
                 id: 'anid',
                 readonly: false,
-                title: 'some title'
+                text: 'lorem ipsum',
+                title: 'some title',
             };
 
             var div = document.createElement("div");

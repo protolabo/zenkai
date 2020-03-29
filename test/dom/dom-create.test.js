@@ -47,13 +47,14 @@ const ATTRIBUTE_MAPPER = {
     class: 'className',
     // data: 'dataset',
     draggable: 'draggable',
-    editable: 'contenteditable',
+    editable: 'contentEditable',
     hidden: 'hidden',
     id: 'id',
     lang: 'lang',
     placeholder: 'placeholder',
     readonly: 'readOnly',
     tabindex: 'tabIndex',
+    text: 'textContent',
     title: 'title',
     value: 'value',
 };
@@ -79,6 +80,7 @@ function createAttribute() {
         'placeholder',
         'readonly:boolean',
         'tabindex:number',
+        'text',
         'title',
     ];
 

@@ -6,4 +6,4 @@
  * @type string
  */
 
-export const version = '0.7.0';
+export const version = '0.9.18';

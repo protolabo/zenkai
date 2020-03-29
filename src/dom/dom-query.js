@@ -1,6 +1,5 @@
-﻿import { isFunction, isNullOrUndefined, valOrDefault, isNullOrWhitespace } from '@datatype/index.js';
+﻿import { isFunction, isNullOrUndefined, valOrDefault, isNullOrWhitespace } from '@std/index.js';
 import { isElement } from './dom-parse.js';
-
 
 /**
  * Checks whether the selector represents a `class`
@@ -27,7 +26,7 @@ const isIdSelector = (selector) => /^#[a-zA-Z0-9_-]+$/.test(selector);
 export function getElement(selector, _container) {
     var container = valOrDefault(_container, document);
 
-    if(isNullOrWhitespace(selector)) {
+    if (isNullOrWhitespace(selector)) {
         return null;
     }
 
@@ -56,7 +55,7 @@ export function getElement(selector, _container) {
 export function getElements(selector, _container) {
     var container = valOrDefault(_container, document);
 
-    if(isNullOrWhitespace(selector)) {
+    if (isNullOrWhitespace(selector)) {
         return null;
     }
 
@@ -95,21 +94,19 @@ export function cloneTemplate(template, deep) {
 
 /**
  * Gets the previous or next element of the specified element
- * @param {HTMLElement} el element
  * @param {string} dir sibling direction
+ * @param {HTMLElement} element element
  * @returns {(Element|null)} Element or null
  * @private
  */
 /* istanbul ignore next */
-function getElementSibling(el, dir, pred) {
-    var predicate = (el) => true;
-    if (isFunction(pred)) {
-        predicate = (el) => !isNullOrUndefined(el) && pred(el);
-    }
+function getElementSibling(dir, element, pred) {
+    var sibling = element[dir];
 
-    var sibling = el[dir];
-    while (!predicate(sibling)) {
-        sibling = sibling[dir];
+    if (isFunction(pred)) {
+        while (isElement(sibling) && pred(sibling)) {
+            sibling = sibling[dir];
+        }
     }
 
     return sibling;
@@ -117,84 +114,85 @@ function getElementSibling(el, dir, pred) {
 
 /**
  * Gets the previous element of the specified one in its parent's children list
+ * @function getPreviousElementSibling
  * @param {HTMLElement} el element
- * @param {*} predCb Search end condition
+ * @param {*} pred Search end condition
  * @returns {(Element|null)} Element or null if the specified element is the first one in the list
  * @memberof DOM
  */
-export function getPreviousElementSibling(el, predCb) { 
-    return getElementSibling(el, "previousElementSibling", predCb); 
-}
+export const getPreviousElementSibling = getElementSibling.bind(null, "previousElementSibling");
 
 /**
  * Gets the element following the specified one in its parent's children list
+ * @function getNextElementSibling
  * @param {HTMLElement} el element
- * @param {*} predCb Search end condition
+ * @param {*} pred Search end condition
  * @returns {(Element|null)} Element or null if the specified element is the last one in the list
  * @memberof DOM
  */
-export function getNextElementSibling(el, predCb) { 
-    return getElementSibling(el, "nextElementSibling", predCb); 
-}
+export const getNextElementSibling = getElementSibling.bind(null, "nextElementSibling");
 
 /**
  * Finds an ancestor of an element
  * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
- * @param {number} [max] Maximum number of iterations
+ * @param {Function} pred Decides whether the target is found
+ * @param {number} [_max] Maximum number of iterations
  * @returns {Element|null}
  * @memberof DOM
  */
-export function findAncestor(target, callback, max) {
+export function findAncestor(target, pred, _max) {
     if (!isElement(target)) {
-        return null;
+        throw new Error("The given target parameter is not a valid HTML Element");
     }
-    if (!isFunction(callback)) {
-        return null;
+
+    if (!isFunction(pred)) {
+        throw new Error("The given pred parameter is not a valid Function");
     }
 
     var parent = target.parentElement;
-    if (max > 0) {
-        return findAncestorIter(parent, callback, max - 1);
+    
+    if (_max > 0) {
+        return findAncestorIter(parent, pred, _max - 1);
     }
-    return findAncestorInf(parent, callback);
+
+    return findAncestorInf(parent, pred);
 }
 
 /**
  * Look an ancestor of an element using a callback
  * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
+ * @param {Function} pred Decides whether the target is found
  * @private
  */
 /* istanbul ignore next */
-function findAncestorInf(target, callback) {
+function findAncestorInf(target, pred) {
     if (isNullOrUndefined(target)) {
         return null;
     }
 
-    if (callback(target)) {
+    if (pred(target)) {
         return target;
     }
 
-    return findAncestorInf(target.parentElement, callback);
+    return findAncestorInf(target.parentElement, pred);
 }
 
 /**
  * Look for an ancestor of an element using a callback with a maximum number of iteration
  * @param {Element} target 
- * @param {Function} callback Decides whether the target is found
- * @param {number} [max] Maximum number of iterations
+ * @param {Function} pred Decides whether the target is found
+ * @param {number} max Maximum number of iterations
  * @private
  */
 /* istanbul ignore next */
-function findAncestorIter(target, callback, max) {
+function findAncestorIter(target, pred, max) {
     if (isNullOrUndefined(target) || max === 0) {
         return null;
     }
 
-    if (callback(target)) {
+    if (pred(target)) {
         return target;
     }
 
-    return findAncestorIter(target.parentElement, callback, max - 1);
+    return findAncestorIter(target.parentElement, pred, max - 1);
 }

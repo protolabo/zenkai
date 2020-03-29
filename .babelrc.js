@@ -16,7 +16,8 @@ const plugins = [
             "alias": {
                 "@src": "./src",
                 "@dom": "./src/dom",
-                "@datatype": "./src/datatype",
+                "@ui": "./src/ui",
+                "@std": "./src/std",
                 "@utils": "./src/utils"
             }
         }
