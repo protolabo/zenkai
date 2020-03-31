@@ -1,6 +1,6 @@
 import { isDerivedOf, isFunction, valOrDefault } from "@std/index.js";
 import {
-    getTemplate, cloneTemplate, addClass, removeClass, removeChildren,
+    getTemplate, cloneTemplate, removeChildren,
     createH3, createButton, appendChildren, isHTMLElement
 } from "@dom/index.js";
 import { show, hide } from "../utils/index.js.js";
@@ -74,10 +74,10 @@ const ModalWindow = {
             this.beforeOpen();
         }
 
-        removeClass(this.container, 'close');
+        this.container.classList.remove('close');
         setTimeout(() => {
             this.show();
-            addClass(this.container, 'open');
+            this.container.classList.add('open');
         }, 100);
 
         if (isFunction(callback)) {
@@ -97,10 +97,10 @@ const ModalWindow = {
             this.beforeClose();
         }
 
-        removeClass(this.container, 'open');
+        this.container.classList.remove('open');
         setTimeout(() => {
             if (this.container) {
-                addClass(this.container, 'close');
+                this.container.classList.add('close');
             }
         }, 100);
 

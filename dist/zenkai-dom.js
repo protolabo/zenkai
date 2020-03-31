@@ -596,12 +596,16 @@ var zdom = (function (exports) {
     return parent;
   }
 
+  /* istanbul ignore next */
+
+  function echo(o) {}
   /**
    * Removes additional spaces in class attribute
    * @param {string} c class attribute's value
    * @returns {string} formatted value
    * @private
    */
+
 
   var formatClass = function formatClass(c) {
     return c.replace(/\s+/g, ' ').trim();
@@ -623,116 +627,11 @@ var zdom = (function (exports) {
 
     return c.toString();
   };
-  /**
-   * Verifies that an element has a class
-   * @param {!HTMLElement} element element
-   * @param {string} className class
-   * @returns {boolean} value indicating whether the element has the class
-   * @memberof DOM
-   */
-
-
-  function hasClass(element, className) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
-    }
-
-    return element.className.split(" ").includes(className);
-  }
-  /**
-   * Removes a class from an element if it exists
-   * @param {!HTMLElement} element element
-   * @param {string|Array} attrClass class
-   * @memberof DOM
-   */
-
-  function removeClass(element, attrClass) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
-    }
-
-    var remove = function remove(el, c) {
-      if (hasClass(el, c)) {
-        el.className = el.className.replace(c, '');
-      }
-    };
-
-    if (Array.isArray(attrClass)) {
-      attrClass.forEach(function (val) {
-        return remove(element, val);
-      });
-    } else {
-      remove(element, attrClass);
-    }
-
-    element.className = formatClass(element.className);
-    return element;
-  }
-  /**
-   * Adds one or many classes to an element if it doesn't exist
-   * @param {!HTMLElement} element Element
-   * @param {string|string[]} attrClass classes
-   * @returns {HTMLElement} the element
-   * @memberof DOM
-   */
-
-  function addClass(element, attrClass) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
-    }
-
-    var parsedClass = parseClass(attrClass);
-
-    if (isNullOrWhitespace(element.className)) {
-      element.className = parsedClass;
-    } else if (!hasClass(element, parsedClass)) {
-      element.className += " " + parsedClass;
-    }
-
-    element.className = formatClass(element.className);
-    return element;
-  }
-  /**
-   * Adds or removes a class from an element depending on the class's presence.
-   * @param {!HTMLElement} element 
-   * @param {string} attrClass ClassName
-   * @returns {HTMLElement} the element
-   * @memberof DOM
-   */
-
-  function toggleClass(element, attrClass) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
-    }
-
-    if (hasClass(element, attrClass)) {
-      removeClass(element, attrClass);
-    } else {
-      addClass(element, attrClass);
-    }
-
-    return element;
-  }
-  /**
-   * Sets classes to an element
-   * @param {!HTMLElement} element 
-   * @param {string|string[]} attrClass classes 
-   * @returns {HTMLElement} the element
-   * @memberof DOM
-   */
 
   function setClass(element, attrClass) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
-    }
-
     element.className = formatClass(parseClass(attrClass));
     return element;
   }
-
-  /* istanbul ignore next */
-
-  function echo(o) {}
   /**
    * Sets the attributes of an element
    * @param {!HTMLElement} element element
@@ -2026,7 +1925,6 @@ var zdom = (function (exports) {
   }
 
   exports.addAttributes = addAttributes;
-  exports.addClass = addClass;
   exports.appendChildren = appendChildren;
   exports.changeSelectValue = changeSelectValue;
   exports.cloneTemplate = cloneTemplate;
@@ -2115,7 +2013,6 @@ var zdom = (function (exports) {
   exports.getNextElementSibling = getNextElementSibling;
   exports.getPreviousElementSibling = getPreviousElementSibling;
   exports.getTemplate = getTemplate;
-  exports.hasClass = hasClass;
   exports.htmlToElement = htmlToElement;
   exports.htmlToElements = htmlToElements;
   exports.insertAfterElement = insertAfterElement;
@@ -2130,9 +2027,6 @@ var zdom = (function (exports) {
   exports.isNodeList = isNodeList;
   exports.preprendChild = preprendChild;
   exports.removeChildren = removeChildren;
-  exports.removeClass = removeClass;
-  exports.setClass = setClass;
-  exports.toggleClass = toggleClass;
   exports.windowHeight = windowHeight;
   exports.windowWidth = windowWidth;
 

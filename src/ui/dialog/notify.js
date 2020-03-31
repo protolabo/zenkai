@@ -1,5 +1,5 @@
 import { isDerivedOf, isFunction, valOrDefault } from "@std/index.js";
-import { getTemplate, cloneTemplate, addClass, removeClass, removeChildren } from "@dom/index.js";
+import { getTemplate, cloneTemplate, removeChildren } from "@dom/index.js";
 import { show, hide } from "../utils/index.js.js";
 
 export const Notify = {
@@ -66,7 +66,7 @@ export const Notify = {
             this.beforeOpen();
         }
 
-        addClass(this.container, 'open');
+        this.container.classList.add('open');
         this.isActive = true;
 
         // Close notification after timeout
@@ -74,7 +74,7 @@ export const Notify = {
             if (isFunction(this.beforeClose)) {
                 this.beforeClose();
             }
-            removeClass(this.container, 'open');
+            this.container.classList.remove('open');
             if (isFunction(this.afterClose)) {
                 this.afterClose();
             }

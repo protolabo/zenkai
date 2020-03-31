@@ -451,12 +451,16 @@ var zui = (function (exports) {
     return parent;
   }
 
+  /* istanbul ignore next */
+
+  function echo(o) {}
   /**
    * Removes additional spaces in class attribute
    * @param {string} c class attribute's value
    * @returns {string} formatted value
    * @private
    */
+
 
   var formatClass = function formatClass(c) {
     return c.replace(/\s+/g, ' ').trim();
@@ -478,95 +482,11 @@ var zui = (function (exports) {
 
     return c.toString();
   };
-  /**
-   * Verifies that an element has a class
-   * @param {!HTMLElement} element element
-   * @param {string} className class
-   * @returns {boolean} value indicating whether the element has the class
-   * @memberof DOM
-   */
-
-
-  function hasClass(element, className) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
-    }
-
-    return element.className.split(" ").includes(className);
-  }
-  /**
-   * Removes a class from an element if it exists
-   * @param {!HTMLElement} element element
-   * @param {string|Array} attrClass class
-   * @memberof DOM
-   */
-
-  function removeClass(element, attrClass) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
-    }
-
-    var remove = function remove(el, c) {
-      if (hasClass(el, c)) {
-        el.className = el.className.replace(c, '');
-      }
-    };
-
-    if (Array.isArray(attrClass)) {
-      attrClass.forEach(function (val) {
-        return remove(element, val);
-      });
-    } else {
-      remove(element, attrClass);
-    }
-
-    element.className = formatClass(element.className);
-    return element;
-  }
-  /**
-   * Adds one or many classes to an element if it doesn't exist
-   * @param {!HTMLElement} element Element
-   * @param {string|string[]} attrClass classes
-   * @returns {HTMLElement} the element
-   * @memberof DOM
-   */
-
-  function addClass(element, attrClass) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
-    }
-
-    var parsedClass = parseClass(attrClass);
-
-    if (isNullOrWhitespace(element.className)) {
-      element.className = parsedClass;
-    } else if (!hasClass(element, parsedClass)) {
-      element.className += " " + parsedClass;
-    }
-
-    element.className = formatClass(element.className);
-    return element;
-  }
-  /**
-   * Sets classes to an element
-   * @param {!HTMLElement} element 
-   * @param {string|string[]} attrClass classes 
-   * @returns {HTMLElement} the element
-   * @memberof DOM
-   */
 
   function setClass(element, attrClass) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
-    }
-
     element.className = formatClass(parseClass(attrClass));
     return element;
   }
-
-  /* istanbul ignore next */
-
-  function echo(o) {}
   /**
    * Sets the attributes of an element
    * @param {!HTMLElement} element element
@@ -1555,20 +1475,40 @@ var zui = (function (exports) {
     return findAncestorIter(target.parentElement, pred, max - 1);
   }
 
+  /**
+   * Update class related to the action *move label down*
+   * @param {HTMLElement} label 
+   */
+
   var moveDown = function moveDown(label) {
-    return addClass(label, 'down');
+    return label.classList.add('down');
   };
+  /**
+   * Update class related to the action *move label up*
+   * @param {HTMLElement} label 
+   */
+
 
   var moveUp = function moveUp(label) {
-    return removeClass(label, 'down');
+    return label.classList.remove('down');
   };
+  /**
+   * Update class related to the action *add focus to element*
+   * @param {HTMLElement} element 
+   */
+
 
   var addFocus = function addFocus(element) {
-    return addClass(element, 'focused');
+    return element.classList.add('focused');
   };
+  /**
+   * Update class related to the action *remove focus from element*
+   * @param {HTMLElement} element 
+   */
+
 
   var removeFocus = function removeFocus(element) {
-    return removeClass(element, 'focused');
+    return element.classList.remove('focused');
   };
 
   function floatingLabel(form) {
@@ -2487,7 +2427,7 @@ var zui = (function (exports) {
         return this;
       }
 
-      this.toggle(show, State.OPEN, addClass);
+      this.toggle(show, State.OPEN, 'add');
 
       if (isFunction(this.afterOpen)) {
         this.afterOpen(this);
@@ -2513,7 +2453,7 @@ var zui = (function (exports) {
         return this;
       }
 
-      this.toggle(hide, State.CLOSED, removeClass);
+      this.toggle(hide, State.CLOSED, 'remove');
 
       if (isFunction(this.afterClose)) {
         this.afterClose(this);
@@ -2522,10 +2462,10 @@ var zui = (function (exports) {
       this.isClosed = true;
       return this;
     },
-    toggle: function toggle(displayCb, state, classCb) {
+    toggle: function toggle(displayCb, state, action) {
       displayCb(this.content);
       this.setState(state);
-      classCb(this.container, 'expanded');
+      this.container.classList[action]('expanded');
     },
     init: function init(args) {
       Object.assign(this, args);

@@ -1305,12 +1305,16 @@ function appendChildren(parent, children) {
   return parent;
 }
 
+/* istanbul ignore next */
+
+function echo(o) {}
 /**
  * Removes additional spaces in class attribute
  * @param {string} c class attribute's value
  * @returns {string} formatted value
  * @private
  */
+
 
 var formatClass = function formatClass(c) {
   return c.replace(/\s+/g, ' ').trim();
@@ -1332,116 +1336,11 @@ var parseClass = function parseClass(c) {
 
   return c.toString();
 };
-/**
- * Verifies that an element has a class
- * @param {!HTMLElement} element element
- * @param {string} className class
- * @returns {boolean} value indicating whether the element has the class
- * @memberof DOM
- */
-
-
-function hasClass(element, className) {
-  if (!isHTMLElement(element)) {
-    throw new Error("The given element is not a valid HTML Element");
-  }
-
-  return element.className.split(" ").includes(className);
-}
-/**
- * Removes a class from an element if it exists
- * @param {!HTMLElement} element element
- * @param {string|Array} attrClass class
- * @memberof DOM
- */
-
-function removeClass(element, attrClass) {
-  if (!isHTMLElement(element)) {
-    throw new Error("The given element is not a valid HTML Element");
-  }
-
-  var remove = function remove(el, c) {
-    if (hasClass(el, c)) {
-      el.className = el.className.replace(c, '');
-    }
-  };
-
-  if (Array.isArray(attrClass)) {
-    attrClass.forEach(function (val) {
-      return remove(element, val);
-    });
-  } else {
-    remove(element, attrClass);
-  }
-
-  element.className = formatClass(element.className);
-  return element;
-}
-/**
- * Adds one or many classes to an element if it doesn't exist
- * @param {!HTMLElement} element Element
- * @param {string|string[]} attrClass classes
- * @returns {HTMLElement} the element
- * @memberof DOM
- */
-
-function addClass(element, attrClass) {
-  if (!isHTMLElement(element)) {
-    throw new Error("The given element is not a valid HTML Element");
-  }
-
-  var parsedClass = parseClass(attrClass);
-
-  if (isNullOrWhitespace(element.className)) {
-    element.className = parsedClass;
-  } else if (!hasClass(element, parsedClass)) {
-    element.className += " " + parsedClass;
-  }
-
-  element.className = formatClass(element.className);
-  return element;
-}
-/**
- * Adds or removes a class from an element depending on the class's presence.
- * @param {!HTMLElement} element 
- * @param {string} attrClass ClassName
- * @returns {HTMLElement} the element
- * @memberof DOM
- */
-
-function toggleClass(element, attrClass) {
-  if (!isHTMLElement(element)) {
-    throw new Error("The given element is not a valid HTML Element");
-  }
-
-  if (hasClass(element, attrClass)) {
-    removeClass(element, attrClass);
-  } else {
-    addClass(element, attrClass);
-  }
-
-  return element;
-}
-/**
- * Sets classes to an element
- * @param {!HTMLElement} element 
- * @param {string|string[]} attrClass classes 
- * @returns {HTMLElement} the element
- * @memberof DOM
- */
 
 function setClass(element, attrClass) {
-  if (!isHTMLElement(element)) {
-    throw new Error("The given element is not a valid HTML Element");
-  }
-
   element.className = formatClass(parseClass(attrClass));
   return element;
 }
-
-/* istanbul ignore next */
-
-function echo(o) {}
 /**
  * Sets the attributes of an element
  * @param {!HTMLElement} element element
@@ -2734,20 +2633,40 @@ function copytoClipboard(value) {
   return true;
 }
 
+/**
+ * Update class related to the action *move label down*
+ * @param {HTMLElement} label 
+ */
+
 var moveDown = function moveDown(label) {
-  return addClass(label, 'down');
+  return label.classList.add('down');
 };
+/**
+ * Update class related to the action *move label up*
+ * @param {HTMLElement} label 
+ */
+
 
 var moveUp = function moveUp(label) {
-  return removeClass(label, 'down');
+  return label.classList.remove('down');
 };
+/**
+ * Update class related to the action *add focus to element*
+ * @param {HTMLElement} element 
+ */
+
 
 var addFocus = function addFocus(element) {
-  return addClass(element, 'focused');
+  return element.classList.add('focused');
 };
+/**
+ * Update class related to the action *remove focus from element*
+ * @param {HTMLElement} element 
+ */
+
 
 var removeFocus = function removeFocus(element) {
-  return removeClass(element, 'focused');
+  return element.classList.remove('focused');
 };
 
 function floatingLabel(form) {
@@ -3666,7 +3585,7 @@ var CollapsibleFactory = {
       return this;
     }
 
-    this.toggle(show, State$1.OPEN, addClass);
+    this.toggle(show, State$1.OPEN, 'add');
 
     if (isFunction(this.afterOpen)) {
       this.afterOpen(this);
@@ -3692,7 +3611,7 @@ var CollapsibleFactory = {
       return this;
     }
 
-    this.toggle(hide, State$1.CLOSED, removeClass);
+    this.toggle(hide, State$1.CLOSED, 'remove');
 
     if (isFunction(this.afterClose)) {
       this.afterClose(this);
@@ -3701,10 +3620,10 @@ var CollapsibleFactory = {
     this.isClosed = true;
     return this;
   },
-  toggle: function toggle(displayCb, state, classCb) {
+  toggle: function toggle(displayCb, state, action) {
     displayCb(this.content);
     this.setState(state);
-    classCb(this.container, 'expanded');
+    this.container.classList[action]('expanded');
   },
   init: function init(args) {
     Object.assign(this, args);
@@ -3964,4 +3883,4 @@ function queryBuilder(query) {
   return str.join('&');
 }
 
-export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, SelectorFactory, Switch, addAttributes, addClass, addPath, all, appendChildren, assert, boolToInt, camelCase, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTemplate$1 as createTemplate, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, defProp, findAncestor, findByPath, floatingLabel, formatCase, formatDate, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasClass, hasOwn, htmlToElement, htmlToElements, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLCollection, isHTMLElement, isInElement, isInViewport, isIterable, isNode, isNodeList, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, lone, no, one, parseTime, pascalCase, preprendChild, queryBuilder, random, removeAccents, removeChildren, removeClass, setClass, shortDate, shortDateTime, some, timeAgo, toBoolean, toggleClass, valOrDefault, windowHeight, windowWidth };
+export { Accordion, Collapsible, DELETE, GET, POST, PUT, Selector, SelectorFactory, Switch, addAttributes, addPath, all, appendChildren, assert, boolToInt, camelCase, capitalize, capitalizeFirstLetter, changeSelectValue, cloneObject, cloneTemplate, compareTime, copytoClipboard, createAbbreviation, createAnchor, createArticle, createAside, createAudio, createB, createBlockQuotation, createButton, createButtonAs, createCaption, createCite, createCode, createDataList, createDescriptionDetails, createDescriptionList, createDescriptionTerm, createDiv, createDocFragment, createEmphasis, createFieldset, createFigure, createFigureCaption, createFooter, createForm, createH1, createH2, createH3, createH4, createH5, createH6, createHeader, createI, createImage, createInput, createInputAs, createLabel, createLegend, createLineBreak, createLink, createListItem, createMain, createMark, createMeter, createNav, createOption, createOptionGroup, createOrderedList, createOutput, createParagraph, createPicture, createProgress, createQuote, createS, createSample, createSection, createSelect, createSource, createSpan, createStrong, createSubscript, createSuperscript, createTable, createTableBody, createTableCell, createTableColumn, createTableColumnGroup, createTableFooter, createTableHeader, createTableHeaderCell, createTableRow, createTemplate$1 as createTemplate, createTextArea, createTextNode, createThematicBreak, createTime, createU, createUnorderedList, createVideo, defProp, findAncestor, findByPath, floatingLabel, formatCase, formatDate, getDir, getDirTarget, getElement, getElements, getNextElementSibling, getPreviousElementSibling, getRootUrl, getTemplate, getUrlParams, hasOwn, htmlToElement, htmlToElements, inputCounter, insert, insertAfterElement, insertBeforeElement, isDate, isDerivedOf, isDocumentFragment, isElement, isEmpty, isFunction, isHTMLCollection, isHTMLElement, isInElement, isInViewport, isIterable, isNode, isNodeList, isNull, isNullOrUndefined, isNullOrWhitespace, isObject, isString, isUndefined, last, lone, no, one, parseTime, pascalCase, preprendChild, queryBuilder, random, removeAccents, removeChildren, shortDate, shortDateTime, some, timeAgo, toBoolean, valOrDefault, windowHeight, windowWidth };

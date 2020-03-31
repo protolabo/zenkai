@@ -1,4 +1,4 @@
-import { getElement, getElements, addClass, removeClass, isHTMLElement, findAncestor } from '@dom/index.js';
+import { getElement, getElements, isHTMLElement, findAncestor } from '@dom/index.js';
 import { isNullOrUndefined, isFunction, valOrDefault, hasOwn } from '@std/index.js';
 import { show, hide } from './utils.js';
 import { getComponentElement } from './form/utils.js';
@@ -77,7 +77,7 @@ const CollapsibleFactory = {
             return this;
         }
 
-        this.toggle(show, State.OPEN, addClass);
+        this.toggle(show, State.OPEN, 'add');
 
         if (isFunction(this.afterOpen)) {
             this.afterOpen(this);
@@ -103,7 +103,7 @@ const CollapsibleFactory = {
             return this;
         }
 
-        this.toggle(hide, State.CLOSED, removeClass);
+        this.toggle(hide, State.CLOSED, 'remove');
 
         if (isFunction(this.afterClose)) {
             this.afterClose(this);
@@ -113,10 +113,10 @@ const CollapsibleFactory = {
 
         return this;
     },
-    toggle(displayCb, state, classCb) {
+    toggle(displayCb, state, action) {
         displayCb(this.content);
         this.setState(state);
-        classCb(this.container, 'expanded');
+        this.container.classList[action]('expanded');
     },
     init(args) {
         Object.assign(this, args);

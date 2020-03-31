@@ -1,10 +1,38 @@
 import { isObject, isNullOrUndefined } from '@std/index.js';
 import { isHTMLElement } from './dom-parse.js';
-import { setClass } from './element-class-manip.js';
 
 /* istanbul ignore next */
 function echo(o) { }
 
+/**
+ * Removes additional spaces in class attribute
+ * @param {string} c class attribute's value
+ * @returns {string} formatted value
+ * @private
+ */
+const formatClass = (c) => c.replace(/\s+/g, ' ').trim();
+
+/**
+ * Transform a raw value to a valid class value
+ * @param {string} c raw value
+ * @returns {string} parsed value
+ * @private
+ */
+const parseClass = (c) => {
+    if (isNullOrUndefined(c)) {
+        return "";
+    } else if (Array.isArray(c)) {
+        return c.join(' ');
+    }
+
+    return c.toString();
+};
+
+function setClass(element, attrClass) {
+    element.className = formatClass(parseClass(attrClass));
+
+    return element;
+}
 
 /**
  * Sets the attributes of an element

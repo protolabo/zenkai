@@ -1,11 +1,34 @@
-import { getElement, getElements, removeClass, addClass, isHTMLElement } from '@dom/index.js';
+import { getElement, getElements, isHTMLElement } from '@dom/index.js';
 import { isNullOrWhitespace, isEmpty } from '@std/index.js';
 
-const moveDown = (label) => addClass(label, 'down');
-const moveUp = (label) => removeClass(label, 'down');
-const addFocus = (element) => addClass(element, 'focused');
-const removeFocus = (element) => removeClass(element, 'focused');
+/**
+ * Update class related to the action *move label down*
+ * @param {HTMLElement} label 
+ */
+const moveDown = (label) => label.classList.add('down');
 
+/**
+ * Update class related to the action *move label up*
+ * @param {HTMLElement} label 
+ */
+const moveUp = (label) => label.classList.remove('down');
+
+/**
+ * Update class related to the action *add focus to element*
+ * @param {HTMLElement} element 
+ */
+const addFocus = (element) => element.classList.add('focused');
+
+/**
+ * Update class related to the action *remove focus from element*
+ * @param {HTMLElement} element 
+ */
+const removeFocus = (element) => element.classList.remove('focused');
+
+/**
+ * Activate floating label in given scope
+ * @param {HTMLElement} form 
+ */
 export function floatingLabel(form) {
     const labels = getElements('.form-label', form);
 
@@ -21,10 +44,10 @@ export function floatingLabel(form) {
                         moveDown(label);
                     }
                 } else {
-                    console.warn(`%c@zenkai%c #FloatingLabel>%cfloatingLabel:%c Input "${label.htmlFor}" contains a placeholder`, "text-decoration: underline", "", "font-weight: bold;","font-weight: normal;");
+                    console.warn(`%c@zenkai%c #FloatingLabel>%cfloatingLabel:%c Input "${label.htmlFor}" contains a placeholder`, "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
                 }
             } else {
-                console.error(`%c@zenkai%c #FloatingLabel>%cfloatingLabel:%c Missing input for label "${label.htmlFor}"`, "text-decoration: underline", "", "font-weight: bold;","font-weight: normal;");
+                console.error(`%c@zenkai%c #FloatingLabel>%cfloatingLabel:%c Missing input for label "${label.htmlFor}"`, "text-decoration: underline", "", "font-weight: bold;", "font-weight: normal;");
             }
         }
     }
@@ -42,6 +65,7 @@ export function floatingLabel(form) {
                 moveUp(label);
                 addFocus(label.parentElement);
             });
+
             input.addEventListener('blur', function (e) {
                 console.log("blur called");
                 if (isEmpty(this.value)) {
@@ -49,6 +73,7 @@ export function floatingLabel(form) {
                 }
                 removeFocus(label.parentElement);
             });
+            
             input.addEventListener('input', function (e) {
                 console.log("input called");
                 // check if input does not have focus
