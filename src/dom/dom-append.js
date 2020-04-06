@@ -3,13 +3,13 @@ import { isNode, isElement, isHTMLCollection } from './dom-parse.js';
 
 /**
  * Inserts a given element before the targetted element
- * @param {!HTMLElement} target 
- * @param {!HTMLElement} element 
+ * @param {!Element} target 
+ * @param {!Element} element 
  * @memberof DOM
  */
 export function insertBeforeElement(target, element) {
     if (!all([target, element], isElement)) {
-        throw new Error("The given element or target is not a valid HTML Element");
+        throw new Error("Bad argument: The given `element` or `target` is not a valid Element");
     }
 
     target.insertAdjacentElement('beforebegin', element);
@@ -19,13 +19,13 @@ export function insertBeforeElement(target, element) {
 
 /**
  * Inserts a given element after the targetted element
- * @param {!HTMLElement} target 
- * @param {!HTMLElement} element 
+ * @param {!Element} target 
+ * @param {!Element} element 
  * @memberof DOM
  */
 export function insertAfterElement(target, element) {
     if (!all([target, element], isElement)) {
-        throw new Error("The given element or target is not a valid HTML Element");
+        throw new Error("Bad argument: The given `element` or `target` is not a valid Element");
     }
 
     target.insertAdjacentElement('afterend', element);
@@ -41,7 +41,7 @@ export function insertAfterElement(target, element) {
  */
 export function preprendChild(target, element) {
     if (!all([target, element], isElement)) {
-        throw new Error("The given element or target is not a valid HTML Element");
+        throw new Error("Bad argument: The given `element` or `target` is not a valid Element");
     }
 
     target.insertAdjacentElement('afterbegin', element);
@@ -58,11 +58,11 @@ export function preprendChild(target, element) {
  */
 export function appendChildren(parent, children) {
     if (!isNode(parent)) {
-        throw new Error("The given parent is not a valid Node");
+        throw new Error("Bad argument: The given `parent` is not a valid Node");
     }
     
     if (!isHTMLCollection(children) && !isIterable(children) || isString(children)) {
-        throw new Error("The given children is not a valid HTMLCollection/HTMLElement array");
+        throw new Error("Bad argument: The given `children` is not a valid HTMLCollection/HTMLElement array");
     }
 
     var fragment = document.createDocumentFragment();

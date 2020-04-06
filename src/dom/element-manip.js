@@ -1,38 +1,155 @@
-import { isObject, isNullOrUndefined } from '@std/index.js';
+import { isObject, isNullOrUndefined, hasOwn, isEmpty } from '@std/index.js';
 import { isHTMLElement } from './dom-parse.js';
 
-/* istanbul ignore next */
-function echo(o) { }
-
 /**
- * Removes additional spaces in class attribute
- * @param {string} c class attribute's value
- * @returns {string} formatted value
- * @private
+ * Add classes to an element
+ * @param {HTMLElement} element 
+ * @param {string|string[]} value 
  */
-const formatClass = (c) => c.replace(/\s+/g, ' ').trim();
-
-/**
- * Transform a raw value to a valid class value
- * @param {string} c raw value
- * @returns {string} parsed value
- * @private
- */
-const parseClass = (c) => {
-    if (isNullOrUndefined(c)) {
-        return "";
-    } else if (Array.isArray(c)) {
-        return c.join(' ');
+function addClass(element, value) {
+    if (isHTMLElement(element)) {
+        throw new Error("Bad argument: The passed `element` argument is not a valid HTML Element");
     }
 
-    return c.toString();
-};
-
-function setClass(element, attrClass) {
-    element.className = formatClass(parseClass(attrClass));
+    element.classList.add(...(Array.isArray(value) ? value : [value]));
 
     return element;
 }
+
+/**
+ * Assigns a value to an attribute
+ * @param {HTMLElement} element 
+ * @param {string} key 
+ * @param {string} value 
+ */
+function assign(element, key, value) {
+    element[key] = value;
+}
+
+/**
+ * Assigns a value to an attribute
+ * @param {HTMLElement} element 
+ * @param {string} key 
+ * @param {Object} value 
+ */
+function assignObject(element, key, value) {
+    Object.assign(element[key], value);
+    var obj = new HTMLLinkElement();
+    obj.hre
+}
+
+/**
+ * Assigns a value to an attribute
+ * @param {HTMLElement} element 
+ * @param {string} key 
+ * @param {Object} value 
+ */
+function assignAttribute(element, key, value) {
+    element.setAttribute(key, value);
+}
+
+const GLOBAL_ATTRIBUTES = "accesskey,autocapitalize,class,dataset,editable,draggable,hidden,id,inputmode,lang,html,style,tabindex,text,title";
+
+const AttributeHandler = {
+    // Global attributes
+    accesskey: [assign, 'accessKey'],
+    autocapitalize: [assign, 'autocapitalize'],
+    class: [addClass],
+    dataset: [assignObject, 'dataset'],
+    editable: [assign, 'contentEditable'],
+    draggable: [assign, 'draggable'],
+    hidden: [assign, 'hidden'],
+    id: [assign, 'id'],
+    inputmode: [assign, 'inputMode'],
+    lang: [assign, 'lang'],
+    html: [assign, 'innerHTML'],
+    style: [assign, 'style'],
+    tabindex: [assign, 'tabIndex'],
+    text: [assign, 'textContent'],
+    title: [assign, 'title'],
+    // Object attributes
+    data: [assign, 'data'],
+    // Quote attributes
+    cite: [assign, 'cite'],
+    // Anchor attributes
+    download: [assign, 'download'],
+    ping: [assign, 'ping'],
+    target: [assign, 'target'],
+    // Audio/Video attributes
+    autoplay: [assign, 'autoplay'],
+    buffered: [assign, 'buffered'],
+    controls: [assign, 'controls'],
+    loop: [assign, 'loop'],
+    muted: [assign, 'muted'],
+    poster: [assign, 'poster'],
+    preload: [assign, 'preload'],
+    // Image attributes
+    crossorigin: [assign, 'crossOrigin'],
+    decoding: [assign, 'decoding'],
+    height: [assign, 'height'],
+    ismap: [assign, 'isMap'],
+    loading: [assignAttribute, 'loading'],
+    srcset: [assign, 'srcset'],
+    width: [assign, 'width'],
+    // Link attributes
+    alt: [assign, 'alt'],
+    media: [assign, 'media'],
+    rel: [assign, 'rel'],
+    src: [assign, 'src'],
+    sizes: [assign, 'sizes'],
+    // List attributes
+    reversed: [assign, 'reversed'],
+    start: [assign, 'start'],
+    // Form attributes
+    accept: [assign, 'accept'],
+    action: [assign, 'action'],
+    autocomplete: [assign, 'autocomplete'],
+    autofocus: [assign, 'autofocus'],
+    checked: [assign, 'checked'],
+    cols: [assign, 'cols'],
+    disabled: [assign, 'disabled'],
+    for: [assign, 'for'],
+    form: [assign, 'form'],
+    high: [assign, 'high'],
+    label: [assign, 'label'],
+    list: [assign, 'list'],
+    low: [assign, 'low'],
+    max: [assign, 'max'],
+    maxlength: [assign, 'maxlength'],
+    min: [assign, 'min'],
+    minlength: [assign, 'minlength'],
+    multiple: [assign, 'multiple'],
+    name: [assign, 'name'],
+    optimum: [assign, 'optimum'],
+    pattern: [assign, 'pattern'],
+    placeholder: [assign, 'placeholder'],
+    readonly: [assign, 'readOnly'],
+    required: [assign, 'required'],
+    rows: [assign, 'rows'],
+    selected: [assign, 'selected'],
+    size: [assign, 'size'],
+    step: [assign, 'step'],
+    wrap: [assign, 'wrap'],
+    // Track attributes
+    default: [assign, 'default'],
+    kind: [assign, 'kind'],
+    srclang: [assign, 'srclang'],
+    // Table attributes
+    colspan: [assign, 'colSpan'],
+    headers: [assign, 'headers'],
+    span: [assign, 'span'],
+    rowspan: [assign, 'rowSpan'],
+    scope: [assign, 'scope'],
+    summary: [assign, 'summary'],
+    // Mix attributes
+    href: [assign, 'href'],
+    hreflang: [assign, 'hreflang'],
+    datetime: [assign, 'dateTime'],
+    type: [assign, 'type'],
+    value: [assign, 'value'],
+    usemap: [assign, 'useMap'],
+};
+
 
 /**
  * Sets the attributes of an element
@@ -41,7 +158,7 @@ function setClass(element, attrClass) {
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export function addAttributes(element, attribute) {
+export function addAttributes(element, attribute, validAttributes = "") {
     if (!isHTMLElement(element)) {
         throw new Error("The given element parameter is not a valid HTML Element");
     }
@@ -50,47 +167,18 @@ export function addAttributes(element, attribute) {
         return element;
     }
 
-    const ATTR_MAP = {
-        // Global attributes
-        accesskey: [assign, 'accessKey'],
-        class: [setClass, element],
-        data: [Object.assign, element.dataset],
-        editable: [assign, 'contentEditable'],
-        draggable: [assign],
-        hidden: [assign],
-        id: [assign],
-        lang: [assign],
-        html: [assign, 'innerHTML'],
-        style: [assign],
-        target: [assign],
-        tabindex: [assign, 'tabIndex'],
-        text: [assign, 'textContent'],
-        title: [assign],
-        // Quote attributes
-        cite: [assign],
-        // Anchor attributes
-        href: [assign],
-        // Link attributes
-        alt: [assign],
-        src: [assign],
-        // Form attributes
-        accept: [assign],
-        disabled: [assign],
-        placeholder: [assign],
-        readonly: [assign, 'readOnly'],
-        value: [assign],
-    };
-    const DEFAULT_MAP = [echo, ''];
+    const isValid = (key) => GLOBAL_ATTRIBUTES.includes(key) || validAttributes.includes(key);
 
     // HTML attributes
     for (const key of Object.keys(attribute)) {
-        var val = ATTR_MAP[key] || DEFAULT_MAP;
-        val[0](val[1] || key, attribute[key]);
+        if (isValid(key)) {
+            let value = attribute[key];
+            let args = AttributeHandler[key].slice(0);
+            let fn = args.shift();
+            fn(element, ...args, value);
+        }
     }
 
-    function assign(key, val) {
-        element[key] = val;
-    }
 
     return element;
 }

@@ -2,11 +2,11 @@
  * Returns an object value or default value if undefined
  * @param {*} arg object
  * @param {*} value default value
- * @param {boolean} [isNullable] indicates whether the value can be assigned the value *NULL*
- * @memberof TYPE
+ * @param {boolean} [isNullable=false] indicates whether the value can be assigned the value *NULL*
+ * @memberof STD
  */
-export function valOrDefault(arg, value, isNullable) {
-    if (isNullable === true) {
+export function valOrDefault(arg, value, isNullable = false) {
+    if (isNullable) {
         return isUndefined(arg) ? value : arg;
     }
 
@@ -17,17 +17,17 @@ export function valOrDefault(arg, value, isNullable) {
  * Returns a value indicating whether the value is empty
  * @param {Object[]|string} arr array
  * @returns {boolean}
- * @memberof TYPE
+ * @memberof STD
  */
 export function isEmpty(obj) {
-    return (Array.isArray(obj) || isString(obj)) && obj.length === 0;
+    return isIterable(obj) && obj.length === 0;
 }
 
 /**
  * Returns a value indicating whether the variable is a Date
  * @param {*} value 
  * @returns {boolean}
- * @memberof TYPE
+ * @memberof STD
  */
 export function isDate(value) {
     return value instanceof Date || (typeof value === 'object' && Object.prototype.toString.call(value) === '[object Date]');
@@ -37,7 +37,7 @@ export function isDate(value) {
  * Returns a value indicating whether the variable is a String
  * @param {*} value
  * @returns {boolean}
- * @memberof TYPE
+ * @memberof STD
  */
 export function isString(value) {
     return typeof value === 'string' || value instanceof String;
@@ -45,9 +45,9 @@ export function isString(value) {
 
 /**
  * Returns a value indicating whether the value is a Function
- * @param {string} value
+ * @param {*} value
  * @returns {boolean}
- * @memberof TYPE
+ * @memberof STD
  */
 export function isFunction(value) {
     return typeof value === 'function';
@@ -55,9 +55,9 @@ export function isFunction(value) {
 
 /**
  * Returns a value indicating whether the value is an Object
- * @param {string} value
+ * @param {*} value
  * @returns {boolean}
- * @memberof TYPE
+ * @memberof STD
  */
 export function isObject(value) {
     return !isNullOrUndefined(value) && typeof value === 'object';
@@ -67,7 +67,7 @@ export function isObject(value) {
  * Returns a value indicating whether the object is iterable
  * @param {*} obj
  * @returns {boolean}
- * @memberof TYPE
+ * @memberof STD
  */
 export function isIterable(obj) {
     return !isNullOrUndefined(obj) && typeof obj[Symbol.iterator] === 'function';
@@ -75,9 +75,9 @@ export function isIterable(obj) {
 
 /**
  * Returns a value indicating whether the value is null
- * @param {string} value
+ * @param {*} value
  * @returns {boolean}
- * @memberof TYPE
+ * @memberof STD
  */
 export function isNull(value) { 
     return value === null; 
@@ -85,19 +85,19 @@ export function isNull(value) {
 
 /**
  * Returns a value indicating whether a string is null or made of whitespace.
- * @param {string} str string
+ * @param {string} value string
  * @returns {boolean}
- * @memberof TYPE
+ * @memberof STD
  */
-export function isNullOrWhitespace(str) {
-    return (!str || isString(str) && (str.length === 0 || /^\s*$/.test(str)));
+export function isNullOrWhitespace(value) {
+    return (!value || isString(value) && (value.length === 0 || /^\s*$/.test(value)));
 }
 
 /**
  * Returns a value indicating whether the value is undefined
  * @param {*} value
  * @returns {boolean}
- * @memberof TYPE
+ * @memberof STD
  */
 export function isUndefined(value) { 
     return typeof value === 'undefined'; 
@@ -105,8 +105,9 @@ export function isUndefined(value) {
 
 /**
  * Returns a value indicating whether the value is null or undefined
+ * @param {*} value
  * @returns {boolean}
- * @memberof TYPE
+ * @memberof STD
  */
 export function isNullOrUndefined(value) { 
     return isNull(value) || isUndefined(value); 
