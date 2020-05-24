@@ -1,4 +1,5 @@
-import { valOrDefault } from "./std-parse.js";
+import { valOrDefault, isString } from "./std-parse.js";
+
 
 /**
  * Converts the received boolean value to an integer
@@ -17,5 +18,5 @@ export function boolToInt(value) { return value ? 1 : 0; }
 export function toBoolean(value) {
     var val = valOrDefault(value, false);
 
-    return val === true || val.toString().toLowerCase() === 'true';
+    return (isString(val) && val.toLowerCase() === "true") || (Number.isInteger(val) && val === 1) || val === true;
 }

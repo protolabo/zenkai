@@ -1,9 +1,12 @@
+import { isObject, isNullOrUndefined } from "./std-parse.js";
+
+
 /** @private */
 const hasOwnProperty = Object.prototype.hasOwnProperty;
+
 /** @private */
 const isPrototypeOf = Object.prototype.isPrototypeOf;
 
-export const defProp = Object.defineProperty;
 
 /**
  * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
@@ -11,7 +14,9 @@ export const defProp = Object.defineProperty;
  * @param {string} key name of the property
  * @memberof STD
  */
-export const hasOwn = function (obj, key) { return hasOwnProperty.call(obj, key); };
+export const hasOwn = function (obj, key) {
+    return hasOwnProperty.call(obj, key);
+};
 
 /**
  * Returns a boolean indicating whether the object (child) inherit from another object (parent)
@@ -24,12 +29,12 @@ export const isDerivedOf = function (child, parent) {
 };
 
 /**
- * 
- * @param {*} obj 
+ * Creates a clone of an object
+ * @param {*} obj Object
  * @memberof STD
  */
 export function cloneObject(obj) {
-    if (obj === null || typeof (obj) !== 'object') {
+    if (isNullOrUndefined(obj) || !isObject(obj)) {
         return obj;
     }
 

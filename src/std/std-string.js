@@ -8,6 +8,10 @@ import { hasOwn } from "./std-object.js";
  * @memberof STD
  */
 export function capitalize(str) {
+    if(isNullOrWhitespace(str)) {
+        return str;
+    }
+
     return str.toLowerCase().replace(/\b\w/g, (s) => s.toUpperCase());
 }
 
@@ -18,7 +22,11 @@ export function capitalize(str) {
  * @memberof STD
  */
 export function capitalizeFirstLetter(str) {
-    return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
+    if(isNullOrWhitespace(str)) {
+        return str;
+    }
+
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 const CaseHandler = {
@@ -31,7 +39,7 @@ const CaseHandler = {
 /**
  * Format a sequence according to a specified case
  * @param {!string} str Sequence
- * @param {!string} casing Sequence
+ * @param {!string} casing Casing (camel, pascal, upper, lower)
  * @returns {string} Formatted sequence
  * @memberof STD
  */
@@ -39,6 +47,7 @@ export function formatCase(str, casing) {
     if (isNullOrWhitespace(str)) {
         return str;
     }
+
     if (!hasOwn(CaseHandler, casing)) {
         return str;
     }

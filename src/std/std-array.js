@@ -1,28 +1,50 @@
 import { isEmpty } from "./std-parse.js";
 
+
 /**
  * Inserts an item in an array at the specified index
- * @param {*[]} arr array
+ * @param {*[]} array array
  * @param {number} index 
  * @param {object} item 
  * @returns {number} The new length of the array
  * @memberof STD
  */
-export function insert(arr, index, item) {
-    arr.splice(index, 0, item);
+export function insert(array, index, item) {
+    if (!(Array.isArray(array) && Number.isInteger(index))) {
+        throw new Error("Bad argument");
+    }
 
-    return arr.length;
+    array.splice(index, 0, item);
+
+    return array.length;
 }
 
 /**
- * Returns last element of array.
- * @param {*[]} arr array
+ * Returns the last element of an array.
+ * @param {*[]} array array
  * @memberof STD
  */
-export function last(arr) {
-    if (!Array.isArray(arr) || isEmpty(arr)) {
+export function last(array) {
+    if (!Array.isArray(array)) {
+        throw new Error("Bad argument");
+    }
+
+    if (isEmpty(array)) {
         return undefined;
     }
 
-    return arr[arr.length - 1];
+    return array[array.length - 1];
+}
+
+/**
+ * Returns the first element of an array.
+ * @param {*[]} array array
+ * @memberof STD
+ */
+export function first(array) {
+    if (!Array.isArray(array)) {
+        throw new Error("Bad argument");
+    }
+
+    return array[0];
 }

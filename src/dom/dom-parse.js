@@ -104,6 +104,7 @@ function isHTMLElementKind(element, kinds) {
             [name, type] = kind;
         }
 
+        name = name.toLowerCase();
         var interfaceName = `HTML${hasOwn(TagNameMapping, name) ? TagNameMapping[name] : pascalCase(name)}Element`;
 
         if (!(isInstanceOf(window[interfaceName]) || hasTag(name))) {

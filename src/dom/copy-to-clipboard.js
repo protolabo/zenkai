@@ -3,7 +3,7 @@ import { createTextArea } from './dom-create.js';
 import { isHTMLElement } from './dom-parse.js';
 
 /**
- * Copy content to clipboard
+ * Copies selected content to clipboard
  * @param {HTMLElement|string} value
  * @returns {boolean} Value indicating whether the content has been succesfully copied to the clipboard
  * @memberof DOM

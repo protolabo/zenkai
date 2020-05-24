@@ -1,30 +1,77 @@
-import { isNullOrUndefined } from "@std/index.js";
-import { isNode, isHTMLElement } from "./dom-parse.js";
+import { isNullOrUndefined, isFunction, isObject, valOrDefault } from "@std/index.js";
+import { isHTMLElement } from "./dom-parse.js";
 import { appendChildren } from "./dom-append.js";
 import { addAttributes } from "./element-manip.js";
 
+
 /**
- * Creates an element
+ * Creates an empty element with attributes
  * @param {string} tagName 
- * @param {object} [_attribute] 
- * @param {Text|HTMLElement|HTMLElement[]} [_children] 
+ * @param {string} [_validAttributes] 
+ * @param {object} [_attributes] 
  * @returns {HTMLElement}
  * @private
  */
 /* istanbul ignore next */
-function create(tagName, validAttributes, _attribute, _children) {
+function createEmptyElement(tagName, _validAttributes, _attributes) {
     var element = document.createElement(tagName);
 
     if (!isHTMLElement(element)) {
         return null;
     }
 
-    if (!isNullOrUndefined(_attribute)) {
-        addAttributes(element, _attribute, validAttributes);
+    if (isObject(_attributes)) {
+        addAttributes(element, _attributes, valOrDefault(_validAttributes, ""));
     }
 
-    if (!isNullOrUndefined(_children)) {
-        addContent(element, _children);
+    return element;
+}
+
+/**
+ * Creates an element with attributes and content
+ * @param {string} tagName 
+ * @param {string} [_validAttributes] 
+ * @param {Function} [contentResolver] 
+ * @param {object} [_attributes] 
+ * @param {Text|HTMLElement|HTMLElement[]} [_content] 
+ * @returns {HTMLElement}
+ * @private
+ */
+/* istanbul ignore next */
+function createElement(tagName, _validAttributes, _attributes, _content) {
+    var element = createEmptyElement(tagName, _validAttributes, _attributes);
+
+    if (!isHTMLElement(element)) {
+        return null;
+    }
+
+    if (!isNullOrUndefined(_content)) {
+        addContent(element, _content);
+    }
+
+    return element;
+}
+
+/**
+ * Creates an element with attributes and content
+ * @param {string} tagName 
+ * @param {string} [_validAttributes] 
+ * @param {Function} [contentResolver] 
+ * @param {object} [_attributes] 
+ * @param {Text|HTMLElement|HTMLElement[]} [_content] 
+ * @returns {HTMLElement}
+ * @private
+ */
+/* istanbul ignore next */
+function createElementX(tagName, _validAttributes, contentResolver, _attributes, _content) {
+    var element = createEmptyElement(tagName, _validAttributes, _attributes);
+
+    if (!isHTMLElement(element)) {
+        return null;
+    }
+
+    if (!isNullOrUndefined(_content)) {
+        addContent(element, _content, contentResolver);
     }
 
     return element;
@@ -70,7 +117,7 @@ export const createTextNode = (text) => document.createTextNode(text);
  * @returns {HTMLLinkElement}
  * @memberof DOM
  */
-export const createLink = create.bind(null, "link", "as,crossorigin,disabled,href,hreflang,media,rel,sizes,type");
+export const createLink = createEmptyElement.bind(null, "link", "as,crossorigin,disabled,href,hreflang,media,rel,sizes,type");
 
 /**
  * Creates a `<template>` element with some attributes
@@ -80,7 +127,7 @@ export const createLink = create.bind(null, "link", "as,crossorigin,disabled,hre
  * @returns {HTMLTemplateElement}
  * @memberof DOM
  */
-export const createTemplate = create.bind(null, "template");
+export const createTemplate = createElement.bind(null, "template", "");
 
 /**
  * Creates a `<header>` element with some attributes
@@ -90,7 +137,7 @@ export const createTemplate = create.bind(null, "template");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createHeader = create.bind(null, "header");
+export const createHeader = createElement.bind(null, "header", "");
 
 /**
  * Creates an `<footer>` element with some attributes
@@ -100,7 +147,7 @@ export const createHeader = create.bind(null, "header");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createFooter = create.bind(null, "footer");
+export const createFooter = createElement.bind(null, "footer", "");
 
 /**
  * Creates an `<main>` element with some attributes
@@ -110,7 +157,7 @@ export const createFooter = create.bind(null, "footer");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createMain = create.bind(null, "main");
+export const createMain = createElement.bind(null, "main", "");
 
 /**
  * Creates an `<article>` element with some attributes
@@ -120,7 +167,7 @@ export const createMain = create.bind(null, "main");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createArticle = create.bind(null, "article");
+export const createArticle = createElement.bind(null, "article", "");
 
 /**
  * Creates an `<section>` element with some attributes
@@ -130,7 +177,7 @@ export const createArticle = create.bind(null, "article");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createSection = create.bind(null, 'section');
+export const createSection = createElement.bind(null, "section", "");
 
 /**
  * Creates an `<nav>` element with some attributes
@@ -140,7 +187,7 @@ export const createSection = create.bind(null, 'section');
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createNav = create.bind(null, "nav");
+export const createNav = createElement.bind(null, "nav", "");
 
 /**
  * Creates an `<aside>` element with some attributes
@@ -150,7 +197,7 @@ export const createNav = create.bind(null, "nav");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createAside = create.bind(null, "aside");
+export const createAside = createElement.bind(null, "aside", "");
 
 /**
  * Creates a `<h1>` element with some attributes
@@ -160,7 +207,7 @@ export const createAside = create.bind(null, "aside");
  * @returns {HTMLHeadingElement}
  * @memberof DOM
  */
-export const createH1 = create.bind(null, "h1");
+export const createH1 = createElement.bind(null, "h1", "");
 
 /**
  * Creates a `<h2>` element with some attributes
@@ -170,7 +217,7 @@ export const createH1 = create.bind(null, "h1");
  * @returns {HTMLHeadingElement}
  * @memberof DOM
  */
-export const createH2 = create.bind(null, "h2");
+export const createH2 = createElement.bind(null, "h2", "");
 
 /**
  * Creates a `<h3>` element with some attributes
@@ -180,7 +227,7 @@ export const createH2 = create.bind(null, "h2");
  * @returns {HTMLHeadingElement}
  * @memberof DOM
  */
-export const createH3 = create.bind(null, "h3");
+export const createH3 = createElement.bind(null, "h3", "");
 
 /**
  * Creates a `<h4>` element with some attributes
@@ -190,7 +237,7 @@ export const createH3 = create.bind(null, "h3");
  * @returns {HTMLHeadingElement}
  * @memberof DOM
  */
-export const createH4 = create.bind(null, "h4");
+export const createH4 = createElement.bind(null, "h4", "");
 
 /**
  * Creates a `<h5>` element with some attributes
@@ -200,7 +247,7 @@ export const createH4 = create.bind(null, "h4");
  * @returns {HTMLHeadingElement}
  * @memberof DOM
  */
-export const createH5 = create.bind(null, "h5");
+export const createH5 = createElement.bind(null, "h5", "");
 
 /**
  * Creates a `<h6>` element with some attributes
@@ -210,7 +257,7 @@ export const createH5 = create.bind(null, "h5");
  * @returns {HTMLHeadingElement}
  * @memberof DOM
  */
-export const createH6 = create.bind(null, "h6");
+export const createH6 = createElement.bind(null, "h6", "");
 
 /**
  * Creates a `<div>` element with some attributes
@@ -220,7 +267,7 @@ export const createH6 = create.bind(null, "h6");
  * @returns {HTMLDivElement}
  * @memberof DOM
  */
-export const createDiv = create.bind(null, "div");
+export const createDiv = createElement.bind(null, "div", "");
 
 /**
  * Creates a `<object>` element with some attributes
@@ -230,7 +277,7 @@ export const createDiv = create.bind(null, "div");
  * @returns {HTMLObjectElement}
  * @memberof DOM
  */
-export const createObject = create.bind(null, "object", "data,form,name,type,usemap");
+export const createObject = createElement.bind(null, "object", "data,form,name,type,usemap");
 
 /**
  * Creates a `<embed>` element with some attributes
@@ -239,25 +286,25 @@ export const createObject = create.bind(null, "object", "data,form,name,type,use
  * @returns {HTMLEmbedElement}
  * @memberof DOM
  */
-export const createEmbed = create.bind(null, "embed", "src,type");
+export const createEmbed = createEmptyElement.bind(null, "embed", "src,type");
 
 /**
- * Creates a `br` element \
+ * Creates a `<br>` element \
  * Line break (carriage-return)
  * @function createLineBreak
  * @returns {HTMLBRElement}
  * @memberof DOM
  */
-export const createLineBreak = () => create("br");
+export const createLineBreak = () => createEmptyElement("br");
 
 /**
- * Creates a `hr` element \
+ * Creates a `<hr>` element \
  * Thematic break
  * @function createThematicBreak
  * @returns {HTMLHRElement}
  * @memberof DOM
  */
-export const createThematicBreak = () => create("hr");
+export const createThematicBreak = () => createEmptyElement("hr");
 
 /**
  * Creates a `<p>` element with some attributes
@@ -267,7 +314,7 @@ export const createThematicBreak = () => create("hr");
  * @returns {HTMLParagraphElement}
  * @memberof DOM
  */
-export const createParagraph = create.bind(null, "p");
+export const createParagraph = createElement.bind(null, "p", "");
 
 
 /**
@@ -278,7 +325,9 @@ export const createParagraph = create.bind(null, "p");
  * @returns {HTMLQuoteElement}
  * @memberof DOM
  */
-export const createBlockQuotation = create.bind(null, "blockquote", "cite");
+export const createBlockQuotation = createElement.bind(null, "blockquote", "cite");
+
+const listItemResolver = (item) => isHTMLElement(item, "li") ? item : createListItem(null, item);
 
 /**
  * Creates a `<ul>` element with some attributes
@@ -288,7 +337,7 @@ export const createBlockQuotation = create.bind(null, "blockquote", "cite");
  * @returns {HTMLUListElement}
  * @memberof DOM
  */
-export const createUnorderedList = create.bind(null, "ul");
+export const createUnorderedList = createElementX.bind(null, "ul", "", listItemResolver);
 
 /**
  * Creates a `<ol>` element with some attributes
@@ -298,7 +347,7 @@ export const createUnorderedList = create.bind(null, "ul");
  * @returns {HTMLOListElement}
  * @memberof DOM
  */
-export const createOrderedList = create.bind(null, "ol", "reversed,start,type");
+export const createOrderedList = createElementX.bind(null, "ol", "reversed,start,type", listItemResolver);
 
 /**
  * Creates a `<li>` element with some attributes
@@ -308,7 +357,10 @@ export const createOrderedList = create.bind(null, "ol", "reversed,start,type");
  * @returns {HTMLLIElement}
  * @memberof DOM
  */
-export const createListItem = create.bind(null, "li", "value");
+export const createListItem = createElement.bind(null, "li", "value");
+
+
+// const descriptionContentResolver = (item) => isHTMLElement(item, ["dt", "dd"]) ? item : createListItem(null, item);
 
 /**
  * Creates a `<dl>` element with some attributes
@@ -318,7 +370,7 @@ export const createListItem = create.bind(null, "li", "value");
  * @returns {HTMLDListElement}
  * @memberof DOM
  */
-export const createDescriptionList = create.bind(null, "dl");
+export const createDescriptionList = createElement.bind(null, "dl", "");
 
 /**
  * Creates a `<dt>` element with some attributes
@@ -328,7 +380,7 @@ export const createDescriptionList = create.bind(null, "dl");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createDescriptionTerm = create.bind(null, "dt");
+export const createDescriptionTerm = createElement.bind(null, "dt", "");
 
 /**
  * Creates a `<dd>` element with some attributes
@@ -338,7 +390,7 @@ export const createDescriptionTerm = create.bind(null, "dt");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createDescriptionDetails = create.bind(null, "dd");
+export const createDescriptionDetails = createElement.bind(null, "dd", "");
 
 // Inline Element
 
@@ -350,7 +402,7 @@ export const createDescriptionDetails = create.bind(null, "dd");
  * @returns {HTMLAnchorElement}
  * @memberof DOM
  */
-export const createAnchor = create.bind(null, "a", "download,href,hreflang,ping,rel,target,type");
+export const createAnchor = createElement.bind(null, "a", "download,href,hreflang,ping,rel,target,type");
 
 /**
  * Creates an `<area>` element with some attributes
@@ -359,7 +411,7 @@ export const createAnchor = create.bind(null, "a", "download,href,hreflang,ping,
  * @returns {HTMLAreaElement}
  * @memberof DOM
  */
-export const createArea = create.bind(null, "area", "alt,coords,download,href,hreflang,media,ping,rel,shape,target");
+export const createArea = createEmptyElement.bind(null, "area", "alt,coords,download,href,hreflang,media,ping,rel,shape,target");
 
 /**
  * Creates an `<base>` element with some attributes
@@ -368,7 +420,7 @@ export const createArea = create.bind(null, "area", "alt,coords,download,href,hr
  * @returns {HTMLBaseElement}
  * @memberof DOM
  */
-export const createBase = create.bind(null, "base", "href,target");
+export const createBase = createEmptyElement.bind(null, "base", "href,target");
 
 /**
   * Creates a `<img>` element with some attributes
@@ -377,7 +429,7 @@ export const createBase = create.bind(null, "base", "href,target");
   * @returns {HTMLImageElement}
   * @memberof DOM
   */
-export const createImage = create.bind(null, "img", "alt,crossorigin,decoding,height,ismap,loading,src,srcset,usemap,width");
+export const createImage = createEmptyElement.bind(null, "img", "alt,crossorigin,decoding,height,ismap,loading,src,srcset,usemap,width");
 
 /**
   * Creates a `<audio>` element with some attributes
@@ -387,7 +439,7 @@ export const createImage = create.bind(null, "img", "alt,crossorigin,decoding,he
   * @returns {HTMLAudioElement}
   * @memberof DOM
   */
-export const createAudio = create.bind(null, "audio", "autoplay,buffered,controls,crossorigin,loop,muted,preload,src");
+export const createAudio = createElement.bind(null, "audio", "autoplay,buffered,controls,crossorigin,loop,muted,preload,src");
 
 /**
   * Creates a `<video>` element with some attributes
@@ -397,7 +449,7 @@ export const createAudio = create.bind(null, "audio", "autoplay,buffered,control
   * @returns {HTMLVideoElement}
   * @memberof DOM
   */
-export const createVideo = create.bind(null, "video", "autoplay,buffered,controls,crossorigin,loop,muted,poster,preload,src");
+export const createVideo = createElement.bind(null, "video", "autoplay,buffered,controls,crossorigin,loop,muted,poster,preload,src");
 
 /**
  * Creates a `<source>` element with some attributes
@@ -407,7 +459,7 @@ export const createVideo = create.bind(null, "video", "autoplay,buffered,control
  * @returns {HTMLSourceElement}
  * @memberof DOM
  */
-export const createSource = create.bind(null, "source", "media,sizes,src,srcset,type");
+export const createSource = createEmptyElement.bind(null, "source", "media,sizes,src,srcset,type");
 
 /**
  * Creates a `<track>` element with some attributes
@@ -416,7 +468,7 @@ export const createSource = create.bind(null, "source", "media,sizes,src,srcset,
  * @returns {HTMLTrackElement}
  * @memberof DOM
  */
-export const createTrack = create.bind(null, "track", "default,kind,label,src,srclang");
+export const createTrack = createEmptyElement.bind(null, "track", "default,kind,label,src,srclang");
 
 /**
  * Creates a `<picture>` element with some attributes
@@ -426,7 +478,7 @@ export const createTrack = create.bind(null, "track", "default,kind,label,src,sr
  * @returns {HTMLPictureElement}
  * @memberof DOM
  */
-export const createPicture = create.bind(null, "picture");
+export const createPicture = createElement.bind(null, "picture", "");
 
 /**
  * Creates a `<figure>` element with some attributes
@@ -436,7 +488,7 @@ export const createPicture = create.bind(null, "picture");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createFigure = create.bind(null, "figure");
+export const createFigure = createElement.bind(null, "figure", "");
 
 /**
  * Creates a `<figcaption>` element with some attributes
@@ -446,7 +498,7 @@ export const createFigure = create.bind(null, "figure");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createFigureCaption = create.bind(null, "figcaption");
+export const createFigureCaption = createElement.bind(null, "figcaption", "");
 
 /**
  * Creates a `<span>` element with some attributes
@@ -456,7 +508,7 @@ export const createFigureCaption = create.bind(null, "figcaption");
  * @returns {HTMLSpanElement}
  * @memberof DOM
  */
-export const createSpan = create.bind(null, "span");
+export const createSpan = createElement.bind(null, "span", "");
 
 /**
  * Creates a `<strong>` element with some attributes
@@ -466,7 +518,7 @@ export const createSpan = create.bind(null, "span");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createStrong = create.bind(null, "strong");
+export const createStrong = createElement.bind(null, "strong", "");
 
 /**
  * Creates a `<em>` element with some attributes
@@ -476,7 +528,7 @@ export const createStrong = create.bind(null, "strong");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createEmphasis = create.bind(null, "em");
+export const createEmphasis = createElement.bind(null, "em", "");
 
 /**
  * Creates a `<mark>` element with some attributes
@@ -486,7 +538,7 @@ export const createEmphasis = create.bind(null, "em");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createMark = create.bind(null, "mark");
+export const createMark = createElement.bind(null, "mark", "");
 
 /**
  * Creates a `<samp>` element with some attributes
@@ -496,7 +548,7 @@ export const createMark = create.bind(null, "mark");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createSample = create.bind(null, "samp");
+export const createSample = createElement.bind(null, "samp", "");
 
 /**
  * Creates a `<sub>` element with some attributes
@@ -506,7 +558,7 @@ export const createSample = create.bind(null, "samp");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createSubscript = create.bind(null, "sub");
+export const createSubscript = createElement.bind(null, "sub", "");
 
 /**
  * Creates a `<sup>` element with some attributes
@@ -516,7 +568,7 @@ export const createSubscript = create.bind(null, "sub");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createSuperscript = create.bind(null, "sup");
+export const createSuperscript = createElement.bind(null, "sup", "");
 
 /**
  * Creates a `<del>` element with some attributes
@@ -526,7 +578,7 @@ export const createSuperscript = create.bind(null, "sup");
  * @returns {HTMLModElement}
  * @memberof DOM
  */
-export const createDeletedPart = create.bind(null, "del", "cite,datetime");
+export const createDeletedPart = createElement.bind(null, "del", "cite,datetime");
 
 /**
  * Creates a `<ins>` element with some attributes
@@ -536,7 +588,7 @@ export const createDeletedPart = create.bind(null, "del", "cite,datetime");
  * @returns {HTMLModElement}
  * @memberof DOM
  */
-export const createInsertedPart = create.bind(null, "ins", "cite,datetime");
+export const createInsertedPart = createElement.bind(null, "ins", "cite,datetime");
 
 /**
  * Creates a `<q>` element with some attributes
@@ -546,7 +598,7 @@ export const createInsertedPart = create.bind(null, "ins", "cite,datetime");
  * @returns {HTMLQuoteElement}
  * @memberof DOM
  */
-export const createQuote = create.bind(null, "q", "cite");
+export const createQuote = createElement.bind(null, "q", "cite");
 
 /**
  * Creates a `<abbr>` element with some attributes
@@ -556,7 +608,7 @@ export const createQuote = create.bind(null, "q", "cite");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createAbbreviation = create.bind(null, "abbr");
+export const createAbbreviation = createElement.bind(null, "abbr", "");
 
 /**
  * Creates a `<b>` element with some attributes
@@ -566,7 +618,7 @@ export const createAbbreviation = create.bind(null, "abbr");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createB = create.bind(null, "b");
+export const createB = createElement.bind(null, "b", "");
 
 /**
  * Creates a `<i>` element with some attributes
@@ -576,7 +628,7 @@ export const createB = create.bind(null, "b");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createI = create.bind(null, "i");
+export const createI = createElement.bind(null, "i", "");
 
 /**
  * Creates a `<s>` element with some attributes
@@ -586,7 +638,7 @@ export const createI = create.bind(null, "i");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createS = create.bind(null, 's');
+export const createS = createElement.bind(null, "s", "");
 
 /**
  * Creates a `<u>` element with some attributes
@@ -596,7 +648,7 @@ export const createS = create.bind(null, 's');
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createU = create.bind(null, 'u');
+export const createU = createElement.bind(null, "u", "");
 
 /**
  * Creates a `<cite>` element with some attributes
@@ -606,7 +658,7 @@ export const createU = create.bind(null, 'u');
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createCite = create.bind(null, "cite");
+export const createCite = createElement.bind(null, "cite", "");
 
 /**
  * Creates a `<time>` element with optionally some attributes
@@ -615,7 +667,7 @@ export const createCite = create.bind(null, "cite");
  * @returns {HTMLTimeElement}
  * @memberof DOM
  */
-export const createTime = create.bind(null, "time", "cite");
+export const createTime = createElement.bind(null, "time", "cite");
 
 /**
  * Creates a `<code>` element with some attributes
@@ -625,7 +677,7 @@ export const createTime = create.bind(null, "time", "cite");
  * @returns {HTMLElement}
  * @memberof DOM
  */
-export const createCode = create.bind(null, "code");
+export const createCode = createElement.bind(null, "code", "");
 
 /**
  * Creates a `<form>` element with some attributes
@@ -635,7 +687,7 @@ export const createCode = create.bind(null, "code");
  * @returns {HTMLFormElement}
  * @memberof DOM
  */
-export const createForm = create.bind(null, "form", "accept,action,autocomplete,enctype,method,name,novalidate,target");
+export const createForm = createElement.bind(null, "form", "accept,action,autocomplete,enctype,method,name,novalidate,target");
 
 const inputTypes = ["button", "checkbox", "color", "date", "datetime-local", "email", "file",
     "hidden", "image", "month", "number", "password", "radio", "range", "reset",
@@ -653,7 +705,7 @@ export function createInputAs(type, _attribute) {
         return null;
     }
 
-    var input = create('input', "accept,alt,autocomplete,autofocus,checked,disabled,form,list,max,maxlength,minlength,min,multiple,name,pattern,placeholder,readonly,required,size,src,step,type,usemap,value", _attribute);
+    var input = createEmptyElement('input', "accept,alt,autocomplete,autofocus,checked,disabled,form,list,max,maxlength,minlength,min,multiple,name,pattern,placeholder,readonly,required,size,src,step,type,usemap,value", _attribute);
     input.type = type;
 
     return input;
@@ -676,7 +728,7 @@ export const createInput = createInputAs.bind(null, "text");
  * @returns {HTMLTextAreaElement}
  * @memberof DOM
  */
-export const createTextArea = create.bind(null, "textarea", "autocomplete,autofocus,cols,disabled,form,inputmode,maxlength,minlength,name,placeholder,readonly,required,rows,wrap");
+export const createTextArea = createElement.bind(null, "textarea", "autocomplete,autofocus,cols,disabled,form,inputmode,maxlength,minlength,name,placeholder,readonly,required,rows,wrap");
 
 /**
  * Creates a `<label>` element with some attributes
@@ -686,7 +738,27 @@ export const createTextArea = create.bind(null, "textarea", "autocomplete,autofo
  * @returns {HTMLLabelElement}
  * @memberof DOM
  */
-export const createLabel = create.bind(null, "label", "for,form");
+export const createLabel = createElement.bind(null, "label", "for,form");
+
+/**
+ * Resolves a select element content
+ * @param {*} item 
+ * @returns {HTMLOptionElement|HTMLOptGroupElement}
+ */
+const selectContentResolver = (item) => {
+    if (isHTMLElement(item, ["option", "optgroup"])) {
+        return item;
+    }
+
+    if (Array.isArray(item)) {
+        return createOptionGroup(null, item);
+    }
+
+    return createOption(null, item);
+};
+
+const optiongroupContentResolver = (item) => isHTMLElement(item, "option") ? item : createOption(null, item);
+
 
 /**
  * Creates a `<select>` element with some attributes
@@ -696,7 +768,7 @@ export const createLabel = create.bind(null, "label", "for,form");
  * @returns {HTMLSelectElement}
  * @memberof DOM
  */
-export const createSelect = create.bind(null, 'select', "autocomplete,autofocus,disabled,form,multiple,name,required,size");
+export const createSelect = createElementX.bind(null, 'select', "autocomplete,autofocus,disabled,form,multiple,name,required,size", selectContentResolver);
 
 /**
  * Creates a `<option>` element with some attributes
@@ -706,7 +778,7 @@ export const createSelect = create.bind(null, 'select', "autocomplete,autofocus,
  * @returns {HTMLOptionElement}
  * @memberof DOM
  */
-export const createOption = create.bind(null, "option", "disabled,label,selected,value");
+export const createOption = createElement.bind(null, "option", "disabled,label,selected,value");
 
 /**
  * Creates a `<optgroup>` element with some attributes
@@ -716,7 +788,7 @@ export const createOption = create.bind(null, "option", "disabled,label,selected
  * @returns {HTMLOptGroupElement}
  * @memberof DOM
  */
-export const createOptionGroup = create.bind(null, "optgroup", "disabled,label");
+export const createOptionGroup = createElementX.bind(null, "optgroup", "disabled,label", optiongroupContentResolver);
 
 /**
  * Creates a `<fieldset>` element with some attributes
@@ -726,7 +798,7 @@ export const createOptionGroup = create.bind(null, "optgroup", "disabled,label")
  * @returns {HTMLFieldSetElement}
  * @memberof DOM
  */
-export const createFieldset = create.bind(null, "fieldset", "disabled,form,name");
+export const createFieldset = createElement.bind(null, "fieldset", "disabled,form,name");
 
 /**
  * Creates a `<legend>` element with some attributes
@@ -736,7 +808,7 @@ export const createFieldset = create.bind(null, "fieldset", "disabled,form,name"
  * @returns {HTMLLabelElement}
  * @memberof DOM
  */
-export const createLegend = create.bind(null, "legend");
+export const createLegend = createElement.bind(null, "legend", "");
 
 /**
  * Creates a `<datalist>` element with some attributes
@@ -746,7 +818,7 @@ export const createLegend = create.bind(null, "legend");
  * @returns {HTMLTextAreaElement}
  * @memberof DOM
  */
-export const createDataList = create.bind(null, "datalist");
+export const createDataList = createElementX.bind(null, "datalist", "", optiongroupContentResolver);
 
 /**
  * Creates a `<meter>` element with some attributes
@@ -756,7 +828,7 @@ export const createDataList = create.bind(null, "datalist");
  * @returns {HTMLTextAreaElement}
  * @memberof DOM
  */
-export const createMeter = create.bind(null, "meter", "form,high,low,max,min,optimum,value");
+export const createMeter = createElement.bind(null, "meter", "form,high,low,max,min,optimum,value");
 
 /**
  * Creates a `<progress>` element with some attributes
@@ -766,7 +838,7 @@ export const createMeter = create.bind(null, "meter", "form,high,low,max,min,opt
  * @returns {HTMLTextAreaElement}
  * @memberof DOM
  */
-export const createProgress = create.bind(null, "progress", "form,max,value");
+export const createProgress = createElement.bind(null, "progress", "form,max,value");
 
 /**
  * Creates a `<output>` element with optionally some attributes and children elements
@@ -776,7 +848,7 @@ export const createProgress = create.bind(null, "progress", "form,max,value");
  * @returns {HTMLTextAreaElement}
  * @memberof DOM
  */
-export const createOutput = create.bind(null, "output", "for,form,name");
+export const createOutput = createElement.bind(null, "output", "for,form,name");
 
 const buttonTypes = ["button", "submit", "reset"];
 
@@ -794,7 +866,7 @@ export function createButtonAs(type, _attribute, _children) {
         return null;
     }
 
-    var button = create("button", "autofocus,disabled,form,name,type,value", _attribute, _children);
+    var button = createElement("button", "autofocus,disabled,form,name,type,value", _attribute, _children);
     button.type = type;
 
     return button;
@@ -818,7 +890,7 @@ export const createButton = createButtonAs.bind(null, "button");
  * @returns {HTMLTableElement}
  * @memberof DOM
  */
-export const createTable = create.bind(null, "table", "summary");
+export const createTable = createElement.bind(null, "table", "summary");
 
 /**
  * Creates a `<caption>` element with some attributes
@@ -828,7 +900,9 @@ export const createTable = create.bind(null, "table", "summary");
  * @returns {HTMLTableCaptionElement}
  * @memberof DOM
  */
-export const createCaption = create.bind(null, "caption");
+export const createCaption = createElement.bind(null, "caption");
+
+const tablerowContentResolver = (item) => isHTMLElement(item, "tr") ? item : createTableRow(null, item);
 
 /**
  * Creates a `<thead>` element with some attributes
@@ -838,7 +912,7 @@ export const createCaption = create.bind(null, "caption");
  * @returns {HTMLTableSectionElement}
  * @memberof DOM
  */
-export const createTableHeader = create.bind(null, "thead");
+export const createTableHeader = createElementX.bind(null, "thead", "", tablerowContentResolver);
 
 /**
  * Creates a `<tbody>` element with some attributes
@@ -848,7 +922,7 @@ export const createTableHeader = create.bind(null, "thead");
  * @returns {HTMLTableSectionElement}
  * @memberof DOM
  */
-export const createTableBody = create.bind(null, "tbody");
+export const createTableBody = createElementX.bind(null, "tbody", "", tablerowContentResolver);
 
 /**
  * Creates a `<tfoot>` element with some attributes
@@ -858,7 +932,7 @@ export const createTableBody = create.bind(null, "tbody");
  * @returns {HTMLTableSectionElement}
  * @memberof DOM
  */
-export const createTableFooter = create.bind(null, "tfoot");
+export const createTableFooter = createElementX.bind(null, "tfoot", "", tablerowContentResolver);
 
 /**
  * Creates a `<col>` element with some attributes
@@ -868,7 +942,9 @@ export const createTableFooter = create.bind(null, "tfoot");
  * @returns {HTMLTableColElement}
  * @memberof DOM
  */
-export const createTableColumn = create.bind(null, "col", "span");
+export const createTableColumn = createEmptyElement.bind(null, "col", "span");
+
+const tablecolContentResolver = (item) => isHTMLElement(item, "col") ? item : createTableColumn(null, item);
 
 /**
  * Creates a `<colgroup>` element with some attributes
@@ -878,7 +954,9 @@ export const createTableColumn = create.bind(null, "col", "span");
  * @returns {HTMLTableColElement}
  * @memberof DOM
  */
-export const createTableColumnGroup = create.bind(null, "colgroup", "span");
+export const createTableColumnGroup = createElementX.bind(null, "colgroup", "span", tablecolContentResolver);
+
+const tablecellContentResolver = (item) => isHTMLElement(item, ["th", "td"]) ? item : createTableCell(null, item);
 
 /**
  * Creates a `<tr>` element with some attributes
@@ -888,7 +966,7 @@ export const createTableColumnGroup = create.bind(null, "colgroup", "span");
  * @returns {HTMLTableRowElement}
  * @memberof DOM
  */
-export const createTableRow = create.bind(null, "tr");
+export const createTableRow = createElementX.bind(null, "tr", "", tablecellContentResolver);
 
 /**
  * Creates a `<th>` element with some attributes
@@ -898,7 +976,7 @@ export const createTableRow = create.bind(null, "tr");
  * @returns {HTMLTableCellElement}
  * @memberof DOM
  */
-export const createTableHeaderCell = create.bind(null, "th", "colspan,headers,rowspan,scope");
+export const createTableHeaderCell = createElement.bind(null, "th", "colspan,headers,rowspan,scope");
 
 /**
  * Creates a `<td>` element with some attributes
@@ -908,32 +986,32 @@ export const createTableHeaderCell = create.bind(null, "th", "colspan,headers,ro
  * @returns {HTMLTableCellElement}
  * @memberof DOM
  */
-export const createTableCell = create.bind(null, "td", "colspan,headers,rowspan");
+export const createTableCell = createElement.bind(null, "td", "colspan,headers,rowspan");
 
 /**
  * Appends the children to the element
  * @param {HTMLElement} element element
- * @param {HTMLCollection} children children elements
+ * @param {HTMLCollection} content children elements
  * @private
  * @memberof DOM
  */
 /* istanbul ignore next */
-function addContent(element, children) {
+function addContent(element, content, resolver) {
     if (!isHTMLElement(element)) {
         throw new Error("The given element is not a valid HTML Element");
     }
 
-    if (isNullOrUndefined(children)) {
+    if (isNullOrUndefined(content)) {
         return element;
     }
 
-    if (Array.isArray(children)) {
-        appendChildren(element, children);
-    } else if (isNode(children)) {
-        element.appendChild(children);
-    } else {
-        element.textContent = children.toString();
+    var children = Array.isArray(content) ? content : [content];
+
+    if (isFunction(resolver)) {
+        children.forEach(child => resolver(child));
     }
+
+    appendChildren(element, children);
 
     return element;
 }

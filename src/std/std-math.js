@@ -1,5 +1,3 @@
-import { isNullOrUndefined } from "./std-parse";
-
 /**
  * Return a random integer between min and max (inclusive).
  * @param {number} min 
@@ -8,7 +6,11 @@ import { isNullOrUndefined } from "./std-parse";
  * @memberof STD
 */
 export function random(min, max, secure = false) {
-    if (isNullOrUndefined(max)) {
+    if (!Number.isInteger(min)) {
+        throw new Error("Bad argument");
+    }
+
+    if (!Number.isInteger(max)) {
         max = min;
         min = 0;
     }
