@@ -13,14 +13,33 @@ describe('DOM query helpers', function () {
         const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8');
         this.jsdom = jsdom(html);
     });
+
     describe('#getElement(selector, _container)', function () {
-        it("should return an element", function () {
+        it("should return an element based on its id", function () {
             var result = getElement('#body', this.jsdom.document);
 
             expect(result).to.be.an.instanceOf(HTMLElement);
             expect(result).to.have.property('id', 'body');
         });
+        it("should return an element based on its class", function () {
+            var result = getElement('.list-item', this.jsdom.document);
+
+            expect(result).to.be.an.instanceOf(HTMLElement);
+            expect(result).to.have.property('className').that.include('list-item');
+        });
+        it("should return an element based on its tagname", function () {
+            var result = getElement('p', this.jsdom.document);
+
+            expect(result).to.be.an.instanceOf(HTMLElement);
+            expect(result).to.have.property('tagName', 'P');
+        });
+        it("should return null if the selector is null", function () {
+            var result = getElement(null, this.jsdom.document);
+
+            expect(result).to.be.null;
+        });
     });
+
     describe('#getElements(selector, _container)', function () {
         it("should return an element", function () {
             var result = getElements('.list-item', this.jsdom.document);
@@ -28,7 +47,19 @@ describe('DOM query helpers', function () {
             expect(result).to.be.an.instanceOf(HTMLCollection);
             expect(result.length).to.be.equal(3);
         });
+        it("should return an element based on its tagname", function () {
+            var result = getElements('p', this.jsdom.document);
+
+            expect(result).to.be.an.instanceOf(NodeList);
+            expect(result.length).to.be.equal(2);
+        });
+        it("should return null if the selector is null", function () {
+            var result = getElements(null, this.jsdom.document);
+
+            expect(result).to.be.null;
+        });
     });
+
     describe('#getTemplate(selector, _container)', function () {
         it("should return a template", function () {
             var result = getTemplate('#siteFooter', this.jsdom.document);
@@ -37,6 +68,7 @@ describe('DOM query helpers', function () {
             expect(result).to.have.property('id', 'siteFooter');
         });
     });
+
     describe('#cloneTemplate(template, deep)', function () {
         it("should return a clone of the template element", function () {
             var template = getTemplate('#siteFooter', this.jsdom.document);
@@ -49,6 +81,7 @@ describe('DOM query helpers', function () {
             expect(result.firstElementChild.id).to.be.equal('site-footer');
         });
     });
+
     describe('#getPreviousElementSibling(el, predCb)', function () {
         it("should return an element", function () {
             var element = document.querySelector('#body');
@@ -69,6 +102,7 @@ describe('DOM query helpers', function () {
             expect(result.className).to.include('sub-title');
         });
     });
+
     describe('#getNextElementSibling(el, predCb)', function () {
         it("should return an element", function () {
             var element = document.querySelector('#body');
@@ -89,11 +123,12 @@ describe('DOM query helpers', function () {
             expect(result.className).to.include('third');
         });
     });
+
     describe('#findAncestor(target, callback, max)', function () {
         it("should return an element", function () {
             var target = document.querySelector('.list-item.first');
-            var callback = function (el) { 
-                return el.id === 'body'; 
+            var callback = function (el) {
+                return el.id === 'body';
             };
 
             var result = findAncestor(target, callback);
@@ -103,8 +138,8 @@ describe('DOM query helpers', function () {
         });
         it("should return null", function () {
             var target = document.querySelector('.list-item.first');
-            var callback = function (el) { 
-                return el.id === 'body'; 
+            var callback = function (el) {
+                return el.id === 'body';
             };
             var max = 2;
 
@@ -112,21 +147,22 @@ describe('DOM query helpers', function () {
 
             expect(result).to.be.null;
         });
-        it("should abort the operation and return null if the target is not valid", function () {
+        it("should throw if the target is not valid", function () {
             var target = document.querySelector('.body-introduction');
 
-            var result = findAncestor(target, null);
+            var result = function () { findAncestor(target, null); };
 
-            expect(result).to.be.null;
+            expect(result).to.throw(TypeError);
         });
-        it("should abort the operation and return null if the callback is not valid", function () {
+        it("should throw if the callback is not valid", function () {
             var callback = function () { return true; };
 
-            var result = findAncestor("target", callback);
+            var result = function () { findAncestor("target", callback); };
 
-            expect(result).to.be.null;
+            expect(result).to.throw(TypeError);
         });
     });
+    
     after(function () {
         this.jsdom();
     });

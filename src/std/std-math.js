@@ -7,12 +7,16 @@
 */
 export function random(min, max, secure = false) {
     if (!Number.isInteger(min)) {
-        throw new Error("Bad argument");
+        throw new TypeError("Bad argument");
     }
 
     if (!Number.isInteger(max)) {
         max = min;
         min = 0;
+    }
+
+    if (max < min) {
+        throw new Error("Bad argument: max must be greater than min");
     }
 
     return min + Math.floor((secure ? secureMathRandom() : Math.random()) * (max - min + 1));

@@ -1,4 +1,4 @@
-import { isObject, isNullOrUndefined, hasOwn, isEmpty } from '@std/index.js';
+import { isObject, isNullOrUndefined } from '@std/index.js';
 import { isHTMLElement } from './dom-parse.js';
 
 /**
@@ -7,7 +7,7 @@ import { isHTMLElement } from './dom-parse.js';
  * @param {string|string[]} value 
  */
 function addClass(element, value) {
-    if (isHTMLElement(element)) {
+    if (!isHTMLElement(element)) {
         throw new Error("Bad argument: The passed `element` argument is not a valid HTML Element");
     }
 
@@ -34,8 +34,6 @@ function assign(element, key, value) {
  */
 function assignObject(element, key, value) {
     Object.assign(element[key], value);
-    var obj = new HTMLLinkElement();
-    obj.hre
 }
 
 /**
@@ -56,8 +54,8 @@ const AttributeHandler = {
     autocapitalize: [assign, 'autocapitalize'],
     class: [addClass],
     dataset: [assignObject, 'dataset'],
-    editable: [assign, 'contentEditable'],
     draggable: [assign, 'draggable'],
+    editable: [assign, 'contentEditable'],
     hidden: [assign, 'hidden'],
     id: [assign, 'id'],
     inputmode: [assign, 'inputMode'],
@@ -75,12 +73,16 @@ const AttributeHandler = {
     download: [assign, 'download'],
     ping: [assign, 'ping'],
     target: [assign, 'target'],
+    // Area attributes
+    coords: [assign, 'coords'],
+    shape: [assign, 'shape'],
     // Audio/Video attributes
     autoplay: [assign, 'autoplay'],
     buffered: [assign, 'buffered'],
     controls: [assign, 'controls'],
     loop: [assign, 'loop'],
     muted: [assign, 'muted'],
+    playsinline: [assignAttribute, 'playsinline'],
     poster: [assign, 'poster'],
     preload: [assign, 'preload'],
     // Image attributes
@@ -88,11 +90,12 @@ const AttributeHandler = {
     decoding: [assign, 'decoding'],
     height: [assign, 'height'],
     ismap: [assign, 'isMap'],
-    loading: [assignAttribute, 'loading'],
+    loading: [assign, 'loading'],
     srcset: [assign, 'srcset'],
     width: [assign, 'width'],
     // Link attributes
     alt: [assign, 'alt'],
+    as: [assign, 'as'],
     media: [assign, 'media'],
     rel: [assign, 'rel'],
     src: [assign, 'src'],
@@ -102,24 +105,35 @@ const AttributeHandler = {
     start: [assign, 'start'],
     // Form attributes
     accept: [assign, 'accept'],
+    "accept-charset": [assign, 'acceptCharset'],
     action: [assign, 'action'],
     autocomplete: [assign, 'autocomplete'],
     autofocus: [assign, 'autofocus'],
+    capture: [assign, 'capture'],
     checked: [assign, 'checked'],
     cols: [assign, 'cols'],
     disabled: [assign, 'disabled'],
+    dirname: [assign, 'dirName'],
+    enctype: [assign, 'enctype'],
     for: [assign, 'for'],
     form: [assign, 'form'],
+    formaction: [assign, 'formAction'],
+    formenctype: [assign, 'formEnctype'],
+    formmethod: [assign, 'formMethod'],
+    formnovalidate: [assign, 'formNoValidate'],
+    formtarget: [assign, 'formTarget'],
     high: [assign, 'high'],
     label: [assign, 'label'],
     list: [assign, 'list'],
     low: [assign, 'low'],
     max: [assign, 'max'],
-    maxlength: [assign, 'maxlength'],
+    maxlength: [assign, 'maxLength'],
+    method: [assign, 'method'],
     min: [assign, 'min'],
-    minlength: [assign, 'minlength'],
+    minlength: [assign, 'minLength'],
     multiple: [assign, 'multiple'],
     name: [assign, 'name'],
+    novalidate: [assign, 'noValidate'],
     optimum: [assign, 'optimum'],
     pattern: [assign, 'pattern'],
     placeholder: [assign, 'placeholder'],
@@ -128,6 +142,7 @@ const AttributeHandler = {
     rows: [assign, 'rows'],
     selected: [assign, 'selected'],
     size: [assign, 'size'],
+    spellcheck: [assignAttribute, 'spellcheck'],
     step: [assign, 'step'],
     wrap: [assign, 'wrap'],
     // Track attributes
@@ -135,12 +150,11 @@ const AttributeHandler = {
     kind: [assign, 'kind'],
     srclang: [assign, 'srclang'],
     // Table attributes
+    abbr: [assign, 'abbr'],
     colspan: [assign, 'colSpan'],
-    headers: [assign, 'headers'],
     span: [assign, 'span'],
     rowspan: [assign, 'rowSpan'],
     scope: [assign, 'scope'],
-    summary: [assign, 'summary'],
     // Mix attributes
     href: [assign, 'href'],
     hreflang: [assign, 'hreflang'],
@@ -160,7 +174,7 @@ const AttributeHandler = {
  */
 export function addAttributes(element, attribute, validAttributes = "") {
     if (!isHTMLElement(element)) {
-        throw new Error("The given element parameter is not a valid HTML Element");
+        throw new Error("Bad argument: The given element argument is not a valid HTML Element");
     }
 
     if (!isObject(attribute)) {
@@ -192,7 +206,7 @@ export function addAttributes(element, attribute, validAttributes = "") {
  */
 export function changeSelectValue(select, value) {
     if (!isHTMLElement(select, "select")) {
-        throw new Error("The given select parameter is not a valid HTML Select element");
+        throw new Error("Bad argument: The given select argument is not a valid HTML Select element");
     }
 
     if (isNullOrUndefined(value)) {

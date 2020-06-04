@@ -86,7 +86,9 @@ describe('Object helpers', function () {
                     }
                 ]
             };
+
             var result = cloneObject(obj);
+            
             expect(result).to.be.deep.equal(obj);
         });
     });

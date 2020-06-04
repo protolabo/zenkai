@@ -7,19 +7,18 @@ var expect = require('chai').expect;
 
 const ATTRIBUTE_MAPPER = {
     accesskey: 'accessKey',
+    autocapitalize: 'autocapitalize',
     class: 'className',
-    // data: 'dataset',
     draggable: 'draggable',
     editable: 'contentEditable',
     hidden: 'hidden',
     id: 'id',
+    inputmode: 'inputMode',
     lang: 'lang',
-    placeholder: 'placeholder',
-    readonly: 'readOnly',
+    html: 'innerHTML',
     tabindex: 'tabIndex',
-    title: 'title',
     text: 'textContent',
-    value: 'value',
+    title: 'title',
 };
 
 // import the library under test
@@ -34,6 +33,7 @@ describe('Element manipulation helpers', function () {
     after(function () {
         this.jsdom();
     });
+
     describe('#addAttributes()', function () {
         it("should add attributes to an element", function () {
             var attribute = {
@@ -41,7 +41,6 @@ describe('Element manipulation helpers', function () {
                 draggable: false,
                 editable: false,
                 id: 'anid',
-                readonly: false,
                 text: 'lorem ipsum',
                 title: 'some title',
             };

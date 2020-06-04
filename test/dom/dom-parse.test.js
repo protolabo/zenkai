@@ -27,76 +27,157 @@ describe('DOM parse helpers', function () {
         const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8');
         this.jsdom = jsdom(html);
     });
+
     describe('#isNode(obj)', function () {
         it("should return true if the value is a node", function () {
-            var value = document.createTextNode("hello");
-            var result = isNode(value);
-            expect(result).to.be.true;
+            var values = [
+                document.createTextNode("hello"),
+                document.createElement("div"),
+                document.createDocumentFragment(),
+            ];
+
+            values.forEach(value => {
+                var result = isNode(value);
+
+                expect(result).to.be.true;
+            });
         });
         it("should return false if the value is not a node", function () {
             var values = [100, true, {}, null, undefined, "hello"];
+
             values.forEach((val) => {
                 var result = isNode(val);
+
                 expect(result).to.be.false;
             });
         });
     });
+
     describe('#isElement(obj)', function () {
         it("should return true if the value is an element", function () {
-            var value = document.createElement("div");
-            var result = isElement(value);
-            expect(result).to.be.true;
+            var values = [
+                document.createElement("div"),
+                document.createElement("span"),
+            ];
+
+            values.forEach(value => {
+                var result = isElement(value);
+
+                expect(result).to.be.true;
+            });
         });
         it("should return false if the value is not an element", function () {
-            var values = [100, true, {}, null, undefined];
+            var values = [100, true, {}, null, undefined, document.createTextNode("hello")];
+
             values.forEach((val) => {
                 var result = isElement(val);
+
                 expect(result).to.be.false;
             });
         });
     });
+
     describe('#isHTMLElement(obj)', function () {
-        it("should return true if the value is an HTML elemnt", function () {
+        it("should return true if the value is an HTML element", function () {
             var value = document.createElement("span");
+
             var result = isHTMLElement(value);
+
             expect(result).to.be.true;
         });
+        it("should return true if the value is an HTML element of a specific kind", function () {
+            var value = document.createElement("span");
+
+            var result = isHTMLElement(value, "span");
+
+            expect(result).to.be.true;
+        });
+        it("should return true if the value is an HTML element in a specific kind list", function () {
+            var value = document.createElement("div");
+
+            var result = isHTMLElement(value, ["span", "div"]);
+
+            expect(result).to.be.true;
+        });
+        it("should return true if the value is an HTML element of a specific kind and type", function () {
+            var value = document.createElement("input");
+            value.type = "email";
+
+            var result = isHTMLElement(value, [["input", "email"]]);
+
+            expect(result).to.be.true;
+        });
+        it("should return true if the value is an HTML element of a specific kind and type", function () {
+            var value = document.createElement("input");
+            value.type = "email";
+
+            var result = isHTMLElement(value, [["input", ["text", "email"]]]);
+
+            expect(result).to.be.true;
+        });
+        it("should return false if the value is an HTML element different of a specific kind", function () {
+            var value = document.createElement("span");
+
+            var result = isHTMLElement(value, [1]);
+
+            expect(result).to.be.false;
+        });
+        it("should return false if the value is an HTML element different of a specific kind", function () {
+            var value = document.createElement("span");
+
+            var result = isHTMLElement(value, "div");
+
+            expect(result).to.be.false;
+        });
         it("should return false if the value is not an HTML element", function () {
-            var values = [100, true, {}, null, undefined];
+            var values = [100, true, {}, null, undefined, document.createTextNode("hello"), document.createDocumentFragment()];
+
             values.forEach((val) => {
                 var result = isHTMLElement(val);
+
                 expect(result).to.be.false;
             });
         });
     });
+
     describe('#isHTMLCollection(obj)', function () {
         it("should return true if the value is an HTML collection", function () {
             var value = document.forms;
+
             var result = isHTMLCollection(value);
+
             expect(result).to.be.true;
         });
         it("should return false if the value is not an HTML collection", function () {
             var values = [100, true, {}, null, undefined];
+
             values.forEach((val) => {
                 var result = isHTMLCollection(val);
+
                 expect(result).to.be.false;
             });
         });
     });
+
     describe('#isDocumentFragment(obj)', function () {
         it("should return true if the value is a document fragment", function () {
             var value = document.createDocumentFragment();
+
             var result = isDocumentFragment(value);
+
             expect(result).to.be.true;
         });
         it("should return false if the value is not a document fragment", function () {
             var values = [100, true, {}, null, undefined];
+
             values.forEach((val) => {
                 var result = isDocumentFragment(val);
+
                 expect(result).to.be.false;
             });
         });
     });
+
     describe('#htmlToElement(html)', function () {
         it("should return the first html element", function () {
             var values = [
@@ -106,6 +187,7 @@ describe('DOM parse helpers', function () {
                 { html: "<div>", nodeName: "DIV", nodeType: NodeType.ELEMENT_NODE, children: 0 },
                 { html: "lorem ipsum", nodeName: "#text", nodeType: NodeType.TEXT_NODE, children: undefined }
             ];
+
             values.forEach((val) => {
                 var result = htmlToElement(val.html);
 
@@ -116,6 +198,7 @@ describe('DOM parse helpers', function () {
         });
         it("should return null if the html is not a string", function () {
             var values = [348, null, undefined, true];
+
             values.forEach((val) => {
                 var result = htmlToElement(val);
 
@@ -123,6 +206,7 @@ describe('DOM parse helpers', function () {
             });
         });
     });
+
     describe('#htmlToElements(html)', function () {
         it("should return all html elements", function () {
             var values = [
@@ -130,8 +214,10 @@ describe('DOM parse helpers', function () {
                 { html: "<div><span></span></div>", children: ["DIV"], length: 1 },
                 { html: "<div><span></span></div><p></p>", children: ["DIV", "P"], length: 2 }
             ];
+
             values.forEach((val) => {
                 var result = htmlToElements(val.html);
+
                 expect(result).to.be.an.instanceOf(NodeList);
                 expect(result.length).to.be.equal(val.length);
 
@@ -151,6 +237,7 @@ describe('DOM parse helpers', function () {
             });
         });
     });
+
     after(function () {
         this.jsdom();
     });

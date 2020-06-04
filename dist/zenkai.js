@@ -2,6 +2,8 @@ var zenkai = (function (exports) {
   'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -15,20 +17,65 @@ var zenkai = (function (exports) {
     return _typeof(obj);
   }
 
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
+    }
+
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(Object(source), true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(Object(source)).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
   function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
   }
 
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-      return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
   }
 
   function _arrayWithHoles(arr) {
@@ -36,10 +83,11 @@ var zenkai = (function (exports) {
   }
 
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
   }
 
   function _iterableToArrayLimit(arr, i) {
+    if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
     var _arr = [];
     var _n = true;
     var _d = false;
@@ -65,23 +113,99 @@ var zenkai = (function (exports) {
     return _arr;
   }
 
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  function _createForOfIteratorHelper(o, allowArrayLike) {
+    var it;
+
+    if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+      if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+        if (it) o = it;
+        var i = 0;
+
+        var F = function () {};
+
+        return {
+          s: F,
+          n: function () {
+            if (i >= o.length) return {
+              done: true
+            };
+            return {
+              done: false,
+              value: o[i++]
+            };
+          },
+          e: function (e) {
+            throw e;
+          },
+          f: F
+        };
+      }
+
+      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    }
+
+    var normalCompletion = true,
+        didErr = false,
+        err;
+    return {
+      s: function () {
+        it = o[Symbol.iterator]();
+      },
+      n: function () {
+        var step = it.next();
+        normalCompletion = step.done;
+        return step;
+      },
+      e: function (e) {
+        didErr = true;
+        err = e;
+      },
+      f: function () {
+        try {
+          if (!normalCompletion && it.return != null) it.return();
+        } finally {
+          if (didErr) throw err;
+        }
+      }
+    };
   }
 
   /**
    * Returns an object value or default value if undefined
    * @param {*} arg object
    * @param {*} value default value
-   * @param {boolean} [isNullable] indicates whether the value can be assigned the value *NULL*
-   * @memberof TYPE
+   * @param {boolean} [isNullable=false] indicates whether the value can be assigned the value *NULL*
+   * @memberof STD
    */
-  function valOrDefault(arg, value, isNullable) {
-    if (isNullable === true) {
+  function valOrDefault(arg, value) {
+    var isNullable = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    if (isNullable) {
       return isUndefined(arg) ? value : arg;
     }
 
@@ -91,17 +215,17 @@ var zenkai = (function (exports) {
    * Returns a value indicating whether the value is empty
    * @param {Object[]|string} arr array
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isEmpty(obj) {
-    return (Array.isArray(obj) || isString(obj)) && obj.length === 0;
+    return isIterable(obj) && obj.length === 0;
   }
   /**
    * Returns a value indicating whether the variable is a Date
    * @param {*} value 
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isDate(value) {
@@ -111,7 +235,7 @@ var zenkai = (function (exports) {
    * Returns a value indicating whether the variable is a String
    * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isString(value) {
@@ -119,9 +243,9 @@ var zenkai = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is a Function
-   * @param {string} value
+   * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isFunction(value) {
@@ -129,9 +253,9 @@ var zenkai = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is an Object
-   * @param {string} value
+   * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isObject(value) {
@@ -141,17 +265,27 @@ var zenkai = (function (exports) {
    * Returns a value indicating whether the object is iterable
    * @param {*} obj
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isIterable(obj) {
     return !isNullOrUndefined(obj) && typeof obj[Symbol.iterator] === 'function';
   }
   /**
-   * Returns a value indicating whether the value is null
-   * @param {string} value
+   * Returns a value indicating whether the object is a non-string iterable
+   * @param {*} obj
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
+   */
+
+  function isCollection(obj) {
+    return isIterable(obj) && !isString(obj);
+  }
+  /**
+   * Returns a value indicating whether the value is null
+   * @param {*} value
+   * @returns {boolean}
+   * @memberof STD
    */
 
   function isNull(value) {
@@ -159,19 +293,19 @@ var zenkai = (function (exports) {
   }
   /**
    * Returns a value indicating whether a string is null or made of whitespace.
-   * @param {string} str string
+   * @param {string} value string
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
-  function isNullOrWhitespace(str) {
-    return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
+  function isNullOrWhitespace(value) {
+    return !value || isString(value) && (value.length === 0 || /^\s*$/.test(value));
   }
   /**
    * Returns a value indicating whether the value is undefined
    * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isUndefined(value) {
@@ -179,8 +313,9 @@ var zenkai = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is null or undefined
+   * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isNullOrUndefined(value) {
@@ -189,29 +324,49 @@ var zenkai = (function (exports) {
 
   /**
    * Inserts an item in an array at the specified index
-   * @param {*[]} arr array
+   * @param {*[]} array array
    * @param {number} index 
    * @param {object} item 
    * @returns {number} The new length of the array
    * @memberof STD
    */
 
-  function insert(arr, index, item) {
-    arr.splice(index, 0, item);
-    return arr.length;
+  function insert(array, index, item) {
+    if (!(Array.isArray(array) && Number.isInteger(index))) {
+      throw new TypeError("Bad argument");
+    }
+    array.splice(index, 0, item);
+    return array.length;
   }
   /**
-   * Returns last element of array.
-   * @param {*[]} arr array
+   * Returns the last element of an array.
+   * @param {*[]} array array
    * @memberof STD
    */
 
-  function last(arr) {
-    if (!Array.isArray(arr) || isEmpty(arr)) {
+  function last(array) {
+    if (!Array.isArray(array)) {
+      throw new TypeError("Bad argument");
+    }
+
+    if (isEmpty(array)) {
       return undefined;
     }
 
-    return arr[arr.length - 1];
+    return array[array.length - 1];
+  }
+  /**
+   * Returns the first element of an array.
+   * @param {*[]} array array
+   * @memberof STD
+   */
+
+  function first(array) {
+    if (!Array.isArray(array)) {
+      throw new TypeError("Bad argument");
+    }
+
+    return array[0];
   }
 
   var HttpResponse = {
@@ -374,22 +529,64 @@ var zenkai = (function (exports) {
     var xhr = xhrHandler('DELETE', url, successPred, success, fail, options.pass);
     xhr.send(data);
   }
+  /**
+   * Creates a fetch request with a time limit to resolve the request
+   * @param {URI} uri 
+   * @param {*} options 
+   * @param {number} time 
+   */
+
+  function fetchWithTimeout(uri) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5000;
+    // Lets set up our `AbortController`, and create a request options object
+    // that includes the controller's `signal` to pass to `fetch`.
+    var controller = new AbortController();
+
+    var config = _objectSpread2(_objectSpread2({}, options), {}, {
+      signal: controller.signal
+    }); // Set a timeout limit for the request using `setTimeout`. If the body of this
+    // timeout is reached before the request is completed, it will be cancelled.
+
+
+    var timeout = setTimeout(function () {
+      controller.abort();
+    }, time);
+    return fetch(uri, config).then(function (response) {
+      if (!response.ok) {
+        throw new Error("".concat(response.status, ": ").concat(response.statusText));
+      }
+
+      return response;
+    })["catch"](function (error) {
+      // When we abort our `fetch`, the controller conveniently throws a named
+      // error, allowing us to handle them separately from other errors.
+      if (error.name === 'AbortError') {
+        throw new Error('Response timed out');
+      }
+
+      throw new Error(error.message);
+    });
+  }
 
   /**
    * Compare 2 times
    * @param {string} t1 time 1
    * @param {string} t2 time 2
+   * @param {string} [separator=":"]
    * @returns {number} 1, 0, -1 if t1 > t2, t1 = t2 and t1 < t2 respectively
    * @memberof STD
    */
 
   function compareTime(t1, t2) {
-    if (isNullOrUndefined(t1) || isNullOrUndefined(t2) || !t1.includes(":") || !t2.includes(":")) {
+    var separator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ":";
+
+    if (isNullOrUndefined(t1) || isNullOrUndefined(t2) || !t1.includes(separator) || !t2.includes(separator)) {
       return null;
     }
 
-    var arr1 = t1.split(':');
-    var arr2 = t2.split(':'); // hour comparison
+    var arr1 = t1.split(separator);
+    var arr2 = t2.split(separator); // hour comparison
 
     if (+arr1[0] > +arr2[0]) {
       return 1;
@@ -417,21 +614,31 @@ var zenkai = (function (exports) {
   }
   /**
    * Resolves a date value
-   * @param {*} [date] 
+   * @param {*} [value] 
    * @returns {Date}
-   * @private
    */
 
-  function resolveDate(date) {
-    if (isNullOrUndefined(date)) {
+  function resolveDate(value) {
+    var useOffset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+    if (isNullOrUndefined(value)) {
       return new Date();
-    } else if (isDate(date)) {
-      return date;
+    } else if (isDate(value)) {
+      return value;
     }
 
-    var _date = new Date(date);
+    var date = new Date(value);
+    var time = date.getTime();
 
-    return new Date(_date.getTime() + _date.getTimezoneOffset() * 60000);
+    if (Number.isNaN(time)) {
+      return new Date();
+    }
+
+    if (useOffset) {
+      return new Date(time + date.getTimezoneOffset() * 60000);
+    }
+
+    return date;
   }
   /**
    * Formats a date
@@ -440,7 +647,6 @@ var zenkai = (function (exports) {
    * @returns {string} Formatted date
    * @memberof STD
    */
-
 
   function formatDate(date, format) {
     var dd = date.getDate();
@@ -476,105 +682,16 @@ var zenkai = (function (exports) {
    */
 
   function shortDateTime(_date) {
-    var date = resolveDate(_date);
-    return formatDate(new Date(date + date.getTimezoneOffset() * 60000), 'yyyy-mm-dd hh:MM');
-  }
-  function parseTime(n) {
-    var hh = +n | 0;
-    var mm = '00';
-
-    if (!Number.isInteger(+n)) {
-      mm = (n + '').split('.')[1] * 6;
-    }
-
-    return hh + ':' + mm;
-  }
-  var DICT = {
-    'en': {
-      'second': 'second(s)',
-      'minute': 'minute(s)',
-      'hour': 'hour(s)',
-      'day': 'day(s)',
-      'week': 'week(s)',
-      'month': 'month(s)',
-      'year': 'year(s)'
-    },
-    'fr': {
-      'second': 'seconde(s)',
-      'minute': 'minute(s)',
-      'hour': 'heure(s)',
-      'day': 'jour(s)',
-      'week': 'semaine(s)',
-      'month': 'mois',
-      'year': 'année(s)'
-    }
-  };
-
-  var trans = function translation(lang, key, isPlural) {
-    var value = DICT[lang][key];
-
-    if (value === undefined) {
-      return undefined;
-    }
-
-    if (isPlural) {
-      return value.replace(/\(([a-z]+)\)/g, '$1');
-    }
-
-    return value.replace(/\([a-z]+\)/g, '');
-  };
-
-  var timeAgoResponse = function timeAgoResponseBuilder(time, unit, _lang) {
-    var lang = valOrDefault(_lang, 'en');
-    var isPlural = time === 1;
-    var msg = {
-      en: "".concat(time, " ").concat(trans('en', unit, isPlural), " ago"),
-      fr: "il y a ".concat(time, " ").concat(trans('fr', unit, isPlural))
-    };
-    return msg[lang];
-  };
-  /**
-   * Returns the ellapsed time between now and a point in time
-   * @param {*} time 
-   * @param {*} _callback 
-   * @returns {string}
-   * @memberof STD
-   */
-
-
-  function timeAgo(time, _callback) {
-    var callback = valOrDefault(_callback, timeAgoResponse);
-    var seconds = Math.floor((Date.now() - resolveDate(time).getTime()) / 1000);
-    var MINUTE = 60;
-    var HOUR = MINUTE * 60;
-    var DAY = HOUR * 24;
-    var WEEK = DAY * 7;
-    var MONTH = DAY * 30;
-    var YEAR = WEEK * 52;
-
-    if (seconds < MINUTE) {
-      return callback(seconds, 'second');
-    } else if (seconds < HOUR) {
-      return callback(~~(seconds / MINUTE), 'minute');
-    } else if (seconds < DAY) {
-      return callback(~~(seconds / HOUR), 'hour');
-    } else if (seconds < WEEK) {
-      return callback(~~(seconds / DAY), 'day');
-    } else if (seconds < MONTH) {
-      return callback(~~(seconds / WEEK), 'week');
-    } else if (seconds < YEAR) {
-      return callback(~~(seconds / MONTH), 'month');
-    } else {
-      return callback(~~(seconds / YEAR), 'year');
-    }
+    var date = resolveDate(_date, false);
+    return formatDate(date, 'yyyy-mm-dd hh:MM');
   }
 
   /** @private */
+
   var hasOwnProperty = Object.prototype.hasOwnProperty;
   /** @private */
 
   var isPrototypeOf = Object.prototype.isPrototypeOf;
-  var defProp = Object.defineProperty;
   /**
    * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
    * @param {*} obj target object
@@ -596,13 +713,13 @@ var zenkai = (function (exports) {
     return Object.getPrototypeOf(child) !== parent && isPrototypeOf.call(parent, child);
   };
   /**
-   * 
-   * @param {*} obj 
+   * Creates a clone of an object
+   * @param {*} obj Object
    * @memberof STD
    */
 
   function cloneObject(obj) {
-    if (obj === null || _typeof(obj) !== 'object') {
+    if (isNullOrUndefined(obj) || !isObject(obj)) {
       return obj;
     }
 
@@ -627,6 +744,10 @@ var zenkai = (function (exports) {
    */
 
   function capitalize(str) {
+    if (isNullOrWhitespace(str)) {
+      return str;
+    }
+
     return str.toLowerCase().replace(/\b\w/g, function (s) {
       return s.toUpperCase();
     });
@@ -639,7 +760,11 @@ var zenkai = (function (exports) {
    */
 
   function capitalizeFirstLetter(str) {
-    return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
+    if (isNullOrWhitespace(str)) {
+      return str;
+    }
+
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
   var CaseHandler = {
     'camel': function camel(str) {
@@ -658,7 +783,7 @@ var zenkai = (function (exports) {
   /**
    * Format a sequence according to a specified case
    * @param {!string} str Sequence
-   * @param {!string} casing Sequence
+   * @param {!string} casing Casing (camel, pascal, upper, lower)
    * @returns {string} Formatted sequence
    * @memberof STD
    */
@@ -739,9 +864,45 @@ var zenkai = (function (exports) {
 
   function toBoolean(value) {
     var val = valOrDefault(value, false);
-    return val === true || val.toString().toLowerCase() === 'true';
+    return isString(val) && val.toLowerCase() === "true" || Number.isInteger(val) && val === 1 || val === true;
   }
 
+  /**
+   * Verifies that the condition is satisfied for a specified number (range) of value
+   * @param {*[]} values Set of values
+   * @param {Function} pred Condition
+   * @param {number} [min=1] Minimum number of values that must satisfy the condition
+   * @param {number} [max] Maximum number of values that must satisfy the condition
+   * @returns {boolean} A value indicating whether the condition is satisfied for the specified range
+   * @memberof STD
+   */
+
+  var assert = function assert(values, pred, min, max) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
+    var hitCount = getHitCount(values, pred);
+
+    if (all([min, max], Number.isInteger)) {
+      if (max < min) {
+        throw new Error("Bad argument: max must be greater than min");
+      }
+
+      return hitCount >= min && hitCount <= max;
+    }
+
+    if (Number.isInteger(min)) {
+      return hitCount >= min;
+    }
+
+    if (Number.isInteger(max)) {
+      console.warn(hitCount);
+      return hitCount <= max;
+    }
+
+    return false;
+  };
   /**
    * Verifies that at least one value satisfies the condition
    * @param {*[]} values Set of values
@@ -751,44 +912,16 @@ var zenkai = (function (exports) {
    */
 
   var some = function some(values, pred) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
     for (var i = 0; i < values.length; i++) {
       var value = values[i];
 
       if (pred.apply(void 0, _toConsumableArray(Array.isArray(value) ? value : [value]))) {
         return true;
       }
-    }
-
-    return false;
-  };
-  /**
-   * Verifies that at the condition is satisfied for a a number of value
-   * @param {*[]} values Set of values
-   * @param {Function} pred Condition
-   * @param {number} [min=1] Minimum number of values that must satisfy the condition
-   * @param {number} [max=-1] Minimum number of values that must satisfy the condition
-   * @returns {boolean} A value indicating whether at least one value satisfies the condition
-   * @memberof STD
-   */
-
-  var assert = function assert(values, pred, min, max) {
-    if (max < min) {
-      console.error("`max` must be greater than `min`");
-      return;
-    }
-
-    var hitCount = getHitCount(values, pred);
-
-    if (all([min, max], Number.isInteger)) {
-      return hitCount >= min && hitCount <= max;
-    }
-
-    if (Number.isInteger(min)) {
-      return hitCount >= min;
-    }
-
-    if (Number.isInteger(max)) {
-      return hitCount <= max;
     }
 
     return false;
@@ -802,6 +935,10 @@ var zenkai = (function (exports) {
    */
 
   var all = function all(values, pred) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
     for (var i = 0; i < values.length; i++) {
       var value = values[i];
 
@@ -821,6 +958,10 @@ var zenkai = (function (exports) {
    */
 
   var one = function one(values, pred) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
     return getHitCount(values, pred) === 1;
   };
   /**
@@ -832,6 +973,10 @@ var zenkai = (function (exports) {
    */
 
   var no = function no(values, pred) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
     return getHitCount(values, pred) === 0;
   };
   /**
@@ -843,12 +988,17 @@ var zenkai = (function (exports) {
    */
 
   var lone = function lone(values, pred) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
     return getHitCount(values, pred) <= 1;
   };
   /**
-   * 
-   * @param {*} values 
-   * @param {*} pred 
+   * Gets the number of values that satisfy the condition
+   * @param {*[]} values 
+   * @param {Function} pred 
+   * @returns {number}
    * @private
    */
 
@@ -875,13 +1025,20 @@ var zenkai = (function (exports) {
    * @param {boolean} [secure] 
    * @memberof STD
   */
-
   function random(min, max) {
     var secure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-    if (isNullOrUndefined(max)) {
+    if (!Number.isInteger(min)) {
+      throw new TypeError("Bad argument");
+    }
+
+    if (!Number.isInteger(max)) {
       max = min;
       min = 0;
+    }
+
+    if (max < min) {
+      throw new Error("Bad argument: max must be greater than min");
     }
 
     return min + Math.floor((secure ? secureMathRandom() : Math.random()) * (max - min + 1));
@@ -900,20 +1057,24 @@ var zenkai = (function (exports) {
    * Append the path to the current path
    * @param {string} target 
    * @param {string} path 
+   * @param {string} [separator="."] 
    * @memberof STD
    */
 
   function addPath(target, path) {
-    return isNullOrWhitespace(target) ? path : target + '.' + path;
+    var separator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ".";
+    return isNullOrWhitespace(target) ? path : "".concat(target).concat(separator).concat(path);
   }
   /**
    * Returns the directory of the path
    * @param {string} path 
+   * @param {string} [separator="."] 
    * @memberof STD
    */
 
   function getDir(path) {
-    return path.substring(0, path.lastIndexOf('.'));
+    var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ".";
+    return path.substring(0, path.lastIndexOf(separator));
   }
   /**
    * Returns the directory of the path from the target
@@ -934,14 +1095,14 @@ var zenkai = (function (exports) {
    * Returns an element in an object using its path
    * @param {Object} obj
    * @param {string} path  
-   * @param {string} [_separator=.]
+   * @param {string} [separator=.]
    * @memberof STD
    */
 
 
-  function findByPath(obj, path, _separator) {
+  function findByPath(obj, path) {
+    var separator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ".";
     var REGEX_BRACKET_DIGIT = /\[\d+\]/g;
-    var separator = valOrDefault(_separator, '.');
     var me = cloneObject(obj);
 
     var findHandler = function findHandler(part, regex, callback) {
@@ -1097,7 +1258,7 @@ var zenkai = (function (exports) {
       return Array.isArray(type) ? type.includes(element.type) : element.type === type;
     };
 
-    some(kinds, function (kind) {
+    return kinds.some(function (kind) {
       if (!isIterable(kind)) {
         return false;
       }
@@ -1112,13 +1273,14 @@ var zenkai = (function (exports) {
         type = _kind[1];
       }
 
+      name = name.toLowerCase();
       var interfaceName = "HTML".concat(hasOwn(TagNameMapping, name) ? TagNameMapping[name] : pascalCase(name), "Element");
 
       if (!(isInstanceOf(window[interfaceName]) || hasTag(name))) {
         return false;
       }
 
-      if (isIterable(type) && !isEmpty(type)) {
+      if (isCollection(type) && !isEmpty(type)) {
         return isOfType(type);
       }
 
@@ -1147,29 +1309,21 @@ var zenkai = (function (exports) {
     return isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
   };
   /**
-   * Creates a template with content
-   * @param {string} html 
-   * @returns {HTMLTemplateElement}
-   * @private
+   * Converts an html string to an HTML Element or a list of HTML Elements
+   * @param {!string} prop 
+   * @param {!string} html 
    */
 
   /* istanbul ignore next */
-
-  function createTemplate(html) {
-    var template = document.createElement('template');
-    template.innerHTML = html.trim();
-    return template.content;
-  }
-  /* istanbul ignore next */
-
 
   function _htmlToElement(prop, html) {
     if (!isString(html)) {
       return null;
     }
 
-    var template = createTemplate(html);
-    return template[prop];
+    var template = document.createElement('template');
+    template.innerHTML = html.trim();
+    return template.content[prop];
   }
   /**
    * Converts an html string to an HTML Element
@@ -1179,7 +1333,7 @@ var zenkai = (function (exports) {
    */
 
 
-  var htmlToElement = _htmlToElement.bind('firstChild');
+  var htmlToElement = _htmlToElement.bind(null, 'firstChild');
   /**
    * Converts an html string to a list of HTML Elements
    * @param {!string} html 
@@ -1187,7 +1341,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var htmlToElements = _htmlToElement.bind('childNodes');
+  var htmlToElements = _htmlToElement.bind(null, 'childNodes');
   /**
    * Verifies that an element is visible
    * @param {!HTMLElement} element 
@@ -1240,14 +1394,14 @@ var zenkai = (function (exports) {
 
   /**
    * Inserts a given element before the targetted element
-   * @param {!HTMLElement} target 
-   * @param {!HTMLElement} element 
+   * @param {!Element} target 
+   * @param {!Element} element 
    * @memberof DOM
    */
 
   function insertBeforeElement(target, element) {
     if (!all([target, element], isElement)) {
-      throw new Error("The given element or target is not a valid HTML Element");
+      throw new TypeError("Bad argument: The given `element` or `target` is not a valid Element");
     }
 
     target.insertAdjacentElement('beforebegin', element);
@@ -1255,14 +1409,14 @@ var zenkai = (function (exports) {
   }
   /**
    * Inserts a given element after the targetted element
-   * @param {!HTMLElement} target 
-   * @param {!HTMLElement} element 
+   * @param {!Element} target 
+   * @param {!Element} element 
    * @memberof DOM
    */
 
   function insertAfterElement(target, element) {
     if (!all([target, element], isElement)) {
-      throw new Error("The given element or target is not a valid HTML Element");
+      throw new TypeError("Bad argument: The given `element` or `target` is not a valid Element");
     }
 
     target.insertAdjacentElement('afterend', element);
@@ -1270,14 +1424,14 @@ var zenkai = (function (exports) {
   }
   /**
    * Inserts a givern element as the first children of the targetted element
-   * @param {!HTMLElement} target 
-   * @param {!HTMLElement} element 
+   * @param {!Element} target 
+   * @param {!Element} element 
    * @memberof DOM
    */
 
   function preprendChild(target, element) {
     if (!all([target, element], isElement)) {
-      throw new Error("The given element or target is not a valid HTML Element");
+      throw new TypeError("Bad argument: The given `element` or `target` is not a valid Element");
     }
 
     target.insertAdjacentElement('afterbegin', element);
@@ -1285,7 +1439,7 @@ var zenkai = (function (exports) {
   }
   /**
    * Append a list of elements to a node.
-   * @param {Element} parent
+   * @param {!Element} parent
    * @param {!HTMLElement[]|HTMLCollection} children
    * @returns {HTMLElement}
    * @memberof DOM
@@ -1293,57 +1447,198 @@ var zenkai = (function (exports) {
 
   function appendChildren(parent, children) {
     if (!isNode(parent)) {
-      throw new Error("The given parent is not a valid Node");
+      throw new TypeError("Bad argument: The given `parent` is not a valid Node");
     }
 
-    if (!isHTMLCollection(children) && !isIterable(children) || isString(children)) {
-      throw new Error("The given children is not a valid HTMLCollection/HTMLElement array");
+    if (!(isHTMLCollection(children) || isCollection(children))) {
+      throw new TypeError("Bad argument: The given `children` is not a valid HTMLCollection/HTMLElement array");
     }
 
-    var fragment = document.createDocumentFragment();
+    var createText = function createText(obj) {
+      return document.createTextNode(obj.toString());
+    };
+
+    var fragment = isDocumentFragment(parent) ? parent : document.createDocumentFragment();
     Array.from(children).forEach(function (element) {
-      fragment.appendChild(isNode(element) ? element : document.createTextNode(element.toString()));
+      if (!isNullOrUndefined(element)) {
+        fragment.appendChild(isNode(element) ? element : createText(element.toString()));
+      }
     });
-    parent.appendChild(fragment);
+
+    if (parent !== fragment) {
+      parent.appendChild(fragment);
+    }
+
     return parent;
   }
 
-  /* istanbul ignore next */
-
-  function echo(o) {}
   /**
-   * Removes additional spaces in class attribute
-   * @param {string} c class attribute's value
-   * @returns {string} formatted value
-   * @private
+   * Add classes to an element
+   * @param {HTMLElement} element 
+   * @param {string|string[]} value 
    */
 
+  function addClass(element, value) {
+    var _element$classList;
 
-  var formatClass = function formatClass(c) {
-    return c.replace(/\s+/g, ' ').trim();
-  };
-  /**
-   * Transform a raw value to a valid class value
-   * @param {string} c raw value
-   * @returns {string} parsed value
-   * @private
-   */
-
-
-  var parseClass = function parseClass(c) {
-    if (isNullOrUndefined(c)) {
-      return "";
-    } else if (Array.isArray(c)) {
-      return c.join(' ');
+    if (!isHTMLElement(element)) {
+      throw new Error("Bad argument: The passed `element` argument is not a valid HTML Element");
     }
 
-    return c.toString();
-  };
+    (_element$classList = element.classList).add.apply(_element$classList, _toConsumableArray(Array.isArray(value) ? value : [value]));
 
-  function setClass(element, attrClass) {
-    element.className = formatClass(parseClass(attrClass));
     return element;
   }
+  /**
+   * Assigns a value to an attribute
+   * @param {HTMLElement} element 
+   * @param {string} key 
+   * @param {string} value 
+   */
+
+
+  function assign(element, key, value) {
+    element[key] = value;
+  }
+  /**
+   * Assigns a value to an attribute
+   * @param {HTMLElement} element 
+   * @param {string} key 
+   * @param {Object} value 
+   */
+
+
+  function assignObject(element, key, value) {
+    Object.assign(element[key], value);
+  }
+  /**
+   * Assigns a value to an attribute
+   * @param {HTMLElement} element 
+   * @param {string} key 
+   * @param {Object} value 
+   */
+
+
+  function assignAttribute(element, key, value) {
+    element.setAttribute(key, value);
+  }
+
+  var GLOBAL_ATTRIBUTES = "accesskey,autocapitalize,class,dataset,editable,draggable,hidden,id,inputmode,lang,html,style,tabindex,text,title";
+  var AttributeHandler = {
+    // Global attributes
+    accesskey: [assign, 'accessKey'],
+    autocapitalize: [assign, 'autocapitalize'],
+    "class": [addClass],
+    dataset: [assignObject, 'dataset'],
+    draggable: [assign, 'draggable'],
+    editable: [assign, 'contentEditable'],
+    hidden: [assign, 'hidden'],
+    id: [assign, 'id'],
+    inputmode: [assign, 'inputMode'],
+    lang: [assign, 'lang'],
+    html: [assign, 'innerHTML'],
+    style: [assign, 'style'],
+    tabindex: [assign, 'tabIndex'],
+    text: [assign, 'textContent'],
+    title: [assign, 'title'],
+    // Object attributes
+    data: [assign, 'data'],
+    // Quote attributes
+    cite: [assign, 'cite'],
+    // Anchor attributes
+    download: [assign, 'download'],
+    ping: [assign, 'ping'],
+    target: [assign, 'target'],
+    // Area attributes
+    coords: [assign, 'coords'],
+    shape: [assign, 'shape'],
+    // Audio/Video attributes
+    autoplay: [assign, 'autoplay'],
+    buffered: [assign, 'buffered'],
+    controls: [assign, 'controls'],
+    loop: [assign, 'loop'],
+    muted: [assign, 'muted'],
+    playsinline: [assignAttribute, 'playsinline'],
+    poster: [assign, 'poster'],
+    preload: [assign, 'preload'],
+    // Image attributes
+    crossorigin: [assign, 'crossOrigin'],
+    decoding: [assign, 'decoding'],
+    height: [assign, 'height'],
+    ismap: [assign, 'isMap'],
+    loading: [assign, 'loading'],
+    srcset: [assign, 'srcset'],
+    width: [assign, 'width'],
+    // Link attributes
+    alt: [assign, 'alt'],
+    as: [assign, 'as'],
+    media: [assign, 'media'],
+    rel: [assign, 'rel'],
+    src: [assign, 'src'],
+    sizes: [assign, 'sizes'],
+    // List attributes
+    reversed: [assign, 'reversed'],
+    start: [assign, 'start'],
+    // Form attributes
+    accept: [assign, 'accept'],
+    "accept-charset": [assign, 'acceptCharset'],
+    action: [assign, 'action'],
+    autocomplete: [assign, 'autocomplete'],
+    autofocus: [assign, 'autofocus'],
+    capture: [assign, 'capture'],
+    checked: [assign, 'checked'],
+    cols: [assign, 'cols'],
+    disabled: [assign, 'disabled'],
+    dirname: [assign, 'dirName'],
+    enctype: [assign, 'enctype'],
+    "for": [assign, 'for'],
+    form: [assign, 'form'],
+    formaction: [assign, 'formAction'],
+    formenctype: [assign, 'formEnctype'],
+    formmethod: [assign, 'formMethod'],
+    formnovalidate: [assign, 'formNoValidate'],
+    formtarget: [assign, 'formTarget'],
+    high: [assign, 'high'],
+    label: [assign, 'label'],
+    list: [assign, 'list'],
+    low: [assign, 'low'],
+    max: [assign, 'max'],
+    maxlength: [assign, 'maxLength'],
+    method: [assign, 'method'],
+    min: [assign, 'min'],
+    minlength: [assign, 'minLength'],
+    multiple: [assign, 'multiple'],
+    name: [assign, 'name'],
+    novalidate: [assign, 'noValidate'],
+    optimum: [assign, 'optimum'],
+    pattern: [assign, 'pattern'],
+    placeholder: [assign, 'placeholder'],
+    readonly: [assign, 'readOnly'],
+    required: [assign, 'required'],
+    rows: [assign, 'rows'],
+    selected: [assign, 'selected'],
+    size: [assign, 'size'],
+    spellcheck: [assignAttribute, 'spellcheck'],
+    step: [assign, 'step'],
+    wrap: [assign, 'wrap'],
+    // Track attributes
+    "default": [assign, 'default'],
+    kind: [assign, 'kind'],
+    srclang: [assign, 'srclang'],
+    // Table attributes
+    abbr: [assign, 'abbr'],
+    colspan: [assign, 'colSpan'],
+    span: [assign, 'span'],
+    rowspan: [assign, 'rowSpan'],
+    scope: [assign, 'scope'],
+    // Mix attributes
+    href: [assign, 'href'],
+    hreflang: [assign, 'hreflang'],
+    datetime: [assign, 'dateTime'],
+    type: [assign, 'type'],
+    value: [assign, 'value'],
+    usemap: [assign, 'useMap']
+  };
   /**
    * Sets the attributes of an element
    * @param {!HTMLElement} element element
@@ -1352,56 +1647,31 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-
   function addAttributes(element, attribute) {
+    var validAttributes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
+
     if (!isHTMLElement(element)) {
-      throw new Error("The given element parameter is not a valid HTML Element");
+      throw new Error("Bad argument: The given element argument is not a valid HTML Element");
     }
 
     if (!isObject(attribute)) {
       return element;
     }
 
-    var ATTR_MAP = {
-      // Global attributes
-      accesskey: [assign, 'accessKey'],
-      "class": [setClass, element],
-      data: [Object.assign, element.dataset],
-      editable: [assign, 'contentEditable'],
-      draggable: [assign],
-      hidden: [assign],
-      id: [assign],
-      lang: [assign],
-      html: [assign, 'innerHTML'],
-      style: [assign],
-      target: [assign],
-      tabindex: [assign, 'tabIndex'],
-      text: [assign, 'textContent'],
-      title: [assign],
-      // Quote attributes
-      cite: [assign],
-      // Anchor attributes
-      href: [assign],
-      // Link attributes
-      alt: [assign],
-      src: [assign],
-      // Form attributes
-      accept: [assign],
-      disabled: [assign],
-      placeholder: [assign],
-      readonly: [assign, 'readOnly'],
-      value: [assign]
-    };
-    var DEFAULT_MAP = [echo, '']; // HTML attributes
+    var isValid = function isValid(key) {
+      return GLOBAL_ATTRIBUTES.includes(key) || validAttributes.includes(key);
+    }; // HTML attributes
+
 
     for (var _i = 0, _Object$keys = Object.keys(attribute); _i < _Object$keys.length; _i++) {
       var key = _Object$keys[_i];
-      var val = ATTR_MAP[key] || DEFAULT_MAP;
-      val[0](val[1] || key, attribute[key]);
-    }
 
-    function assign(key, val) {
-      element[key] = val;
+      if (isValid(key)) {
+        var value = attribute[key];
+        var args = AttributeHandler[key].slice(0);
+        var fn = args.shift();
+        fn.apply(void 0, [element].concat(_toConsumableArray(args), [value]));
+      }
     }
 
     return element;
@@ -1416,7 +1686,7 @@ var zenkai = (function (exports) {
 
   function changeSelectValue(select, value) {
     if (!isHTMLElement(select, "select")) {
-      throw new Error("The given select parameter is not a valid HTML Select element");
+      throw new Error("Bad argument: The given select argument is not a valid HTML Select element");
     }
 
     if (isNullOrUndefined(value)) {
@@ -1438,29 +1708,87 @@ var zenkai = (function (exports) {
   }
 
   /**
-   * Creates an element
+   * Creates an empty element with attributes
    * @param {string} tagName 
-   * @param {object} [_attribute] 
-   * @param {Text|HTMLElement|HTMLElement[]} [_children] 
+   * @param {string} [_validAttributes] 
+   * @param {object} [_attributes] 
    * @returns {HTMLElement}
    * @private
    */
 
   /* istanbul ignore next */
 
-  function create(tagName, _attribute, _children) {
+  function createEmptyElement(tagName, _validAttributes, _attributes) {
     var element = document.createElement(tagName);
 
-    if (!isNullOrUndefined(_attribute)) {
-      addAttributes(element, _attribute);
+    if (!isHTMLElement(element)) {
+      return null;
     }
 
-    if (!isNullOrUndefined(_children)) {
-      addContent(element, _children);
+    if (isObject(_attributes)) {
+      addAttributes(element, _attributes, valOrDefault(_validAttributes, ""));
     }
 
     return element;
   }
+  /**
+   * Creates an element with attributes and content
+   * @param {string} tagName 
+   * @param {string} [_validAttributes] 
+   * @param {Function} [contentResolver] 
+   * @param {object} [_attributes] 
+   * @param {Text|HTMLElement|HTMLElement[]} [_content] 
+   * @returns {HTMLElement}
+   * @private
+   */
+
+  /* istanbul ignore next */
+
+
+  function createElement(tagName, _validAttributes, _attributes, _content) {
+    var element = createEmptyElement(tagName, _validAttributes, _attributes);
+
+    if (!isHTMLElement(element)) {
+      return null;
+    }
+
+    if (!isNullOrUndefined(_content)) {
+      addContent(element, _content);
+    }
+
+    return element;
+  }
+  /**
+   * Creates an element with attributes and content
+   * @param {string} tagName 
+   * @param {string} [_validAttributes] 
+   * @param {Function} [contentResolver] 
+   * @param {object} [_attributes] 
+   * @param {Text|HTMLElement|HTMLElement[]} [_content] 
+   * @returns {HTMLElement}
+   * @private
+   */
+
+  /* istanbul ignore next */
+
+
+  function createElementX(tagName, _validAttributes, contentResolver, _attributes, _content) {
+    var element = createEmptyElement(tagName, _validAttributes, _attributes);
+
+    if (!isHTMLElement(element)) {
+      return null;
+    }
+
+    if (!isNullOrUndefined(_content)) {
+      addContent(element, _content, contentResolver);
+    }
+
+    return element;
+  } // TODO: createMeta
+  // TODO: createScript
+  // TODO: createStyle
+  // TODO: createTitle
+
   /**
    * Creates a document fragment
    * @function createDocFragment
@@ -1491,25 +1819,13 @@ var zenkai = (function (exports) {
   };
   /**
    * Creates a `<link>` element with some attributes
-   * @param {string} href 
-   * @param {string} rel 
+   * @function createLink
+   * @param {object} _attribute Global attributes
    * @returns {HTMLLinkElement}
    * @memberof DOM
    */
 
-  function createLink(href, rel) {
-    var link = create("link");
-
-    if (href) {
-      link.href = href;
-    }
-
-    if (rel) {
-      link.rel = rel;
-    }
-
-    return link;
-  }
+  var createLink = createEmptyElement.bind(null, "link", "as,crossorigin,disabled,href,hreflang,media,rel,sizes,type");
   /**
    * Creates a `<template>` element with some attributes
    * @function createTemplate
@@ -1519,7 +1835,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTemplate$1 = create.bind(null, 'template');
+  var createTemplate = createElement.bind(null, "template", "");
   /**
    * Creates a `<header>` element with some attributes
    * @function createHeader
@@ -1529,7 +1845,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createHeader = create.bind(null, 'header');
+  var createHeader = createElement.bind(null, "header", "");
   /**
    * Creates an `<footer>` element with some attributes
    * @function createFooter
@@ -1539,7 +1855,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createFooter = create.bind(null, 'footer');
+  var createFooter = createElement.bind(null, "footer", "");
   /**
    * Creates an `<main>` element with some attributes
    * @function createMain
@@ -1549,7 +1865,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createMain = create.bind(null, 'main');
+  var createMain = createElement.bind(null, "main", "");
   /**
    * Creates an `<article>` element with some attributes
    * @function createArticle
@@ -1559,7 +1875,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createArticle = create.bind(null, 'article');
+  var createArticle = createElement.bind(null, "article", "");
   /**
    * Creates an `<section>` element with some attributes
    * @function createSection
@@ -1569,7 +1885,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createSection = create.bind(null, 'section');
+  var createSection = createElement.bind(null, "section", "");
   /**
    * Creates an `<nav>` element with some attributes
    * @function createNav
@@ -1579,7 +1895,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createNav = create.bind(null, 'nav');
+  var createNav = createElement.bind(null, "nav", "");
   /**
    * Creates an `<aside>` element with some attributes
    * @function createAside
@@ -1589,7 +1905,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createAside = create.bind(null, 'aside');
+  var createAside = createElement.bind(null, "aside", "");
   /**
    * Creates a `<h1>` element with some attributes
    * @function createH1
@@ -1599,7 +1915,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createH1 = create.bind(null, 'h1');
+  var createH1 = createElement.bind(null, "h1", "");
   /**
    * Creates a `<h2>` element with some attributes
    * @function createH2
@@ -1609,7 +1925,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createH2 = create.bind(null, 'h2');
+  var createH2 = createElement.bind(null, "h2", "");
   /**
    * Creates a `<h3>` element with some attributes
    * @function createH3
@@ -1619,7 +1935,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createH3 = create.bind(null, 'h3');
+  var createH3 = createElement.bind(null, "h3", "");
   /**
    * Creates a `<h4>` element with some attributes
    * @function createH4
@@ -1629,7 +1945,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createH4 = create.bind(null, 'h4');
+  var createH4 = createElement.bind(null, "h4", "");
   /**
    * Creates a `<h5>` element with some attributes
    * @function createH5
@@ -1639,7 +1955,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createH5 = create.bind(null, 'h5');
+  var createH5 = createElement.bind(null, "h5", "");
   /**
    * Creates a `<h6>` element with some attributes
    * @function createH6
@@ -1649,7 +1965,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createH6 = create.bind(null, 'h6');
+  var createH6 = createElement.bind(null, "h6", "");
   /**
    * Creates a `<div>` element with some attributes
    * @function createDiv
@@ -1659,29 +1975,44 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createDiv = create.bind(null, 'div');
+  var createDiv = createElement.bind(null, "div", "");
   /**
-   * Creates a `br` element \
+   * Creates a `<object>` element with some attributes
+   * @function createObject
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLObjectElement}
+   * @memberof DOM
+   */
+
+  var createObject = createElement.bind(null, "object", "data,height,name,type,usemap,width");
+  /**
+   * Creates a `<embed>` element with some attributes
+   * @function createEmbed
+   * @param {object} _attribute 
+   * @returns {HTMLEmbedElement}
+   * @memberof DOM
+   */
+
+  var createEmbed = createEmptyElement.bind(null, "embed", "height,src,type,width");
+  /**
+   * Creates a `<br>` element \
    * Line break (carriage-return)
    * @function createLineBreak
    * @returns {HTMLBRElement}
    * @memberof DOM
    */
 
-  var createLineBreak = function createLineBreak() {
-    return create('br');
-  };
+  var createLineBreak = createEmptyElement.bind(null, "br", "");
   /**
-   * Creates a `hr` element \
+   * Creates a `<hr>` element \
    * Thematic break
    * @function createThematicBreak
    * @returns {HTMLHRElement}
    * @memberof DOM
    */
 
-  var createThematicBreak = function createThematicBreak() {
-    return create('hr');
-  };
+  var createThematicBreak = createEmptyElement.bind(null, "hr", "");
   /**
    * Creates a `<p>` element with some attributes
    * @function createParagraph
@@ -1691,7 +2022,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createParagraph = create.bind(null, 'p');
+  var createParagraph = createElement.bind(null, "p", "");
   /**
    * Creates a `<blockquote>` element with some attributes
    * @function createBlockQuotation
@@ -1701,7 +2032,11 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createBlockQuotation = create.bind(null, 'blockquote');
+  var createBlockQuotation = createElement.bind(null, "blockquote", "cite");
+
+  var listItemResolver = function listItemResolver(item) {
+    return isHTMLElement(item, "li") ? item : createListItem(null, item);
+  };
   /**
    * Creates a `<ul>` element with some attributes
    * @function createUnorderedList
@@ -1711,7 +2046,8 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createUnorderedList = create.bind(null, 'ul');
+
+  var createUnorderedList = createElementX.bind(null, "ul", "", listItemResolver);
   /**
    * Creates a `<ol>` element with some attributes
    * @function createOrderedList
@@ -1721,7 +2057,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createOrderedList = create.bind(null, 'ol');
+  var createOrderedList = createElementX.bind(null, "ol", "reversed,start,type", listItemResolver);
   /**
    * Creates a `<li>` element with some attributes
    * @function createListItem
@@ -1731,7 +2067,8 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createListItem = create.bind(null, 'li');
+  var createListItem = createElement.bind(null, "li", "value"); // const descriptionContentResolver = (item) => isHTMLElement(item, ["dt", "dd"]) ? item : createListItem(null, item);
+
   /**
    * Creates a `<dl>` element with some attributes
    * @function createDescriptionList
@@ -1741,7 +2078,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createDescriptionList = create.bind(null, 'dl');
+  var createDescriptionList = createElement.bind(null, "dl", "");
   /**
    * Creates a `<dt>` element with some attributes
    * @function createDescriptionTerm
@@ -1751,7 +2088,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createDescriptionTerm = create.bind(null, 'dt');
+  var createDescriptionTerm = createElement.bind(null, "dt", "");
   /**
    * Creates a `<dd>` element with some attributes
    * @function createDescriptionDetails
@@ -1761,95 +2098,85 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createDescriptionDetails = create.bind(null, 'dd'); // Inline Element
+  var createDescriptionDetails = createElement.bind(null, "dd", ""); // Inline Element
+  //-----------------------------------------------------------------------------
 
   /**
    * Creates an `<a>` element with some attributes
-   * @param {string} href URL or a URL fragment that the hyperlink points to
+   * @function createAnchor
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLAnchorElement}
    * @memberof DOM
    */
 
-  function createAnchor(href, _attribute, _children) {
-    var a = create('a', _attribute, _children);
+  var createAnchor = createElement.bind(null, "a", "download,href,hreflang,ping,rel,target,type");
+  /**
+   * Creates an `<area>` element with some attributes
+   * @function createArea
+   * @param {object} _attribute 
+   * @returns {HTMLAreaElement}
+   * @memberof DOM
+   */
 
-    if (href) {
-      a.href = href;
-    }
+  var createArea = createEmptyElement.bind(null, "area", "alt,coords,download,href,hreflang,media,ping,rel,shape,target");
+  /**
+   * Creates an `<base>` element with some attributes
+   * @function createBase
+   * @param {object} _attribute 
+   * @returns {HTMLBaseElement}
+   * @memberof DOM
+   */
 
-    return a;
-  }
+  var createBase = createEmptyElement.bind(null, "base", "href,target");
   /**
     * Creates a `<img>` element with some attributes
-    * @param {string} src
-    * @param {string} alt
+    * @function createImage
     * @param {object} _attribute 
-    * @param {Text|HTMLElement|HTMLElement[]} _children 
     * @returns {HTMLImageElement}
     * @memberof DOM
     */
 
-  function createImage(src, alt, _attribute) {
-    var img = create('img', _attribute);
-
-    if (src) {
-      img.src = src;
-    }
-
-    if (alt) {
-      img.alt = alt;
-    }
-
-    return img;
-  }
+  var createImage = createEmptyElement.bind(null, "img", "alt,crossorigin,decoding,height,ismap,loading,sizes,src,srcset,usemap,width");
   /**
     * Creates a `<audio>` element with some attributes
-    * @param {string} src
-    * @param {object} attribute 
-    * @param {Text|HTMLElement|HTMLElement[]} children 
+    * @function createAudio
+    * @param {object} _attribute
+    * @param {Text|HTMLElement|HTMLElement[]} _children
     * @returns {HTMLAudioElement}
     * @memberof DOM
     */
 
-  function createAudio(src, attribute, children) {
-    var audio = create('audio', attribute, children);
-
-    if (src) {
-      audio.src = src;
-    }
-
-    return audio;
-  }
+  var createAudio = createElement.bind(null, "audio", "autoplay,controls,crossorigin,loop,muted,preload,src");
   /**
     * Creates a `<video>` element with some attributes
-    * @param {string} src
-    * @param {object} attribute 
-    * @param {Text|HTMLElement|HTMLElement[]} children 
+    * @function createVideo
+    * @param {object} _attribute 
+    * @param {Text|HTMLElement|HTMLElement[]} _children 
     * @returns {HTMLVideoElement}
     * @memberof DOM
     */
 
-  function createVideo(src, attribute, children) {
-    var video = create('video', attribute, children);
-
-    if (src) {
-      video.src = src;
-    }
-
-    return video;
-  }
+  var createVideo = createElement.bind(null, "video", "autoplay,controls,crossorigin,height,loop,muted,playsinline,poster,preload,src,width");
   /**
    * Creates a `<source>` element with some attributes
    * @function createSource
-   * @param {object} _attribute 
+   * @param {object} _attribute
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLSourceElement}
    * @memberof DOM
    */
 
-  var createSource = create.bind(null, "source");
+  var createSource = createEmptyElement.bind(null, "source", "media,sizes,src,srcset,type");
+  /**
+   * Creates a `<track>` element with some attributes
+   * @function createTrack
+   * @param {object} _attribute 
+   * @returns {HTMLTrackElement}
+   * @memberof DOM
+   */
+
+  var createTrack = createEmptyElement.bind(null, "track", "default,kind,label,src,srclang");
   /**
    * Creates a `<picture>` element with some attributes
    * @function createPicture
@@ -1859,7 +2186,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createPicture = create.bind(null, "picture");
+  var createPicture = createElement.bind(null, "picture", "");
   /**
    * Creates a `<figure>` element with some attributes
    * @function createFigure
@@ -1869,7 +2196,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createFigure = create.bind(null, "figure");
+  var createFigure = createElement.bind(null, "figure", "");
   /**
    * Creates a `<figcaption>` element with some attributes
    * @function createFigureCaption
@@ -1879,7 +2206,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createFigureCaption = create.bind(null, "figcaption");
+  var createFigureCaption = createElement.bind(null, "figcaption", "");
   /**
    * Creates a `<span>` element with some attributes
    * @function createSpan
@@ -1889,7 +2216,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createSpan = create.bind(null, "span");
+  var createSpan = createElement.bind(null, "span", "");
   /**
    * Creates a `<strong>` element with some attributes
    * @function createStrong
@@ -1899,7 +2226,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createStrong = create.bind(null, "strong");
+  var createStrong = createElement.bind(null, "strong", "");
   /**
    * Creates a `<em>` element with some attributes
    * @function createEmphasis
@@ -1909,7 +2236,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createEmphasis = create.bind(null, "em");
+  var createEmphasis = createElement.bind(null, "em", "");
   /**
    * Creates a `<mark>` element with some attributes
    * @function createMark
@@ -1919,7 +2246,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createMark = create.bind(null, "mark");
+  var createMark = createElement.bind(null, "mark", "");
   /**
    * Creates a `<samp>` element with some attributes
    * @function createSample
@@ -1929,7 +2256,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createSample = create.bind(null, "samp");
+  var createSample = createElement.bind(null, "samp", "");
   /**
    * Creates a `<sub>` element with some attributes
    * @function createSubscript
@@ -1939,7 +2266,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createSubscript = create.bind(null, "sub");
+  var createSubscript = createElement.bind(null, "sub", "");
   /**
    * Creates a `<sup>` element with some attributes
    * @function createSuperscript
@@ -1949,7 +2276,27 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createSuperscript = create.bind(null, "sup");
+  var createSuperscript = createElement.bind(null, "sup", "");
+  /**
+   * Creates a `<del>` element with some attributes
+   * @function createDeletedPart
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLModElement}
+   * @memberof DOM
+   */
+
+  var createDeletedPart = createElement.bind(null, "del", "cite,datetime");
+  /**
+   * Creates a `<ins>` element with some attributes
+   * @function createInsertedPart
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLModElement}
+   * @memberof DOM
+   */
+
+  var createInsertedPart = createElement.bind(null, "ins", "cite,datetime");
   /**
    * Creates a `<q>` element with some attributes
    * @function createQuote
@@ -1959,15 +2306,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  function createQuote(cite, _attribute, children) {
-    var quote = create('q', _attribute, children);
-
-    if (cite) {
-      quote.cite = cite;
-    }
-
-    return quote;
-  }
+  var createQuote = createElement.bind(null, "q", "cite");
   /**
    * Creates a `<abbr>` element with some attributes
    * @function createAbbreviation
@@ -1977,7 +2316,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createAbbreviation = create.bind(null, "abbr");
+  var createAbbreviation = createElement.bind(null, "abbr", "");
   /**
    * Creates a `<b>` element with some attributes
    * @function createB
@@ -1987,7 +2326,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createB = create.bind(null, "b");
+  var createB = createElement.bind(null, "b", "");
   /**
    * Creates a `<i>` element with some attributes
    * @function createI
@@ -1997,7 +2336,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createI = create.bind(null, "i");
+  var createI = createElement.bind(null, "i", "");
   /**
    * Creates a `<s>` element with some attributes
    * @function createS
@@ -2007,7 +2346,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createS = create.bind(null, 's');
+  var createS = createElement.bind(null, "s", "");
   /**
    * Creates a `<u>` element with some attributes
    * @function createU
@@ -2017,7 +2356,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createU = create.bind(null, 'u');
+  var createU = createElement.bind(null, "u", "");
   /**
    * Creates a `<cite>` element with some attributes
    * @function createCite
@@ -2027,24 +2366,16 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createCite = create.bind(null, "cite");
+  var createCite = createElement.bind(null, "cite", "");
   /**
    * Creates a `<time>` element with optionally some attributes
-   * @param {string} datetime 
-   * @param {object} attribute 
+   * @function createTime
+   * @param {object} _attribute 
    * @returns {HTMLTimeElement}
    * @memberof DOM
    */
 
-  function createTime(datetime, _attribute) {
-    var element = create('time', _attribute);
-
-    if (datetime) {
-      element.datetime = datetime;
-    }
-
-    return element;
-  }
+  var createTime = createElement.bind(null, "time", "datetime");
   /**
    * Creates a `<code>` element with some attributes
    * @function createCode
@@ -2054,35 +2385,17 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createCode = create.bind(null, "code");
+  var createCode = createElement.bind(null, "code", "");
   /**
    * Creates a `<form>` element with some attributes
    * @function createForm
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
+   * @returns {HTMLFormElement}
    * @memberof DOM
    */
 
-  var createForm = create.bind(null, 'form');
-  var inputTypes = ["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"];
-  /**
-   * Creates an `<input>` element with a specified type and 
-   * optionally some attributes
-   * @param {string} type
-   * @param {object} _attribute 
-   * @memberof DOM
-   */
-
-  function createInputAs(type, _attribute) {
-    if (!inputTypes.includes(type)) {
-      return null;
-    }
-
-    var input = create('input', _attribute);
-    input.type = type;
-    return input;
-  }
+  var createForm = createElement.bind(null, "form", "accept-charset,action,autocomplete,enctype,method,name,novalidate,rel,target");
   /**
    * Creates an `<input>` element with some attributes
    * @function createInput
@@ -2091,77 +2404,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createInput = createInputAs.bind(null, "text");
-  /**
-   * Creates a `<label>` element with some attributes
-   * @function createLabel
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createLabel = create.bind(null, 'label');
-  /**
-   * Creates a `<fieldset>` element with some attributes
-   * @function createFieldset
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createFieldset = create.bind(null, 'fieldset');
-  /**
-   * Creates a `<legend>` element with some attributes
-   * @function createLegend
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createLegend = create.bind(null, 'legend');
-  /**
-   * Creates a `<datalist>` element with some attributes
-   * @function createDataList
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLTextAreaElement}
-   * @memberof DOM
-   */
-
-  var createDataList = create.bind(null, 'datalist');
-  /**
-   * Creates a `<select>` element with some attributes
-   * @function createSelect
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createSelect = create.bind(null, 'select');
-  /**
-   * Creates a `<option>` element with some attributes
-   * @function createOption
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createOption = create.bind(null, 'option');
-  /**
-   * Creates a `<optgroup>` element with some attributes
-   * @function createOptionGroup
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createOptionGroup = create.bind(null, 'optgroup');
+  var createInput = createEmptyElement.bind(null, "input", "accept,alt,autocomplete,autofocus,capture,checked,dirname,disabled,height,max,maxlength,minlength,min,multiple,name,pattern,placeholder,readonly,required,size,src,step,type,value,width");
   /**
    * Creates a `<textarea>` element with some attributes
    * @function createTextArea
@@ -2171,7 +2414,100 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTextArea = create.bind(null, 'textarea');
+  var createTextArea = createElement.bind(null, "textarea", "autocomplete,autofocus,cols,disabled,maxlength,minlength,name,placeholder,readonly,required,rows,spellcheck,value,wrap");
+  /**
+   * Creates a `<label>` element with some attributes
+   * @function createLabel
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLLabelElement}
+   * @memberof DOM
+   */
+
+  var createLabel = createElement.bind(null, "label", "for");
+  /**
+   * Resolves a select element content
+   * @param {*} item 
+   * @returns {HTMLOptionElement|HTMLOptGroupElement}
+   */
+
+  var selectContentResolver = function selectContentResolver(item) {
+    if (isHTMLElement(item, ["option", "optgroup"])) {
+      return item;
+    }
+
+    if (Array.isArray(item)) {
+      return createOptionGroup(null, item);
+    }
+
+    return createOption(null, item);
+  };
+  /**
+   * Creates a `<select>` element with some attributes
+   * @function createSelect
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLSelectElement}
+   * @memberof DOM
+   */
+
+
+  var createSelect = createElementX.bind(null, 'select', "autocomplete,autofocus,disabled,multiple,name,required,size", selectContentResolver);
+  /**
+   * Creates a `<option>` element with some attributes
+   * @function createOption
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLOptionElement}
+   * @memberof DOM
+   */
+
+  var createOption = createElement.bind(null, "option", "disabled,label,selected,value");
+
+  var optiongroupContentResolver = function optiongroupContentResolver(item) {
+    return isHTMLElement(item, "option") ? item : createOption(null, item);
+  };
+  /**
+   * Creates a `<optgroup>` element with some attributes
+   * @function createOptionGroup
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLOptGroupElement}
+   * @memberof DOM
+   */
+
+
+  var createOptionGroup = createElementX.bind(null, "optgroup", "disabled,label", optiongroupContentResolver);
+  /**
+   * Creates a `<fieldset>` element with some attributes
+   * @function createFieldset
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLFieldSetElement}
+   * @memberof DOM
+   */
+
+  var createFieldset = createElement.bind(null, "fieldset", "disabled,name");
+  /**
+   * Creates a `<legend>` element with some attributes
+   * @function createLegend
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLLabelElement}
+   * @memberof DOM
+   */
+
+  var createLegend = createElement.bind(null, "legend", "");
+  /**
+   * Creates a `<datalist>` element with some attributes
+   * @function createDataList
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLTextAreaElement}
+   * @memberof DOM
+   */
+
+  var createDataList = createElementX.bind(null, "datalist", "", optiongroupContentResolver);
   /**
    * Creates a `<meter>` element with some attributes
    * @function createMeter
@@ -2181,7 +2517,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createMeter = create.bind(null, 'meter');
+  var createMeter = createElement.bind(null, "meter", "high,low,max,min,optimum,value");
   /**
    * Creates a `<progress>` element with some attributes
    * @function createProgress
@@ -2191,7 +2527,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createProgress = create.bind(null, 'progress');
+  var createProgress = createElement.bind(null, "progress", "max,value");
   /**
    * Creates a `<output>` element with optionally some attributes and children elements
    * @function createOutput
@@ -2201,35 +2537,17 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createOutput = create.bind(null, 'output');
-  var buttonTypes = ["button", "submit", "reset"];
+  var createOutput = createElement.bind(null, "output", "name,value");
   /**
-   * Creates a `<button>` element with a specified type and 
-   * optionally some attributes and children elements
-   * @param {string} type
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @memberof DOM
-   */
-
-  function createButtonAs(type, _attribute, _children) {
-    if (!buttonTypes.includes(type)) {
-      return null;
-    }
-
-    var button = create("button", _attribute, _children);
-    button.type = type;
-    return button;
-  }
-  /**
-   * Creates a `<button>` element with some attributes
+   * Creates a `<button>` element with optionally some attributes and children elements
    * @function createButton
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLButtonElement}
    * @memberof DOM
    */
 
-  var createButton = createButtonAs.bind(null, "button");
+  var createButton = createElement.bind(null, "button", "autofocus,disabled,formaction,formenctype,formmethod,formnovalidate,formtarget,name,type,value");
   /**
    * Creates a `<table>` element with some attributes
    * @function createTable
@@ -2239,7 +2557,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTable = create.bind(null, "table");
+  var createTable = createElement.bind(null, "table", "");
   /**
    * Creates a `<caption>` element with some attributes
    * @function createCaption
@@ -2249,7 +2567,11 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createCaption = create.bind(null, "caption");
+  var createCaption = createElement.bind(null, "caption", "");
+
+  var tablerowContentResolver = function tablerowContentResolver(item) {
+    return isHTMLElement(item, "tr") ? item : createTableRow(null, item);
+  };
   /**
    * Creates a `<thead>` element with some attributes
    * @function createTableHeader
@@ -2259,7 +2581,8 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableHeader = create.bind(null, "thead");
+
+  var createTableHeader = createElementX.bind(null, "thead", "", tablerowContentResolver);
   /**
    * Creates a `<tbody>` element with some attributes
    * @function createTableBody
@@ -2269,7 +2592,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableBody = create.bind(null, "tbody");
+  var createTableBody = createElementX.bind(null, "tbody", "", tablerowContentResolver);
   /**
    * Creates a `<tfoot>` element with some attributes
    * @function createTableFooter
@@ -2279,7 +2602,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableFooter = create.bind(null, "tfoot");
+  var createTableFooter = createElementX.bind(null, "tfoot", "", tablerowContentResolver);
   /**
    * Creates a `<col>` element with some attributes
    * @function createTableColumn
@@ -2289,7 +2612,11 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableColumn = create.bind(null, "col");
+  var createTableColumn = createEmptyElement.bind(null, "col", "span");
+
+  var tablecolContentResolver = function tablecolContentResolver(item) {
+    return isHTMLElement(item, "col") ? item : null;
+  };
   /**
    * Creates a `<colgroup>` element with some attributes
    * @function createTableColumnGroup
@@ -2299,7 +2626,12 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableColumnGroup = create.bind(null, "colgroup");
+
+  var createTableColumnGroup = createElementX.bind(null, "colgroup", "span", tablecolContentResolver);
+
+  var tablecellContentResolver = function tablecellContentResolver(item) {
+    return isHTMLElement(item, ["th", "td"]) ? item : createTableCell(null, item);
+  };
   /**
    * Creates a `<tr>` element with some attributes
    * @function createTableRow
@@ -2309,7 +2641,8 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableRow = create.bind(null, "tr");
+
+  var createTableRow = createElementX.bind(null, "tr", "", tablecellContentResolver);
   /**
    * Creates a `<th>` element with some attributes
    * @function createTableHeaderCell
@@ -2319,7 +2652,7 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableHeaderCell = create.bind(null, "th");
+  var createTableHeaderCell = createElement.bind(null, "th", "abbr,colspan,rowspan,scope");
   /**
    * Creates a `<td>` element with some attributes
    * @function createTableCell
@@ -2329,34 +2662,27 @@ var zenkai = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableCell = create.bind(null, "td");
+  var createTableCell = createElement.bind(null, "td", "colspan,rowspan");
   /**
    * Appends the children to the element
-   * @param {HTMLElement} element element
-   * @param {HTMLCollection} children children elements
+   * @param {Node} element element
+   * @param {HTMLCollection} content children elements
    * @private
    * @memberof DOM
    */
 
   /* istanbul ignore next */
 
-  function addContent(element, children) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
+  function addContent(element, content, resolver) {
+    var children = Array.isArray(content) ? content : [content];
+
+    if (isFunction(resolver)) {
+      children = children.map(function (child) {
+        return resolver(child);
+      });
     }
 
-    if (isNullOrUndefined(children)) {
-      return element;
-    }
-
-    if (Array.isArray(children)) {
-      appendChildren(element, children);
-    } else if (isNode(children)) {
-      element.appendChild(children);
-    } else {
-      element.textContent = children.toString();
-    }
-
+    appendChildren(element, children);
     return element;
   }
 
@@ -2396,7 +2722,7 @@ var zenkai = (function (exports) {
       return null;
     }
 
-    if (container instanceof DocumentFragment) {
+    if (isDocumentFragment(container)) {
       return container.querySelector(selector);
     }
 
@@ -2425,7 +2751,7 @@ var zenkai = (function (exports) {
       return null;
     }
 
-    if (container instanceof DocumentFragment) {
+    if (isDocumentFragment(container)) {
       return container.querySelectorAll(selector);
     }
 
@@ -2468,10 +2794,14 @@ var zenkai = (function (exports) {
   /* istanbul ignore next */
 
   function getElementSibling(dir, element, pred) {
+    if (!isHTMLElement(element)) {
+      return null;
+    }
+
     var sibling = element[dir];
 
     if (isFunction(pred)) {
-      while (isElement(sibling) && pred(sibling)) {
+      while (isElement(sibling) && !pred(sibling)) {
         sibling = sibling[dir];
       }
     }
@@ -2501,8 +2831,8 @@ var zenkai = (function (exports) {
   var getNextElementSibling = getElementSibling.bind(null, "nextElementSibling");
   /**
    * Finds an ancestor of an element
-   * @param {Element} target 
-   * @param {Function} pred Decides whether the target is found
+   * @param {!Element} target 
+   * @param {!Function} pred Decides whether the target is found
    * @param {number} [_max] Maximum number of iterations
    * @returns {Element|null}
    * @memberof DOM
@@ -2510,11 +2840,11 @@ var zenkai = (function (exports) {
 
   function findAncestor(target, pred, _max) {
     if (!isElement(target)) {
-      throw new Error("The given target parameter is not a valid HTML Element");
+      throw new TypeError("Bad argument: The given target parameter is not a valid HTML Element");
     }
 
     if (!isFunction(pred)) {
-      throw new Error("The given pred parameter is not a valid Function");
+      throw new TypeError("Bad argument: The given pred parameter is not a valid Function");
     }
 
     var parent = target.parentElement;
@@ -2578,7 +2908,7 @@ var zenkai = (function (exports) {
 
   function removeChildren(node, _callback) {
     if (!isNode(node)) {
-      throw new Error("The given node parameter is not a valid Node");
+      throw new TypeError("Bad argument: The given `node` is not a valid Node");
     }
 
     if (isFunction(_callback)) {
@@ -2609,7 +2939,7 @@ var zenkai = (function (exports) {
   }
 
   /**
-   * Copy content to clipboard
+   * Copies selected content to clipboard
    * @param {HTMLElement|string} value
    * @returns {boolean} Value indicating whether the content has been succesfully copied to the clipboard
    * @memberof DOM
@@ -2671,6 +3001,11 @@ var zenkai = (function (exports) {
   var removeFocus = function removeFocus(element) {
     return element.classList.remove('focused');
   };
+  /**
+   * Activate floating label in given scope
+   * @param {HTMLElement} form 
+   */
+
 
   function floatingLabel(form) {
     var labels = getElements('.form-label', form);
@@ -3793,9 +4128,6 @@ var zenkai = (function (exports) {
     return accordions;
   }
 
-  /**
-   * @namespace URI
-   */
   var encode = encodeURIComponent;
   /**
    * Extracts and returns the protocol and host of a given url
@@ -3824,28 +4156,19 @@ var zenkai = (function (exports) {
 
     if ('URLSearchParams' in window) {
       var searchParams = new URLSearchParams(search.substring(1));
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+
+      var _iterator = _createForOfIteratorHelper(searchParams.entries()),
+          _step;
 
       try {
-        for (var _iterator = searchParams.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var pair = _step.value;
           params[pair[0]] = pair[1];
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
 
       if (prop) {
@@ -3911,22 +4234,25 @@ var zenkai = (function (exports) {
   exports.copytoClipboard = copytoClipboard;
   exports.createAbbreviation = createAbbreviation;
   exports.createAnchor = createAnchor;
+  exports.createArea = createArea;
   exports.createArticle = createArticle;
   exports.createAside = createAside;
   exports.createAudio = createAudio;
   exports.createB = createB;
+  exports.createBase = createBase;
   exports.createBlockQuotation = createBlockQuotation;
   exports.createButton = createButton;
-  exports.createButtonAs = createButtonAs;
   exports.createCaption = createCaption;
   exports.createCite = createCite;
   exports.createCode = createCode;
   exports.createDataList = createDataList;
+  exports.createDeletedPart = createDeletedPart;
   exports.createDescriptionDetails = createDescriptionDetails;
   exports.createDescriptionList = createDescriptionList;
   exports.createDescriptionTerm = createDescriptionTerm;
   exports.createDiv = createDiv;
   exports.createDocFragment = createDocFragment;
+  exports.createEmbed = createEmbed;
   exports.createEmphasis = createEmphasis;
   exports.createFieldset = createFieldset;
   exports.createFigure = createFigure;
@@ -3943,7 +4269,7 @@ var zenkai = (function (exports) {
   exports.createI = createI;
   exports.createImage = createImage;
   exports.createInput = createInput;
-  exports.createInputAs = createInputAs;
+  exports.createInsertedPart = createInsertedPart;
   exports.createLabel = createLabel;
   exports.createLegend = createLegend;
   exports.createLineBreak = createLineBreak;
@@ -3953,6 +4279,7 @@ var zenkai = (function (exports) {
   exports.createMark = createMark;
   exports.createMeter = createMeter;
   exports.createNav = createNav;
+  exports.createObject = createObject;
   exports.createOption = createOption;
   exports.createOptionGroup = createOptionGroup;
   exports.createOrderedList = createOrderedList;
@@ -3979,17 +4306,19 @@ var zenkai = (function (exports) {
   exports.createTableHeader = createTableHeader;
   exports.createTableHeaderCell = createTableHeaderCell;
   exports.createTableRow = createTableRow;
-  exports.createTemplate = createTemplate$1;
+  exports.createTemplate = createTemplate;
   exports.createTextArea = createTextArea;
   exports.createTextNode = createTextNode;
   exports.createThematicBreak = createThematicBreak;
   exports.createTime = createTime;
+  exports.createTrack = createTrack;
   exports.createU = createU;
   exports.createUnorderedList = createUnorderedList;
   exports.createVideo = createVideo;
-  exports.defProp = defProp;
+  exports.fetchWithTimeout = fetchWithTimeout;
   exports.findAncestor = findAncestor;
   exports.findByPath = findByPath;
+  exports.first = first;
   exports.floatingLabel = floatingLabel;
   exports.formatCase = formatCase;
   exports.formatDate = formatDate;
@@ -4009,6 +4338,7 @@ var zenkai = (function (exports) {
   exports.insert = insert;
   exports.insertAfterElement = insertAfterElement;
   exports.insertBeforeElement = insertBeforeElement;
+  exports.isCollection = isCollection;
   exports.isDate = isDate;
   exports.isDerivedOf = isDerivedOf;
   exports.isDocumentFragment = isDocumentFragment;
@@ -4032,17 +4362,16 @@ var zenkai = (function (exports) {
   exports.lone = lone;
   exports.no = no;
   exports.one = one;
-  exports.parseTime = parseTime;
   exports.pascalCase = pascalCase;
   exports.preprendChild = preprendChild;
   exports.queryBuilder = queryBuilder;
   exports.random = random;
   exports.removeAccents = removeAccents;
   exports.removeChildren = removeChildren;
+  exports.resolveDate = resolveDate;
   exports.shortDate = shortDate;
   exports.shortDateTime = shortDateTime;
   exports.some = some;
-  exports.timeAgo = timeAgo;
   exports.toBoolean = toBoolean;
   exports.valOrDefault = valOrDefault;
   exports.windowHeight = windowHeight;

@@ -2,6 +2,8 @@ var zdom = (function (exports) {
   'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -16,19 +18,15 @@ var zdom = (function (exports) {
   }
 
   function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
   }
 
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-      return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
   }
 
   function _arrayWithHoles(arr) {
@@ -36,10 +34,11 @@ var zdom = (function (exports) {
   }
 
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
   }
 
   function _iterableToArrayLimit(arr, i) {
+    if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
     var _arr = [];
     var _n = true;
     var _d = false;
@@ -65,23 +64,42 @@ var zdom = (function (exports) {
     return _arr;
   }
 
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   /**
    * Returns an object value or default value if undefined
    * @param {*} arg object
    * @param {*} value default value
-   * @param {boolean} [isNullable] indicates whether the value can be assigned the value *NULL*
-   * @memberof TYPE
+   * @param {boolean} [isNullable=false] indicates whether the value can be assigned the value *NULL*
+   * @memberof STD
    */
-  function valOrDefault(arg, value, isNullable) {
-    if (isNullable === true) {
+  function valOrDefault(arg, value) {
+    var isNullable = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    if (isNullable) {
       return isUndefined(arg) ? value : arg;
     }
 
@@ -91,17 +109,17 @@ var zdom = (function (exports) {
    * Returns a value indicating whether the value is empty
    * @param {Object[]|string} arr array
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isEmpty(obj) {
-    return (Array.isArray(obj) || isString(obj)) && obj.length === 0;
+    return isIterable(obj) && obj.length === 0;
   }
   /**
    * Returns a value indicating whether the variable is a String
    * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isString(value) {
@@ -109,9 +127,9 @@ var zdom = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is a Function
-   * @param {string} value
+   * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isFunction(value) {
@@ -119,9 +137,9 @@ var zdom = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is an Object
-   * @param {string} value
+   * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isObject(value) {
@@ -131,17 +149,27 @@ var zdom = (function (exports) {
    * Returns a value indicating whether the object is iterable
    * @param {*} obj
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isIterable(obj) {
     return !isNullOrUndefined(obj) && typeof obj[Symbol.iterator] === 'function';
   }
   /**
-   * Returns a value indicating whether the value is null
-   * @param {string} value
+   * Returns a value indicating whether the object is a non-string iterable
+   * @param {*} obj
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
+   */
+
+  function isCollection(obj) {
+    return isIterable(obj) && !isString(obj);
+  }
+  /**
+   * Returns a value indicating whether the value is null
+   * @param {*} value
+   * @returns {boolean}
+   * @memberof STD
    */
 
   function isNull(value) {
@@ -149,19 +177,19 @@ var zdom = (function (exports) {
   }
   /**
    * Returns a value indicating whether a string is null or made of whitespace.
-   * @param {string} str string
+   * @param {string} value string
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
-  function isNullOrWhitespace(str) {
-    return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
+  function isNullOrWhitespace(value) {
+    return !value || isString(value) && (value.length === 0 || /^\s*$/.test(value));
   }
   /**
    * Returns a value indicating whether the value is undefined
    * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isUndefined(value) {
@@ -169,8 +197,9 @@ var zdom = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is null or undefined
+   * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isNullOrUndefined(value) {
@@ -178,6 +207,7 @@ var zdom = (function (exports) {
   }
 
   /** @private */
+
   var hasOwnProperty = Object.prototype.hasOwnProperty;
   /**
    * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
@@ -198,6 +228,10 @@ var zdom = (function (exports) {
    */
 
   function capitalize(str) {
+    if (isNullOrWhitespace(str)) {
+      return str;
+    }
+
     return str.toLowerCase().replace(/\b\w/g, function (s) {
       return s.toUpperCase();
     });
@@ -219,25 +253,6 @@ var zdom = (function (exports) {
   }
 
   /**
-   * Verifies that at least one value satisfies the condition
-   * @param {*[]} values Set of values
-   * @param {Function} pred Condition
-   * @returns {boolean} A value indicating whether at least one value satisfies the condition
-   * @memberof STD
-   */
-
-  var some = function some(values, pred) {
-    for (var i = 0; i < values.length; i++) {
-      var value = values[i];
-
-      if (pred.apply(void 0, _toConsumableArray(Array.isArray(value) ? value : [value]))) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-  /**
    * Verifies that all the values satisfy the condition
    * @param {*[]} values Set of values
    * @param {Function} pred Condition
@@ -246,6 +261,10 @@ var zdom = (function (exports) {
    */
 
   var all = function all(values, pred) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
     for (var i = 0; i < values.length; i++) {
       var value = values[i];
 
@@ -385,7 +404,7 @@ var zdom = (function (exports) {
       return Array.isArray(type) ? type.includes(element.type) : element.type === type;
     };
 
-    some(kinds, function (kind) {
+    return kinds.some(function (kind) {
       if (!isIterable(kind)) {
         return false;
       }
@@ -400,13 +419,14 @@ var zdom = (function (exports) {
         type = _kind[1];
       }
 
+      name = name.toLowerCase();
       var interfaceName = "HTML".concat(hasOwn(TagNameMapping, name) ? TagNameMapping[name] : pascalCase(name), "Element");
 
       if (!(isInstanceOf(window[interfaceName]) || hasTag(name))) {
         return false;
       }
 
-      if (isIterable(type) && !isEmpty(type)) {
+      if (isCollection(type) && !isEmpty(type)) {
         return isOfType(type);
       }
 
@@ -435,29 +455,21 @@ var zdom = (function (exports) {
     return isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
   };
   /**
-   * Creates a template with content
-   * @param {string} html 
-   * @returns {HTMLTemplateElement}
-   * @private
+   * Converts an html string to an HTML Element or a list of HTML Elements
+   * @param {!string} prop 
+   * @param {!string} html 
    */
 
   /* istanbul ignore next */
-
-  function createTemplate(html) {
-    var template = document.createElement('template');
-    template.innerHTML = html.trim();
-    return template.content;
-  }
-  /* istanbul ignore next */
-
 
   function _htmlToElement(prop, html) {
     if (!isString(html)) {
       return null;
     }
 
-    var template = createTemplate(html);
-    return template[prop];
+    var template = document.createElement('template');
+    template.innerHTML = html.trim();
+    return template.content[prop];
   }
   /**
    * Converts an html string to an HTML Element
@@ -467,7 +479,7 @@ var zdom = (function (exports) {
    */
 
 
-  var htmlToElement = _htmlToElement.bind('firstChild');
+  var htmlToElement = _htmlToElement.bind(null, 'firstChild');
   /**
    * Converts an html string to a list of HTML Elements
    * @param {!string} html 
@@ -475,7 +487,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var htmlToElements = _htmlToElement.bind('childNodes');
+  var htmlToElements = _htmlToElement.bind(null, 'childNodes');
   /**
    * Verifies that an element is visible
    * @param {!HTMLElement} element 
@@ -528,14 +540,14 @@ var zdom = (function (exports) {
 
   /**
    * Inserts a given element before the targetted element
-   * @param {!HTMLElement} target 
-   * @param {!HTMLElement} element 
+   * @param {!Element} target 
+   * @param {!Element} element 
    * @memberof DOM
    */
 
   function insertBeforeElement(target, element) {
     if (!all([target, element], isElement)) {
-      throw new Error("The given element or target is not a valid HTML Element");
+      throw new TypeError("Bad argument: The given `element` or `target` is not a valid Element");
     }
 
     target.insertAdjacentElement('beforebegin', element);
@@ -543,14 +555,14 @@ var zdom = (function (exports) {
   }
   /**
    * Inserts a given element after the targetted element
-   * @param {!HTMLElement} target 
-   * @param {!HTMLElement} element 
+   * @param {!Element} target 
+   * @param {!Element} element 
    * @memberof DOM
    */
 
   function insertAfterElement(target, element) {
     if (!all([target, element], isElement)) {
-      throw new Error("The given element or target is not a valid HTML Element");
+      throw new TypeError("Bad argument: The given `element` or `target` is not a valid Element");
     }
 
     target.insertAdjacentElement('afterend', element);
@@ -558,14 +570,14 @@ var zdom = (function (exports) {
   }
   /**
    * Inserts a givern element as the first children of the targetted element
-   * @param {!HTMLElement} target 
-   * @param {!HTMLElement} element 
+   * @param {!Element} target 
+   * @param {!Element} element 
    * @memberof DOM
    */
 
   function preprendChild(target, element) {
     if (!all([target, element], isElement)) {
-      throw new Error("The given element or target is not a valid HTML Element");
+      throw new TypeError("Bad argument: The given `element` or `target` is not a valid Element");
     }
 
     target.insertAdjacentElement('afterbegin', element);
@@ -573,7 +585,7 @@ var zdom = (function (exports) {
   }
   /**
    * Append a list of elements to a node.
-   * @param {Element} parent
+   * @param {!Element} parent
    * @param {!HTMLElement[]|HTMLCollection} children
    * @returns {HTMLElement}
    * @memberof DOM
@@ -581,57 +593,198 @@ var zdom = (function (exports) {
 
   function appendChildren(parent, children) {
     if (!isNode(parent)) {
-      throw new Error("The given parent is not a valid Node");
+      throw new TypeError("Bad argument: The given `parent` is not a valid Node");
     }
 
-    if (!isHTMLCollection(children) && !isIterable(children) || isString(children)) {
-      throw new Error("The given children is not a valid HTMLCollection/HTMLElement array");
+    if (!(isHTMLCollection(children) || isCollection(children))) {
+      throw new TypeError("Bad argument: The given `children` is not a valid HTMLCollection/HTMLElement array");
     }
 
-    var fragment = document.createDocumentFragment();
+    var createText = function createText(obj) {
+      return document.createTextNode(obj.toString());
+    };
+
+    var fragment = isDocumentFragment(parent) ? parent : document.createDocumentFragment();
     Array.from(children).forEach(function (element) {
-      fragment.appendChild(isNode(element) ? element : document.createTextNode(element.toString()));
+      if (!isNullOrUndefined(element)) {
+        fragment.appendChild(isNode(element) ? element : createText(element.toString()));
+      }
     });
-    parent.appendChild(fragment);
+
+    if (parent !== fragment) {
+      parent.appendChild(fragment);
+    }
+
     return parent;
   }
 
-  /* istanbul ignore next */
-
-  function echo(o) {}
   /**
-   * Removes additional spaces in class attribute
-   * @param {string} c class attribute's value
-   * @returns {string} formatted value
-   * @private
+   * Add classes to an element
+   * @param {HTMLElement} element 
+   * @param {string|string[]} value 
    */
 
+  function addClass(element, value) {
+    var _element$classList;
 
-  var formatClass = function formatClass(c) {
-    return c.replace(/\s+/g, ' ').trim();
-  };
-  /**
-   * Transform a raw value to a valid class value
-   * @param {string} c raw value
-   * @returns {string} parsed value
-   * @private
-   */
-
-
-  var parseClass = function parseClass(c) {
-    if (isNullOrUndefined(c)) {
-      return "";
-    } else if (Array.isArray(c)) {
-      return c.join(' ');
+    if (!isHTMLElement(element)) {
+      throw new Error("Bad argument: The passed `element` argument is not a valid HTML Element");
     }
 
-    return c.toString();
-  };
+    (_element$classList = element.classList).add.apply(_element$classList, _toConsumableArray(Array.isArray(value) ? value : [value]));
 
-  function setClass(element, attrClass) {
-    element.className = formatClass(parseClass(attrClass));
     return element;
   }
+  /**
+   * Assigns a value to an attribute
+   * @param {HTMLElement} element 
+   * @param {string} key 
+   * @param {string} value 
+   */
+
+
+  function assign(element, key, value) {
+    element[key] = value;
+  }
+  /**
+   * Assigns a value to an attribute
+   * @param {HTMLElement} element 
+   * @param {string} key 
+   * @param {Object} value 
+   */
+
+
+  function assignObject(element, key, value) {
+    Object.assign(element[key], value);
+  }
+  /**
+   * Assigns a value to an attribute
+   * @param {HTMLElement} element 
+   * @param {string} key 
+   * @param {Object} value 
+   */
+
+
+  function assignAttribute(element, key, value) {
+    element.setAttribute(key, value);
+  }
+
+  var GLOBAL_ATTRIBUTES = "accesskey,autocapitalize,class,dataset,editable,draggable,hidden,id,inputmode,lang,html,style,tabindex,text,title";
+  var AttributeHandler = {
+    // Global attributes
+    accesskey: [assign, 'accessKey'],
+    autocapitalize: [assign, 'autocapitalize'],
+    "class": [addClass],
+    dataset: [assignObject, 'dataset'],
+    draggable: [assign, 'draggable'],
+    editable: [assign, 'contentEditable'],
+    hidden: [assign, 'hidden'],
+    id: [assign, 'id'],
+    inputmode: [assign, 'inputMode'],
+    lang: [assign, 'lang'],
+    html: [assign, 'innerHTML'],
+    style: [assign, 'style'],
+    tabindex: [assign, 'tabIndex'],
+    text: [assign, 'textContent'],
+    title: [assign, 'title'],
+    // Object attributes
+    data: [assign, 'data'],
+    // Quote attributes
+    cite: [assign, 'cite'],
+    // Anchor attributes
+    download: [assign, 'download'],
+    ping: [assign, 'ping'],
+    target: [assign, 'target'],
+    // Area attributes
+    coords: [assign, 'coords'],
+    shape: [assign, 'shape'],
+    // Audio/Video attributes
+    autoplay: [assign, 'autoplay'],
+    buffered: [assign, 'buffered'],
+    controls: [assign, 'controls'],
+    loop: [assign, 'loop'],
+    muted: [assign, 'muted'],
+    playsinline: [assignAttribute, 'playsinline'],
+    poster: [assign, 'poster'],
+    preload: [assign, 'preload'],
+    // Image attributes
+    crossorigin: [assign, 'crossOrigin'],
+    decoding: [assign, 'decoding'],
+    height: [assign, 'height'],
+    ismap: [assign, 'isMap'],
+    loading: [assign, 'loading'],
+    srcset: [assign, 'srcset'],
+    width: [assign, 'width'],
+    // Link attributes
+    alt: [assign, 'alt'],
+    as: [assign, 'as'],
+    media: [assign, 'media'],
+    rel: [assign, 'rel'],
+    src: [assign, 'src'],
+    sizes: [assign, 'sizes'],
+    // List attributes
+    reversed: [assign, 'reversed'],
+    start: [assign, 'start'],
+    // Form attributes
+    accept: [assign, 'accept'],
+    "accept-charset": [assign, 'acceptCharset'],
+    action: [assign, 'action'],
+    autocomplete: [assign, 'autocomplete'],
+    autofocus: [assign, 'autofocus'],
+    capture: [assign, 'capture'],
+    checked: [assign, 'checked'],
+    cols: [assign, 'cols'],
+    disabled: [assign, 'disabled'],
+    dirname: [assign, 'dirName'],
+    enctype: [assign, 'enctype'],
+    "for": [assign, 'for'],
+    form: [assign, 'form'],
+    formaction: [assign, 'formAction'],
+    formenctype: [assign, 'formEnctype'],
+    formmethod: [assign, 'formMethod'],
+    formnovalidate: [assign, 'formNoValidate'],
+    formtarget: [assign, 'formTarget'],
+    high: [assign, 'high'],
+    label: [assign, 'label'],
+    list: [assign, 'list'],
+    low: [assign, 'low'],
+    max: [assign, 'max'],
+    maxlength: [assign, 'maxLength'],
+    method: [assign, 'method'],
+    min: [assign, 'min'],
+    minlength: [assign, 'minLength'],
+    multiple: [assign, 'multiple'],
+    name: [assign, 'name'],
+    novalidate: [assign, 'noValidate'],
+    optimum: [assign, 'optimum'],
+    pattern: [assign, 'pattern'],
+    placeholder: [assign, 'placeholder'],
+    readonly: [assign, 'readOnly'],
+    required: [assign, 'required'],
+    rows: [assign, 'rows'],
+    selected: [assign, 'selected'],
+    size: [assign, 'size'],
+    spellcheck: [assignAttribute, 'spellcheck'],
+    step: [assign, 'step'],
+    wrap: [assign, 'wrap'],
+    // Track attributes
+    "default": [assign, 'default'],
+    kind: [assign, 'kind'],
+    srclang: [assign, 'srclang'],
+    // Table attributes
+    abbr: [assign, 'abbr'],
+    colspan: [assign, 'colSpan'],
+    span: [assign, 'span'],
+    rowspan: [assign, 'rowSpan'],
+    scope: [assign, 'scope'],
+    // Mix attributes
+    href: [assign, 'href'],
+    hreflang: [assign, 'hreflang'],
+    datetime: [assign, 'dateTime'],
+    type: [assign, 'type'],
+    value: [assign, 'value'],
+    usemap: [assign, 'useMap']
+  };
   /**
    * Sets the attributes of an element
    * @param {!HTMLElement} element element
@@ -640,56 +793,31 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-
   function addAttributes(element, attribute) {
+    var validAttributes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
+
     if (!isHTMLElement(element)) {
-      throw new Error("The given element parameter is not a valid HTML Element");
+      throw new Error("Bad argument: The given element argument is not a valid HTML Element");
     }
 
     if (!isObject(attribute)) {
       return element;
     }
 
-    var ATTR_MAP = {
-      // Global attributes
-      accesskey: [assign, 'accessKey'],
-      "class": [setClass, element],
-      data: [Object.assign, element.dataset],
-      editable: [assign, 'contentEditable'],
-      draggable: [assign],
-      hidden: [assign],
-      id: [assign],
-      lang: [assign],
-      html: [assign, 'innerHTML'],
-      style: [assign],
-      target: [assign],
-      tabindex: [assign, 'tabIndex'],
-      text: [assign, 'textContent'],
-      title: [assign],
-      // Quote attributes
-      cite: [assign],
-      // Anchor attributes
-      href: [assign],
-      // Link attributes
-      alt: [assign],
-      src: [assign],
-      // Form attributes
-      accept: [assign],
-      disabled: [assign],
-      placeholder: [assign],
-      readonly: [assign, 'readOnly'],
-      value: [assign]
-    };
-    var DEFAULT_MAP = [echo, '']; // HTML attributes
+    var isValid = function isValid(key) {
+      return GLOBAL_ATTRIBUTES.includes(key) || validAttributes.includes(key);
+    }; // HTML attributes
+
 
     for (var _i = 0, _Object$keys = Object.keys(attribute); _i < _Object$keys.length; _i++) {
       var key = _Object$keys[_i];
-      var val = ATTR_MAP[key] || DEFAULT_MAP;
-      val[0](val[1] || key, attribute[key]);
-    }
 
-    function assign(key, val) {
-      element[key] = val;
+      if (isValid(key)) {
+        var value = attribute[key];
+        var args = AttributeHandler[key].slice(0);
+        var fn = args.shift();
+        fn.apply(void 0, [element].concat(_toConsumableArray(args), [value]));
+      }
     }
 
     return element;
@@ -704,7 +832,7 @@ var zdom = (function (exports) {
 
   function changeSelectValue(select, value) {
     if (!isHTMLElement(select, "select")) {
-      throw new Error("The given select parameter is not a valid HTML Select element");
+      throw new Error("Bad argument: The given select argument is not a valid HTML Select element");
     }
 
     if (isNullOrUndefined(value)) {
@@ -726,29 +854,87 @@ var zdom = (function (exports) {
   }
 
   /**
-   * Creates an element
+   * Creates an empty element with attributes
    * @param {string} tagName 
-   * @param {object} [_attribute] 
-   * @param {Text|HTMLElement|HTMLElement[]} [_children] 
+   * @param {string} [_validAttributes] 
+   * @param {object} [_attributes] 
    * @returns {HTMLElement}
    * @private
    */
 
   /* istanbul ignore next */
 
-  function create(tagName, _attribute, _children) {
+  function createEmptyElement(tagName, _validAttributes, _attributes) {
     var element = document.createElement(tagName);
 
-    if (!isNullOrUndefined(_attribute)) {
-      addAttributes(element, _attribute);
+    if (!isHTMLElement(element)) {
+      return null;
     }
 
-    if (!isNullOrUndefined(_children)) {
-      addContent(element, _children);
+    if (isObject(_attributes)) {
+      addAttributes(element, _attributes, valOrDefault(_validAttributes, ""));
     }
 
     return element;
   }
+  /**
+   * Creates an element with attributes and content
+   * @param {string} tagName 
+   * @param {string} [_validAttributes] 
+   * @param {Function} [contentResolver] 
+   * @param {object} [_attributes] 
+   * @param {Text|HTMLElement|HTMLElement[]} [_content] 
+   * @returns {HTMLElement}
+   * @private
+   */
+
+  /* istanbul ignore next */
+
+
+  function createElement(tagName, _validAttributes, _attributes, _content) {
+    var element = createEmptyElement(tagName, _validAttributes, _attributes);
+
+    if (!isHTMLElement(element)) {
+      return null;
+    }
+
+    if (!isNullOrUndefined(_content)) {
+      addContent(element, _content);
+    }
+
+    return element;
+  }
+  /**
+   * Creates an element with attributes and content
+   * @param {string} tagName 
+   * @param {string} [_validAttributes] 
+   * @param {Function} [contentResolver] 
+   * @param {object} [_attributes] 
+   * @param {Text|HTMLElement|HTMLElement[]} [_content] 
+   * @returns {HTMLElement}
+   * @private
+   */
+
+  /* istanbul ignore next */
+
+
+  function createElementX(tagName, _validAttributes, contentResolver, _attributes, _content) {
+    var element = createEmptyElement(tagName, _validAttributes, _attributes);
+
+    if (!isHTMLElement(element)) {
+      return null;
+    }
+
+    if (!isNullOrUndefined(_content)) {
+      addContent(element, _content, contentResolver);
+    }
+
+    return element;
+  } // TODO: createMeta
+  // TODO: createScript
+  // TODO: createStyle
+  // TODO: createTitle
+
   /**
    * Creates a document fragment
    * @function createDocFragment
@@ -779,25 +965,13 @@ var zdom = (function (exports) {
   };
   /**
    * Creates a `<link>` element with some attributes
-   * @param {string} href 
-   * @param {string} rel 
+   * @function createLink
+   * @param {object} _attribute Global attributes
    * @returns {HTMLLinkElement}
    * @memberof DOM
    */
 
-  function createLink(href, rel) {
-    var link = create("link");
-
-    if (href) {
-      link.href = href;
-    }
-
-    if (rel) {
-      link.rel = rel;
-    }
-
-    return link;
-  }
+  var createLink = createEmptyElement.bind(null, "link", "as,crossorigin,disabled,href,hreflang,media,rel,sizes,type");
   /**
    * Creates a `<template>` element with some attributes
    * @function createTemplate
@@ -807,7 +981,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createTemplate$1 = create.bind(null, 'template');
+  var createTemplate = createElement.bind(null, "template", "");
   /**
    * Creates a `<header>` element with some attributes
    * @function createHeader
@@ -817,7 +991,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createHeader = create.bind(null, 'header');
+  var createHeader = createElement.bind(null, "header", "");
   /**
    * Creates an `<footer>` element with some attributes
    * @function createFooter
@@ -827,7 +1001,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createFooter = create.bind(null, 'footer');
+  var createFooter = createElement.bind(null, "footer", "");
   /**
    * Creates an `<main>` element with some attributes
    * @function createMain
@@ -837,7 +1011,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createMain = create.bind(null, 'main');
+  var createMain = createElement.bind(null, "main", "");
   /**
    * Creates an `<article>` element with some attributes
    * @function createArticle
@@ -847,7 +1021,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createArticle = create.bind(null, 'article');
+  var createArticle = createElement.bind(null, "article", "");
   /**
    * Creates an `<section>` element with some attributes
    * @function createSection
@@ -857,7 +1031,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createSection = create.bind(null, 'section');
+  var createSection = createElement.bind(null, "section", "");
   /**
    * Creates an `<nav>` element with some attributes
    * @function createNav
@@ -867,7 +1041,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createNav = create.bind(null, 'nav');
+  var createNav = createElement.bind(null, "nav", "");
   /**
    * Creates an `<aside>` element with some attributes
    * @function createAside
@@ -877,7 +1051,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createAside = create.bind(null, 'aside');
+  var createAside = createElement.bind(null, "aside", "");
   /**
    * Creates a `<h1>` element with some attributes
    * @function createH1
@@ -887,7 +1061,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createH1 = create.bind(null, 'h1');
+  var createH1 = createElement.bind(null, "h1", "");
   /**
    * Creates a `<h2>` element with some attributes
    * @function createH2
@@ -897,7 +1071,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createH2 = create.bind(null, 'h2');
+  var createH2 = createElement.bind(null, "h2", "");
   /**
    * Creates a `<h3>` element with some attributes
    * @function createH3
@@ -907,7 +1081,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createH3 = create.bind(null, 'h3');
+  var createH3 = createElement.bind(null, "h3", "");
   /**
    * Creates a `<h4>` element with some attributes
    * @function createH4
@@ -917,7 +1091,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createH4 = create.bind(null, 'h4');
+  var createH4 = createElement.bind(null, "h4", "");
   /**
    * Creates a `<h5>` element with some attributes
    * @function createH5
@@ -927,7 +1101,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createH5 = create.bind(null, 'h5');
+  var createH5 = createElement.bind(null, "h5", "");
   /**
    * Creates a `<h6>` element with some attributes
    * @function createH6
@@ -937,7 +1111,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createH6 = create.bind(null, 'h6');
+  var createH6 = createElement.bind(null, "h6", "");
   /**
    * Creates a `<div>` element with some attributes
    * @function createDiv
@@ -947,29 +1121,44 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createDiv = create.bind(null, 'div');
+  var createDiv = createElement.bind(null, "div", "");
   /**
-   * Creates a `br` element \
+   * Creates a `<object>` element with some attributes
+   * @function createObject
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLObjectElement}
+   * @memberof DOM
+   */
+
+  var createObject = createElement.bind(null, "object", "data,height,name,type,usemap,width");
+  /**
+   * Creates a `<embed>` element with some attributes
+   * @function createEmbed
+   * @param {object} _attribute 
+   * @returns {HTMLEmbedElement}
+   * @memberof DOM
+   */
+
+  var createEmbed = createEmptyElement.bind(null, "embed", "height,src,type,width");
+  /**
+   * Creates a `<br>` element \
    * Line break (carriage-return)
    * @function createLineBreak
    * @returns {HTMLBRElement}
    * @memberof DOM
    */
 
-  var createLineBreak = function createLineBreak() {
-    return create('br');
-  };
+  var createLineBreak = createEmptyElement.bind(null, "br", "");
   /**
-   * Creates a `hr` element \
+   * Creates a `<hr>` element \
    * Thematic break
    * @function createThematicBreak
    * @returns {HTMLHRElement}
    * @memberof DOM
    */
 
-  var createThematicBreak = function createThematicBreak() {
-    return create('hr');
-  };
+  var createThematicBreak = createEmptyElement.bind(null, "hr", "");
   /**
    * Creates a `<p>` element with some attributes
    * @function createParagraph
@@ -979,7 +1168,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createParagraph = create.bind(null, 'p');
+  var createParagraph = createElement.bind(null, "p", "");
   /**
    * Creates a `<blockquote>` element with some attributes
    * @function createBlockQuotation
@@ -989,7 +1178,11 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createBlockQuotation = create.bind(null, 'blockquote');
+  var createBlockQuotation = createElement.bind(null, "blockquote", "cite");
+
+  var listItemResolver = function listItemResolver(item) {
+    return isHTMLElement(item, "li") ? item : createListItem(null, item);
+  };
   /**
    * Creates a `<ul>` element with some attributes
    * @function createUnorderedList
@@ -999,7 +1192,8 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createUnorderedList = create.bind(null, 'ul');
+
+  var createUnorderedList = createElementX.bind(null, "ul", "", listItemResolver);
   /**
    * Creates a `<ol>` element with some attributes
    * @function createOrderedList
@@ -1009,7 +1203,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createOrderedList = create.bind(null, 'ol');
+  var createOrderedList = createElementX.bind(null, "ol", "reversed,start,type", listItemResolver);
   /**
    * Creates a `<li>` element with some attributes
    * @function createListItem
@@ -1019,7 +1213,8 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createListItem = create.bind(null, 'li');
+  var createListItem = createElement.bind(null, "li", "value"); // const descriptionContentResolver = (item) => isHTMLElement(item, ["dt", "dd"]) ? item : createListItem(null, item);
+
   /**
    * Creates a `<dl>` element with some attributes
    * @function createDescriptionList
@@ -1029,7 +1224,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createDescriptionList = create.bind(null, 'dl');
+  var createDescriptionList = createElement.bind(null, "dl", "");
   /**
    * Creates a `<dt>` element with some attributes
    * @function createDescriptionTerm
@@ -1039,7 +1234,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createDescriptionTerm = create.bind(null, 'dt');
+  var createDescriptionTerm = createElement.bind(null, "dt", "");
   /**
    * Creates a `<dd>` element with some attributes
    * @function createDescriptionDetails
@@ -1049,95 +1244,85 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createDescriptionDetails = create.bind(null, 'dd'); // Inline Element
+  var createDescriptionDetails = createElement.bind(null, "dd", ""); // Inline Element
+  //-----------------------------------------------------------------------------
 
   /**
    * Creates an `<a>` element with some attributes
-   * @param {string} href URL or a URL fragment that the hyperlink points to
+   * @function createAnchor
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLAnchorElement}
    * @memberof DOM
    */
 
-  function createAnchor(href, _attribute, _children) {
-    var a = create('a', _attribute, _children);
+  var createAnchor = createElement.bind(null, "a", "download,href,hreflang,ping,rel,target,type");
+  /**
+   * Creates an `<area>` element with some attributes
+   * @function createArea
+   * @param {object} _attribute 
+   * @returns {HTMLAreaElement}
+   * @memberof DOM
+   */
 
-    if (href) {
-      a.href = href;
-    }
+  var createArea = createEmptyElement.bind(null, "area", "alt,coords,download,href,hreflang,media,ping,rel,shape,target");
+  /**
+   * Creates an `<base>` element with some attributes
+   * @function createBase
+   * @param {object} _attribute 
+   * @returns {HTMLBaseElement}
+   * @memberof DOM
+   */
 
-    return a;
-  }
+  var createBase = createEmptyElement.bind(null, "base", "href,target");
   /**
     * Creates a `<img>` element with some attributes
-    * @param {string} src
-    * @param {string} alt
+    * @function createImage
     * @param {object} _attribute 
-    * @param {Text|HTMLElement|HTMLElement[]} _children 
     * @returns {HTMLImageElement}
     * @memberof DOM
     */
 
-  function createImage(src, alt, _attribute) {
-    var img = create('img', _attribute);
-
-    if (src) {
-      img.src = src;
-    }
-
-    if (alt) {
-      img.alt = alt;
-    }
-
-    return img;
-  }
+  var createImage = createEmptyElement.bind(null, "img", "alt,crossorigin,decoding,height,ismap,loading,sizes,src,srcset,usemap,width");
   /**
     * Creates a `<audio>` element with some attributes
-    * @param {string} src
-    * @param {object} attribute 
-    * @param {Text|HTMLElement|HTMLElement[]} children 
+    * @function createAudio
+    * @param {object} _attribute
+    * @param {Text|HTMLElement|HTMLElement[]} _children
     * @returns {HTMLAudioElement}
     * @memberof DOM
     */
 
-  function createAudio(src, attribute, children) {
-    var audio = create('audio', attribute, children);
-
-    if (src) {
-      audio.src = src;
-    }
-
-    return audio;
-  }
+  var createAudio = createElement.bind(null, "audio", "autoplay,controls,crossorigin,loop,muted,preload,src");
   /**
     * Creates a `<video>` element with some attributes
-    * @param {string} src
-    * @param {object} attribute 
-    * @param {Text|HTMLElement|HTMLElement[]} children 
+    * @function createVideo
+    * @param {object} _attribute 
+    * @param {Text|HTMLElement|HTMLElement[]} _children 
     * @returns {HTMLVideoElement}
     * @memberof DOM
     */
 
-  function createVideo(src, attribute, children) {
-    var video = create('video', attribute, children);
-
-    if (src) {
-      video.src = src;
-    }
-
-    return video;
-  }
+  var createVideo = createElement.bind(null, "video", "autoplay,controls,crossorigin,height,loop,muted,playsinline,poster,preload,src,width");
   /**
    * Creates a `<source>` element with some attributes
    * @function createSource
-   * @param {object} _attribute 
+   * @param {object} _attribute
    * @param {Text|HTMLElement|HTMLElement[]} _children 
    * @returns {HTMLSourceElement}
    * @memberof DOM
    */
 
-  var createSource = create.bind(null, "source");
+  var createSource = createEmptyElement.bind(null, "source", "media,sizes,src,srcset,type");
+  /**
+   * Creates a `<track>` element with some attributes
+   * @function createTrack
+   * @param {object} _attribute 
+   * @returns {HTMLTrackElement}
+   * @memberof DOM
+   */
+
+  var createTrack = createEmptyElement.bind(null, "track", "default,kind,label,src,srclang");
   /**
    * Creates a `<picture>` element with some attributes
    * @function createPicture
@@ -1147,7 +1332,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createPicture = create.bind(null, "picture");
+  var createPicture = createElement.bind(null, "picture", "");
   /**
    * Creates a `<figure>` element with some attributes
    * @function createFigure
@@ -1157,7 +1342,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createFigure = create.bind(null, "figure");
+  var createFigure = createElement.bind(null, "figure", "");
   /**
    * Creates a `<figcaption>` element with some attributes
    * @function createFigureCaption
@@ -1167,7 +1352,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createFigureCaption = create.bind(null, "figcaption");
+  var createFigureCaption = createElement.bind(null, "figcaption", "");
   /**
    * Creates a `<span>` element with some attributes
    * @function createSpan
@@ -1177,7 +1362,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createSpan = create.bind(null, "span");
+  var createSpan = createElement.bind(null, "span", "");
   /**
    * Creates a `<strong>` element with some attributes
    * @function createStrong
@@ -1187,7 +1372,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createStrong = create.bind(null, "strong");
+  var createStrong = createElement.bind(null, "strong", "");
   /**
    * Creates a `<em>` element with some attributes
    * @function createEmphasis
@@ -1197,7 +1382,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createEmphasis = create.bind(null, "em");
+  var createEmphasis = createElement.bind(null, "em", "");
   /**
    * Creates a `<mark>` element with some attributes
    * @function createMark
@@ -1207,7 +1392,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createMark = create.bind(null, "mark");
+  var createMark = createElement.bind(null, "mark", "");
   /**
    * Creates a `<samp>` element with some attributes
    * @function createSample
@@ -1217,7 +1402,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createSample = create.bind(null, "samp");
+  var createSample = createElement.bind(null, "samp", "");
   /**
    * Creates a `<sub>` element with some attributes
    * @function createSubscript
@@ -1227,7 +1412,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createSubscript = create.bind(null, "sub");
+  var createSubscript = createElement.bind(null, "sub", "");
   /**
    * Creates a `<sup>` element with some attributes
    * @function createSuperscript
@@ -1237,7 +1422,27 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createSuperscript = create.bind(null, "sup");
+  var createSuperscript = createElement.bind(null, "sup", "");
+  /**
+   * Creates a `<del>` element with some attributes
+   * @function createDeletedPart
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLModElement}
+   * @memberof DOM
+   */
+
+  var createDeletedPart = createElement.bind(null, "del", "cite,datetime");
+  /**
+   * Creates a `<ins>` element with some attributes
+   * @function createInsertedPart
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLModElement}
+   * @memberof DOM
+   */
+
+  var createInsertedPart = createElement.bind(null, "ins", "cite,datetime");
   /**
    * Creates a `<q>` element with some attributes
    * @function createQuote
@@ -1247,15 +1452,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  function createQuote(cite, _attribute, children) {
-    var quote = create('q', _attribute, children);
-
-    if (cite) {
-      quote.cite = cite;
-    }
-
-    return quote;
-  }
+  var createQuote = createElement.bind(null, "q", "cite");
   /**
    * Creates a `<abbr>` element with some attributes
    * @function createAbbreviation
@@ -1265,7 +1462,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createAbbreviation = create.bind(null, "abbr");
+  var createAbbreviation = createElement.bind(null, "abbr", "");
   /**
    * Creates a `<b>` element with some attributes
    * @function createB
@@ -1275,7 +1472,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createB = create.bind(null, "b");
+  var createB = createElement.bind(null, "b", "");
   /**
    * Creates a `<i>` element with some attributes
    * @function createI
@@ -1285,7 +1482,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createI = create.bind(null, "i");
+  var createI = createElement.bind(null, "i", "");
   /**
    * Creates a `<s>` element with some attributes
    * @function createS
@@ -1295,7 +1492,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createS = create.bind(null, 's');
+  var createS = createElement.bind(null, "s", "");
   /**
    * Creates a `<u>` element with some attributes
    * @function createU
@@ -1305,7 +1502,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createU = create.bind(null, 'u');
+  var createU = createElement.bind(null, "u", "");
   /**
    * Creates a `<cite>` element with some attributes
    * @function createCite
@@ -1315,24 +1512,16 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createCite = create.bind(null, "cite");
+  var createCite = createElement.bind(null, "cite", "");
   /**
    * Creates a `<time>` element with optionally some attributes
-   * @param {string} datetime 
-   * @param {object} attribute 
+   * @function createTime
+   * @param {object} _attribute 
    * @returns {HTMLTimeElement}
    * @memberof DOM
    */
 
-  function createTime(datetime, _attribute) {
-    var element = create('time', _attribute);
-
-    if (datetime) {
-      element.datetime = datetime;
-    }
-
-    return element;
-  }
+  var createTime = createElement.bind(null, "time", "datetime");
   /**
    * Creates a `<code>` element with some attributes
    * @function createCode
@@ -1342,35 +1531,17 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createCode = create.bind(null, "code");
+  var createCode = createElement.bind(null, "code", "");
   /**
    * Creates a `<form>` element with some attributes
    * @function createForm
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
+   * @returns {HTMLFormElement}
    * @memberof DOM
    */
 
-  var createForm = create.bind(null, 'form');
-  var inputTypes = ["button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week"];
-  /**
-   * Creates an `<input>` element with a specified type and 
-   * optionally some attributes
-   * @param {string} type
-   * @param {object} _attribute 
-   * @memberof DOM
-   */
-
-  function createInputAs(type, _attribute) {
-    if (!inputTypes.includes(type)) {
-      return null;
-    }
-
-    var input = create('input', _attribute);
-    input.type = type;
-    return input;
-  }
+  var createForm = createElement.bind(null, "form", "accept-charset,action,autocomplete,enctype,method,name,novalidate,rel,target");
   /**
    * Creates an `<input>` element with some attributes
    * @function createInput
@@ -1379,77 +1550,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createInput = createInputAs.bind(null, "text");
-  /**
-   * Creates a `<label>` element with some attributes
-   * @function createLabel
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createLabel = create.bind(null, 'label');
-  /**
-   * Creates a `<fieldset>` element with some attributes
-   * @function createFieldset
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createFieldset = create.bind(null, 'fieldset');
-  /**
-   * Creates a `<legend>` element with some attributes
-   * @function createLegend
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createLegend = create.bind(null, 'legend');
-  /**
-   * Creates a `<datalist>` element with some attributes
-   * @function createDataList
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLTextAreaElement}
-   * @memberof DOM
-   */
-
-  var createDataList = create.bind(null, 'datalist');
-  /**
-   * Creates a `<select>` element with some attributes
-   * @function createSelect
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createSelect = create.bind(null, 'select');
-  /**
-   * Creates a `<option>` element with some attributes
-   * @function createOption
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createOption = create.bind(null, 'option');
-  /**
-   * Creates a `<optgroup>` element with some attributes
-   * @function createOptionGroup
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @returns {HTMLLabelElement}
-   * @memberof DOM
-   */
-
-  var createOptionGroup = create.bind(null, 'optgroup');
+  var createInput = createEmptyElement.bind(null, "input", "accept,alt,autocomplete,autofocus,capture,checked,dirname,disabled,height,max,maxlength,minlength,min,multiple,name,pattern,placeholder,readonly,required,size,src,step,type,value,width");
   /**
    * Creates a `<textarea>` element with some attributes
    * @function createTextArea
@@ -1459,7 +1560,100 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createTextArea = create.bind(null, 'textarea');
+  var createTextArea = createElement.bind(null, "textarea", "autocomplete,autofocus,cols,disabled,maxlength,minlength,name,placeholder,readonly,required,rows,spellcheck,value,wrap");
+  /**
+   * Creates a `<label>` element with some attributes
+   * @function createLabel
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLLabelElement}
+   * @memberof DOM
+   */
+
+  var createLabel = createElement.bind(null, "label", "for");
+  /**
+   * Resolves a select element content
+   * @param {*} item 
+   * @returns {HTMLOptionElement|HTMLOptGroupElement}
+   */
+
+  var selectContentResolver = function selectContentResolver(item) {
+    if (isHTMLElement(item, ["option", "optgroup"])) {
+      return item;
+    }
+
+    if (Array.isArray(item)) {
+      return createOptionGroup(null, item);
+    }
+
+    return createOption(null, item);
+  };
+  /**
+   * Creates a `<select>` element with some attributes
+   * @function createSelect
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLSelectElement}
+   * @memberof DOM
+   */
+
+
+  var createSelect = createElementX.bind(null, 'select', "autocomplete,autofocus,disabled,multiple,name,required,size", selectContentResolver);
+  /**
+   * Creates a `<option>` element with some attributes
+   * @function createOption
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLOptionElement}
+   * @memberof DOM
+   */
+
+  var createOption = createElement.bind(null, "option", "disabled,label,selected,value");
+
+  var optiongroupContentResolver = function optiongroupContentResolver(item) {
+    return isHTMLElement(item, "option") ? item : createOption(null, item);
+  };
+  /**
+   * Creates a `<optgroup>` element with some attributes
+   * @function createOptionGroup
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLOptGroupElement}
+   * @memberof DOM
+   */
+
+
+  var createOptionGroup = createElementX.bind(null, "optgroup", "disabled,label", optiongroupContentResolver);
+  /**
+   * Creates a `<fieldset>` element with some attributes
+   * @function createFieldset
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLFieldSetElement}
+   * @memberof DOM
+   */
+
+  var createFieldset = createElement.bind(null, "fieldset", "disabled,name");
+  /**
+   * Creates a `<legend>` element with some attributes
+   * @function createLegend
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLLabelElement}
+   * @memberof DOM
+   */
+
+  var createLegend = createElement.bind(null, "legend", "");
+  /**
+   * Creates a `<datalist>` element with some attributes
+   * @function createDataList
+   * @param {object} _attribute 
+   * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLTextAreaElement}
+   * @memberof DOM
+   */
+
+  var createDataList = createElementX.bind(null, "datalist", "", optiongroupContentResolver);
   /**
    * Creates a `<meter>` element with some attributes
    * @function createMeter
@@ -1469,7 +1663,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createMeter = create.bind(null, 'meter');
+  var createMeter = createElement.bind(null, "meter", "high,low,max,min,optimum,value");
   /**
    * Creates a `<progress>` element with some attributes
    * @function createProgress
@@ -1479,7 +1673,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createProgress = create.bind(null, 'progress');
+  var createProgress = createElement.bind(null, "progress", "max,value");
   /**
    * Creates a `<output>` element with optionally some attributes and children elements
    * @function createOutput
@@ -1489,35 +1683,17 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createOutput = create.bind(null, 'output');
-  var buttonTypes = ["button", "submit", "reset"];
+  var createOutput = createElement.bind(null, "output", "name,value");
   /**
-   * Creates a `<button>` element with a specified type and 
-   * optionally some attributes and children elements
-   * @param {string} type
-   * @param {object} _attribute 
-   * @param {Text|HTMLElement|HTMLElement[]} _children 
-   * @memberof DOM
-   */
-
-  function createButtonAs(type, _attribute, _children) {
-    if (!buttonTypes.includes(type)) {
-      return null;
-    }
-
-    var button = create("button", _attribute, _children);
-    button.type = type;
-    return button;
-  }
-  /**
-   * Creates a `<button>` element with some attributes
+   * Creates a `<button>` element with optionally some attributes and children elements
    * @function createButton
    * @param {object} _attribute 
    * @param {Text|HTMLElement|HTMLElement[]} _children 
+   * @returns {HTMLButtonElement}
    * @memberof DOM
    */
 
-  var createButton = createButtonAs.bind(null, "button");
+  var createButton = createElement.bind(null, "button", "autofocus,disabled,formaction,formenctype,formmethod,formnovalidate,formtarget,name,type,value");
   /**
    * Creates a `<table>` element with some attributes
    * @function createTable
@@ -1527,7 +1703,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createTable = create.bind(null, "table");
+  var createTable = createElement.bind(null, "table", "");
   /**
    * Creates a `<caption>` element with some attributes
    * @function createCaption
@@ -1537,7 +1713,11 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createCaption = create.bind(null, "caption");
+  var createCaption = createElement.bind(null, "caption", "");
+
+  var tablerowContentResolver = function tablerowContentResolver(item) {
+    return isHTMLElement(item, "tr") ? item : createTableRow(null, item);
+  };
   /**
    * Creates a `<thead>` element with some attributes
    * @function createTableHeader
@@ -1547,7 +1727,8 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableHeader = create.bind(null, "thead");
+
+  var createTableHeader = createElementX.bind(null, "thead", "", tablerowContentResolver);
   /**
    * Creates a `<tbody>` element with some attributes
    * @function createTableBody
@@ -1557,7 +1738,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableBody = create.bind(null, "tbody");
+  var createTableBody = createElementX.bind(null, "tbody", "", tablerowContentResolver);
   /**
    * Creates a `<tfoot>` element with some attributes
    * @function createTableFooter
@@ -1567,7 +1748,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableFooter = create.bind(null, "tfoot");
+  var createTableFooter = createElementX.bind(null, "tfoot", "", tablerowContentResolver);
   /**
    * Creates a `<col>` element with some attributes
    * @function createTableColumn
@@ -1577,7 +1758,11 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableColumn = create.bind(null, "col");
+  var createTableColumn = createEmptyElement.bind(null, "col", "span");
+
+  var tablecolContentResolver = function tablecolContentResolver(item) {
+    return isHTMLElement(item, "col") ? item : null;
+  };
   /**
    * Creates a `<colgroup>` element with some attributes
    * @function createTableColumnGroup
@@ -1587,7 +1772,12 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableColumnGroup = create.bind(null, "colgroup");
+
+  var createTableColumnGroup = createElementX.bind(null, "colgroup", "span", tablecolContentResolver);
+
+  var tablecellContentResolver = function tablecellContentResolver(item) {
+    return isHTMLElement(item, ["th", "td"]) ? item : createTableCell(null, item);
+  };
   /**
    * Creates a `<tr>` element with some attributes
    * @function createTableRow
@@ -1597,7 +1787,8 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableRow = create.bind(null, "tr");
+
+  var createTableRow = createElementX.bind(null, "tr", "", tablecellContentResolver);
   /**
    * Creates a `<th>` element with some attributes
    * @function createTableHeaderCell
@@ -1607,7 +1798,7 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableHeaderCell = create.bind(null, "th");
+  var createTableHeaderCell = createElement.bind(null, "th", "abbr,colspan,rowspan,scope");
   /**
    * Creates a `<td>` element with some attributes
    * @function createTableCell
@@ -1617,34 +1808,27 @@ var zdom = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableCell = create.bind(null, "td");
+  var createTableCell = createElement.bind(null, "td", "colspan,rowspan");
   /**
    * Appends the children to the element
-   * @param {HTMLElement} element element
-   * @param {HTMLCollection} children children elements
+   * @param {Node} element element
+   * @param {HTMLCollection} content children elements
    * @private
    * @memberof DOM
    */
 
   /* istanbul ignore next */
 
-  function addContent(element, children) {
-    if (!isHTMLElement(element)) {
-      throw new Error("The given element is not a valid HTML Element");
+  function addContent(element, content, resolver) {
+    var children = Array.isArray(content) ? content : [content];
+
+    if (isFunction(resolver)) {
+      children = children.map(function (child) {
+        return resolver(child);
+      });
     }
 
-    if (isNullOrUndefined(children)) {
-      return element;
-    }
-
-    if (Array.isArray(children)) {
-      appendChildren(element, children);
-    } else if (isNode(children)) {
-      element.appendChild(children);
-    } else {
-      element.textContent = children.toString();
-    }
-
+    appendChildren(element, children);
     return element;
   }
 
@@ -1684,7 +1868,7 @@ var zdom = (function (exports) {
       return null;
     }
 
-    if (container instanceof DocumentFragment) {
+    if (isDocumentFragment(container)) {
       return container.querySelector(selector);
     }
 
@@ -1713,7 +1897,7 @@ var zdom = (function (exports) {
       return null;
     }
 
-    if (container instanceof DocumentFragment) {
+    if (isDocumentFragment(container)) {
       return container.querySelectorAll(selector);
     }
 
@@ -1756,10 +1940,14 @@ var zdom = (function (exports) {
   /* istanbul ignore next */
 
   function getElementSibling(dir, element, pred) {
+    if (!isHTMLElement(element)) {
+      return null;
+    }
+
     var sibling = element[dir];
 
     if (isFunction(pred)) {
-      while (isElement(sibling) && pred(sibling)) {
+      while (isElement(sibling) && !pred(sibling)) {
         sibling = sibling[dir];
       }
     }
@@ -1789,8 +1977,8 @@ var zdom = (function (exports) {
   var getNextElementSibling = getElementSibling.bind(null, "nextElementSibling");
   /**
    * Finds an ancestor of an element
-   * @param {Element} target 
-   * @param {Function} pred Decides whether the target is found
+   * @param {!Element} target 
+   * @param {!Function} pred Decides whether the target is found
    * @param {number} [_max] Maximum number of iterations
    * @returns {Element|null}
    * @memberof DOM
@@ -1798,11 +1986,11 @@ var zdom = (function (exports) {
 
   function findAncestor(target, pred, _max) {
     if (!isElement(target)) {
-      throw new Error("The given target parameter is not a valid HTML Element");
+      throw new TypeError("Bad argument: The given target parameter is not a valid HTML Element");
     }
 
     if (!isFunction(pred)) {
-      throw new Error("The given pred parameter is not a valid Function");
+      throw new TypeError("Bad argument: The given pred parameter is not a valid Function");
     }
 
     var parent = target.parentElement;
@@ -1866,7 +2054,7 @@ var zdom = (function (exports) {
 
   function removeChildren(node, _callback) {
     if (!isNode(node)) {
-      throw new Error("The given node parameter is not a valid Node");
+      throw new TypeError("Bad argument: The given `node` is not a valid Node");
     }
 
     if (isFunction(_callback)) {
@@ -1897,7 +2085,7 @@ var zdom = (function (exports) {
   }
 
   /**
-   * Copy content to clipboard
+   * Copies selected content to clipboard
    * @param {HTMLElement|string} value
    * @returns {boolean} Value indicating whether the content has been succesfully copied to the clipboard
    * @memberof DOM
@@ -1931,22 +2119,25 @@ var zdom = (function (exports) {
   exports.copytoClipboard = copytoClipboard;
   exports.createAbbreviation = createAbbreviation;
   exports.createAnchor = createAnchor;
+  exports.createArea = createArea;
   exports.createArticle = createArticle;
   exports.createAside = createAside;
   exports.createAudio = createAudio;
   exports.createB = createB;
+  exports.createBase = createBase;
   exports.createBlockQuotation = createBlockQuotation;
   exports.createButton = createButton;
-  exports.createButtonAs = createButtonAs;
   exports.createCaption = createCaption;
   exports.createCite = createCite;
   exports.createCode = createCode;
   exports.createDataList = createDataList;
+  exports.createDeletedPart = createDeletedPart;
   exports.createDescriptionDetails = createDescriptionDetails;
   exports.createDescriptionList = createDescriptionList;
   exports.createDescriptionTerm = createDescriptionTerm;
   exports.createDiv = createDiv;
   exports.createDocFragment = createDocFragment;
+  exports.createEmbed = createEmbed;
   exports.createEmphasis = createEmphasis;
   exports.createFieldset = createFieldset;
   exports.createFigure = createFigure;
@@ -1963,7 +2154,7 @@ var zdom = (function (exports) {
   exports.createI = createI;
   exports.createImage = createImage;
   exports.createInput = createInput;
-  exports.createInputAs = createInputAs;
+  exports.createInsertedPart = createInsertedPart;
   exports.createLabel = createLabel;
   exports.createLegend = createLegend;
   exports.createLineBreak = createLineBreak;
@@ -1973,6 +2164,7 @@ var zdom = (function (exports) {
   exports.createMark = createMark;
   exports.createMeter = createMeter;
   exports.createNav = createNav;
+  exports.createObject = createObject;
   exports.createOption = createOption;
   exports.createOptionGroup = createOptionGroup;
   exports.createOrderedList = createOrderedList;
@@ -1999,11 +2191,12 @@ var zdom = (function (exports) {
   exports.createTableHeader = createTableHeader;
   exports.createTableHeaderCell = createTableHeaderCell;
   exports.createTableRow = createTableRow;
-  exports.createTemplate = createTemplate$1;
+  exports.createTemplate = createTemplate;
   exports.createTextArea = createTextArea;
   exports.createTextNode = createTextNode;
   exports.createThematicBreak = createThematicBreak;
   exports.createTime = createTime;
+  exports.createTrack = createTrack;
   exports.createU = createU;
   exports.createUnorderedList = createUnorderedList;
   exports.createVideo = createVideo;

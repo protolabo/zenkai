@@ -17,14 +17,14 @@ describe('Data type general helpers', function () {
     });
     describe('#toBoolean()', function () {
         it("should return true if the value is true or the string 'true'", function () {
-            var values = [true, "true", "TRUE"];
+            var values = [true, "true", "TRUE", 1];
             values.forEach((val) => {
                 var result = toBoolean(val);
                 expect(result).to.be.true;
             });
         });
         it("should return false if the value is not true or the string 'true'", function () {
-            var values = [1, false, {}, " ", null, undefined];
+            var values = [0, false, {}, " ", null, undefined];
             values.forEach((val) => {
                 var result = toBoolean(val);
                 expect(result).to.be.false;

@@ -2,7 +2,10 @@
 require('jsdom-global')();
 
 const expect = require('chai').expect;
-const { capitalize, capitalizeFirstLetter, camelCase, pascalCase, removeAccents } = require('@std/std-string.js');
+const { 
+    capitalize, capitalizeFirstLetter, formatCase,
+    camelCase, pascalCase, removeAccents 
+} = require('@std/std-string.js');
 
 describe('String helpers', function () {
     describe('#capitalize(str)', function () {
@@ -10,6 +13,13 @@ describe('String helpers', function () {
             var str = "this is a test";
             var result = capitalize(str);
             expect(result).to.be.equal("This Is A Test");
+        });
+        it("should return the same string if it's null or a sequence of whitespace", function () {
+            var values = [null, '  '];
+            values.forEach((val) => {
+                var result = capitalize(val);
+                expect(result).to.be.equal(val);
+            });
         });
     });
     describe('#capitalizeFirstLetter(str)', function () {
@@ -50,6 +60,42 @@ describe('String helpers', function () {
             var values = [null, '  '];
             values.forEach((val) => {
                 var result = pascalCase(val);
+                expect(result).to.be.equal(val);
+            });
+        });
+    });
+    describe('#formatCase(str)', function () {
+        it("should return a string with the first character turn to uppercase", function () {
+            var str = "this is a test";
+            var result = formatCase(str, 'pascal');
+            expect(result).to.be.equal("ThisIsATest");
+        });
+        it("should return a string with the first character turn to uppercase", function () {
+            var str = "this is a test";
+            var result = formatCase(str, 'camel');
+            expect(result).to.be.equal("thisIsATest");
+        });
+        it("should return a string with all its characters turn to uppercase", function () {
+            var str = "this is a test";
+            var result = formatCase(str, 'upper');
+            expect(result).to.be.equal("THIS IS A TEST");
+        });
+        it("should return a string with all its characters turn to lowercase", function () {
+            var str = "this IS a TEST";
+            var result = formatCase(str, 'lower');
+            expect(result).to.be.equal("this is a test");
+        });
+        it("should return the same string if it's null or a sequence of whitespace", function () {
+            var values = [null, '  '];
+            values.forEach((val) => {
+                var result = formatCase(val);
+                expect(result).to.be.equal(val);
+            });
+        });
+        it("should return the same string if the casing is not recognized", function () {
+            var values = ["first string", "yet another"];
+            values.forEach((val) => {
+                var result = formatCase(val, 'standard');
                 expect(result).to.be.equal(val);
             });
         });

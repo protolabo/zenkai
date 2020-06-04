@@ -1,4 +1,4 @@
-import { isNullOrUndefined, isString, isIterable, hasOwn, pascalCase, isEmpty, all, some } from '@std/index.js';
+import { isNullOrUndefined, isString, isIterable, hasOwn, pascalCase, isEmpty, all, some, isCollection } from '@std/index.js';
 import { windowWidth, windowHeight } from './dom-stat.js';
 
 /* istanbul ignore next */
@@ -92,14 +92,15 @@ function isHTMLElementKind(element, kinds) {
     const isInstanceOf = (obj) => element instanceof obj;
     const hasTag = (tag) => element.tagName === tag.toUpperCase();
     const isOfType = (type) => Array.isArray(type) ? type.includes(element.type) : element.type === type;
-
-    some(kinds, (kind) => {
+    
+    return kinds.some((kind) => {
         if (!isIterable(kind)) {
             return false;
         }
 
         var name = kind;
         var type = null;
+        
         if (Array.isArray(kind)) {
             [name, type] = kind;
         }
@@ -111,7 +112,7 @@ function isHTMLElementKind(element, kinds) {
             return false;
         }
 
-        if (isIterable(type) && !isEmpty(type)) {
+        if (isCollection(type) && !isEmpty(type)) {
             return isOfType(type);
         }
 
@@ -136,28 +137,20 @@ export const isHTMLCollection = (obj) => obj instanceof HTMLCollection;
 export const isDocumentFragment = (obj) => isDocumentFragmentNode(obj) && obj instanceof DocumentFragment;
 
 /**
- * Creates a template with content
- * @param {string} html 
- * @returns {HTMLTemplateElement}
- * @private
+ * Converts an html string to an HTML Element or a list of HTML Elements
+ * @param {!string} prop 
+ * @param {!string} html 
  */
-/* istanbul ignore next */
-function createTemplate(html) {
-    var template = document.createElement('template');
-    template.innerHTML = html.trim();
-
-    return template.content;
-}
-
 /* istanbul ignore next */
 function _htmlToElement(prop, html) {
     if (!isString(html)) {
         return null;
     }
 
-    var template = createTemplate(html);
+    var template = document.createElement('template');
+    template.innerHTML = html.trim();
 
-    return template[prop];
+    return template.content[prop];
 }
 
 /**
@@ -166,7 +159,7 @@ function _htmlToElement(prop, html) {
  * @returns {Node}
  * @memberof DOM
  */
-export const htmlToElement = _htmlToElement.bind('firstChild');
+export const htmlToElement = _htmlToElement.bind(null, 'firstChild');
 
 /**
  * Converts an html string to a list of HTML Elements
@@ -174,7 +167,7 @@ export const htmlToElement = _htmlToElement.bind('firstChild');
  * @returns {NodeList}
  * @memberof DOM
  */
-export const htmlToElements = _htmlToElement.bind('childNodes');
+export const htmlToElements = _htmlToElement.bind(null, 'childNodes');
 
 /**
  * Verifies that an element is visible

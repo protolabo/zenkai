@@ -9,7 +9,7 @@ import { isNullOrUndefined, isDate } from './std-parse.js';
  * @returns {number} 1, 0, -1 if t1 > t2, t1 = t2 and t1 < t2 respectively
  * @memberof STD
  */
-export function compareTime(t1, t2, separator =  ":") {
+export function compareTime(t1, t2, separator = ":") {
     if (isNullOrUndefined(t1) || isNullOrUndefined(t2) || !t1.includes(separator) || !t2.includes(separator)) {
         return null;
     }
@@ -48,7 +48,7 @@ export function compareTime(t1, t2, separator =  ":") {
  * @param {*} [value] 
  * @returns {Date}
  */
-export function resolveDate(value) {
+export function resolveDate(value, useOffset = true) {
     if (isNullOrUndefined(value)) {
         return new Date();
     } else if (isDate(value)) {
@@ -62,7 +62,11 @@ export function resolveDate(value) {
         return new Date();
     }
 
-    return new Date(time + date.getTimezoneOffset() * 60000);
+    if (useOffset) {
+        return new Date(time + date.getTimezoneOffset() * 60000);
+    }
+
+    return date;
 }
 
 /**
@@ -115,7 +119,7 @@ export function shortDate(_date) {
  * @memberof STD
  */
 export function shortDateTime(_date) {
-    var date = resolveDate(_date);
+    var date = resolveDate(_date, false);
 
-    return formatDate(new Date(date + date.getTimezoneOffset() * 60000), 'yyyy-mm-dd hh:MM');
+    return formatDate(date, 'yyyy-mm-dd hh:MM');
 }

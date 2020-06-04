@@ -12,7 +12,7 @@ import { isFunction } from "./std-parse.js";
  */
 export const assert = function (values, pred, min, max) {
     if (!(Array.isArray(values) && isFunction(pred))) {
-        throw new Error("Bad argument");
+        throw new TypeError("Bad argument");
     }
 
     var hitCount = getHitCount(values, pred);
@@ -30,6 +30,7 @@ export const assert = function (values, pred, min, max) {
     }
 
     if (Number.isInteger(max)) {
+        console.warn(hitCount);
         return hitCount <= max;
     }
 
@@ -45,7 +46,7 @@ export const assert = function (values, pred, min, max) {
  */
 export const some = function (values, pred) {
     if (!(Array.isArray(values) && isFunction(pred))) {
-        throw new Error("Bad argument");
+        throw new TypeError("Bad argument");
     }
 
     for (let i = 0; i < values.length; i++) {
@@ -68,7 +69,7 @@ export const some = function (values, pred) {
  */
 export const all = function (values, pred) {
     if (!(Array.isArray(values) && isFunction(pred))) {
-        throw new Error("Bad argument");
+        throw new TypeError("Bad argument");
     }
 
     for (let i = 0; i < values.length; i++) {
@@ -91,7 +92,7 @@ export const all = function (values, pred) {
  */
 export const one = function (values, pred) {
     if (!(Array.isArray(values) && isFunction(pred))) {
-        throw new Error("Bad argument");
+        throw new TypeError("Bad argument");
     }
 
     return getHitCount(values, pred) === 1;
@@ -106,7 +107,7 @@ export const one = function (values, pred) {
  */
 export const no = function (values, pred) {
     if (!(Array.isArray(values) && isFunction(pred))) {
-        throw new Error("Bad argument");
+        throw new TypeError("Bad argument");
     }
     return getHitCount(values, pred) === 0;
 };
@@ -120,7 +121,7 @@ export const no = function (values, pred) {
  */
 export const lone = function (values, pred) {
     if (!(Array.isArray(values) && isFunction(pred))) {
-        throw new Error("Bad argument");
+        throw new TypeError("Bad argument");
     }
 
     return getHitCount(values, pred) <= 1;

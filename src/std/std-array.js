@@ -11,8 +11,8 @@ import { isEmpty } from "./std-parse.js";
  */
 export function insert(array, index, item) {
     if (!(Array.isArray(array) && Number.isInteger(index))) {
-        throw new Error("Bad argument");
-    }
+        throw new TypeError("Bad argument");
+    }``
 
     array.splice(index, 0, item);
 
@@ -26,7 +26,7 @@ export function insert(array, index, item) {
  */
 export function last(array) {
     if (!Array.isArray(array)) {
-        throw new Error("Bad argument");
+        throw new TypeError("Bad argument");
     }
 
     if (isEmpty(array)) {
@@ -43,7 +43,7 @@ export function last(array) {
  */
 export function first(array) {
     if (!Array.isArray(array)) {
-        throw new Error("Bad argument");
+        throw new TypeError("Bad argument");
     }
 
     return array[0];

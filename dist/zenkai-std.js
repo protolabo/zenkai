@@ -2,6 +2,8 @@ var zstd = (function (exports) {
   'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -15,35 +17,99 @@ var zstd = (function (exports) {
     return _typeof(obj);
   }
 
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
+    }
+
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(Object(source), true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(Object(source)).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-      return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
   }
 
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  }
+
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+    return arr2;
   }
 
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   /**
    * Returns an object value or default value if undefined
    * @param {*} arg object
    * @param {*} value default value
-   * @param {boolean} [isNullable] indicates whether the value can be assigned the value *NULL*
-   * @memberof TYPE
+   * @param {boolean} [isNullable=false] indicates whether the value can be assigned the value *NULL*
+   * @memberof STD
    */
-  function valOrDefault(arg, value, isNullable) {
-    if (isNullable === true) {
+  function valOrDefault(arg, value) {
+    var isNullable = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    if (isNullable) {
       return isUndefined(arg) ? value : arg;
     }
 
@@ -53,17 +119,17 @@ var zstd = (function (exports) {
    * Returns a value indicating whether the value is empty
    * @param {Object[]|string} arr array
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isEmpty(obj) {
-    return (Array.isArray(obj) || isString(obj)) && obj.length === 0;
+    return isIterable(obj) && obj.length === 0;
   }
   /**
    * Returns a value indicating whether the variable is a Date
    * @param {*} value 
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isDate(value) {
@@ -73,7 +139,7 @@ var zstd = (function (exports) {
    * Returns a value indicating whether the variable is a String
    * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isString(value) {
@@ -81,9 +147,9 @@ var zstd = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is a Function
-   * @param {string} value
+   * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isFunction(value) {
@@ -91,9 +157,9 @@ var zstd = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is an Object
-   * @param {string} value
+   * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isObject(value) {
@@ -103,17 +169,27 @@ var zstd = (function (exports) {
    * Returns a value indicating whether the object is iterable
    * @param {*} obj
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isIterable(obj) {
     return !isNullOrUndefined(obj) && typeof obj[Symbol.iterator] === 'function';
   }
   /**
-   * Returns a value indicating whether the value is null
-   * @param {string} value
+   * Returns a value indicating whether the object is a non-string iterable
+   * @param {*} obj
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
+   */
+
+  function isCollection(obj) {
+    return isIterable(obj) && !isString(obj);
+  }
+  /**
+   * Returns a value indicating whether the value is null
+   * @param {*} value
+   * @returns {boolean}
+   * @memberof STD
    */
 
   function isNull(value) {
@@ -121,19 +197,19 @@ var zstd = (function (exports) {
   }
   /**
    * Returns a value indicating whether a string is null or made of whitespace.
-   * @param {string} str string
+   * @param {string} value string
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
-  function isNullOrWhitespace(str) {
-    return !str || isString(str) && (str.length === 0 || /^\s*$/.test(str));
+  function isNullOrWhitespace(value) {
+    return !value || isString(value) && (value.length === 0 || /^\s*$/.test(value));
   }
   /**
    * Returns a value indicating whether the value is undefined
    * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isUndefined(value) {
@@ -141,8 +217,9 @@ var zstd = (function (exports) {
   }
   /**
    * Returns a value indicating whether the value is null or undefined
+   * @param {*} value
    * @returns {boolean}
-   * @memberof TYPE
+   * @memberof STD
    */
 
   function isNullOrUndefined(value) {
@@ -151,29 +228,49 @@ var zstd = (function (exports) {
 
   /**
    * Inserts an item in an array at the specified index
-   * @param {*[]} arr array
+   * @param {*[]} array array
    * @param {number} index 
    * @param {object} item 
    * @returns {number} The new length of the array
    * @memberof STD
    */
 
-  function insert(arr, index, item) {
-    arr.splice(index, 0, item);
-    return arr.length;
+  function insert(array, index, item) {
+    if (!(Array.isArray(array) && Number.isInteger(index))) {
+      throw new TypeError("Bad argument");
+    }
+    array.splice(index, 0, item);
+    return array.length;
   }
   /**
-   * Returns last element of array.
-   * @param {*[]} arr array
+   * Returns the last element of an array.
+   * @param {*[]} array array
    * @memberof STD
    */
 
-  function last(arr) {
-    if (!Array.isArray(arr) || isEmpty(arr)) {
+  function last(array) {
+    if (!Array.isArray(array)) {
+      throw new TypeError("Bad argument");
+    }
+
+    if (isEmpty(array)) {
       return undefined;
     }
 
-    return arr[arr.length - 1];
+    return array[array.length - 1];
+  }
+  /**
+   * Returns the first element of an array.
+   * @param {*[]} array array
+   * @memberof STD
+   */
+
+  function first(array) {
+    if (!Array.isArray(array)) {
+      throw new TypeError("Bad argument");
+    }
+
+    return array[0];
   }
 
   var HttpResponse = {
@@ -336,22 +433,64 @@ var zstd = (function (exports) {
     var xhr = xhrHandler('DELETE', url, successPred, success, fail, options.pass);
     xhr.send(data);
   }
+  /**
+   * Creates a fetch request with a time limit to resolve the request
+   * @param {URI} uri 
+   * @param {*} options 
+   * @param {number} time 
+   */
+
+  function fetchWithTimeout(uri) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5000;
+    // Lets set up our `AbortController`, and create a request options object
+    // that includes the controller's `signal` to pass to `fetch`.
+    var controller = new AbortController();
+
+    var config = _objectSpread2(_objectSpread2({}, options), {}, {
+      signal: controller.signal
+    }); // Set a timeout limit for the request using `setTimeout`. If the body of this
+    // timeout is reached before the request is completed, it will be cancelled.
+
+
+    var timeout = setTimeout(function () {
+      controller.abort();
+    }, time);
+    return fetch(uri, config).then(function (response) {
+      if (!response.ok) {
+        throw new Error("".concat(response.status, ": ").concat(response.statusText));
+      }
+
+      return response;
+    })["catch"](function (error) {
+      // When we abort our `fetch`, the controller conveniently throws a named
+      // error, allowing us to handle them separately from other errors.
+      if (error.name === 'AbortError') {
+        throw new Error('Response timed out');
+      }
+
+      throw new Error(error.message);
+    });
+  }
 
   /**
    * Compare 2 times
    * @param {string} t1 time 1
    * @param {string} t2 time 2
+   * @param {string} [separator=":"]
    * @returns {number} 1, 0, -1 if t1 > t2, t1 = t2 and t1 < t2 respectively
    * @memberof STD
    */
 
   function compareTime(t1, t2) {
-    if (isNullOrUndefined(t1) || isNullOrUndefined(t2) || !t1.includes(":") || !t2.includes(":")) {
+    var separator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ":";
+
+    if (isNullOrUndefined(t1) || isNullOrUndefined(t2) || !t1.includes(separator) || !t2.includes(separator)) {
       return null;
     }
 
-    var arr1 = t1.split(':');
-    var arr2 = t2.split(':'); // hour comparison
+    var arr1 = t1.split(separator);
+    var arr2 = t2.split(separator); // hour comparison
 
     if (+arr1[0] > +arr2[0]) {
       return 1;
@@ -379,21 +518,31 @@ var zstd = (function (exports) {
   }
   /**
    * Resolves a date value
-   * @param {*} [date] 
+   * @param {*} [value] 
    * @returns {Date}
-   * @private
    */
 
-  function resolveDate(date) {
-    if (isNullOrUndefined(date)) {
+  function resolveDate(value) {
+    var useOffset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+    if (isNullOrUndefined(value)) {
       return new Date();
-    } else if (isDate(date)) {
-      return date;
+    } else if (isDate(value)) {
+      return value;
     }
 
-    var _date = new Date(date);
+    var date = new Date(value);
+    var time = date.getTime();
 
-    return new Date(_date.getTime() + _date.getTimezoneOffset() * 60000);
+    if (Number.isNaN(time)) {
+      return new Date();
+    }
+
+    if (useOffset) {
+      return new Date(time + date.getTimezoneOffset() * 60000);
+    }
+
+    return date;
   }
   /**
    * Formats a date
@@ -402,7 +551,6 @@ var zstd = (function (exports) {
    * @returns {string} Formatted date
    * @memberof STD
    */
-
 
   function formatDate(date, format) {
     var dd = date.getDate();
@@ -438,105 +586,16 @@ var zstd = (function (exports) {
    */
 
   function shortDateTime(_date) {
-    var date = resolveDate(_date);
-    return formatDate(new Date(date + date.getTimezoneOffset() * 60000), 'yyyy-mm-dd hh:MM');
-  }
-  function parseTime(n) {
-    var hh = +n | 0;
-    var mm = '00';
-
-    if (!Number.isInteger(+n)) {
-      mm = (n + '').split('.')[1] * 6;
-    }
-
-    return hh + ':' + mm;
-  }
-  var DICT = {
-    'en': {
-      'second': 'second(s)',
-      'minute': 'minute(s)',
-      'hour': 'hour(s)',
-      'day': 'day(s)',
-      'week': 'week(s)',
-      'month': 'month(s)',
-      'year': 'year(s)'
-    },
-    'fr': {
-      'second': 'seconde(s)',
-      'minute': 'minute(s)',
-      'hour': 'heure(s)',
-      'day': 'jour(s)',
-      'week': 'semaine(s)',
-      'month': 'mois',
-      'year': 'année(s)'
-    }
-  };
-
-  var trans = function translation(lang, key, isPlural) {
-    var value = DICT[lang][key];
-
-    if (value === undefined) {
-      return undefined;
-    }
-
-    if (isPlural) {
-      return value.replace(/\(([a-z]+)\)/g, '$1');
-    }
-
-    return value.replace(/\([a-z]+\)/g, '');
-  };
-
-  var timeAgoResponse = function timeAgoResponseBuilder(time, unit, _lang) {
-    var lang = valOrDefault(_lang, 'en');
-    var isPlural = time === 1;
-    var msg = {
-      en: "".concat(time, " ").concat(trans('en', unit, isPlural), " ago"),
-      fr: "il y a ".concat(time, " ").concat(trans('fr', unit, isPlural))
-    };
-    return msg[lang];
-  };
-  /**
-   * Returns the ellapsed time between now and a point in time
-   * @param {*} time 
-   * @param {*} _callback 
-   * @returns {string}
-   * @memberof STD
-   */
-
-
-  function timeAgo(time, _callback) {
-    var callback = valOrDefault(_callback, timeAgoResponse);
-    var seconds = Math.floor((Date.now() - resolveDate(time).getTime()) / 1000);
-    var MINUTE = 60;
-    var HOUR = MINUTE * 60;
-    var DAY = HOUR * 24;
-    var WEEK = DAY * 7;
-    var MONTH = DAY * 30;
-    var YEAR = WEEK * 52;
-
-    if (seconds < MINUTE) {
-      return callback(seconds, 'second');
-    } else if (seconds < HOUR) {
-      return callback(~~(seconds / MINUTE), 'minute');
-    } else if (seconds < DAY) {
-      return callback(~~(seconds / HOUR), 'hour');
-    } else if (seconds < WEEK) {
-      return callback(~~(seconds / DAY), 'day');
-    } else if (seconds < MONTH) {
-      return callback(~~(seconds / WEEK), 'week');
-    } else if (seconds < YEAR) {
-      return callback(~~(seconds / MONTH), 'month');
-    } else {
-      return callback(~~(seconds / YEAR), 'year');
-    }
+    var date = resolveDate(_date, false);
+    return formatDate(date, 'yyyy-mm-dd hh:MM');
   }
 
   /** @private */
+
   var hasOwnProperty = Object.prototype.hasOwnProperty;
   /** @private */
 
   var isPrototypeOf = Object.prototype.isPrototypeOf;
-  var defProp = Object.defineProperty;
   /**
    * Returns a boolean indicating whether the object has the specified property as its own property (not inherited).
    * @param {*} obj target object
@@ -558,13 +617,13 @@ var zstd = (function (exports) {
     return Object.getPrototypeOf(child) !== parent && isPrototypeOf.call(parent, child);
   };
   /**
-   * 
-   * @param {*} obj 
+   * Creates a clone of an object
+   * @param {*} obj Object
    * @memberof STD
    */
 
   function cloneObject(obj) {
-    if (obj === null || _typeof(obj) !== 'object') {
+    if (isNullOrUndefined(obj) || !isObject(obj)) {
       return obj;
     }
 
@@ -589,6 +648,10 @@ var zstd = (function (exports) {
    */
 
   function capitalize(str) {
+    if (isNullOrWhitespace(str)) {
+      return str;
+    }
+
     return str.toLowerCase().replace(/\b\w/g, function (s) {
       return s.toUpperCase();
     });
@@ -601,7 +664,11 @@ var zstd = (function (exports) {
    */
 
   function capitalizeFirstLetter(str) {
-    return isNullOrWhitespace(str) ? str : str.charAt(0).toUpperCase() + str.slice(1);
+    if (isNullOrWhitespace(str)) {
+      return str;
+    }
+
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
   var CaseHandler = {
     'camel': function camel(str) {
@@ -620,7 +687,7 @@ var zstd = (function (exports) {
   /**
    * Format a sequence according to a specified case
    * @param {!string} str Sequence
-   * @param {!string} casing Sequence
+   * @param {!string} casing Casing (camel, pascal, upper, lower)
    * @returns {string} Formatted sequence
    * @memberof STD
    */
@@ -701,9 +768,45 @@ var zstd = (function (exports) {
 
   function toBoolean(value) {
     var val = valOrDefault(value, false);
-    return val === true || val.toString().toLowerCase() === 'true';
+    return isString(val) && val.toLowerCase() === "true" || Number.isInteger(val) && val === 1 || val === true;
   }
 
+  /**
+   * Verifies that the condition is satisfied for a specified number (range) of value
+   * @param {*[]} values Set of values
+   * @param {Function} pred Condition
+   * @param {number} [min=1] Minimum number of values that must satisfy the condition
+   * @param {number} [max] Maximum number of values that must satisfy the condition
+   * @returns {boolean} A value indicating whether the condition is satisfied for the specified range
+   * @memberof STD
+   */
+
+  var assert = function assert(values, pred, min, max) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
+    var hitCount = getHitCount(values, pred);
+
+    if (all([min, max], Number.isInteger)) {
+      if (max < min) {
+        throw new Error("Bad argument: max must be greater than min");
+      }
+
+      return hitCount >= min && hitCount <= max;
+    }
+
+    if (Number.isInteger(min)) {
+      return hitCount >= min;
+    }
+
+    if (Number.isInteger(max)) {
+      console.warn(hitCount);
+      return hitCount <= max;
+    }
+
+    return false;
+  };
   /**
    * Verifies that at least one value satisfies the condition
    * @param {*[]} values Set of values
@@ -713,44 +816,16 @@ var zstd = (function (exports) {
    */
 
   var some = function some(values, pred) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
     for (var i = 0; i < values.length; i++) {
       var value = values[i];
 
       if (pred.apply(void 0, _toConsumableArray(Array.isArray(value) ? value : [value]))) {
         return true;
       }
-    }
-
-    return false;
-  };
-  /**
-   * Verifies that at the condition is satisfied for a a number of value
-   * @param {*[]} values Set of values
-   * @param {Function} pred Condition
-   * @param {number} [min=1] Minimum number of values that must satisfy the condition
-   * @param {number} [max=-1] Minimum number of values that must satisfy the condition
-   * @returns {boolean} A value indicating whether at least one value satisfies the condition
-   * @memberof STD
-   */
-
-  var assert = function assert(values, pred, min, max) {
-    if (max < min) {
-      console.error("`max` must be greater than `min`");
-      return;
-    }
-
-    var hitCount = getHitCount(values, pred);
-
-    if (all([min, max], Number.isInteger)) {
-      return hitCount >= min && hitCount <= max;
-    }
-
-    if (Number.isInteger(min)) {
-      return hitCount >= min;
-    }
-
-    if (Number.isInteger(max)) {
-      return hitCount <= max;
     }
 
     return false;
@@ -764,6 +839,10 @@ var zstd = (function (exports) {
    */
 
   var all = function all(values, pred) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
     for (var i = 0; i < values.length; i++) {
       var value = values[i];
 
@@ -783,6 +862,10 @@ var zstd = (function (exports) {
    */
 
   var one = function one(values, pred) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
     return getHitCount(values, pred) === 1;
   };
   /**
@@ -794,6 +877,10 @@ var zstd = (function (exports) {
    */
 
   var no = function no(values, pred) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
     return getHitCount(values, pred) === 0;
   };
   /**
@@ -805,12 +892,17 @@ var zstd = (function (exports) {
    */
 
   var lone = function lone(values, pred) {
+    if (!(Array.isArray(values) && isFunction(pred))) {
+      throw new TypeError("Bad argument");
+    }
+
     return getHitCount(values, pred) <= 1;
   };
   /**
-   * 
-   * @param {*} values 
-   * @param {*} pred 
+   * Gets the number of values that satisfy the condition
+   * @param {*[]} values 
+   * @param {Function} pred 
+   * @returns {number}
    * @private
    */
 
@@ -837,13 +929,20 @@ var zstd = (function (exports) {
    * @param {boolean} [secure] 
    * @memberof STD
   */
-
   function random(min, max) {
     var secure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-    if (isNullOrUndefined(max)) {
+    if (!Number.isInteger(min)) {
+      throw new TypeError("Bad argument");
+    }
+
+    if (!Number.isInteger(max)) {
       max = min;
       min = 0;
+    }
+
+    if (max < min) {
+      throw new Error("Bad argument: max must be greater than min");
     }
 
     return min + Math.floor((secure ? secureMathRandom() : Math.random()) * (max - min + 1));
@@ -862,20 +961,24 @@ var zstd = (function (exports) {
    * Append the path to the current path
    * @param {string} target 
    * @param {string} path 
+   * @param {string} [separator="."] 
    * @memberof STD
    */
 
   function addPath(target, path) {
-    return isNullOrWhitespace(target) ? path : target + '.' + path;
+    var separator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ".";
+    return isNullOrWhitespace(target) ? path : "".concat(target).concat(separator).concat(path);
   }
   /**
    * Returns the directory of the path
    * @param {string} path 
+   * @param {string} [separator="."] 
    * @memberof STD
    */
 
   function getDir(path) {
-    return path.substring(0, path.lastIndexOf('.'));
+    var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ".";
+    return path.substring(0, path.lastIndexOf(separator));
   }
   /**
    * Returns the directory of the path from the target
@@ -896,14 +999,14 @@ var zstd = (function (exports) {
    * Returns an element in an object using its path
    * @param {Object} obj
    * @param {string} path  
-   * @param {string} [_separator=.]
+   * @param {string} [separator=.]
    * @memberof STD
    */
 
 
-  function findByPath(obj, path, _separator) {
+  function findByPath(obj, path) {
+    var separator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ".";
     var REGEX_BRACKET_DIGIT = /\[\d+\]/g;
-    var separator = valOrDefault(_separator, '.');
     var me = cloneObject(obj);
 
     var findHandler = function findHandler(part, regex, callback) {
@@ -944,14 +1047,16 @@ var zstd = (function (exports) {
   exports.capitalizeFirstLetter = capitalizeFirstLetter;
   exports.cloneObject = cloneObject;
   exports.compareTime = compareTime;
-  exports.defProp = defProp;
+  exports.fetchWithTimeout = fetchWithTimeout;
   exports.findByPath = findByPath;
+  exports.first = first;
   exports.formatCase = formatCase;
   exports.formatDate = formatDate;
   exports.getDir = getDir;
   exports.getDirTarget = getDirTarget;
   exports.hasOwn = hasOwn;
   exports.insert = insert;
+  exports.isCollection = isCollection;
   exports.isDate = isDate;
   exports.isDerivedOf = isDerivedOf;
   exports.isEmpty = isEmpty;
@@ -967,14 +1072,13 @@ var zstd = (function (exports) {
   exports.lone = lone;
   exports.no = no;
   exports.one = one;
-  exports.parseTime = parseTime;
   exports.pascalCase = pascalCase;
   exports.random = random;
   exports.removeAccents = removeAccents;
+  exports.resolveDate = resolveDate;
   exports.shortDate = shortDate;
   exports.shortDateTime = shortDateTime;
   exports.some = some;
-  exports.timeAgo = timeAgo;
   exports.toBoolean = toBoolean;
   exports.valOrDefault = valOrDefault;
 

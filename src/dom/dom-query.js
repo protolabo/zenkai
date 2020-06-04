@@ -1,5 +1,5 @@
 ﻿import { isFunction, isNullOrUndefined, valOrDefault, isNullOrWhitespace } from '@std/index.js';
-import { isElement } from './dom-parse.js';
+import { isElement, isHTMLElement, isDocumentFragment } from './dom-parse.js';
 
 /**
  * Checks whether the selector represents a `class`
@@ -30,7 +30,7 @@ export function getElement(selector, _container) {
         return null;
     }
 
-    if (container instanceof DocumentFragment) {
+    if (isDocumentFragment(container)) {
         return container.querySelector(selector);
     }
 
@@ -59,7 +59,7 @@ export function getElements(selector, _container) {
         return null;
     }
 
-    if (container instanceof DocumentFragment) {
+    if (isDocumentFragment(container)) {
         return container.querySelectorAll(selector);
     }
 
@@ -101,10 +101,14 @@ export function cloneTemplate(template, deep) {
  */
 /* istanbul ignore next */
 function getElementSibling(dir, element, pred) {
+    if (!isHTMLElement(element)) {
+        return null;
+    }
+
     var sibling = element[dir];
 
     if (isFunction(pred)) {
-        while (isElement(sibling) && pred(sibling)) {
+        while (isElement(sibling) && !pred(sibling)) {
             sibling = sibling[dir];
         }
     }
@@ -134,23 +138,23 @@ export const getNextElementSibling = getElementSibling.bind(null, "nextElementSi
 
 /**
  * Finds an ancestor of an element
- * @param {Element} target 
- * @param {Function} pred Decides whether the target is found
+ * @param {!Element} target 
+ * @param {!Function} pred Decides whether the target is found
  * @param {number} [_max] Maximum number of iterations
  * @returns {Element|null}
  * @memberof DOM
  */
 export function findAncestor(target, pred, _max) {
     if (!isElement(target)) {
-        throw new Error("The given target parameter is not a valid HTML Element");
+        throw new TypeError("Bad argument: The given target parameter is not a valid HTML Element");
     }
 
     if (!isFunction(pred)) {
-        throw new Error("The given pred parameter is not a valid Function");
+        throw new TypeError("Bad argument: The given pred parameter is not a valid Function");
     }
 
     var parent = target.parentElement;
-    
+
     if (_max > 0) {
         return findAncestorIter(parent, pred, _max - 1);
     }

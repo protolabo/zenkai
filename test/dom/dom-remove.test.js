@@ -16,7 +16,7 @@ describe('DOM remove helpers', function () {
     describe('#removeChildren(node, callback)', function () {
         it("should remove all children elements of an element", function () {
             var target = document.querySelector('#body');
-    
+
             var result = removeChildren(target);
 
             expect(result).to.be.equal(target);
@@ -24,20 +24,20 @@ describe('DOM remove helpers', function () {
         });
         it("should remove all children elements of an element that satisfies the condition", function () {
             var target = document.querySelector('#body');
-            var predicate = function(node) {
+            var predicate = function (node) {
                 return node.className && node.className.split(" ").includes('list');
             };
-    
+
             var result = removeChildren(target, predicate);
 
             expect(result).to.be.equal(target);
         });
         it("should abort the operation and return null if the node is not valid", function () {
             var target = '#body';
-    
-            var result = removeChildren(target);
 
-            expect(result).to.be.null;
+            var result = function () { removeChildren(target); };
+
+            expect(result).to.throw(TypeError);
         });
     });
     after(function () {

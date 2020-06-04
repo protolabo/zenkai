@@ -74,6 +74,16 @@ export function isIterable(obj) {
 }
 
 /**
+ * Returns a value indicating whether the object is a non-string iterable
+ * @param {*} obj
+ * @returns {boolean}
+ * @memberof STD
+ */
+export function isCollection(obj) {
+    return isIterable(obj) && !isString(obj);
+}
+
+/**
  * Returns a value indicating whether the value is null
  * @param {*} value
  * @returns {boolean}

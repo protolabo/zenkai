@@ -10,7 +10,7 @@ import { isNode } from './dom-parse.js';
  */
 export function removeChildren(node, _callback) {
     if (!isNode(node)) {
-        throw new Error("The given node parameter is not a valid Node");
+        throw new TypeError("Bad argument: The given `node` is not a valid Node");
     }
 
     if (isFunction(_callback)) {
