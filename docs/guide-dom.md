@@ -33,17 +33,3 @@ createUnorderedList({ id: "listId", class: ["bare-list", "items"] }, [
     createListItem({ class: "item" }, "yet another item")
 ]);
 ```
-
-#### HTML
-
-```html
-<ul id="listId" class="bare-list items">
-    <li class="item">header text</li>
-    <li class="item">
-        <span class="some-class">start with</span>
-        <strong class="important-class">the important stuff</strong>
-        please
-    </li>
-    <li class="item">yet another item</li>
-</ul>
-```

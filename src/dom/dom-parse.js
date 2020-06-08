@@ -87,6 +87,7 @@ const TagNameMapping = {
  * @param {HTMLElement} element 
  * @param {string[]|string[][]} kinds
  * @returns {boolean}
+ * @private
  */
 function isHTMLElementKind(element, kinds) {
     const isInstanceOf = (obj) => element instanceof obj;
@@ -140,6 +141,7 @@ export const isDocumentFragment = (obj) => isDocumentFragmentNode(obj) && obj in
  * Converts an html string to an HTML Element or a list of HTML Elements
  * @param {!string} prop 
  * @param {!string} html 
+ * @private
  */
 /* istanbul ignore next */
 function _htmlToElement(prop, html) {

@@ -332,6 +332,7 @@ function insert(array, index, item) {
   if (!(Array.isArray(array) && Number.isInteger(index))) {
     throw new TypeError("Bad argument");
   }
+
   array.splice(index, 0, item);
   return array.length;
 }
@@ -531,6 +532,7 @@ function DELETE(url, data, success, fail, options) {
  * @param {URI} uri 
  * @param {*} options 
  * @param {number} time 
+ * @memberof STD
  */
 
 function fetchWithTimeout(uri) {
@@ -613,6 +615,7 @@ function compareTime(t1, t2) {
  * Resolves a date value
  * @param {*} [value] 
  * @returns {Date}
+  * @memberof STD
  */
 
 function resolveDate(value) {
@@ -894,11 +897,10 @@ var assert = function assert(values, pred, min, max) {
   }
 
   if (Number.isInteger(max)) {
-    console.warn(hitCount);
     return hitCount <= max;
   }
 
-  return false;
+  return hitCount > 0;
 };
 /**
  * Verifies that at least one value satisfies the condition
@@ -1240,6 +1242,7 @@ var TagNameMapping = {
  * @param {HTMLElement} element 
  * @param {string[]|string[][]} kinds
  * @returns {boolean}
+ * @private
  */
 
 function isHTMLElementKind(element, kinds) {
@@ -1309,6 +1312,7 @@ var isDocumentFragment = function isDocumentFragment(obj) {
  * Converts an html string to an HTML Element or a list of HTML Elements
  * @param {!string} prop 
  * @param {!string} html 
+ * @private
  */
 
 /* istanbul ignore next */
@@ -1473,6 +1477,7 @@ function appendChildren(parent, children) {
  * Add classes to an element
  * @param {HTMLElement} element 
  * @param {string|string[]} value 
+ * @memberof DOM
  */
 
 function addClass(element, value) {
@@ -1491,6 +1496,7 @@ function addClass(element, value) {
  * @param {HTMLElement} element 
  * @param {string} key 
  * @param {string} value 
+ * @private
  */
 
 
@@ -1502,6 +1508,7 @@ function assign(element, key, value) {
  * @param {HTMLElement} element 
  * @param {string} key 
  * @param {Object} value 
+ * @private
  */
 
 
@@ -1513,6 +1520,7 @@ function assignObject(element, key, value) {
  * @param {HTMLElement} element 
  * @param {string} key 
  * @param {Object} value 
+ * @private
  */
 
 
@@ -2426,6 +2434,7 @@ var createLabel = createElement.bind(null, "label", "for");
  * Resolves a select element content
  * @param {*} item 
  * @returns {HTMLOptionElement|HTMLOptGroupElement}
+ * @private
  */
 
 var selectContentResolver = function selectContentResolver(item) {
@@ -3038,14 +3047,11 @@ function floatingLabel(form) {
   function bindEvents(input, label) {
     if (isNullOrWhitespace(input.placeholder)) {
       input.addEventListener('focus', function (e) {
-        console.log("focus called");
         input.placeholder = "";
         moveUp(label);
         addFocus(label.parentElement);
       });
       input.addEventListener('blur', function (e) {
-        console.log("blur called");
-
         if (isEmpty(this.value)) {
           moveDown(label);
         }
@@ -3053,8 +3059,7 @@ function floatingLabel(form) {
         removeFocus(label.parentElement);
       });
       input.addEventListener('input', function (e) {
-        console.log("input called"); // check if input does not have focus
-
+        // check if input does not have focus
         if (document.activeElement != input) {
           if (isEmpty(this.value)) {
             moveDown(label);
@@ -3495,8 +3500,12 @@ var Factory = {
 function createSelectorItem(itemContainers, type, hasInput) {
   var items = [];
   var typeHandler = {
-    'selector': Object.create(BaseSelectorItem),
-    'form-selector': Object.create(FormSelectorItem)
+    'selector': function selector() {
+      return Object.create(BaseSelectorItem);
+    },
+    'form-selector': function formSelector() {
+      return Object.create(FormSelectorItem);
+    }
   };
 
   for (var i = 0; i < itemContainers.length; i++) {

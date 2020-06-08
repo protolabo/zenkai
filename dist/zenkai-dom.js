@@ -389,6 +389,7 @@ var zdom = (function (exports) {
    * @param {HTMLElement} element 
    * @param {string[]|string[][]} kinds
    * @returns {boolean}
+   * @private
    */
 
   function isHTMLElementKind(element, kinds) {
@@ -458,6 +459,7 @@ var zdom = (function (exports) {
    * Converts an html string to an HTML Element or a list of HTML Elements
    * @param {!string} prop 
    * @param {!string} html 
+   * @private
    */
 
   /* istanbul ignore next */
@@ -622,6 +624,7 @@ var zdom = (function (exports) {
    * Add classes to an element
    * @param {HTMLElement} element 
    * @param {string|string[]} value 
+   * @memberof DOM
    */
 
   function addClass(element, value) {
@@ -640,6 +643,7 @@ var zdom = (function (exports) {
    * @param {HTMLElement} element 
    * @param {string} key 
    * @param {string} value 
+   * @private
    */
 
 
@@ -651,6 +655,7 @@ var zdom = (function (exports) {
    * @param {HTMLElement} element 
    * @param {string} key 
    * @param {Object} value 
+   * @private
    */
 
 
@@ -662,6 +667,7 @@ var zdom = (function (exports) {
    * @param {HTMLElement} element 
    * @param {string} key 
    * @param {Object} value 
+   * @private
    */
 
 
@@ -1575,6 +1581,7 @@ var zdom = (function (exports) {
    * Resolves a select element content
    * @param {*} item 
    * @returns {HTMLOptionElement|HTMLOptGroupElement}
+   * @private
    */
 
   var selectContentResolver = function selectContentResolver(item) {

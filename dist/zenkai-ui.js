@@ -349,6 +349,7 @@ var zui = (function (exports) {
    * @param {HTMLElement} element 
    * @param {string[]|string[][]} kinds
    * @returns {boolean}
+   * @private
    */
 
   function isHTMLElementKind(element, kinds) {
@@ -418,6 +419,7 @@ var zui = (function (exports) {
    * Converts an html string to an HTML Element or a list of HTML Elements
    * @param {!string} prop 
    * @param {!string} html 
+   * @private
    */
 
   /* istanbul ignore next */
@@ -488,6 +490,7 @@ var zui = (function (exports) {
    * Add classes to an element
    * @param {HTMLElement} element 
    * @param {string|string[]} value 
+   * @memberof DOM
    */
 
   function addClass(element, value) {
@@ -506,6 +509,7 @@ var zui = (function (exports) {
    * @param {HTMLElement} element 
    * @param {string} key 
    * @param {string} value 
+   * @private
    */
 
 
@@ -517,6 +521,7 @@ var zui = (function (exports) {
    * @param {HTMLElement} element 
    * @param {string} key 
    * @param {Object} value 
+   * @private
    */
 
 
@@ -528,6 +533,7 @@ var zui = (function (exports) {
    * @param {HTMLElement} element 
    * @param {string} key 
    * @param {Object} value 
+   * @private
    */
 
 
@@ -1379,6 +1385,7 @@ var zui = (function (exports) {
    * Resolves a select element content
    * @param {*} item 
    * @returns {HTMLOptionElement|HTMLOptGroupElement}
+   * @private
    */
 
   var selectContentResolver = function selectContentResolver(item) {
@@ -1901,14 +1908,11 @@ var zui = (function (exports) {
     function bindEvents(input, label) {
       if (isNullOrWhitespace(input.placeholder)) {
         input.addEventListener('focus', function (e) {
-          console.log("focus called");
           input.placeholder = "";
           moveUp(label);
           addFocus(label.parentElement);
         });
         input.addEventListener('blur', function (e) {
-          console.log("blur called");
-
           if (isEmpty(this.value)) {
             moveDown(label);
           }
@@ -1916,8 +1920,7 @@ var zui = (function (exports) {
           removeFocus(label.parentElement);
         });
         input.addEventListener('input', function (e) {
-          console.log("input called"); // check if input does not have focus
-
+          // check if input does not have focus
           if (document.activeElement != input) {
             if (isEmpty(this.value)) {
               moveDown(label);
@@ -2358,8 +2361,12 @@ var zui = (function (exports) {
   function createSelectorItem(itemContainers, type, hasInput) {
     var items = [];
     var typeHandler = {
-      'selector': Object.create(BaseSelectorItem),
-      'form-selector': Object.create(FormSelectorItem)
+      'selector': function selector() {
+        return Object.create(BaseSelectorItem);
+      },
+      'form-selector': function formSelector() {
+        return Object.create(FormSelectorItem);
+      }
     };
 
     for (var i = 0; i < itemContainers.length; i++) {

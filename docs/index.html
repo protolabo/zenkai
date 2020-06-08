@@ -14,15 +14,49 @@
     <style>
         .tbl-libraries {
             width: 100%;
-            border: 1px solid #c0c0c0;
+            border-collapse: collapse;
+            background-color: #d5d5d5;
+            background: linear-gradient(105deg, #f5f5f5, #fff, #f0f0f0);
+            color: #222;
+            box-shadow: 0 1px 2px #555;
         }
 
-        .tbl-libraries td:nth-child(2) {
-            min-width: 150px;
+            .tbl-libraries td:nth-child(2) {
+                min-width: 240px;
+                text-align: center;
+            }
+
+        .tbl-libraries-header {
+            font-size: 1.1em;
+            background: #c0c0c0;
+            color: #111;
         }
 
-        .tbl-libraries td:nth-child(3) {
-            min-width: 150px;
+        .tbl-libraries-header-cell {
+            padding: 10px;
+        }
+        
+        .tbl-libraries__footer-cell {
+            font: 800 1.5em Consolas, 'Courier New', Courier, monospace;
+            text-align: center;
+            color: #fff;
+            background-color: #222;
+            transition: .2s;
+        }
+
+        .tbl-libraries__footer-cell:hover {
+            background-color: #444;
+        }
+
+        .tbl-libraries__footer-cell__link {
+            display: block; 
+            padding: 10px 15px;
+            color: inherit;
+        }
+
+        .tbl-libraries__footer-cell__link:hover {
+            color: #f5f5f5; 
+            text-shadow: 0 0 2px #fff; 
         }
 
         .form-section {
@@ -113,47 +147,46 @@
                 <h2 class="section-title">Libraries</h2>
 
                 <table class="tbl-libraries">
-                    <thead>
+                    <thead class="tbl-libraries-header">
                         <tr>
-                            <th>Library</th>
-                            <th>Documentation</th>
-                            <th>Source code</th>
+                            <th class="tbl-libraries-header-cell">Description</th>
+                            <th class="tbl-libraries-header-cell">Documentation</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>
-                                <em class="lib-name">Dom:</em>
-                                Create elements, manipulate and query the DOM.
+                                <em class="lib-name">STD:</em>
+                                The Standard library (STD) main goal is to be used as a base for any JS project and therefore has no browser dependency.
+                                It focuses on extending the capabilities of Javascript data types and expanding some of the language concepts
+                                such as AJAX, Logic and Path.
                             </td>
-                            <td><a href="dom/index.html">Docs</a></td>
-                            <td><a href="https://github.com/protolabo/zenkai">Github repo</a></td>
+                            <td><a href="std/index.html">API documentation</a></td>
                         </tr>
                         <tr>
                             <td>
-                                <em class="lib-name">Type:</em>
-                                Manipulate array, datetime, iterable, object and string.
+                                <em class="lib-name">DOM:</em>
+                                The Document library (DOM) primary goal is to provide a richer and more direct API to manipulate elements.
+                                This library enforces structure validation to stay conform to the web standards and as a bonus always yields valid elements.
                             </td>
-                            <td><a href="datatype/index.html">Docs</a></td>
-                            <td><a href="https://github.com/protolabo/zenkai">Github repo</a></td>
+                            <td><a href="dom/index.html">API documentation</a></td>
                         </tr>
                         <tr>
                             <td>
-                                <em class="lib-name">Utils:</em>
-                                A collection of useful helper functions to make the JS coding easier.
+                                <em class="lib-name">UI:</em>
+                                The User Interface library (UI) offers a collection of modular styled components to create a better user experience.
+                                They are highly configurable and can be integrated to any design or theme of your choice.
                             </td>
-                            <td><a href="utils/index.html">Docs</a></td>
-                            <td><a href="https://github.com/protolabo/zenkai">Github repo</a></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <em class="lib-name">Components:</em>
-                                Create a better user exprience with these styled components.
-                            </td>
-                            <td><a href="#formComponent">Jump to the docs</a></td>
-                            <td><a href="https://github.com/protolabo/zenkai">Github repo</a></td>
+                            <td><a href="#formComponent">User documentation</a></td>
                         </tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="tbl-libraries__footer-cell" colspan="2">
+                                <a class="tbl-libraries__footer-cell__link" href="https://github.com/protolabo/zenkai">Source code repository</a>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </section>
 
@@ -391,9 +424,9 @@
                             <div class="collapsible-header" data-accordion-header="">My header</div>
                             <div class="collapsible-content" data-accordion-content="">
                                 <p>
-                                    Le football est un sport d'association, entre les membres d'une meme formation.
-                                    dolores deserunt facilis autem quibusdam soluta adipisci sed assumenda laboriosam,
-                                    dignissimos ex praesentium amet! Fugit.
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam tempora suscipit
+                                    cupiditate unde eos dolores deserunt facilis autem quibusdam soluta adipisci sed
+                                    assumenda laboriosam, laudantium, dignissimos ex praesentium amet! Fugit.
                                 </p>
                             </div>
                         </div>
@@ -407,12 +440,12 @@
         <div class="content-wrapper">
             <p class="float-right">
                 &copy; 2019 &ndash; 2020, ProtoLabo. All rights reserverd.<br />
-                Last updated <time datetime="2020-01-14">January 14, 2020</time>
+                Last updated <time datetime="2020-06-08">June 8, 2020</time>
             </p>
         </div>
     </footer>
 
-    <script src="../dist/zenkai.js"></script>
+    <script src="../dist/zenkai.min.js"></script>
     <script src="main.js"></script>
 </body>
 

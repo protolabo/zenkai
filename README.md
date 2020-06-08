@@ -2,36 +2,33 @@
 
 [![Build Status](https://dev.azure.com/protolabo/zenkai/_apis/build/status/protolabo.zenkai?branchName=master)](https://dev.azure.com/protolabo/zenkai/_build/latest?definitionId=1&branchName=master)
 
-A collection of Javascript libraries: Dom, Datatype helpers, utilities (AJAX, URI) and UI components.
+Boost your productivity.
 
 **Please, be informed that Zenkai is currently in alpha. Proceed with caution.**
 
 ## Libraries
 
+### STD
+
+The Standard library (STD) main goal is to be used as a base for any JS project and therefore has no browser dependency.
+It focuses on extending the capabilities of Javascript data types and expanding some of the language concepts such as AJAX, Logic and Path.
+
 ### DOM
 
-Create elements, manipulate and query the DOM.
+The Document library (DOM) primary goal is to provide a richer and more direct API to manipulate elements.
+This library enforces structure validation to stay conform to the web standards and as a bonus always yields valid elements.
 
 [User guide](docs/guide-dom.md)
 
-### TYPE
+### UI
 
-DataType manipulation
+The User Interface library (UI) offers a collection of modular styled components to create a better user experience.
+They are highly configurable and can be integrated to any design or theme of your choice. The components include:
 
-### Utils
-
-- AJAX: AJAX helpers (GET, POST, DELETE, PUT)
-- MATH: Math helpers
-- PATH: Path helpers
-- URI: Uri helpers
-
-### Components
-
-- FORM: A collection of form components
-  - Floating Label
-  - Input counter
-  - Selector
-  - Switch
+- Floating Label
+- Input counter
+- Selector
+- Switch
 - Collapsible
 - Accordion
 

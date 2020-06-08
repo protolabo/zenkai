@@ -1,4 +1,4 @@
-/** @namespace TYPE */
+/** @namespace STD */
 
 export * from './std-array.js';
 export * from './std-ajax.js';

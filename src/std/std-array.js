@@ -12,7 +12,7 @@ import { isEmpty } from "./std-parse.js";
 export function insert(array, index, item) {
     if (!(Array.isArray(array) && Number.isInteger(index))) {
         throw new TypeError("Bad argument");
-    }``
+    }
 
     array.splice(index, 0, item);
 

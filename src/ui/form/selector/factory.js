@@ -1,7 +1,8 @@
-import { getElements, isHTMLElement, isNodeList, createListItem } from '@dom/index.js';
+import { getElements, isHTMLElement, isNodeList } from '@dom/index.js';
 import { getInput, getType } from "../utils.js";
 import { BaseSelector, BaseSelectorItem } from './base-selector.js';
 import { FormSelector, FormSelectorItem } from './form-selector.js';
+
 
 const ErrorCode = {
     BAD_CONTAINER: 'BAD_CONTAINER',
@@ -55,8 +56,8 @@ function createSelectorItem(itemContainers, type, hasInput) {
     var items = [];
 
     var typeHandler = {
-        'selector': Object.create(BaseSelectorItem),
-        'form-selector': Object.create(FormSelectorItem),
+        'selector': () => Object.create(BaseSelectorItem),
+        'form-selector': () => Object.create(FormSelectorItem),
     };
 
     for (let i = 0; i < itemContainers.length; i++) {
@@ -73,8 +74,9 @@ function createSelectorItem(itemContainers, type, hasInput) {
             if (!isHTMLElement(input)) {
                 return ErrorCode.BAD_INPUT;
             }
-            input.dataset.selectorIndex = i;
             
+            input.dataset.selectorIndex = i;
+
             Object.assign(args, { input: input });
         }
 

@@ -5,6 +5,7 @@ import { isHTMLElement } from './dom-parse.js';
  * Add classes to an element
  * @param {HTMLElement} element 
  * @param {string|string[]} value 
+ * @memberof DOM
  */
 function addClass(element, value) {
     if (!isHTMLElement(element)) {
@@ -21,6 +22,7 @@ function addClass(element, value) {
  * @param {HTMLElement} element 
  * @param {string} key 
  * @param {string} value 
+ * @private
  */
 function assign(element, key, value) {
     element[key] = value;
@@ -31,6 +33,7 @@ function assign(element, key, value) {
  * @param {HTMLElement} element 
  * @param {string} key 
  * @param {Object} value 
+ * @private
  */
 function assignObject(element, key, value) {
     Object.assign(element[key], value);
@@ -41,6 +44,7 @@ function assignObject(element, key, value) {
  * @param {HTMLElement} element 
  * @param {string} key 
  * @param {Object} value 
+ * @private
  */
 function assignAttribute(element, key, value) {
     element.setAttribute(key, value);

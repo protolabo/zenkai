@@ -26,7 +26,7 @@
 
     main.addEventListener('click', (e) => {
         var target = e.target;
-        if (ken.hasClass(target, 'btn-copy')) {
+        if (target.classList.contains('btn-copy')) {
             ken.addClass(target, 'click');
             ken.copytoClipboard(htmlCodes[target.dataset['index']].trim());
         }

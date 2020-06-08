@@ -1,7 +1,7 @@
 {
   "name": "zenkai",
   "version": "0.10.0",
-  "description": "Dom, Datatype helpers, utilities (AJAX, URI) and UI components",
+  "description": "Data types helpers, DOM manipulations and UI components",
   "main": "dist/zenkai.esm.js",
   "module": "dist/zenkai.esm.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "docs": "npm-run-all docs:*",
     "docs:utils": "documentation build src/utils/index.js -f html -o docs/utils",
     "docs:dom": "documentation build src/dom/index.js -f html -o docs/dom",
-    "docs:type": "documentation build src/std/index.js -f html -o docs/std",
+    "docs:std": "documentation build src/std/index.js -f html -o docs/std",
     "test": "cross-env NODE_ENV=test nyc mocha test/**/*.test.js --require @babel/register",
     "test:dom": "cross-env NODE_ENV=test nyc mocha test/dom/**/*.test.js --require @babel/register",
     "test:std": "cross-env NODE_ENV=test nyc mocha test/std/**/*.test.js --require @babel/register",
@@ -30,8 +30,7 @@
     "components",
     "ui",
     "dom",
-    "datatype",
-    "utils"
+    "datatype"
   ],
   "author": "Louis-Edouard LAFONTANT",
   "license": "MIT",

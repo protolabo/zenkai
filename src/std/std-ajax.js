@@ -154,6 +154,7 @@ export function DELETE(url, data, success, fail, options) {
  * @param {URI} uri 
  * @param {*} options 
  * @param {number} time 
+ * @memberof STD
  */
 export function fetchWithTimeout(uri, options = {}, time = 5000) {
     // Lets set up our `AbortController`, and create a request options object

@@ -727,6 +727,7 @@ export const createLabel = createElement.bind(null, "label", "for");
  * Resolves a select element content
  * @param {*} item 
  * @returns {HTMLOptionElement|HTMLOptGroupElement}
+ * @private
  */
 const selectContentResolver = (item) => {
     if (isHTMLElement(item, ["option", "optgroup"])) {

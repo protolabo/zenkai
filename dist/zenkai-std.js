@@ -239,6 +239,7 @@ var zstd = (function (exports) {
     if (!(Array.isArray(array) && Number.isInteger(index))) {
       throw new TypeError("Bad argument");
     }
+
     array.splice(index, 0, item);
     return array.length;
   }
@@ -438,6 +439,7 @@ var zstd = (function (exports) {
    * @param {URI} uri 
    * @param {*} options 
    * @param {number} time 
+   * @memberof STD
    */
 
   function fetchWithTimeout(uri) {
@@ -520,6 +522,7 @@ var zstd = (function (exports) {
    * Resolves a date value
    * @param {*} [value] 
    * @returns {Date}
+    * @memberof STD
    */
 
   function resolveDate(value) {
@@ -801,11 +804,10 @@ var zstd = (function (exports) {
     }
 
     if (Number.isInteger(max)) {
-      console.warn(hitCount);
       return hitCount <= max;
     }
 
-    return false;
+    return hitCount > 0;
   };
   /**
    * Verifies that at least one value satisfies the condition

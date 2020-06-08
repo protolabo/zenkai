@@ -1,6 +1,7 @@
 import { isNullOrWhitespace, isNullOrUndefined } from './std-parse.js';
 import { cloneObject } from './std-object.js';
 
+
 /**
  * Append the path to the current path
  * @param {string} target 

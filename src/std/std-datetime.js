@@ -47,6 +47,7 @@ export function compareTime(t1, t2, separator = ":") {
  * Resolves a date value
  * @param {*} [value] 
  * @returns {Date}
+  * @memberof STD
  */
 export function resolveDate(value, useOffset = true) {
     if (isNullOrUndefined(value)) {

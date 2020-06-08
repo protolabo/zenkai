@@ -1,21 +1,21 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset='utf-8' />
-  <title>zenkai 0.9.17 | Documentation</title>
+  <meta charset='utf-8'>
+  <title>zenkai 0.10.0 | Documentation</title>
   <meta name='description' content='Dom, Datatype helpers, utilities (AJAX, URI) and UI components'>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
-  <link href='assets/bass.css' rel='stylesheet' />
-  <link href='assets/style.css' rel='stylesheet' />
-  <link href='assets/github.css' rel='stylesheet' />
-  <link href='assets/split.css' rel='stylesheet' />
+  <link href='assets/bass.css' rel='stylesheet'>
+  <link href='assets/style.css' rel='stylesheet'>
+  <link href='assets/github.css' rel='stylesheet'>
+  <link href='assets/split.css' rel='stylesheet'>
 </head>
 <body class='documentation m0'>
     <div class='flex'>
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>zenkai</h3>
-          <div class='mb1'><code>0.9.17</code></div>
+          <div class='mb1'><code>0.10.0</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -170,6 +170,18 @@
                       </a></li>
                     
                       <li><a
+                        href='#domcreateobject'
+                        class='regular pre-open'>
+                        .createObject
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreateembed'
+                        class='regular pre-open'>
+                        .createEmbed
+                      </a></li>
+                    
+                      <li><a
                         href='#domcreatelinebreak'
                         class='regular pre-open'>
                         .createLineBreak
@@ -236,6 +248,18 @@
                       </a></li>
                     
                       <li><a
+                        href='#domcreatearea'
+                        class='regular pre-open'>
+                        .createArea
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreatebase'
+                        class='regular pre-open'>
+                        .createBase
+                      </a></li>
+                    
+                      <li><a
                         href='#domcreateimage'
                         class='regular pre-open'>
                         .createImage
@@ -257,6 +281,12 @@
                         href='#domcreatesource'
                         class='regular pre-open'>
                         .createSource
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreatetrack'
+                        class='regular pre-open'>
+                        .createTrack
                       </a></li>
                     
                       <li><a
@@ -320,6 +350,18 @@
                       </a></li>
                     
                       <li><a
+                        href='#domcreatedeletedpart'
+                        class='regular pre-open'>
+                        .createDeletedPart
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreateinsertedpart'
+                        class='regular pre-open'>
+                        .createInsertedPart
+                      </a></li>
+                    
+                      <li><a
                         href='#domcreatequote'
                         class='regular pre-open'>
                         .createQuote
@@ -380,39 +422,21 @@
                       </a></li>
                     
                       <li><a
-                        href='#domcreateinputas'
-                        class='regular pre-open'>
-                        .createInputAs
-                      </a></li>
-                    
-                      <li><a
                         href='#domcreateinput'
                         class='regular pre-open'>
                         .createInput
                       </a></li>
                     
                       <li><a
+                        href='#domcreatetextarea'
+                        class='regular pre-open'>
+                        .createTextArea
+                      </a></li>
+                    
+                      <li><a
                         href='#domcreatelabel'
                         class='regular pre-open'>
                         .createLabel
-                      </a></li>
-                    
-                      <li><a
-                        href='#domcreatefieldset'
-                        class='regular pre-open'>
-                        .createFieldset
-                      </a></li>
-                    
-                      <li><a
-                        href='#domcreatelegend'
-                        class='regular pre-open'>
-                        .createLegend
-                      </a></li>
-                    
-                      <li><a
-                        href='#domcreatedatalist'
-                        class='regular pre-open'>
-                        .createDataList
                       </a></li>
                     
                       <li><a
@@ -434,9 +458,21 @@
                       </a></li>
                     
                       <li><a
-                        href='#domcreatetextarea'
+                        href='#domcreatefieldset'
                         class='regular pre-open'>
-                        .createTextArea
+                        .createFieldset
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreatelegend'
+                        class='regular pre-open'>
+                        .createLegend
+                      </a></li>
+                    
+                      <li><a
+                        href='#domcreatedatalist'
+                        class='regular pre-open'>
+                        .createDataList
                       </a></li>
                     
                       <li><a
@@ -455,12 +491,6 @@
                         href='#domcreateoutput'
                         class='regular pre-open'>
                         .createOutput
-                      </a></li>
-                    
-                      <li><a
-                        href='#domcreatebuttonas'
-                        class='regular pre-open'>
-                        .createButtonAs
                       </a></li>
                     
                       <li><a
@@ -536,6 +566,12 @@
                       </a></li>
                     
                       <li><a
+                        href='#domisnodelist'
+                        class='regular pre-open'>
+                        .isNodeList
+                      </a></li>
+                    
+                      <li><a
                         href='#domiselement'
                         class='regular pre-open'>
                         .isElement
@@ -569,6 +605,18 @@
                         href='#domhtmltoelements'
                         class='regular pre-open'>
                         .htmlToElements
+                      </a></li>
+                    
+                      <li><a
+                        href='#domisinviewport'
+                        class='regular pre-open'>
+                        .isInViewport
+                      </a></li>
+                    
+                      <li><a
+                        href='#domisinelement'
+                        class='regular pre-open'>
+                        .isInElement
                       </a></li>
                     
                       <li><a
@@ -626,33 +674,15 @@
                       </a></li>
                     
                       <li><a
-                        href='#domhasclass'
+                        href='#domwindowheight'
                         class='regular pre-open'>
-                        .hasClass
-                      </a></li>
-                    
-                      <li><a
-                        href='#domremoveclass'
-                        class='regular pre-open'>
-                        .removeClass
+                        .windowHeight
                       </a></li>
                     
                       <li><a
                         href='#domaddclass'
                         class='regular pre-open'>
                         .addClass
-                      </a></li>
-                    
-                      <li><a
-                        href='#domtoggleclass'
-                        class='regular pre-open'>
-                        .toggleClass
-                      </a></li>
-                    
-                      <li><a
-                        href='#domsetclass'
-                        class='regular pre-open'>
-                        .setClass
                       </a></li>
                     
                       <li><a
@@ -665,12 +695,6 @@
                         href='#domchangeselectvalue'
                         class='regular pre-open'>
                         .changeSelectValue
-                      </a></li>
-                    
-                      <li><a
-                        href='#domconceal'
-                        class='regular pre-open'>
-                        .conceal
                       </a></li>
                     
                       <li><a
@@ -751,7 +775,7 @@
 
   <p>Inserts a given element before the targetted element</p>
 
-    <div class='pre p1 fill-light mt0'>insertBeforeElement(target: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</div>
+    <div class='pre p1 fill-light mt0'>insertBeforeElement(target: !<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>, element: !<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</div>
   
   
 
@@ -768,7 +792,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>target</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+            <span class='code bold'>target</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
 	    
           </div>
           
@@ -776,7 +800,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
 	    
           </div>
           
@@ -819,7 +843,7 @@
 
   <p>Inserts a given element after the targetted element</p>
 
-    <div class='pre p1 fill-light mt0'>insertAfterElement(target: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</div>
+    <div class='pre p1 fill-light mt0'>insertAfterElement(target: !<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>, element: !<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</div>
   
   
 
@@ -836,7 +860,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>target</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+            <span class='code bold'>target</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
 	    
           </div>
           
@@ -844,7 +868,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
 	    
           </div>
           
@@ -887,7 +911,7 @@
 
   <p>Inserts a givern element as the first children of the targetted element</p>
 
-    <div class='pre p1 fill-light mt0'>preprendChild(target: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</div>
+    <div class='pre p1 fill-light mt0'>preprendChild(target: !<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>, element: !<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</div>
   
   
 
@@ -904,7 +928,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>target</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+            <span class='code bold'>target</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
 	    
           </div>
           
@@ -912,7 +936,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
 	    
           </div>
           
@@ -955,7 +979,7 @@
 
   <p>Append a list of elements to a node.</p>
 
-    <div class='pre p1 fill-light mt0'>appendChildren(parent: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>, children: any): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>appendChildren(parent: !<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>, children: any): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -972,7 +996,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>parent</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+            <span class='code bold'>parent</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
 	    
           </div>
           
@@ -1144,7 +1168,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createLink(href, rel)</span>
+            <span class='code strong strong truncate'>createLink(_attribute)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1154,7 +1178,7 @@
 
   <p>Creates a <code>&#x3C;link></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createLink(href: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, rel: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLinkElement">HTMLLinkElement</a></div>
+    <div class='pre p1 fill-light mt0'>createLink(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLinkElement">HTMLLinkElement</a></div>
   
   
 
@@ -1171,16 +1195,9 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>href</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>rel</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    Global attributes
+
           </div>
           
         </div>
@@ -2358,6 +2375,150 @@
       </div>
     </div>
   
+    <div class='border-bottom' id='domcreateobject'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createObject(_attribute, _children)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;object></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createObject(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLObjectElement">HTMLObjectElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLObjectElement">HTMLObjectElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreateembed'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createEmbed(_attribute)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;embed></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createEmbed(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): HTMLEmbedElement</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>HTMLEmbedElement</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='domcreatelinebreak'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -2370,10 +2531,10 @@
 
   
 
-  <p>Creates a <code>br</code> element \
+  <p>Creates a <code>&#x3C;br></code> element \
 Line break (carriage-return)</p>
 
-    <div class='pre p1 fill-light mt0'>createLineBreak()</div>
+    <div class='pre p1 fill-light mt0'>createLineBreak(): <a href="https://developer.mozilla.org/docs/Web/API/HTMLBRElement">HTMLBRElement</a></div>
   
   
 
@@ -2388,6 +2549,14 @@ Line break (carriage-return)</p>
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLBRElement">HTMLBRElement</a></code>:
+        
+
+      
+    
   
 
   
@@ -2418,10 +2587,10 @@ Line break (carriage-return)</p>
 
   
 
-  <p>Creates a <code>hr</code> element \
+  <p>Creates a <code>&#x3C;hr></code> element \
 Thematic break</p>
 
-    <div class='pre p1 fill-light mt0'>createThematicBreak()</div>
+    <div class='pre p1 fill-light mt0'>createThematicBreak(): <a href="https://developer.mozilla.org/docs/Web/API/HTMLHRElement">HTMLHRElement</a></div>
   
   
 
@@ -2436,6 +2605,14 @@ Thematic break</p>
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLHRElement">HTMLHRElement</a></code>:
+        
+
+      
+    
   
 
   
@@ -2534,7 +2711,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createBlockQuotation(cite, attribute, children, _attribute, _children)</span>
+            <span class='code strong strong truncate'>createBlockQuotation(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2544,7 +2721,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;blockquote></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createBlockQuotation(cite: any, attribute: any, children: any, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLQuoteElement">HTMLQuoteElement</a></div>
+    <div class='pre p1 fill-light mt0'>createBlockQuotation(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLQuoteElement">HTMLQuoteElement</a></div>
   
   
 
@@ -2558,30 +2735,6 @@ Thematic break</p>
   
     <div class='py1 quiet mt1 prose-big'>Parameters</div>
     <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>cite</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>children</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
       
         <div class='space-bottom0'>
           <div>
@@ -3090,7 +3243,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createAnchor(href, _attribute, _children)</span>
+            <span class='code strong strong truncate'>createAnchor(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3100,7 +3253,7 @@ Thematic break</p>
 
   <p>Creates an <code>&#x3C;a></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createAnchor(href: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLAnchorElement">HTMLAnchorElement</a></div>
+    <div class='pre p1 fill-light mt0'>createAnchor(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLAnchorElement">HTMLAnchorElement</a></div>
   
   
 
@@ -3114,15 +3267,6 @@ Thematic break</p>
   
     <div class='py1 quiet mt1 prose-big'>Parameters</div>
     <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>href</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    URL or a URL fragment that the hyperlink points to
-
-          </div>
-          
-        </div>
       
         <div class='space-bottom0'>
           <div>
@@ -3171,11 +3315,11 @@ Thematic break</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='domcreateimage'>
+    <div class='border-bottom' id='domcreatearea'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createImage(src, alt, _attribute, _children)</span>
+            <span class='code strong strong truncate'>createArea(_attribute)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3183,9 +3327,9 @@ Thematic break</p>
 
   
 
-  <p>Creates a <code>&#x3C;img></code> element with some attributes</p>
+  <p>Creates an <code>&#x3C;area></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createImage(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, alt: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLImageElement">HTMLImageElement</a></div>
+    <div class='pre p1 fill-light mt0'>createArea(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): HTMLAreaElement</div>
   
   
 
@@ -3202,19 +3346,71 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>src</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
 	    
           </div>
           
         </div>
       
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>alt</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
-          </div>
-          
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>HTMLAreaElement</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreatebase'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createBase(_attribute)</span>
         </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates an <code>&#x3C;base></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createBase(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): <a href="https://developer.mozilla.org/docs/Web/API/HTMLBaseElement">HTMLBaseElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
       
         <div class='space-bottom0'>
           <div>
@@ -3224,9 +3420,69 @@ Thematic break</p>
           
         </div>
       
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLBaseElement">HTMLBaseElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreateimage'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createImage(_attribute)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;img></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createImage(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): <a href="https://developer.mozilla.org/docs/Web/API/HTMLImageElement">HTMLImageElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
 	    
           </div>
           
@@ -3267,7 +3523,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createAudio(src, attribute, children)</span>
+            <span class='code strong strong truncate'>createAudio(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3277,7 +3533,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;audio></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createAudio(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLAudioElement</div>
+    <div class='pre p1 fill-light mt0'>createAudio(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLAudioElement</div>
   
   
 
@@ -3294,7 +3550,7 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>src</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
 	    
           </div>
           
@@ -3302,15 +3558,7 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
 	    
           </div>
           
@@ -3351,7 +3599,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createVideo(src, attribute, children)</span>
+            <span class='code strong strong truncate'>createVideo(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3361,7 +3609,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;video></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createVideo(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLVideoElement">HTMLVideoElement</a></div>
+    <div class='pre p1 fill-light mt0'>createVideo(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLVideoElement">HTMLVideoElement</a></div>
   
   
 
@@ -3378,7 +3626,7 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>src</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
 	    
           </div>
           
@@ -3386,15 +3634,7 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
 	    
           </div>
           
@@ -3485,6 +3725,74 @@ Thematic break</p>
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code>HTMLSourceElement</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreatetrack'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createTrack(_attribute)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;track></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createTrack(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): HTMLTrackElement</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>HTMLTrackElement</code>:
         
 
       
@@ -4267,6 +4575,158 @@ Thematic break</p>
       </div>
     </div>
   
+    <div class='border-bottom' id='domcreatedeletedpart'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createDeletedPart(_attribute, _children)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;del></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createDeletedPart(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLModElement">HTMLModElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLModElement">HTMLModElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreateinsertedpart'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createInsertedPart(_attribute, _children)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;ins></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createInsertedPart(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLModElement">HTMLModElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLModElement">HTMLModElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='domcreatequote'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -4803,7 +5263,7 @@ Thematic break</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTime(datetime, _attribute, attribute)</span>
+            <span class='code strong strong truncate'>createTime(_attribute)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4813,7 +5273,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;time></code> element with optionally some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTime(datetime: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _attribute: any, attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): HTMLTimeElement</div>
+    <div class='pre p1 fill-light mt0'>createTime(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): HTMLTimeElement</div>
   
   
 
@@ -4830,23 +5290,7 @@ Thematic break</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>datetime</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>_attribute</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
 	    
           </div>
           
@@ -4973,7 +5417,7 @@ Thematic break</p>
 
   <p>Creates a <code>&#x3C;form></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createForm(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
+    <div class='pre p1 fill-light mt0'>createForm(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLFormElement">HTMLFormElement</a></div>
   
   
 
@@ -5012,7 +5456,7 @@ Thematic break</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></code>:
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLFormElement">HTMLFormElement</a></code>:
         
 
       
@@ -5035,11 +5479,11 @@ Thematic break</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='domcreateinputas'>
+    <div class='border-bottom' id='domcreateinput'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createInputAs(type, _attribute)</span>
+            <span class='code strong strong truncate'>createInput(_attribute)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5047,10 +5491,9 @@ Thematic break</p>
 
   
 
-  <p>Creates an <code>&#x3C;input></code> element with a specified type and
-optionally some attributes</p>
+  <p>Creates an <code>&#x3C;input></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createInputAs(type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</div>
+    <div class='pre p1 fill-light mt0'>createInput(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): <a href="https://developer.mozilla.org/docs/Web/API/HTMLInputElement">HTMLInputElement</a></div>
   
   
 
@@ -5067,14 +5510,6 @@ optionally some attributes</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>type</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
             <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
 	    
           </div>
@@ -5086,6 +5521,14 @@ optionally some attributes</p>
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLInputElement">HTMLInputElement</a></code>:
+        
+
+      
+    
   
 
   
@@ -5104,11 +5547,11 @@ optionally some attributes</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='domcreateinput'>
+    <div class='border-bottom' id='domcreatetextarea'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createInput(_attribute, _children)</span>
+            <span class='code strong strong truncate'>createTextArea(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5116,9 +5559,9 @@ optionally some attributes</p>
 
   
 
-  <p>Creates an <code>&#x3C;input></code> element with some attributes</p>
+  <p>Creates a <code>&#x3C;textarea></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createInput(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLInputElement">HTMLInputElement</a></div>
+    <div class='pre p1 fill-light mt0'>createTextArea(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
   
   
 
@@ -5157,7 +5600,7 @@ optionally some attributes</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLInputElement">HTMLInputElement</a></code>:
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></code>:
         
 
       
@@ -5256,11 +5699,11 @@ optionally some attributes</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='domcreatefieldset'>
+    <div class='border-bottom' id='domcreateselect'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createFieldset(_attribute, _children)</span>
+            <span class='code strong strong truncate'>createSelect(_attribute, _children)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5268,9 +5711,9 @@ optionally some attributes</p>
 
   
 
-  <p>Creates a <code>&#x3C;fieldset></code> element with some attributes</p>
+  <p>Creates a <code>&#x3C;select></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createFieldset(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
+    <div class='pre p1 fill-light mt0'>createSelect(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLSelectElement">HTMLSelectElement</a></div>
   
   
 
@@ -5309,7 +5752,235 @@ optionally some attributes</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></code>:
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLSelectElement">HTMLSelectElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreateoption'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createOption(_attribute, _children)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;option></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createOption(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLOptionElement">HTMLOptionElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLOptionElement">HTMLOptionElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreateoptiongroup'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createOptionGroup(_attribute, _children)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;optgroup></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createOptionGroup(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLOptGroupElement">HTMLOptGroupElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLOptGroupElement">HTMLOptGroupElement</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domcreatefieldset'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>createFieldset(_attribute, _children)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Creates a <code>&#x3C;fieldset></code> element with some attributes</p>
+
+    <div class='pre p1 fill-light mt0'>createFieldset(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLFieldSetElement">HTMLFieldSetElement</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLFieldSetElement">HTMLFieldSetElement</a></code>:
         
 
       
@@ -5423,310 +6094,6 @@ optionally some attributes</p>
   <p>Creates a <code>&#x3C;datalist></code> element with some attributes</p>
 
     <div class='pre p1 fill-light mt0'>createDataList(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></code>:
-        
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domcreateselect'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createSelect(_attribute, _children)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Creates a <code>&#x3C;select></code> element with some attributes</p>
-
-    <div class='pre p1 fill-light mt0'>createSelect(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></code>:
-        
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domcreateoption'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createOption(_attribute, _children)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Creates a <code>&#x3C;option></code> element with some attributes</p>
-
-    <div class='pre p1 fill-light mt0'>createOption(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></code>:
-        
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domcreateoptiongroup'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createOptionGroup(_attribute, _children)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Creates a <code>&#x3C;optgroup></code> element with some attributes</p>
-
-    <div class='pre p1 fill-light mt0'>createOptionGroup(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLLabelElement">HTMLLabelElement</a></code>:
-        
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domcreatetextarea'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTextArea(_attribute, _children)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Creates a <code>&#x3C;textarea></code> element with some attributes</p>
-
-    <div class='pre p1 fill-light mt0'>createTextArea(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement">HTMLTextAreaElement</a></div>
   
   
 
@@ -6016,83 +6383,6 @@ optionally some attributes</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='domcreatebuttonas'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createButtonAs(type, _attribute, _children)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Creates a <code>&#x3C;button></code> element with a specified type and
-optionally some attributes and children elements</p>
-
-    <div class='pre p1 fill-light mt0'>createButtonAs(type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>type</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>_attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>_children</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
     <div class='border-bottom' id='domcreatebutton'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -6105,9 +6395,9 @@ optionally some attributes and children elements</p>
 
   
 
-  <p>Creates a <code>&#x3C;button></code> element with some attributes</p>
+  <p>Creates a <code>&#x3C;button></code> element with optionally some attributes and children elements</p>
 
-    <div class='pre p1 fill-light mt0'>createButton(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>))</div>
+    <div class='pre p1 fill-light mt0'>createButton(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLButtonElement">HTMLButtonElement</a></div>
   
   
 
@@ -6143,6 +6433,14 @@ optionally some attributes and children elements</p>
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLButtonElement">HTMLButtonElement</a></code>:
+        
+
+      
+    
   
 
   
@@ -6783,7 +7081,7 @@ optionally some attributes and children elements</p>
 
   <p>Creates a <code>&#x3C;th></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTableHeaderCell(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLTableHeaderCellElement</div>
+    <div class='pre p1 fill-light mt0'>createTableHeaderCell(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement">HTMLTableCellElement</a></div>
   
   
 
@@ -6822,7 +7120,7 @@ optionally some attributes and children elements</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>HTMLTableHeaderCellElement</code>:
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement">HTMLTableCellElement</a></code>:
         
 
       
@@ -6859,7 +7157,7 @@ optionally some attributes and children elements</p>
 
   <p>Creates a <code>&#x3C;td></code> element with some attributes</p>
 
-    <div class='pre p1 fill-light mt0'>createTableCell(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): HTMLTableDataCellElement</div>
+    <div class='pre p1 fill-light mt0'>createTableCell(_attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, _children: (<a href="https://developer.mozilla.org/docs/Web/HTML">Text</a> | <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>>)): <a href="https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement">HTMLTableCellElement</a></div>
   
   
 
@@ -6898,7 +7196,7 @@ optionally some attributes and children elements</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>HTMLTableDataCellElement</code>:
+      <code><a href="https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement">HTMLTableCellElement</a></code>:
         
 
       
@@ -6969,6 +7267,75 @@ optionally some attributes and children elements</p>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
         Value indicating whether the object is an 
 <em>Node</em>
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domisnodelist'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isNodeList</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Verifies that an object is a <em>NodeList</em></p>
+
+    <div class='pre p1 fill-light mt0'>isNodeList</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        Value indicating whether the object is an 
+<em>NodeList</em>
 
       
     
@@ -7071,7 +7438,7 @@ optionally some attributes and children elements</p>
 
   
 
-  <p>Verifies that an object is an <em>HTMLElement</em></p>
+  <p>Verifies that an object is an <em>HTML Element</em></p>
 
     <div class='pre p1 fill-light mt0'>isHTMLElement</div>
   
@@ -7091,6 +7458,14 @@ optionally some attributes and children elements</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>obj</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>kind</span> <code class='quiet'>(any)</code>
 	    
           </div>
           
@@ -7270,7 +7645,7 @@ optionally some attributes and children elements</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>htmlToElement(html)</span>
+            <span class='code strong strong truncate'>htmlToElement</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -7280,7 +7655,7 @@ optionally some attributes and children elements</p>
 
   <p>Converts an html string to an HTML Element</p>
 
-    <div class='pre p1 fill-light mt0'>htmlToElement(html: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/API/Node/nextSibling">Node</a></div>
+    <div class='pre p1 fill-light mt0'>htmlToElement</div>
   
   
 
@@ -7338,7 +7713,7 @@ optionally some attributes and children elements</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>htmlToElements(html)</span>
+            <span class='code strong strong truncate'>htmlToElements</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -7348,7 +7723,7 @@ optionally some attributes and children elements</p>
 
   <p>Converts an html string to a list of HTML Elements</p>
 
-    <div class='pre p1 fill-light mt0'>htmlToElements(html: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/API/NodeList">NodeList</a></div>
+    <div class='pre p1 fill-light mt0'>htmlToElements</div>
   
   
 
@@ -7380,6 +7755,150 @@ optionally some attributes and children elements</p>
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/API/NodeList">NodeList</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domisinviewport'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isInViewport(element)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Verifies that an element is visible</p>
+
+    <div class='pre p1 fill-light mt0'>isInViewport(element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='domisinelement'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isInElement(element, target)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Verifies that an element is displayed inside a target element</p>
+
+    <div class='pre p1 fill-light mt0'>isInElement(element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, target: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>target</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
         
 
       
@@ -7724,7 +8243,7 @@ specified selector, group or selectors.</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getPreviousElementSibling(el, predCb)</span>
+            <span class='code strong strong truncate'>getPreviousElementSibling(el, pred)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -7734,7 +8253,7 @@ specified selector, group or selectors.</p>
 
   <p>Gets the previous element of the specified one in its parent's children list</p>
 
-    <div class='pre p1 fill-light mt0'>getPreviousElementSibling(el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, predCb: any): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
+    <div class='pre p1 fill-light mt0'>getPreviousElementSibling(el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, pred: any): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
   
   
 
@@ -7760,7 +8279,7 @@ specified selector, group or selectors.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>predCb</span> <code class='quiet'>(any)</code>
+            <span class='code bold'>pred</span> <code class='quiet'>(any)</code>
 	    Search end condition
 
           </div>
@@ -7802,7 +8321,7 @@ specified selector, group or selectors.</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getNextElementSibling(el, predCb)</span>
+            <span class='code strong strong truncate'>getNextElementSibling(el, pred)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -7812,7 +8331,7 @@ specified selector, group or selectors.</p>
 
   <p>Gets the element following the specified one in its parent's children list</p>
 
-    <div class='pre p1 fill-light mt0'>getNextElementSibling(el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, predCb: any): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
+    <div class='pre p1 fill-light mt0'>getNextElementSibling(el: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, pred: any): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
   
   
 
@@ -7838,7 +8357,7 @@ specified selector, group or selectors.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>predCb</span> <code class='quiet'>(any)</code>
+            <span class='code bold'>pred</span> <code class='quiet'>(any)</code>
 	    Search end condition
 
           </div>
@@ -7880,7 +8399,7 @@ specified selector, group or selectors.</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>findAncestor(target, callback, max?)</span>
+            <span class='code strong strong truncate'>findAncestor(target, pred, _max?)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -7890,7 +8409,7 @@ specified selector, group or selectors.</p>
 
   <p>Finds an ancestor of an element</p>
 
-    <div class='pre p1 fill-light mt0'>findAncestor(target: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>, max: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
+    <div class='pre p1 fill-light mt0'>findAncestor(target: !<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>, pred: !<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>, _max: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?): (<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a> | null)</div>
   
   
 
@@ -7907,7 +8426,7 @@ specified selector, group or selectors.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>target</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+            <span class='code bold'>target</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
 	    
           </div>
           
@@ -7915,7 +8434,7 @@ specified selector, group or selectors.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code>
+            <span class='code bold'>pred</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code>
 	    Decides whether the target is found
 
           </div>
@@ -7924,7 +8443,7 @@ specified selector, group or selectors.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>max</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?)</code>
+            <span class='code bold'>_max</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?)</code>
 	    Maximum number of iterations
 
           </div>
@@ -7966,7 +8485,7 @@ specified selector, group or selectors.</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>removeChildren(node, callback?)</span>
+            <span class='code strong strong truncate'>removeChildren(node, _callback?)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -7975,9 +8494,9 @@ specified selector, group or selectors.</p>
   
 
   <p>Removes all children of a node from the DOM or
-those that satisfies the predicate function</p>
+those that satisfy the predicate function if given</p>
 
-    <div class='pre p1 fill-light mt0'>removeChildren(node: !<a href="https://developer.mozilla.org/docs/Web/API/Node/nextSibling">Node</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>?)</div>
+    <div class='pre p1 fill-light mt0'>removeChildren(node: !<a href="https://developer.mozilla.org/docs/Web/API/Node/nextSibling">Node</a>, _callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>?)</div>
   
   
 
@@ -8002,7 +8521,7 @@ those that satisfies the predicate function</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>?)</code>
+            <span class='code bold'>_callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>?)</code>
 	    Decides whether the node should be removed
 
           </div>
@@ -8036,7 +8555,7 @@ those that satisfies the predicate function</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>windowWidth()</span>
+            <span class='code strong strong truncate'>windowWidth</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -8046,7 +8565,7 @@ those that satisfies the predicate function</p>
 
   <p>Gets the window's width</p>
 
-    <div class='pre p1 fill-light mt0'>windowWidth()</div>
+    <div class='pre p1 fill-light mt0'>windowWidth</div>
   
   
 
@@ -8079,11 +8598,11 @@ those that satisfies the predicate function</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='domhasclass'>
+    <div class='border-bottom' id='domwindowheight'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>hasClass(element, className)</span>
+            <span class='code strong strong truncate'>windowHeight</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -8091,87 +8610,9 @@ those that satisfies the predicate function</p>
 
   
 
-  <p>Verifies that an element has a class</p>
+  <p>Gets the window's height</p>
 
-    <div class='pre p1 fill-light mt0'>hasClass(element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, className: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
-	    element
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>className</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    class
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
-        value indicating whether the element has the class
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domremoveclass'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>removeClass(element, attrClass)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Removes a class from an element if it exists</p>
-
-    <div class='pre p1 fill-light mt0'>removeClass(element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, attrClass: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>))</div>
+    <div class='pre p1 fill-light mt0'>windowHeight</div>
   
   
 
@@ -8182,29 +8623,6 @@ those that satisfies the predicate function</p>
   
   
 
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
-	    element
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>attrClass</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>))</code>
-	    class
-
-          </div>
-          
-        </div>
-      
-    </div>
   
 
   
@@ -8231,7 +8649,7 @@ those that satisfies the predicate function</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>addClass(element, attrClass)</span>
+            <span class='code strong strong truncate'>addClass(element, value)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -8239,9 +8657,9 @@ those that satisfies the predicate function</p>
 
   
 
-  <p>Adds one or many classes to an element if it doesn't exist</p>
+  <p>Add classes to an element</p>
 
-    <div class='pre p1 fill-light mt0'>addClass(element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, attrClass: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>addClass(element: <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, value: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>))</div>
   
   
 
@@ -8258,85 +8676,7 @@ those that satisfies the predicate function</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
-	    Element
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>attrClass</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>))</code>
-	    classes
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></code>:
-        the element
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domtoggleclass'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>toggleClass(element, attrClass)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Adds or removes a class from an element depending on the class's presence.</p>
-
-    <div class='pre p1 fill-light mt0'>toggleClass(element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, attrClass: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+            <span class='code bold'>element</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
 	    
           </div>
           
@@ -8344,103 +8684,17 @@ those that satisfies the predicate function</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>attrClass</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    ClassName
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></code>:
-        the element
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='domsetclass'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>setClass(element, attrClass)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Sets classes to an element</p>
-
-    <div class='pre p1 fill-light mt0'>setClass(element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, attrClass: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
+            <span class='code bold'>value</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>))</code>
 	    
           </div>
           
         </div>
       
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>attrClass</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>))</code>
-	    classes
-
-          </div>
-          
-        </div>
-      
     </div>
   
 
   
 
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></code>:
-        the element
-
-      
-    
   
 
   
@@ -8463,7 +8717,7 @@ those that satisfies the predicate function</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>addAttributes(element, attribute)</span>
+            <span class='code strong strong truncate'>addAttributes(element, attribute, validAttributes)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -8473,7 +8727,7 @@ those that satisfies the predicate function</p>
 
   <p>Sets the attributes of an element</p>
 
-    <div class='pre p1 fill-light mt0'>addAttributes(element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
+    <div class='pre p1 fill-light mt0'>addAttributes(element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>, attribute: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, validAttributes: any): <a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a></div>
   
   
 
@@ -8502,6 +8756,15 @@ those that satisfies the predicate function</p>
             <span class='code bold'>attribute</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
 	    attribute
 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>validAttributes</span> <code class='quiet'>(any
+            = <code>&quot;&quot;</code>)</code>
+	    
           </div>
           
         </div>
@@ -8541,7 +8804,7 @@ those that satisfies the predicate function</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>changeSelectValue(select, val)</span>
+            <span class='code strong strong truncate'>changeSelectValue(select, value)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -8551,7 +8814,7 @@ those that satisfies the predicate function</p>
 
   <p>Changes the selected option of a <code>&#x3C;select></code> element</p>
 
-    <div class='pre p1 fill-light mt0'>changeSelectValue(select: !<a href="https://developer.mozilla.org/docs/Web/API/HTMLSelectElement">HTMLSelectElement</a>, val: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+    <div class='pre p1 fill-light mt0'>changeSelectValue(select: !<a href="https://developer.mozilla.org/docs/Web/API/HTMLSelectElement">HTMLSelectElement</a>, value: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
   
   
 
@@ -8576,7 +8839,7 @@ those that satisfies the predicate function</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>val</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>value</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    option value to select
 
           </div>
@@ -8614,67 +8877,6 @@ those that satisfies the predicate function</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='domconceal'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>conceal(element)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Moves an element out of screen</p>
-
-    <div class='pre p1 fill-light mt0'>conceal(element: !<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>element</span> <code class='quiet'>(!<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a>)</code>
-	    Element
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
     <div class='border-bottom' id='domcopytoclipboard'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -8687,7 +8889,7 @@ those that satisfies the predicate function</p>
 
   
 
-  <p>Copy to clipboard</p>
+  <p>Copies selected content to clipboard</p>
 
     <div class='pre p1 fill-light mt0'>copytoClipboard(value: (<a href="https://developer.mozilla.org/docs/Web/HTML/Element">HTMLElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
   
@@ -8721,7 +8923,7 @@ those that satisfies the predicate function</p>
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
-        Value indicating whether the the content has been succesfully copied to the clipboard
+        Value indicating whether the content has been succesfully copied to the clipboard
 
       
     

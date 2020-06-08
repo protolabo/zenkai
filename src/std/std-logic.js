@@ -30,11 +30,10 @@ export const assert = function (values, pred, min, max) {
     }
 
     if (Number.isInteger(max)) {
-        console.warn(hitCount);
         return hitCount <= max;
     }
 
-    return false;
+    return hitCount > 0;
 };
 
 /**
@@ -109,6 +108,7 @@ export const no = function (values, pred) {
     if (!(Array.isArray(values) && isFunction(pred))) {
         throw new TypeError("Bad argument");
     }
+
     return getHitCount(values, pred) === 0;
 };
 

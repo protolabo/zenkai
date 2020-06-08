@@ -1,6 +1,7 @@
 import { isNullOrWhitespace } from "./std-parse.js";
 import { hasOwn } from "./std-object.js";
 
+
 /**
  * Capitalizes all words in a sequence
  * @param {string} str Sequence
