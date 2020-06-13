@@ -27,7 +27,7 @@
     main.addEventListener('click', (e) => {
         var target = e.target;
         if (target.classList.contains('btn-copy')) {
-            ken.addClass(target, 'click');
+            target.classList.add('click');
             ken.copytoClipboard(htmlCodes[target.dataset['index']].trim());
         }
     }, true);
@@ -55,7 +55,7 @@
     function createCode(element, type) {
         type = ken.valOrDefault(type, element.tagName.toLowerCase());
 
-        const output = ken.createSpan({ html: `${obl}${type}`, class: 'html-tag', data: { type: type } });
+        const output = ken.createSpan({ html: `${obl}${type}`, class: 'html-tag', dataset: { type: type } });
         for (let i = 0; i < element.children.length; i++) {
             let el = element.children.item(i);
             element.replaceChild(createCode(el), el);
@@ -83,7 +83,7 @@
                 attributes.push(ken.createSpan({
                     html: ihtml(attr.nodeName),
                     class: 'html-attr',
-                    data: { value: attr.nodeValue }
+                    dataset: { value: attr.nodeValue }
                 }));
             }
         }

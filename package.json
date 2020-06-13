@@ -1,6 +1,6 @@
 {
   "name": "zenkai",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Data types helpers, DOM manipulations and UI components",
   "main": "dist/zenkai.esm.js",
   "module": "dist/zenkai.esm.js",

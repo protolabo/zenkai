@@ -20,7 +20,7 @@ const NodeType = {
 
 // import our library
 const {
-    createDocFragment, createTextNode, createLink, createTemplate,
+    createDocFragment, createTextNode, createLink, createTemplate, createTitle, createMeta,
     // Sectionning element
     createHeader, createMain, createArticle, createSection, createNav, createAside, createFooter,
     createH1, createH2, createH3, createH4, createH5, createH6,
@@ -256,6 +256,79 @@ describe('DOM create helpers', function () {
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
                 expect(result).to.have.property('type', value);
             });
+        });
+    });
+
+    describe('#createTitle(attribute)', function () {
+        it("should return a title element", function () {
+            var result = createTitle();
+
+            expect(result).to.have.property('nodeName', 'TITLE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a title element", function () {
+            var attribute = createTextOrHTML();
+
+            var result = createTitle(attribute);
+
+            expect(result).to.have.property('nodeName', 'TITLE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            for (const key in attribute) {
+                expect(result).to.have.property(ATTRIBUTE_MAPPER[key], attribute[key]);
+            }
+        });
+        it("should return a title element with text", function () {
+            var content = "lorem ipsum";
+
+            var result = createTitle(null, content);
+
+            expect(result).to.have.property('nodeName', 'TITLE');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            expect(result).to.have.property('textContent', content);
+        });
+    });
+
+    describe('#createMeta(attribute)', function () {
+        it("should return a meta element", function () {
+            var result = createMeta();
+
+            expect(result).to.have.property('nodeName', 'META');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+        });
+        it("should return a meta element with a charset attribute set", function () {
+            var charset = "utf-8";
+            var result = createMeta({ charset: charset });
+
+            expect(result).to.have.property('nodeName', 'META');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            expect(result.getAttribute('charset')).to.be.equal(charset);
+        });
+        it("should return a meta element with a content attribute set", function () {
+            var content = "aDOMString";
+            var result = createMeta({ content: content });
+
+            expect(result).to.have.property('nodeName', 'META');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            expect(result).to.have.property('content', content);
+        });
+        it("should return a meta element with a http-equiv attribute set", function () {
+            var values = ["content-security-policy", "content-type", "default-style", "x-ua-compatible", "refresh"];
+
+            values.forEach(value => {
+                var result = createMeta({ "http-equiv": value });
+
+                expect(result).to.have.property('nodeName', 'META');
+                expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+                expect(result).to.have.property('httpEquiv', value);
+            });
+        });
+        it("should return a meta element with a name attribute set", function () {
+            var name = "aDOMString";
+            var result = createMeta({ name: name });
+
+            expect(result).to.have.property('nodeName', 'META');
+            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+            expect(result).to.have.property('name', name);
         });
     });
 
