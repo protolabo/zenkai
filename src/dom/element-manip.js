@@ -234,7 +234,7 @@ export function addAttributes(element, attribute, validAttributes) {
  * @returns {boolean} value indicating whether the option was found and selected
  * @memberof DOM
  */
-export function changeSelectedValue(select, optValue, multiple = false) {
+export function changeSelectedValue(select, optValue) {
     if (!isHTMLElement(select, "select")) {
         throw new TypeError("Bad argument: The given 'select' argument is not a valid HTML Select element");
     }
@@ -259,7 +259,7 @@ export function changeSelectedValue(select, optValue, multiple = false) {
 
     const eqHandler = isString(optValue) ? stringEq : objectEq;
 
-    const options = select.options;
+    const { options, multiple } = select;
 
     for (let i = 0; i < options.length; i++) {
         let option = options[i];
