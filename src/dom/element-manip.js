@@ -118,7 +118,7 @@ const AttributeHandler = {
     disabled: [assign, 'disabled'],
     dirname: [assign, 'dirName'],
     enctype: [assign, 'enctype'],
-    for: [assign, 'for'],
+    for: [assign, 'htmlFor'],
     form: [assign, 'form'],
     formaction: [assign, 'formAction'],
     formenctype: [assign, 'formEnctype'],

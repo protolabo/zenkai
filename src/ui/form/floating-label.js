@@ -1,6 +1,7 @@
 import { getElement, getElements, isHTMLElement } from '@dom/index.js';
 import { isNullOrWhitespace, isEmpty } from '@std/index.js';
 
+
 /**
  * Update class related to the action *move label down*
  * @param {HTMLElement} label 

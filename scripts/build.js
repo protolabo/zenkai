@@ -1,7 +1,6 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 
 var fs = require('fs');
-var path = require('path');
 var CleanCSS = require('clean-css');
 
 const DIRECTORY = './dist/css';
@@ -21,7 +20,7 @@ if (!fs.existsSync(DIRECTORY)) {
     fs.mkdirSync(DIRECTORY, { recursive: true });
 }
 output({ path: `${DIRECTORY}/form.min.css` }, bundle.styles);
-output({ path: `${DIRECTORY}/form.min.map` }, bundle.sourceMap);
+output({ path: `${DIRECTORY}/form.min.map` }, bundle.sourceMap.toString());
 
 function outputFeedback(messages, isError) {
     var prefix = isError ? '\x1B[31mERROR\x1B[39m:' : 'WARNING:';

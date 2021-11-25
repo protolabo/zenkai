@@ -1,8 +1,5 @@
 import { isDerivedOf, isFunction, valOrDefault } from "@std/index.js";
-import {
-    getTemplate, cloneTemplate, removeChildren,
-    createH3, createButton, appendChildren, isHTMLElement
-} from "@dom/index.js";
+import { getTemplate, cloneTemplate, removeChildren, createH3, createButton, isHTMLElement } from "@dom/index.js";
 import { show, hide } from "../utils/index.js.js";
 
 const ModalWindow = {
@@ -179,7 +176,7 @@ export const ActionModalWindow = ModalWindow.create({
     },
     render() {
         this.header.appendChild(this.title);
-        appendChildren(this.footer, [this.btnCancel, this.btnOK].filter((el) => isHTMLElement(el)));
+        this.footer.append(...[this.btnCancel, this.btnOK].filter((el) => isHTMLElement(el)));
 
         return this.container;
     },

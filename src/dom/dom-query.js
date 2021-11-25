@@ -1,5 +1,5 @@
 ﻿import { isFunction, isNullOrUndefined, valOrDefault, isNullOrWhitespace } from '@std/index.js';
-import { isElement, isHTMLElement, isDocumentFragment } from './dom-parse.js';
+import { isElement, isHTMLElement, isDocumentFragment, isNode } from './dom-parse.js';
 
 /**
  * Checks whether the selector represents a `class`
@@ -24,7 +24,7 @@ const isIdSelector = (selector) => /^#[a-zA-Z0-9_-]+$/.test(selector);
  * @memberof DOM
  */
 export function getElement(selector, _container) {
-    var container = valOrDefault(_container, document);
+    const container = isNode(_container) ? _container : document;
 
     if (isNullOrWhitespace(selector)) {
         return null;
@@ -53,7 +53,7 @@ export function getElement(selector, _container) {
  * @memberof DOM
  */
 export function getElements(selector, _container) {
-    var container = valOrDefault(_container, document);
+    const container = isNode(_container) ? _container : document;
 
     if (isNullOrWhitespace(selector)) {
         return null;

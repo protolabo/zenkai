@@ -1028,9 +1028,8 @@ describe('DOM create helpers', function () {
         });
         it("should return an unordered list element with children", function () {
             var contents = [
-                { value: document.createElement("li"), count: 0 },
-                { value: document.createElement("span"), count: 1 },
-                { value: "lorem ipsum", count: 1 },
+                { value: document.createElement("li"), count: 1 },
+                { value: [document.createElement("li"), document.createElement("li")], count: 2 },
             ];
 
             contents.forEach(content => {
@@ -1038,10 +1037,7 @@ describe('DOM create helpers', function () {
 
                 expect(result).to.have.property('nodeName', 'UL');
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result).to.have.property('childElementCount', 1);
-                expect(result.firstElementChild).to.have.property('nodeName', 'LI');
-                expect(result.firstElementChild).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result.firstElementChild.childNodes).to.have.property('length', content.count);
+                expect(result).to.have.property('childElementCount', content.count);
             });
         });
     });
@@ -1093,9 +1089,8 @@ describe('DOM create helpers', function () {
         });
         it("should return an unordered list element with children", function () {
             var contents = [
-                { value: document.createElement("li"), count: 0 },
-                { value: document.createElement("span"), count: 1 },
-                { value: "lorem ipsum", count: 1 },
+                { value: document.createElement("li"), count: 1 },
+                { value: [document.createElement("li"), document.createElement("li")], count: 2 },
             ];
 
             contents.forEach(content => {
@@ -1103,10 +1098,7 @@ describe('DOM create helpers', function () {
 
                 expect(result).to.have.property('nodeName', 'OL');
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result).to.have.property('childElementCount', 1);
-                expect(result.firstElementChild).to.have.property('nodeName', 'LI');
-                expect(result.firstElementChild).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result.firstElementChild.childNodes).to.have.property('length', content.count);
+                expect(result).to.have.property('childElementCount', content.count);
             });
         });
     });
@@ -3065,7 +3057,7 @@ describe('DOM create helpers', function () {
 
             expect(result).to.have.property('nodeName', 'LABEL');
             expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-            expect(result).to.have.property('for', value);
+            expect(result).to.have.property('htmlFor', value);
         });
         it("should return a label element with children", function () {
             var content = document.createElement("span");
@@ -3098,9 +3090,8 @@ describe('DOM create helpers', function () {
         });
         it("should return a datalist element with children", function () {
             var contents = [
-                { value: document.createElement("option"), count: 0 },
-                { value: document.createElement("span"), count: 1 },
-                { value: "lorem ipsum", count: 1 },
+                { value: document.createElement("option"), count: 1 },
+                { value: [document.createElement("option"), document.createElement("option")], count: 2 },
             ];
 
             contents.forEach(content => {
@@ -3108,10 +3099,7 @@ describe('DOM create helpers', function () {
 
                 expect(result).to.have.property('nodeName', 'DATALIST');
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result).to.have.property('childElementCount', 1);
-                expect(result.firstElementChild).to.have.property('nodeName', 'OPTION');
-                expect(result.firstElementChild).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result.firstElementChild.childNodes).to.have.property('length', content.count);
+                expect(result).to.have.property('childElementCount', content.count);
             });
         });
     });
@@ -3202,9 +3190,9 @@ describe('DOM create helpers', function () {
         });
         it("should return a select element with option children", function () {
             var contents = [
-                { value: document.createElement("option"), count: 0 },
-                { value: document.createElement("span"), count: 1 },
-                { value: "lorem ipsum", count: 1 },
+                { value: document.createElement("option"), count: 1 },
+                { value: [document.createElement("option"), document.createElement("option")], count: 2 },
+                { value: [document.createElement("option"), document.createElement("option"), document.createElement("option")], count: 3 },
             ];
 
             contents.forEach(content => {
@@ -3212,30 +3200,7 @@ describe('DOM create helpers', function () {
 
                 expect(result).to.have.property('nodeName', 'SELECT');
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result).to.have.property('childElementCount', 1);
-                expect(result.firstElementChild).to.have.property('nodeName', 'OPTION');
-                expect(result.firstElementChild).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result.firstElementChild.childNodes).to.have.property('length', content.count);
-            });
-        });
-        it("should return a select element with option group and option children", function () {
-            const newOption = () => document.createElement("option");
-            const newSpan = () => document.createElement("span");
-
-            var contents = [
-                { value: [[newOption(), newOption()], newOption()] },
-                { value: [["lorem ipsum", "lorem ipsum"], "lorem ipsum"] },
-            ];
-
-            contents.forEach(content => {
-                var result = createSelect(null, content.value);
-
-                expect(result).to.have.property('nodeName', 'SELECT');
-                expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result).to.have.property('childElementCount', 2);
-                expect(result.firstElementChild).to.have.property('nodeName', 'OPTGROUP');
-                expect(result.firstElementChild).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result.firstElementChild.childNodes).to.have.property('length', content.value.length);
+                expect(result).to.have.property('childElementCount', content.count);
             });
         });
     });
@@ -3343,9 +3308,9 @@ describe('DOM create helpers', function () {
         });
         it("should return an option group element with children", function () {
             var contents = [
-                { value: document.createElement("option"), count: 0 },
-                { value: document.createElement("span"), count: 1 },
-                { value: "lorem ipsum", count: 1 },
+                { value: document.createElement("option"), count: 1 },
+                { value: [document.createElement("option"), document.createElement("option")], count: 2 },
+                { value: [document.createElement("option"), document.createElement("option"), document.createElement("option")], count: 3 },
             ];
 
             contents.forEach(content => {
@@ -3353,10 +3318,7 @@ describe('DOM create helpers', function () {
 
                 expect(result).to.have.property('nodeName', 'OPTGROUP');
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result).to.have.property('childElementCount', 1);
-                expect(result.firstElementChild).to.have.property('nodeName', 'OPTION');
-                expect(result.firstElementChild).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result.firstElementChild.childNodes).to.have.property('length', content.count);
+                expect(result).to.have.property('childElementCount', content.count);
             });
         });
     });
@@ -3929,9 +3891,8 @@ describe('DOM create helpers', function () {
         });
         it("should return a table header element with children", function () {
             var contents = [
-                { value: document.createElement("tr"), count: 0 },
-                { value: document.createElement("span"), count: 1 },
-                { value: "lorem ipsum", count: 1 },
+                { value: document.createElement("tr"), count: 1 },
+                { value: [document.createElement("tr"), document.createElement("tr")], count: 2 },
             ];
 
             contents.forEach(content => {
@@ -3939,10 +3900,14 @@ describe('DOM create helpers', function () {
 
                 expect(result).to.have.property('nodeName', 'THEAD');
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result).to.have.property('childElementCount', 1);
-                expect(result.firstElementChild).to.have.property('nodeName', 'TR');
-                expect(result.firstElementChild).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result.firstElementChild.childNodes).to.have.property('length', content.count);
+                expect(result).to.have.property('childElementCount', content.count);
+
+                for (let i = 0; i < result.children.length; i++) {
+                    const element = result.children[i];
+
+                    expect(element).to.have.property('nodeName', 'TR');
+                    expect(element).to.have.property('nodeType', NodeType.ELEMENT_NODE);
+                }
             });
         });
     });
@@ -3967,9 +3932,8 @@ describe('DOM create helpers', function () {
         });
         it("should return a table body element with children", function () {
             var contents = [
-                { value: document.createElement("tr"), count: 0 },
-                { value: document.createElement("span"), count: 1 },
-                { value: "lorem ipsum", count: 1 },
+                { value: document.createElement("tr"), count: 1 },
+                { value: [document.createElement("tr"), document.createElement("tr")], count: 2 },
             ];
 
             contents.forEach(content => {
@@ -3977,10 +3941,7 @@ describe('DOM create helpers', function () {
 
                 expect(result).to.have.property('nodeName', 'TBODY');
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result).to.have.property('childElementCount', 1);
-                expect(result.firstElementChild).to.have.property('nodeName', 'TR');
-                expect(result.firstElementChild).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result.firstElementChild.childNodes).to.have.property('length', content.count);
+                expect(result).to.have.property('childElementCount', content.count);
             });
         });
     });
@@ -4005,9 +3966,8 @@ describe('DOM create helpers', function () {
         });
         it("should return a table footer element with children", function () {
             var contents = [
-                { value: document.createElement("tr"), count: 0 },
-                { value: document.createElement("span"), count: 1 },
-                { value: "lorem ipsum", count: 1 },
+                { value: document.createElement("tr"), count: 1 },
+                { value: [document.createElement("tr"), document.createElement("tr")], count: 2 },
             ];
 
             contents.forEach(content => {
@@ -4015,10 +3975,7 @@ describe('DOM create helpers', function () {
 
                 expect(result).to.have.property('nodeName', 'TFOOT');
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result).to.have.property('childElementCount', 1);
-                expect(result.firstElementChild).to.have.property('nodeName', 'TR');
-                expect(result.firstElementChild).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result.firstElementChild.childNodes).to.have.property('length', content.count);
+                expect(result).to.have.property('childElementCount', content.count);
             });
         });
     });
@@ -4090,16 +4047,6 @@ describe('DOM create helpers', function () {
             expect(result.firstElementChild).to.have.property('nodeType', NodeType.ELEMENT_NODE);
             expect(isDescendant).to.be.true;
         });
-        it("should return an empty table column group element if children are not valid", function () {
-            var element = document.createElement("span");
-
-            var result = createTableColumnGroup(null, element);
-            var isDescendant = result.contains(element);
-
-            expect(result).to.have.property('nodeName', 'COLGROUP');
-            expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-            expect(result).to.have.property('childElementCount', 0);
-        });
     });
 
     describe('#createTableRow(attribute, children)', function () {
@@ -4122,10 +4069,9 @@ describe('DOM create helpers', function () {
         });
         it("should return a table row element with children", function () {
             var contents = [
-                { value: document.createElement("th"), nodeName: "TH", count: 0 },
-                { value: document.createElement("td"), nodeName: "TD", count: 0 },
-                { value: document.createElement("span"), nodeName: "TD", count: 1 },
-                { value: "lorem ipsum", nodeName: "TD", count: 1 },
+                { value: document.createElement("th"), nodeName: "TH", count: 1 },
+                { value: document.createElement("td"), nodeName: "TD", count: 1 },
+                { value: [document.createElement("td"), document.createElement("td")], nodeName: "TD", count: 2 },
             ];
 
             contents.forEach(content => {
@@ -4133,10 +4079,7 @@ describe('DOM create helpers', function () {
 
                 expect(result).to.have.property('nodeName', 'TR');
                 expect(result).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result).to.have.property('childElementCount', 1);
-                expect(result.firstElementChild).to.have.property('nodeName', content.nodeName);
-                expect(result.firstElementChild).to.have.property('nodeType', NodeType.ELEMENT_NODE);
-                expect(result.firstElementChild.childNodes).to.have.property('length', content.count);
+                expect(result).to.have.property('childElementCount', content.count);
             });
         });
     });

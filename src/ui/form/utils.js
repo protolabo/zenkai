@@ -1,42 +1,107 @@
+import { valOrDefault, isString, isNullOrUndefined, isNullOrWhitespace } from "@std/index.js";
 import { isHTMLElement, getElements, getElement } from "@dom/index.js";
-import { valOrDefault, isString, isNullOrUndefined, isNullOrWhitespace, isEmpty } from "@std/index.js";
+
 
 const TYPE = 'type';
+const VALUE = 'value';
 const STATE = 'state';
 const CHECKED = 'checked';
 const UNCHECKED = 'unchecked';
 
+/**
+ * Gets type attribute
+ * @param {HTMLElement} element 
+ * @returns {string}
+ */
 export const getType = (element) => element.dataset[TYPE];
 
+/**
+ * Sets type attribute
+ * @param {HTMLElement} element 
+ * @param {string} value 
+ * @returns {string}
+ */
+export const setType = (element, value) => element.dataset[TYPE] = value;
+
+/**
+ * Gets value attribute
+ * @param {HTMLElement} element 
+ * @returns {string}
+ */
+export const getValue = (element) => element.dataset[VALUE];
+
+/**
+ * Sets value attribute
+ * @param {HTMLElement} element 
+ * @param {string} value 
+ * @returns {string}
+ */
+export const setValue = (element, value) => element.dataset[VALUE] = value;
+
+/**
+ * Gets state attribute
+ * @param {HTMLElement} element 
+ * @returns {string}
+ */
 export const getState = (element) => element.dataset[STATE];
 
+/**
+ * Sets state attribute
+ * @param {HTMLElement} element 
+ * @param {string} value 
+ * @returns {string}
+ */
 export const setState = (element, value) => element.dataset[STATE] = value;
 
 export const check = (element, value) => setState(element, valOrDefault(value, CHECKED));
 
 export const uncheck = (element, value) => setState(element, valOrDefault(value, UNCHECKED));
 
-export function getComponentElement(container, pred, selector) {
+/**
+ * Resolves the container
+ * @param {HTMLElement|string} container 
+ * @returns {HTMLElement}
+ */
+export function resolveContainer(container) {
     if (isHTMLElement(container)) {
-        return pred(container) ? [container] : getElements(selector, container);
-    } else if (isString(container) && !isEmpty(container)) {
-        let _container = getElement(container);
-        return isNullOrUndefined(_container) ? null : getComponentElement(_container);
-    } else if (isNullOrUndefined(container)) {
-        return getElements(selector);
+        return container;
+    } else if (isString(container) && !isNullOrWhitespace(container)) {
+        return getElement(container);
     }
 
     return null;
 }
 
-export function getInput(type, label) {
-    if (isNullOrWhitespace(label.htmlFor)) {
-        return getElement(`input[type='${valOrDefault(type, 'text')}']`, label);
+/**
+ * 
+ * @param {string} selector 
+ * @param {HTMLElement|string} [_container] 
+ * @returns {HTMLElement[]}
+ */
+export function getComponents(selector, _container) {
+    if (isNullOrUndefined(selector)) {
+        throw new TypeError("Bad argument");
     }
-    
-    return getElement(`#${label.htmlFor}`);
+
+    const container = resolveContainer(_container);
+
+    if (!isHTMLElement(container)) {
+        return null;
+    }
+
+    return getElements(selector, container);
 }
 
-export const toData = (name) => `[data-type=${name}]`;
+/**
+ * 
+ * @param {string} type 
+ * @param {HTMLElement} container 
+ * @returns {HTMLInputElement}
+ */
+export function getInput(type, container) {
+    if (isHTMLElement(container, 'label') && !isNullOrWhitespace(container.htmlFor)) {
+        return getElement(`#${container.htmlFor}`);
+    }
 
-export const isSelector = (element, type) => element.dataset['type'] === type;
+    return getElement(`input[type='${valOrDefault(type, 'text')}']`, container);
+}

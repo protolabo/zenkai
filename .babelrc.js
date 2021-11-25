@@ -8,6 +8,7 @@ const presets = [
         }
     ]
 ];
+
 const plugins = [
     [
         "module-resolver",

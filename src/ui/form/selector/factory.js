@@ -1,89 +1,88 @@
-import { getElements, isHTMLElement, isNodeList } from '@dom/index.js';
-import { getInput, getType } from "../utils.js";
-import { BaseSelector, BaseSelectorItem } from './base-selector.js';
-import { FormSelector, FormSelectorItem } from './form-selector.js';
+import { isFunction, isNullOrUndefined, valOrDefault } from '@std/index.js';
+import { isHTMLElement } from '@dom/index.js';
+import { getType, getComponents } from "../utils.js";
+import { BaseSelector } from './base-selector.js';
+import { FormSelector } from './form-selector.js';
 
 
-const ErrorCode = {
-    BAD_CONTAINER: 'BAD_CONTAINER',
-    BAD_INPUT: 'BAD_INPUT'
+const Name = {
+    BaseSelector: 'selector',
+    FormSelector: 'form-selector',
 };
 
-const createDomQuery = (selector) => `[data-type="${selector.name}"]`;
+const toSelector = (name) => `[data-type="${name}"]`;
 
-export const DOMQuerySelector = {
-    BaseSelector: createDomQuery(BaseSelector),
-    FormSelector: createDomQuery(FormSelector)
+const Selector = {
+    BaseSelector: toSelector(Name.BaseSelector),
+    FormSelector: toSelector(Name.FormSelector),
 };
 
-export const Factory = {
-    create(container, options) {
+const Selectors = [Selector.BaseSelector, Selector.FormSelector].join(',');
+
+const isValid = (element) => RegExp('selector|form-selector').test(getType(element));
+
+const isSelector = (element) => isHTMLElement(element) && isValid(element);
+
+const TypeHandler = {
+    'selector': (container) => Object.create(BaseSelector, {
+        name: { value: Name.BaseSelector },
+        container: { value: container },
+        querySelector: { value: Selector.BaseSelector },
+    }),
+    'form-selector': (container) => Object.create(FormSelector, {
+        name: { value: Name.FormSelector },
+        container: { value: container },
+        querySelector: { value: Selector.FormSelector },
+    }),
+};
+
+export const SelectorManager = {
+    /**
+     * Creates a `selector`
+     * @param {HTMLElement} container 
+     * @param {string} [_type] 
+     * @returns {BaseSelector|FormSelector}
+     */
+    create(container, _type) {
         if (!isHTMLElement(container)) {
-            return ErrorCode.BAD_CONTAINER;
+            throw new TypeError("Missing container: A selector requires a container");
         }
 
-        var itemContainers = getElements('[data-selector]', container);
-        if (!isNodeList(itemContainers)) {
-            return ErrorCode.BAD_CONTAINER;
+        const type = valOrDefault(_type, getType(container));
+        const handler = TypeHandler[type];
+
+        if (!isFunction(handler)) {
+            throw new Error(`Missing handler: The '${type}' field could not be handled`);
         }
 
-        var widget = null;
-        var items = null;
-        var type = getType(container);
-
-        switch (type) {
-            case 'selector':
-                items = createSelectorItem(itemContainers, type, false);
-                widget = Object.create(BaseSelector);
-                break;
-            case 'form-selector':
-                items = createSelectorItem(itemContainers, type, true);
-                widget = Object.create(FormSelector);
-                break;
-        }
-
-        Object.assign(widget, options, {
-            container: container,
-            items: items,
-            querySelector: createDomQuery(widget),
-        });
+        const widget = handler(container);
 
         return widget;
-    }
-};
+    },
+    /**
+     * Activates the `selector` found in the container
+     * @param {HTMLElement} container 
+     * @param {*} [_options] 
+     * @returns {BaseSelector[]|FormSelector[]}
+     */
+    activate(container, _options) {
+        const components = isSelector(container) ? [container] : getComponents(Selectors, container);
+        const options = valOrDefault(_options, {});
 
-function createSelectorItem(itemContainers, type, hasInput) {
-    var items = [];
-
-    var typeHandler = {
-        'selector': () => Object.create(BaseSelectorItem),
-        'form-selector': () => Object.create(FormSelectorItem),
-    };
-
-    for (let i = 0; i < itemContainers.length; i++) {
-        let itemContainer = itemContainers[i];
-        itemContainer.dataset.selectorIndex = i;
-
-        let args = {
-            container: itemContainer,
-            index: i
-        };
-
-        if (hasInput) {
-            let input = getInput('radio', itemContainer);
-            if (!isHTMLElement(input)) {
-                return ErrorCode.BAD_INPUT;
-            }
-            
-            input.dataset.selectorIndex = i;
-
-            Object.assign(args, { input: input });
+        if (isNullOrUndefined(components)) {
+            return null;
         }
 
-        let item = typeHandler[type]().init(args);
+        const selectors = [];
 
-        items.push(item);
+        for (let i = 0; i < components.length; i++) {
+            let selector = this.create(components[i]);
+
+            selector.init(options);
+
+            selectors.push(selector);
+        }
+
+        return selectors;
     }
-
-    return items;
-}
+};

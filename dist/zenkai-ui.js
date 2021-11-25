@@ -1,4 +1,4 @@
-var zui = (function (exports) {
+var zenui = (function (exports) {
   'use strict';
 
   function _typeof(obj) {
@@ -275,16 +275,6 @@ var zui = (function (exports) {
     return obj instanceof Node;
   };
   /**
-   * Verifies that an object is a *NodeList*
-   * @param {Element} obj 
-   * @returns {boolean} Value indicating whether the object is an *NodeList*
-   * @memberof DOM
-   */
-
-  var isNodeList = function isNodeList(obj) {
-    return obj instanceof NodeList;
-  };
-  /**
    * Verifies that an object is an *Element*
    * @param {Element} obj 
    * @returns {boolean} Value indicating whether the object is an *Element*
@@ -395,17 +385,6 @@ var zui = (function (exports) {
     });
   }
   /**
-   * Verifies that an object is an *HTMLCollection*
-   * @param {Element} obj 
-   * @returns {boolean} Value indicating whether the object is an *HTMLCollection*
-   * @memberof DOM
-   */
-
-
-  var isHTMLCollection = function isHTMLCollection(obj) {
-    return obj instanceof HTMLCollection;
-  };
-  /**
    * Verifies that an object is an *DocumentFragment*
    * @param {Element} obj 
    * @returns {boolean} Value indicating whether the object is an *DocumentFragment*
@@ -450,41 +429,6 @@ var zui = (function (exports) {
    */
 
   var htmlToElements = _htmlToElement.bind(null, 'childNodes');
-
-  /**
-   * Append a list of elements to a node.
-   * @param {!Element} parent
-   * @param {!HTMLElement[]|HTMLCollection} children
-   * @returns {HTMLElement}
-   * @memberof DOM
-   */
-
-  function appendChildren(parent, children) {
-    if (!isNode(parent)) {
-      throw new TypeError("Bad argument: The given `parent` is not a valid Node");
-    }
-
-    if (!(isHTMLCollection(children) || isCollection(children))) {
-      throw new TypeError("Bad argument: The given `children` is not a valid HTMLCollection/HTMLElement array");
-    }
-
-    var createText = function createText(obj) {
-      return document.createTextNode(obj.toString());
-    };
-
-    var fragment = isDocumentFragment(parent) ? parent : document.createDocumentFragment();
-    Array.from(children).forEach(function (element) {
-      if (!isNullOrUndefined(element)) {
-        fragment.appendChild(isNode(element) ? element : createText(element.toString()));
-      }
-    });
-
-    if (parent !== fragment) {
-      parent.appendChild(fragment);
-    }
-
-    return parent;
-  }
 
   /**
    * Removes additional spaces in class attribute
@@ -609,7 +553,7 @@ var zui = (function (exports) {
     disabled: [assign, 'disabled'],
     dirname: [assign, 'dirName'],
     enctype: [assign, 'enctype'],
-    "for": [assign, 'for'],
+    "for": [assign, 'htmlFor'],
     form: [assign, 'form'],
     formaction: [assign, 'formAction'],
     formenctype: [assign, 'formEnctype'],
@@ -768,33 +712,6 @@ var zui = (function (exports) {
 
     if (!isNullOrUndefined(_content)) {
       addContent(element, _content);
-    }
-
-    return element;
-  }
-  /**
-   * Creates an element with attributes and content
-   * @param {string} tagName 
-   * @param {string} [_validAttributes] 
-   * @param {Function} [contentResolver] 
-   * @param {object} [_attributes] 
-   * @param {Text|HTMLElement|HTMLElement[]} [_content] 
-   * @returns {HTMLElement}
-   * @private
-   */
-
-  /* istanbul ignore next */
-
-
-  function createElementX(tagName, _validAttributes, contentResolver, _attributes, _content) {
-    var element = createEmptyElement(tagName, _validAttributes, _attributes);
-
-    if (!isHTMLElement(element)) {
-      return null;
-    }
-
-    if (!isNullOrUndefined(_content)) {
-      addContent(element, _content, contentResolver);
     }
 
     return element;
@@ -1036,10 +953,6 @@ var zui = (function (exports) {
    */
 
   var createBlockQuotation = createElement.bind(null, "blockquote", "cite,html,text");
-
-  var listItemResolver = function listItemResolver(item) {
-    return isHTMLElement(item, "li") ? item : createListItem(null, item);
-  };
   /**
    * Creates a `<ul>` element with some attributes
    * @function createUnorderedList
@@ -1049,8 +962,7 @@ var zui = (function (exports) {
    * @memberof DOM
    */
 
-
-  var createUnorderedList = createElementX.bind(null, "ul", "html", listItemResolver);
+  var createUnorderedList = createElement.bind(null, "ul", "html");
   /**
    * Creates a `<ol>` element with some attributes
    * @function createOrderedList
@@ -1060,7 +972,7 @@ var zui = (function (exports) {
    * @memberof DOM
    */
 
-  var createOrderedList = createElementX.bind(null, "ol", "html,reversed,start,type", listItemResolver);
+  var createOrderedList = createElement.bind(null, "ol", "html,reversed,start,type");
   /**
    * Creates a `<li>` element with some attributes
    * @function createListItem
@@ -1070,8 +982,7 @@ var zui = (function (exports) {
    * @memberof DOM
    */
 
-  var createListItem = createElement.bind(null, "li", "html,text,value"); // const descriptionContentResolver = (item) => isHTMLElement(item, ["dt", "dd"]) ? item : createListItem(null, item);
-
+  var createListItem = createElement.bind(null, "li", "html,text,value");
   /**
    * Creates a `<dl>` element with some attributes
    * @function createDescriptionList
@@ -1445,24 +1356,6 @@ var zui = (function (exports) {
 
   var createLabel = createElement.bind(null, "label", "for,html,text");
   /**
-   * Resolves a select element content
-   * @param {*} item 
-   * @returns {HTMLOptionElement|HTMLOptGroupElement}
-   * @private
-   */
-
-  var selectContentResolver = function selectContentResolver(item) {
-    if (isHTMLElement(item, ["option", "optgroup"])) {
-      return item;
-    }
-
-    if (Array.isArray(item)) {
-      return createOptionGroup(null, item);
-    }
-
-    return createOption(null, item);
-  };
-  /**
    * Creates a `<select>` element with some attributes
    * @function createSelect
    * @param {object} _attribute 
@@ -1471,8 +1364,7 @@ var zui = (function (exports) {
    * @memberof DOM
    */
 
-
-  var createSelect = createElementX.bind(null, 'select', "autocomplete,autofocus,disabled,html,multiple,name,required,size", selectContentResolver);
+  var createSelect = createElement.bind(null, 'select', "autocomplete,autofocus,disabled,html,multiple,name,required,size");
   /**
    * Creates a `<option>` element with some attributes
    * @function createOption
@@ -1483,10 +1375,6 @@ var zui = (function (exports) {
    */
 
   var createOption = createElement.bind(null, "option", "disabled,html,label,selected,text,value");
-
-  var optiongroupContentResolver = function optiongroupContentResolver(item) {
-    return isHTMLElement(item, "option") ? item : createOption(null, item);
-  };
   /**
    * Creates a `<optgroup>` element with some attributes
    * @function createOptionGroup
@@ -1496,8 +1384,7 @@ var zui = (function (exports) {
    * @memberof DOM
    */
 
-
-  var createOptionGroup = createElementX.bind(null, "optgroup", "disabled,html,label", optiongroupContentResolver);
+  var createOptionGroup = createElement.bind(null, "optgroup", "disabled,html,label");
   /**
    * Creates a `<fieldset>` element with some attributes
    * @function createFieldset
@@ -1527,7 +1414,7 @@ var zui = (function (exports) {
    * @memberof DOM
    */
 
-  var createDataList = createElementX.bind(null, "datalist", "html", optiongroupContentResolver);
+  var createDataList = createElement.bind(null, "datalist", "html");
   /**
    * Creates a `<meter>` element with some attributes
    * @function createMeter
@@ -1588,10 +1475,6 @@ var zui = (function (exports) {
    */
 
   var createCaption = createElement.bind(null, "caption", "html,text");
-
-  var tablerowContentResolver = function tablerowContentResolver(item) {
-    return isHTMLElement(item, "tr") ? item : createTableRow(null, item);
-  };
   /**
    * Creates a `<thead>` element with some attributes
    * @function createTableHeader
@@ -1601,8 +1484,7 @@ var zui = (function (exports) {
    * @memberof DOM
    */
 
-
-  var createTableHeader = createElementX.bind(null, "thead", "html", tablerowContentResolver);
+  var createTableHeader = createElement.bind(null, "thead", "html");
   /**
    * Creates a `<tbody>` element with some attributes
    * @function createTableBody
@@ -1612,7 +1494,7 @@ var zui = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableBody = createElementX.bind(null, "tbody", "html", tablerowContentResolver);
+  var createTableBody = createElement.bind(null, "tbody", "html");
   /**
    * Creates a `<tfoot>` element with some attributes
    * @function createTableFooter
@@ -1622,7 +1504,7 @@ var zui = (function (exports) {
    * @memberof DOM
    */
 
-  var createTableFooter = createElementX.bind(null, "tfoot", "html", tablerowContentResolver);
+  var createTableFooter = createElement.bind(null, "tfoot", "html");
   /**
    * Creates a `<col>` element with some attributes
    * @function createTableColumn
@@ -1633,10 +1515,6 @@ var zui = (function (exports) {
    */
 
   var createTableColumn = createEmptyElement.bind(null, "col", "span");
-
-  var tablecolContentResolver = function tablecolContentResolver(item) {
-    return isHTMLElement(item, "col") ? item : null;
-  };
   /**
    * Creates a `<colgroup>` element with some attributes
    * @function createTableColumnGroup
@@ -1646,12 +1524,7 @@ var zui = (function (exports) {
    * @memberof DOM
    */
 
-
-  var createTableColumnGroup = createElementX.bind(null, "colgroup", "html,span", tablecolContentResolver);
-
-  var tablecellContentResolver = function tablecellContentResolver(item) {
-    return isHTMLElement(item, ["th", "td"]) ? item : createTableCell(null, item);
-  };
+  var createTableColumnGroup = createElement.bind(null, "colgroup", "html,span");
   /**
    * Creates a `<tr>` element with some attributes
    * @function createTableRow
@@ -1661,8 +1534,7 @@ var zui = (function (exports) {
    * @memberof DOM
    */
 
-
-  var createTableRow = createElementX.bind(null, "tr", "html", tablecellContentResolver);
+  var createTableRow = createElement.bind(null, "tr", "html");
   /**
    * Creates a `<th>` element with some attributes
    * @function createTableHeaderCell
@@ -1693,23 +1565,15 @@ var zui = (function (exports) {
 
   /* istanbul ignore next */
 
-  function addContent(element, content, resolver) {
+  function addContent(element, content) {
     if (!(isNode(content) || isIterable(content))) {
       return element;
     }
 
-    if (isDocumentFragment(content)) {
-      element.appendChild(content);
+    if (isNode(content) || isString(content)) {
+      element.append(content);
     } else {
-      var children = Array.isArray(content) ? content : [content];
-
-      if (isFunction(resolver)) {
-        children = children.map(function (child) {
-          return resolver(child);
-        });
-      }
-
-      appendChildren(element, children);
+      element.append.apply(element, _toConsumableArray(content));
     }
 
     return element;
@@ -1745,7 +1609,7 @@ var zui = (function (exports) {
 
 
   function getElement(selector, _container) {
-    var container = valOrDefault(_container, document);
+    var container = isNode(_container) ? _container : document;
 
     if (isNullOrWhitespace(selector)) {
       return null;
@@ -1774,7 +1638,7 @@ var zui = (function (exports) {
    */
 
   function getElements(selector, _container) {
-    var container = valOrDefault(_container, document);
+    var container = isNode(_container) ? _container : document;
 
     if (isNullOrWhitespace(selector)) {
       return null;
@@ -1903,6 +1767,46 @@ var zui = (function (exports) {
     }
 
     return findAncestorIter(target.parentElement, pred, max - 1);
+  }
+
+  /**
+   * Removes all children of a node from the DOM or 
+   * those that satisfy the predicate function if given
+   * @param {!Node} node 
+   * @param {Function} [_callback] Decides whether the node should be removed
+   * @memberof DOM
+   */
+
+  function removeChildren(node, _callback) {
+    if (!isNode(node)) {
+      throw new TypeError("Bad argument: The given `node` is not a valid Node");
+    }
+
+    if (isFunction(_callback)) {
+      Array.from(node.childNodes).forEach(function (n) {
+        if (_callback(n)) {
+          node.removeChild(n);
+        }
+      });
+      return node;
+    }
+
+    return removeAllChildren(node);
+  }
+  /**
+   * Removes all children of a node from the DOM
+   * @param {!Node} node 
+   * @private
+   */
+
+  /* istanbul ignore next */
+
+  function removeAllChildren(node) {
+    while (node.hasChildNodes()) {
+      node.removeChild(node.lastChild);
+    }
+
+    return node;
   }
 
   /**
@@ -2045,15 +1949,44 @@ var zui = (function (exports) {
   }
 
   var TYPE = 'type';
+  var VALUE = 'value';
   var STATE = 'state';
   var CHECKED = 'checked';
   var UNCHECKED = 'unchecked';
+  /**
+   * Gets type attribute
+   * @param {HTMLElement} element 
+   * @returns {string}
+   */
+
   var getType = function getType(element) {
     return element.dataset[TYPE];
   };
+  /**
+   * Gets value attribute
+   * @param {HTMLElement} element 
+   * @returns {string}
+   */
+
+  var getValue = function getValue(element) {
+    return element.dataset[VALUE];
+  };
+  /**
+   * Gets state attribute
+   * @param {HTMLElement} element 
+   * @returns {string}
+   */
+
   var getState = function getState(element) {
     return element.dataset[STATE];
   };
+  /**
+   * Sets state attribute
+   * @param {HTMLElement} element 
+   * @param {string} value 
+   * @returns {string}
+   */
+
   var setState = function setState(element, value) {
     return element.dataset[STATE] = value;
   };
@@ -2063,51 +1996,90 @@ var zui = (function (exports) {
   var uncheck = function uncheck(element, value) {
     return setState(element, valOrDefault(value, UNCHECKED));
   };
-  function getComponentElement(container, pred, selector) {
-    if (isHTMLElement(container)) {
-      return pred(container) ? [container] : getElements(selector, container);
-    } else if (isString(container) && !isEmpty(container)) {
-      var _container = getElement(container);
+  /**
+   * Resolves the container
+   * @param {HTMLElement|string} container 
+   * @returns {HTMLElement}
+   */
 
-      return isNullOrUndefined(_container) ? null : getComponentElement(_container);
-    } else if (isNullOrUndefined(container)) {
-      return getElements(selector);
+  function resolveContainer(container) {
+    if (isHTMLElement(container)) {
+      return container;
+    } else if (isString(container) && !isNullOrWhitespace(container)) {
+      return getElement(container);
     }
 
     return null;
   }
-  function getInput(type, label) {
-    if (isNullOrWhitespace(label.htmlFor)) {
-      return getElement("input[type='".concat(valOrDefault(type, 'text'), "']"), label);
+  /**
+   * 
+   * @param {string} selector 
+   * @param {HTMLElement|string} [_container] 
+   * @returns {HTMLElement[]}
+   */
+
+  function getComponents(selector, _container) {
+    if (isNullOrUndefined(selector)) {
+      throw new TypeError("Bad argument");
     }
 
-    return getElement("#".concat(label.htmlFor));
+    var container = resolveContainer(_container);
+
+    if (!isHTMLElement(container)) {
+      return null;
+    }
+
+    return getElements(selector, container);
+  }
+  /**
+   * 
+   * @param {string} type 
+   * @param {HTMLElement} container 
+   * @returns {HTMLInputElement}
+   */
+
+  function getInput(type, container) {
+    if (isHTMLElement(container, 'label') && !isNullOrWhitespace(container.htmlFor)) {
+      return getElement("#".concat(container.htmlFor));
+    }
+
+    return getElement("input[type='".concat(valOrDefault(type, 'text'), "']"), container);
   }
 
   var Status = {
     ON: 'on',
     OFF: 'off'
   };
+  /**
+   * Gets the item element
+   * @param {HTMLElement} element 
+   * @this {HTMLElement}
+   */
+
+  function getItem(element) {
+    var isValid = function isValid(el) {
+      return hasOwn(el.dataset, 'selector');
+    };
+
+    if (isValid(element)) {
+      return element;
+    }
+
+    return findAncestor(element, isValid, 5);
+  }
+
   var BaseSelectorItem = {
+    /** @type {number} */
+    index: null,
     init: function init(args) {
       Object.assign(this, args);
-
-      if (this.isChecked()) {
-        check(this.container, Status.ON);
-      }
-
+      this.setChecked(this.isChecked());
       return this;
     },
 
-    /** @type {HTMLElement} */
-    container: null,
-
-    /** @type {number} */
-    index: null,
-
     /** @returns {string} */
     get value() {
-      return this.container.dataset['value'];
+      return getValue(this.container);
     },
 
     /** @returns {boolean} */
@@ -2123,26 +2095,35 @@ var zui = (function (exports) {
 
       if (isChecked) {
         check(this.container, Status.ON);
+        this.container.classList.add("selector-item--selected");
       } else {
         uncheck(this.container, Status.OFF);
+        this.container.classList.remove("selector-item--selected");
       }
 
+      return true;
+    },
+    setIndex: function setIndex(index) {
+      this.index = index;
+      this.container.dataset.selectorIndex = index;
+    },
+    destroy: function destroy() {
+      removeChildren(this.container);
+      this.container.remove();
       return true;
     }
   };
   var BaseSelector = {
-    name: 'selector',
+    /** @type {string} */
+    defaultValue: null,
 
-    /** @type {HTMLElement} */
-    container: null,
-
-    /** @type {HTMLElement[]} */
+    /** @type {BaseSelectorItem[]} */
     items: null,
 
     /** @type {number} */
     selectedIndex: null,
 
-    /** @type {HTMLElement} */
+    /** @type {BaseSelectorItem} */
     selectedItem: null,
 
     /** @type {Function} */
@@ -2151,35 +2132,30 @@ var zui = (function (exports) {
     /** @type {Function} */
     afterChange: null,
 
+    /** @returns {string} */
     get value() {
       return this.selectedItem.value;
     },
 
-    setSelectedItem: function setSelectedItem(item) {
-      if (!this.items.includes(item)) {
-        return null;
-      }
-
-      if (this.selectedItem) {
-        this.selectedItem.setChecked(false);
-      }
-
-      this.selectedItem = item;
-      this.selectedItem.setChecked(true);
-      return true;
-    },
     init: function init() {
-      var value = this.container.dataset['value'];
+      var itemContainers = getElements('[data-selector]', this.container);
+
+      if (isNullOrUndefined(itemContainers)) {
+        return;
+      }
+
+      this.items = [];
+      this.defaultValue = getValue(this.container);
       var defaultItem = null;
 
-      for (var i = 0; i < this.items.length; i++) {
-        var item = this.items[i];
+      for (var i = 0; i < itemContainers.length; i++) {
+        var item = this.createItem(itemContainers[i]);
 
         if (item.isChecked()) {
           this.setSelectedItem(item);
         }
 
-        if (item.value === value) {
+        if (item.value === this.defaultValue) {
           defaultItem = item;
         }
       }
@@ -2191,16 +2167,113 @@ var zui = (function (exports) {
       this.bindEvents();
       return this;
     },
+
+    /**
+     * Creates a selector item
+     * @param {HTMLElement} container 
+     */
+    createItem: function createItem(container) {
+      if (!isHTMLElement(container)) {
+        throw new TypeError("Missing container: A selector requires a container");
+      }
+
+      container.classList.add("selector-item");
+      var item = Object.create(BaseSelectorItem, {
+        container: {
+          value: container
+        },
+        selector: {
+          value: this
+        }
+      }).init();
+      this.addItem(item);
+      return item;
+    },
+
+    /**
+     * Adds a selector item
+     * @param {BaseSelectorItem} item 
+     * @param {*} _index 
+     */
+    addItem: function addItem(item, _index) {
+      this.items.push(item);
+      this.refresh();
+      return this;
+    },
+
+    /**
+     * Gets a selector item
+     * @param {number} index 
+     * @returns {BaseSelectorItem}
+     */
+    getItem: function getItem(index) {
+      if (!Number.isInteger(index)) {
+        return null;
+      }
+
+      return this.items.find(function (item) {
+        return item.index === index;
+      });
+    },
+
+    /**
+     * Removes a selector item
+     * @param {number} index 
+     */
+    removeItem: function removeItem(index) {
+      if (!Number.isInteger(index)) {
+        return false;
+      }
+
+      var item = this.getItem(index);
+
+      if (isNullOrUndefined(item)) {
+        return false;
+      }
+
+      if (!item.destroy()) {
+        return false;
+      }
+
+      this.items.splice(item.index, 1);
+      this.refresh();
+      return true;
+    },
+    setSelectedItem: function setSelectedItem(item) {
+      if (!this.items.includes(item)) {
+        return false;
+      }
+
+      if (this.selectedItem) {
+        this.selectedItem.setChecked(false);
+      }
+
+      this.selectedItem = item;
+      this.selectedItem.setChecked(true);
+      return true;
+    },
+    refresh: function refresh() {
+      for (var i = 0; i < this.items.length; i++) {
+        var item = this.items[i];
+        item.setIndex(i);
+      }
+
+      return this;
+    },
+    render: function render() {
+      return this.container;
+    },
     bindEvents: function bindEvents() {
       var _this = this;
 
       this.container.addEventListener('click', function (event) {
-        var target = event.target;
+        var target = getItem(event.target);
 
         if (!hasOwn(target.dataset, 'selector')) {
           return;
         }
 
+        var selectorIndex = target.dataset.selectorIndex;
         var halt = false;
 
         if (isFunction(_this.beforeChange)) {
@@ -2211,9 +2284,7 @@ var zui = (function (exports) {
           return;
         }
 
-        var item = _this.items.find(function (i) {
-          return i.index === +valOrDefault(target.dataset.selectorIndex, -1);
-        });
+        var item = _this.getItem(+selectorIndex);
 
         if (isNullOrUndefined(item)) {
           return;
@@ -2232,7 +2303,27 @@ var zui = (function (exports) {
     ON: 'on',
     OFF: 'off'
   };
+  /**
+   * Gets the item element
+   * @param {HTMLElement} element 
+   * @this {HTMLElement}
+   */
+
+  function getItem$1(element) {
+    var isValid = function isValid(el) {
+      return hasOwn(el.dataset, 'selector');
+    };
+
+    if (isValid(element)) {
+      return element;
+    }
+
+    return findAncestor(element, isValid, 5);
+  }
+
   var FormSelectorItem = {
+    /** @type {number} */
+    index: null,
     init: function init(args) {
       Object.assign(this, args);
 
@@ -2242,15 +2333,6 @@ var zui = (function (exports) {
 
       return this;
     },
-
-    /** @type {HTMLElement} */
-    container: null,
-
-    /** @type {HTMLInputElement} */
-    input: null,
-
-    /** @type {number} */
-    index: null,
 
     /** @returns {string} */
     get value() {
@@ -2272,22 +2354,31 @@ var zui = (function (exports) {
         return false;
       }
 
+      this.input.checked = isChecked;
+
       if (isChecked) {
-        this.input.checked = true;
         check(this.container, Status$1.ON);
+        this.container.classList.add("selector-item--selected");
       } else {
-        this.input.checked = false;
         uncheck(this.container, Status$1.OFF);
+        this.container.classList.remove("selector-item--selected");
       }
 
+      return true;
+    },
+    setIndex: function setIndex(index) {
+      this.index = index;
+      this.container.dataset.selectorIndex = index;
+    },
+    destroy: function destroy() {
+      removeChildren(this.container);
+      this.container.remove();
       return true;
     }
   };
   var FormSelector = {
-    name: 'form-selector',
-
-    /** @type {HTMLElement} */
-    container: null,
+    /** @type {string} */
+    defaultValue: null,
 
     /** @type {FormSelectorItem[]} */
     items: null,
@@ -2304,35 +2395,30 @@ var zui = (function (exports) {
     /** @type {Function} */
     afterChange: null,
 
+    /** @returns {string} */
     get value() {
       return this.selectedItem.value;
     },
 
-    setSelectedItem: function setSelectedItem(item) {
-      if (!this.items.includes(item)) {
-        return null;
-      }
-
-      if (this.selectedItem) {
-        this.selectedItem.setChecked(false);
-      }
-
-      this.selectedItem = item;
-      this.selectedItem.setChecked(true);
-      return true;
-    },
     init: function init() {
-      var value = this.container.dataset['value'];
+      var itemContainers = getElements('[data-selector]', this.container);
+
+      if (isNullOrUndefined(itemContainers)) {
+        return;
+      }
+
+      this.items = [];
+      this.defaultValue = getValue(this.container);
       var defaultItem = null;
 
-      for (var i = 0; i < this.items.length; i++) {
-        var item = this.items[i];
+      for (var i = 0; i < itemContainers.length; i++) {
+        var item = this.createItem(itemContainers[i]);
 
         if (item.isChecked()) {
           this.setSelectedItem(item);
         }
 
-        if (item.value === value) {
+        if (item.value === this.defaultValue) {
           defaultItem = item;
         }
       }
@@ -2344,11 +2430,112 @@ var zui = (function (exports) {
       this.bindEvents();
       return this;
     },
+    createItem: function createItem(container) {
+      if (!isHTMLElement(container)) {
+        throw new TypeError("Missing container: A selector requires a container");
+      }
+
+      container.classList.add("selector-item");
+      var input = getInput('radio', container);
+
+      if (!isHTMLElement(input)) {
+        throw new Error("Missing input: FormSelector requires an input in the container");
+      }
+
+      var item = Object.create(FormSelectorItem, {
+        container: {
+          value: container
+        },
+        input: {
+          value: input
+        },
+        selector: {
+          value: this
+        }
+      }).init();
+      this.addItem(item);
+      return item;
+    },
+
+    /**
+     * Adds a selector item
+     * @param {BaseSelectorItem} item 
+     * @param {*} _index 
+     */
+    addItem: function addItem(item, _index) {
+      this.items.push(item);
+      this.refresh();
+      return this;
+    },
+
+    /**
+     * Gets a selector item
+     * @param {number} index 
+     * @returns {FormSelectorItem}
+     */
+    getItem: function getItem(index) {
+      if (!Number.isInteger(index)) {
+        return null;
+      }
+
+      return this.items.find(function (item) {
+        return item.index === index;
+      });
+    },
+
+    /**
+     * Removes a selector item
+     * @param {number} index 
+     */
+    removeItem: function removeItem(index) {
+      if (!Number.isInteger(index)) {
+        return false;
+      }
+
+      var item = this.getItem(index);
+
+      if (isNullOrUndefined(item)) {
+        return false;
+      }
+
+      if (!item.destroy()) {
+        return false;
+      }
+
+      this.items.splice(item.index, 1);
+      this.refresh();
+      return true;
+    },
+    setSelectedItem: function setSelectedItem(item) {
+      if (!this.items.includes(item)) {
+        return false;
+      }
+
+      if (this.selectedItem) {
+        this.selectedItem.setChecked(false);
+      }
+
+      this.selectedItem = item;
+      this.selectedItem.setChecked(true);
+      return true;
+    },
+    refresh: function refresh() {
+      for (var i = 0; i < this.items.length; i++) {
+        var item = this.items[i];
+        item.setIndex(i);
+      }
+
+      return this;
+    },
+    render: function render() {
+      return this.container;
+    },
     bindEvents: function bindEvents() {
       var _this = this;
 
       this.container.addEventListener('change', function (event) {
-        var target = event.target;
+        var target = getItem$1(event.target);
+        var selectorIndex = target.dataset.selectorIndex;
         var halt = false;
 
         if (isFunction(_this.beforeChange)) {
@@ -2363,9 +2550,7 @@ var zui = (function (exports) {
           return;
         }
 
-        var item = _this.items.find(function (i) {
-          return i.index === +valOrDefault(target.dataset.selectorIndex, -1);
-        });
+        var item = _this.getItem(+selectorIndex);
 
         if (isNullOrUndefined(item)) {
           return;
@@ -2380,189 +2565,138 @@ var zui = (function (exports) {
     }
   };
 
-  var ErrorCode = {
-    BAD_CONTAINER: 'BAD_CONTAINER',
-    BAD_INPUT: 'BAD_INPUT'
+  var Name = {
+    BaseSelector: 'selector',
+    FormSelector: 'form-selector'
   };
 
-  var createDomQuery = function createDomQuery(selector) {
-    return "[data-type=\"".concat(selector.name, "\"]");
+  var toSelector = function toSelector(name) {
+    return "[data-type=\"".concat(name, "\"]");
   };
 
-  var DOMQuerySelector = {
-    BaseSelector: createDomQuery(BaseSelector),
-    FormSelector: createDomQuery(FormSelector)
+  var Selector = {
+    BaseSelector: toSelector(Name.BaseSelector),
+    FormSelector: toSelector(Name.FormSelector)
   };
-  var Factory = {
-    create: function create(container, options) {
-      if (!isHTMLElement(container)) {
-        return ErrorCode.BAD_CONTAINER;
-      }
+  var Selectors = [Selector.BaseSelector, Selector.FormSelector].join(',');
 
-      var itemContainers = getElements('[data-selector]', container);
-
-      if (!isNodeList(itemContainers)) {
-        return ErrorCode.BAD_CONTAINER;
-      }
-
-      var widget = null;
-      var items = null;
-      var type = getType(container);
-
-      switch (type) {
-        case 'selector':
-          items = createSelectorItem(itemContainers, type, false);
-          widget = Object.create(BaseSelector);
-          break;
-
-        case 'form-selector':
-          items = createSelectorItem(itemContainers, type, true);
-          widget = Object.create(FormSelector);
-          break;
-      }
-
-      Object.assign(widget, options, {
-        container: container,
-        items: items,
-        querySelector: createDomQuery(widget)
-      });
-      return widget;
-    }
-  };
-
-  function createSelectorItem(itemContainers, type, hasInput) {
-    var items = [];
-    var typeHandler = {
-      'selector': function selector() {
-        return Object.create(BaseSelectorItem);
-      },
-      'form-selector': function formSelector() {
-        return Object.create(FormSelectorItem);
-      }
-    };
-
-    for (var i = 0; i < itemContainers.length; i++) {
-      var itemContainer = itemContainers[i];
-      itemContainer.dataset.selectorIndex = i;
-      var args = {
-        container: itemContainer,
-        index: i
-      };
-
-      if (hasInput) {
-        var input = getInput('radio', itemContainer);
-
-        if (!isHTMLElement(input)) {
-          return ErrorCode.BAD_INPUT;
-        }
-
-        input.dataset.selectorIndex = i;
-        Object.assign(args, {
-          input: input
-        });
-      }
-
-      var item = typeHandler[type]().init(args);
-      items.push(item);
-    }
-
-    return items;
-  }
-
-  var ErrorHandler = {
-    BAD_CONTAINER: new Error("Missing container: A selector requires a container"),
-    BAD_INPUT: new Error("Missing input: FormSelector requires an input in the container")
+  var isValid = function isValid(element) {
+    return RegExp('selector|form-selector').test(getType(element));
   };
 
   var isSelector = function isSelector(element) {
-    return RegExp('selector|form-selector').test(element.dataset['type']);
+    return isHTMLElement(element) && isValid(element);
   };
 
-  var domQuery = [DOMQuerySelector.BaseSelector, DOMQuerySelector.FormSelector].join(',');
-  function Selector(container, _options) {
-    var selectorElements = getComponentElement(container, isSelector, domQuery);
-    var options = valOrDefault(_options, {});
-
-    if (isNullOrUndefined(selectorElements)) {
-      return null;
+  var TypeHandler = {
+    'selector': function selector(container) {
+      return Object.create(BaseSelector, {
+        name: {
+          value: Name.BaseSelector
+        },
+        container: {
+          value: container
+        },
+        querySelector: {
+          value: Selector.BaseSelector
+        }
+      });
+    },
+    'form-selector': function formSelector(container) {
+      return Object.create(FormSelector, {
+        name: {
+          value: Name.FormSelector
+        },
+        container: {
+          value: container
+        },
+        querySelector: {
+          value: Selector.FormSelector
+        }
+      });
     }
-
-    var selectors = [];
-
-    for (var i = 0; i < selectorElements.length; i++) {
-      var selector = Factory.create(selectorElements[i], options);
-
-      if (hasOwn(ErrorHandler, selector)) {
-        throw ErrorHandler[selector];
+  };
+  var SelectorManager = {
+    /**
+     * Creates a `selector`
+     * @param {HTMLElement} container 
+     * @param {string} [_type] 
+     * @returns {BaseSelector|FormSelector}
+     */
+    create: function create(container, _type) {
+      if (!isHTMLElement(container)) {
+        throw new TypeError("Missing container: A selector requires a container");
       }
 
-      selector.init();
-      selectors.push(selector);
+      var type = valOrDefault(_type, getType(container));
+      var handler = TypeHandler[type];
+
+      if (!isFunction(handler)) {
+        throw new Error("Missing handler: The '".concat(type, "' field could not be handled"));
+      }
+
+      var widget = handler(container);
+      return widget;
+    },
+
+    /**
+     * Activates the `selector` found in the container
+     * @param {HTMLElement} container 
+     * @param {*} [_options] 
+     * @returns {BaseSelector[]|FormSelector[]}
+     */
+    activate: function activate(container, _options) {
+      var components = isSelector(container) ? [container] : getComponents(Selectors, container);
+      var options = valOrDefault(_options, {});
+
+      if (isNullOrUndefined(components)) {
+        return null;
+      }
+
+      var selectors = [];
+
+      for (var i = 0; i < components.length; i++) {
+        var selector = this.create(components[i]);
+        selector.init(options);
+        selectors.push(selector);
+      }
+
+      return selectors;
     }
-
-    return selectors;
-  }
-  var SelectorFactory = Factory;
-
-  var ErrorCode$1 = {
-    BAD_CONTAINER: 'BAD_CONTAINER',
-    BAD_INPUT: 'BAD_INPUT'
   };
-  var ErrorHandler$1 = {
-    BAD_CONTAINER: new Error("Missing container: A switch requires a container"),
-    BAD_INPUT: new Error("Missing input: FormSwitch requires an input in the container")
-  };
+
   var Status$2 = {
     ON: 'on',
     OFF: 'off'
   };
+  /**
+   * Changes the state of the switch
+   * @param {boolean} isChecked 
+   * @returns {boolean} A value indicating whether the operation was a success
+   */
 
-  var createDomQuery$1 = function createDomQuery(selector) {
-    return "[data-type=\"".concat(selector.name, "\"]");
-  };
-
-  var isSwitch = function isSwitch(element) {
-    return RegExp('switch|form-switch').test(element.dataset['type']);
-  };
-
-  var SwitchFactory = {
-    create: function create(container, options) {
-      if (!isHTMLElement(container)) {
-        return ErrorCode$1.BAD_CONTAINER;
-      }
-
-      var widget = null;
-      var input = null;
-
-      switch (getType(container)) {
-        case 'switch':
-          widget = Object.create(BaseSwitch);
-          break;
-
-        case 'form-switch':
-          input = getInput('checkbox', container);
-
-          if (!isHTMLElement(input)) {
-            return ErrorCode$1.BAD_INPUT;
-          }
-
-          options.input = input;
-          widget = Object.create(FormSwitch);
-          break;
-      }
-
-      Object.assign(widget, options, {
-        container: container,
-        querySelector: createDomQuery$1(widget)
-      });
-      return widget;
+  function setChecked(isChecked) {
+    if (isNullOrUndefined(isChecked)) {
+      return false;
     }
-  };
-  var BaseSwitch = {
-    name: 'switch',
 
-    /** @type {HTMLElement} */
-    container: null,
+    if (isChecked) {
+      check(this.container, Status$2.ON);
+    } else {
+      uncheck(this.container, Status$2.OFF);
+    }
+
+    if (isFunction(this.afterChange)) {
+      this.afterChange(this);
+    }
+
+    this.refresh();
+    return true;
+  }
+
+  var BaseSwitch = {
+    /** @type {string} */
+    defaultValue: null,
 
     /** @type {Function} */
     beforeChange: null,
@@ -2570,53 +2704,59 @@ var zui = (function (exports) {
     /** @type {Function} */
     afterChange: null,
 
+    /** @returns {string} */
     get value() {
-      return this.container.dataset['value'];
+      return getValue(this.container);
+    },
+
+    init: function init() {
+      var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      Object.assign(this, args);
+      this.container.classList.add("zenui-switch");
+      this.defaultValue = this.isChecked();
+      setChecked.call(this, this.isChecked());
+      this.bindEvents();
+      return this;
     },
 
     /**
      * Verifies that the switch is checked
-     * @param {boolean} check 
      * @returns {boolean} A value indicating whether the switch is checked
      */
     isChecked: function isChecked() {
       return getState(this.container) === Status$2.ON;
     },
-
-    /**
-     * Changes the state of the switch
-     * @param {boolean} isChecked 
-     * @returns {boolean} A value indicating whether the operation was a success
-     */
-    setChecked: function setChecked(isChecked) {
-      if (isNullOrUndefined(isChecked)) {
-        return false;
-      }
-
-      if (isChecked) {
-        check(this.container, Status$2.ON);
-      } else {
-        uncheck(this.container, Status$2.OFF);
-      }
-
-      return true;
+    check: function check() {
+      setChecked.call(this, true);
+      return this;
+    },
+    uncheck: function uncheck() {
+      setChecked.call(this, false);
+      return this;
     },
     toggle: function toggle() {
-      if (this.isChecked()) {
-        this.setChecked(false);
-      } else {
-        this.setChecked(true);
-      }
-    },
-    init: function init(args) {
-      Object.assign(this, args);
-
-      if (this.isChecked()) {
-        check(this.container, Status$2.ON);
-      }
-
-      this.bindEvents();
+      setChecked.call(this, !this.isChecked());
       return this;
+    },
+    reset: function reset() {
+      setChecked.call(this, this.defaultValue);
+      return this;
+    },
+    refresh: function refresh() {
+      if (this.isChecked()) {
+        this.container.classList.add("zenui-switch--checked");
+      } else {
+        this.container.classList.remove("zenui-switch--checked");
+      }
+
+      return this;
+    },
+
+    /**
+     * @returns {HTMLElement}
+     */
+    render: function render() {
+      return this.container;
     },
     bindEvents: function bindEvents() {
       var _this = this;
@@ -2633,21 +2773,44 @@ var zui = (function (exports) {
         }
 
         _this.toggle();
-
-        if (isFunction(_this.afterChange)) {
-          _this.afterChange(_this, event);
-        }
       });
     }
   };
+
+  var Status$3 = {
+    ON: 'on',
+    OFF: 'off'
+  };
+  /**
+   * Changes the state of the switch
+   * @param {boolean} isChecked 
+   * @returns {boolean} A value indicating whether the operation was a success
+   */
+
+  function setChecked$1(isChecked) {
+    if (isNullOrUndefined(isChecked)) {
+      return false;
+    }
+
+    this.input.checked = isChecked;
+
+    if (isChecked) {
+      check(this.container, Status$3.ON);
+    } else {
+      uncheck(this.container, Status$3.OFF);
+    }
+
+    if (isFunction(this.afterChange)) {
+      this.afterChange(this);
+    }
+
+    this.refresh();
+    return true;
+  }
+
   var FormSwitch = {
-    name: 'form-switch',
-
-    /** @type {HTMLElement} */
-    container: null,
-
-    /** @type {HTMLInputElement} */
-    input: null,
+    /** @type {string} */
+    defaultValue: null,
 
     /** @type {Function} */
     beforeChange: null,
@@ -2655,110 +2818,201 @@ var zui = (function (exports) {
     /** @type {Function} */
     afterChange: null,
 
+    /** @returns {string} */
     get value() {
       return this.input.value;
     },
 
-    /**
-     * Verifies that the switch is checked
-     * @param {boolean} check 
-     * @returns {boolean} A value indicating whether the switch is checked
-     */
-    isChecked: function isChecked() {
-      return getState(this.container) === Status$2.ON;
-    },
-
-    /**
-     * Changes the state of the switch
-     * @param {boolean} isChecked 
-     * @returns {boolean} A value indicating whether the operation was a success
-     */
-    setChecked: function setChecked(isChecked) {
-      if (isNullOrUndefined(isChecked)) {
-        return false;
-      }
-
-      this.input.checked = isChecked;
-
-      if (isChecked) {
-        check(this.container, Status$2.ON);
-      } else {
-        uncheck(this.container, Status$2.OFF);
-      }
-
-      return true;
-    },
-    toggle: function toggle() {
-      if (this.isChecked()) {
-        this.setChecked(false);
-      } else {
-        this.setChecked(true);
-      }
-    },
-    init: function init(args) {
+    init: function init() {
+      var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       Object.assign(this, args);
-
-      if (this.input.checked) {
-        this.setChecked(true);
-      }
-
+      this.container.classList.add("zenui-switch");
+      this.input.classList.add("zenui-switch-input");
+      this.defaultValue = this.isChecked();
+      setChecked$1.call(this, this.isChecked());
       this.bindEvents();
       return this;
     },
+
+    /**
+     * Verifies that the switch is checked
+     * @returns {boolean} A value indicating whether the switch is checked
+     */
+    isChecked: function isChecked() {
+      return this.input.checked;
+    },
+    check: function check() {
+      setChecked$1.call(this, true);
+      return this;
+    },
+    uncheck: function uncheck() {
+      setChecked$1.call(this, false);
+      return this;
+    },
+    toggle: function toggle() {
+      setChecked$1.call(this, !this.isChecked());
+      return this;
+    },
+    reset: function reset() {
+      setChecked$1.call(this, this.defaultValue);
+      return this;
+    },
+    refresh: function refresh() {
+      if (this.isChecked()) {
+        this.container.classList.add("zenui-switch--checked");
+      } else {
+        this.container.classList.remove("zenui-switch--checked");
+      }
+
+      return this;
+    },
+
+    /**
+     * @returns {HTMLElement}
+     */
+    render: function render() {
+      return this.container;
+    },
     bindEvents: function bindEvents() {
-      var _this2 = this;
+      var _this = this;
 
       this.input.addEventListener('change', function (event) {
         var halt = false;
 
-        if (isFunction(_this2.beforeChange)) {
-          halt = _this2.beforeChange(_this2, event) === false;
+        if (isFunction(_this.beforeChange)) {
+          halt = _this.beforeChange(_this, event) === false;
         }
 
         if (halt) {
-          _this2.input.checked = !_this2.input.checked; // revert input checked state
+          _this.input.checked = !_this.input.checked; // revert input checked state
 
           return;
         }
 
-        _this2.toggle();
+        setChecked$1.call(_this, _this.isChecked());
+      });
+    }
+  };
 
-        if (isFunction(_this2.afterChange)) {
-          _this2.afterChange(_this2, event);
+  var Name$1 = {
+    BaseSwitch: 'switch',
+    FormSwitch: 'form-switch'
+  };
+
+  var toSelector$1 = function toSelector(name) {
+    return "[data-type=\"".concat(name, "\"]");
+  };
+
+  var Selector$1 = {
+    BaseSwitch: toSelector$1(Name$1.BaseSwitch),
+    FormSwitch: toSelector$1(Name$1.FormSwitch)
+  };
+  var Selectors$1 = [Selector$1.BaseSwitch, Selector$1.FormSwitch].join(',');
+
+  var isValid$1 = function isValid(element) {
+    return RegExp('switch|form-switch').test(getType(element));
+  };
+
+  var isSwitch = function isSwitch(element) {
+    return isHTMLElement(element) && isValid$1(element);
+  };
+
+  var TypeHandler$1 = {
+    'switch': function _switch(container) {
+      return Object.create(BaseSwitch, {
+        name: {
+          value: Name$1.BaseSwitch
+        },
+        container: {
+          value: container
+        },
+        querySelector: {
+          value: Selector$1.BaseSwitch
+        }
+      });
+    },
+    'form-switch': function formSwitch(container) {
+      var input = getInput('checkbox', container);
+
+      if (!isHTMLElement(input)) {
+        throw new Error("Missing input: FormSwitch requires an input in the container");
+      }
+
+      return Object.create(FormSwitch, {
+        name: {
+          value: Name$1.FormSwitch
+        },
+        container: {
+          value: container
+        },
+        input: {
+          value: input
+        },
+        querySelector: {
+          value: Selector$1.FormSwitch
         }
       });
     }
   };
-  var domQuery$1 = [createDomQuery$1(BaseSwitch), createDomQuery$1(FormSwitch)].join(',');
-  function Switch(container, _options) {
-    var switcheElements = getComponentElement(container, isSwitch, domQuery$1);
-    var options = valOrDefault(_options, {});
-
-    if (isNullOrUndefined(switcheElements)) {
-      return null;
-    }
-
-    var switches = [];
-
-    for (var i = 0; i < switcheElements.length; i++) {
-      var $switch = SwitchFactory.create(switcheElements[i], options);
-
-      if (hasOwn(ErrorHandler$1, $switch)) {
-        throw ErrorHandler$1[$switch];
+  var SwitchManager = {
+    /**
+     * Creates a `switch`
+     * @param {HTMLElement} container 
+     * @param {string} [_type] 
+     * @returns {BaseSwitch|FormSwitch}
+     */
+    create: function create(container, _type) {
+      if (!isHTMLElement(container)) {
+        throw new TypeError("Missing container: A switch requires a container");
       }
 
-      $switch.init();
-      switches.push($switch);
-    }
+      var type = valOrDefault(_type, getType(container));
+      var handler = TypeHandler$1[type];
 
-    return switches;
-  }
+      if (!isFunction(handler)) {
+        throw new Error("Missing handler: The '".concat(type, "' field could not be handled"));
+      }
+
+      var widget = handler(container);
+      return widget;
+    },
+
+    /**
+     * Activates the `switch` found in the container
+     * @param {HTMLElement} container 
+     * @param {*} [_options] 
+     * @returns {BaseSelector[]|FormSelector[]}
+     */
+    activate: function activate(container, _options) {
+      var components = isSwitch(container) ? [container] : getComponents(Selectors$1, container);
+      var options = valOrDefault(_options, {});
+
+      if (isNullOrUndefined(components)) {
+        return null;
+      }
+
+      var switches = [];
+
+      for (var i = 0; i < components.length; i++) {
+        var switchWidget = this.create(components[i]);
+        switchWidget.init(options);
+        switches.push(switchWidget);
+      }
+
+      return switches;
+    }
+  };
 
   /**
    * Shows an element
    * @param {HTMLElement} element
    */
+
   function show(element) {
+    if (!isHTMLElement(element)) {
+      throw new TypeError("Bad argument. The given `element` is not a valid HTMLElement");
+    }
+
     element.style.display = "block";
   }
   /**
@@ -2767,15 +3021,19 @@ var zui = (function (exports) {
    */
 
   function hide(element) {
+    if (!isHTMLElement(element)) {
+      throw new TypeError("Bad argument. The given `element` is not a valid HTMLElement");
+    }
+
     element.style.display = "none";
   }
 
   var ATTRIBUTE = 'collapsible';
-  var ErrorCode$2 = {
+  var ErrorCode = {
     BAD_CONTAINER_COLLAPSIBLE: 'BAD_CONTAINER_COLLAPSIBLE',
     BAD_CONTAINER_ACCORDION: 'BAD_CONTAINER_ACCORDION'
   };
-  var ErrorHandler$2 = {
+  var ErrorHandler = {
     BAD_CONTAINER_COLLAPSIBLE: new Error("Missing container: A collapsible requires a container"),
     BAD_CONTAINER_ACCORDION: new Error("Missing container: An accordion requires a container")
   };
@@ -2796,7 +3054,7 @@ var zui = (function (exports) {
     /** @returns {CollapsibleFactory} */
     create: function create(container, options) {
       if (!isHTMLElement(container)) {
-        return ErrorCode$2.BAD_CONTAINER_COLLAPSIBLE;
+        return ErrorCode.BAD_CONTAINER_COLLAPSIBLE;
       }
 
       var instance = Object.create(this);
@@ -2943,7 +3201,7 @@ var zui = (function (exports) {
     /** @returns {AccordionFactory} */
     create: function create(container, options) {
       if (!isHTMLElement(container)) {
-        return ErrorCode$2.BAD_CONTAINER_ACCORDION;
+        return ErrorCode.BAD_CONTAINER_ACCORDION;
       }
 
       var instance = Object.create(this);
@@ -2997,7 +3255,7 @@ var zui = (function (exports) {
           }
         });
 
-        if (hasOwn(ErrorCode$2, collapsible)) {
+        if (hasOwn(ErrorCode, collapsible)) {
           return collapsible;
         }
 
@@ -3015,7 +3273,7 @@ var zui = (function (exports) {
    */
 
   function Collapsible(container, _options) {
-    var collapsibleElements = getComponentElement(container, isCollapsible, '[data-collapsible]');
+    var collapsibleElements = getComponents(container, isCollapsible);
     var options = valOrDefault(_options, {});
 
     if (isNullOrUndefined(collapsibleElements)) {
@@ -3027,8 +3285,8 @@ var zui = (function (exports) {
     for (var i = 0; i < collapsibleElements.length; i++) {
       var collapsible = CollapsibleFactory.create(collapsibleElements[i], options);
 
-      if (hasOwn(ErrorHandler$2, collapsible)) {
-        throw ErrorHandler$2[collapsible];
+      if (hasOwn(ErrorHandler, collapsible)) {
+        throw ErrorHandler[collapsible];
       }
 
       collapsible.init();
@@ -3044,7 +3302,7 @@ var zui = (function (exports) {
    */
 
   function Accordion(container, _options) {
-    var accordionElements = getComponentElement(container, isAccordion, '[data-boost=accordion]');
+    var accordionElements = getComponents(container, isAccordion);
     var options = valOrDefault(_options, {});
 
     if (isNullOrUndefined(accordionElements)) {
@@ -3056,8 +3314,8 @@ var zui = (function (exports) {
     for (var i = 0; i < accordionElements.length; i++) {
       var accordion = AccordionFactory.create(accordionElements[i], options);
 
-      if (hasOwn(ErrorHandler$2, accordion)) {
-        throw ErrorHandler$2[accordion];
+      if (hasOwn(ErrorHandler, accordion)) {
+        throw ErrorHandler[accordion];
       }
 
       accordion.init();
@@ -3069,9 +3327,8 @@ var zui = (function (exports) {
 
   exports.Accordion = Accordion;
   exports.Collapsible = Collapsible;
-  exports.Selector = Selector;
-  exports.SelectorFactory = SelectorFactory;
-  exports.Switch = Switch;
+  exports.SelectorManager = SelectorManager;
+  exports.SwitchManager = SwitchManager;
   exports.floatingLabel = floatingLabel;
   exports.inputCounter = inputCounter;
 

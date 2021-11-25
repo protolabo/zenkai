@@ -282,15 +282,15 @@
 </code></pre>
                     </div>
                     <div class="selector" data-type="selector" data-value="b">
-                        <label class="form-label selector-item" data-value="r" data-selector="">Red</label>
-                        <label class="form-label selector-item" data-value="g" data-selector="">Green</label>
-                        <label class="form-label selector-item" data-value="b" data-selector="">Blue</label>
+                        <span class="form-label selector-item" data-value="r" data-selector="">Red</span>
+                        <span class="form-label selector-item" data-value="g" data-selector="">Green</span>
+                        <span class="form-label selector-item" data-value="b" data-selector="">Blue</span>
                     </div>
                     <br>
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
                         <pre><code class="html-code">
-<div class="selector" data-type="selector">
+<div class="selector" data-type="form-selector">
     <label class="selector-item" data-selector="">
         <input type="radio" name="selector2" value="apple"> Apple
     </label>
@@ -318,28 +318,30 @@
 
                 <div class="form-section">
                     <h3 class="section-title">Switch</h3>
-                    <p>This component allows you to use and give meaning to both state of a checkbox: checked and
-                        unchecked.</p>
+                    <p>
+                        This component allows you to use and give meaning to both
+                        state of a checkbox: checked and unchecked.
+                    </p>
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
                         <pre><code class="html-code">
-    <span class="switch-label" data-type="switch">Click me</span>
+    <span data-type="switch">Click me</span>
 </code>
 </pre>
                     </div>
-                    <span class="form-label switch-label" data-type="switch">Click me</span>
+                    <span class="form-label" data-type="switch">Click me</span>
                     <br>
                     <div class="html-code-container">
                         <button class="btn btn-copy">Copy</button>
                         <pre><code class="html-code">
-<label class="switch-label" data-type="switch">
-    <input type="checkbox" class="switch"> Click me
+<label data-type="form-switch">
+    <input type="checkbox"> Click me
 </label>
 </code>
 </pre>
                     </div>
-                    <label class="form-label switch-label" data-type="form-switch">
-                        <input type="checkbox" checked="checked" class="switch"> Click me
+                    <label class="form-label" data-type="form-switch">
+                        <input type="checkbox" checked="checked"> Click me
                     </label>
                 </div>
             </section>
@@ -440,7 +442,7 @@
         <div class="content-wrapper">
             <p class="float-right">
                 &copy; 2019 &ndash; 2020, ProtoLabo. All rights reserverd.<br />
-                Last updated <time datetime="2020-06-08">June 8, 2020</time>
+                Last updated <time datetime="2020-06-08">October 18, 2020</time>
             </p>
         </div>
     </footer>

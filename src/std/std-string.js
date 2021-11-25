@@ -1,4 +1,4 @@
-import { isNullOrWhitespace } from "./std-parse.js";
+import { isNullOrWhitespace, isString } from "./std-parse.js";
 import { hasOwn } from "./std-object.js";
 
 
@@ -9,7 +9,7 @@ import { hasOwn } from "./std-object.js";
  * @memberof STD
  */
 export function capitalize(str) {
-    if(isNullOrWhitespace(str)) {
+    if (isNullOrWhitespace(str)) {
         return str;
     }
 
@@ -23,7 +23,7 @@ export function capitalize(str) {
  * @memberof STD
  */
 export function capitalizeFirstLetter(str) {
-    if(isNullOrWhitespace(str)) {
+    if (isNullOrWhitespace(str)) {
         return str;
     }
 
@@ -106,4 +106,56 @@ export function removeAccents(str) {
         .replace(/[îï]/gi, 'i')
         .replace(/[ôœ]/gi, 'o')
         .replace(/[ùûü]/gi, 'u');
+}
+
+/**
+ * Verifies that a character is a vowel
+ * @param {string} char String character
+ */
+export function isVowel(char) {
+    if (!isString(char)) {
+        return false;
+    }
+
+    return "aeiou".includes(char.toLowerCase());
+}
+
+/**
+ * Verifies that a character is a consonant
+ * @param {string} char String character
+ */
+export function isConsonant(char) {
+    if (!isString(char)) {
+        return false;
+    }
+
+    return "bcdfghjklmnpqrstvwxyz".includes(char.toLowerCase());
+}
+
+/**
+ * Verifies that a character is uppercase
+ * @param {string} char String character
+ */
+export function isUpperCase(char) {
+    if (!isString(char)) {
+        return false;
+    }
+
+    let charCode = char.charCodeAt(0);
+
+    return charCode >= 65 && charCode <= 90;
+}
+
+/**
+ * Verifies that a character is lowercase
+ * @param {string} char String character
+ */
+export function isLowerCase(char) {
+    if (!isString(char)) {
+        return false;
+    }
+
+    let charCode = char.charCodeAt(0);
+
+    return charCode >= 97 && charCode <= 122;
 }

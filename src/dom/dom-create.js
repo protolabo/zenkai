@@ -1,6 +1,5 @@
-import { isNullOrUndefined, isFunction, isObject, valOrDefault, isIterable } from "@std/index.js";
-import { isHTMLElement, isDocumentFragment, isNode } from "./dom-parse.js";
-import { appendChildren } from "./dom-append.js";
+import { isNullOrUndefined, isObject, valOrDefault, isIterable, isString } from "@std/index.js";
+import { isHTMLElement, isNode } from "./dom-parse.js";
 import { addAttributes } from "./element-manip.js";
 
 
@@ -14,7 +13,7 @@ import { addAttributes } from "./element-manip.js";
  */
 /* istanbul ignore next */
 function createEmptyElement(tagName, _validAttributes, _attributes) {
-    var element = document.createElement(tagName);
+    const element = document.createElement(tagName);
 
     if (!isHTMLElement(element)) {
         return null;
@@ -39,7 +38,7 @@ function createEmptyElement(tagName, _validAttributes, _attributes) {
  */
 /* istanbul ignore next */
 function createElement(tagName, _validAttributes, _attributes, _content) {
-    var element = createEmptyElement(tagName, _validAttributes, _attributes);
+    const element = createEmptyElement(tagName, _validAttributes, _attributes);
 
     if (!isHTMLElement(element)) {
         return null;
@@ -47,31 +46,6 @@ function createElement(tagName, _validAttributes, _attributes, _content) {
 
     if (!isNullOrUndefined(_content)) {
         addContent(element, _content);
-    }
-
-    return element;
-}
-
-/**
- * Creates an element with attributes and content
- * @param {string} tagName 
- * @param {string} [_validAttributes] 
- * @param {Function} [contentResolver] 
- * @param {object} [_attributes] 
- * @param {Text|HTMLElement|HTMLElement[]} [_content] 
- * @returns {HTMLElement}
- * @private
- */
-/* istanbul ignore next */
-function createElementX(tagName, _validAttributes, contentResolver, _attributes, _content) {
-    var element = createEmptyElement(tagName, _validAttributes, _attributes);
-
-    if (!isHTMLElement(element)) {
-        return null;
-    }
-
-    if (!isNullOrUndefined(_content)) {
-        addContent(element, _content, contentResolver);
     }
 
     return element;
@@ -350,8 +324,6 @@ export const createParagraph = createElement.bind(null, "p", "html,text");
  */
 export const createBlockQuotation = createElement.bind(null, "blockquote", "cite,html,text");
 
-const listItemResolver = (item) => isHTMLElement(item, "li") ? item : createListItem(null, item);
-
 /**
  * Creates a `<ul>` element with some attributes
  * @function createUnorderedList
@@ -360,7 +332,7 @@ const listItemResolver = (item) => isHTMLElement(item, "li") ? item : createList
  * @returns {HTMLUListElement}
  * @memberof DOM
  */
-export const createUnorderedList = createElementX.bind(null, "ul", "html", listItemResolver);
+export const createUnorderedList = createElement.bind(null, "ul", "html");
 
 /**
  * Creates a `<ol>` element with some attributes
@@ -370,7 +342,7 @@ export const createUnorderedList = createElementX.bind(null, "ul", "html", listI
  * @returns {HTMLOListElement}
  * @memberof DOM
  */
-export const createOrderedList = createElementX.bind(null, "ol", "html,reversed,start,type", listItemResolver);
+export const createOrderedList = createElement.bind(null, "ol", "html,reversed,start,type");
 
 /**
  * Creates a `<li>` element with some attributes
@@ -382,8 +354,6 @@ export const createOrderedList = createElementX.bind(null, "ol", "html,reversed,
  */
 export const createListItem = createElement.bind(null, "li", "html,text,value");
 
-
-// const descriptionContentResolver = (item) => isHTMLElement(item, ["dt", "dd"]) ? item : createListItem(null, item);
 
 /**
  * Creates a `<dl>` element with some attributes
@@ -764,24 +734,6 @@ export const createTextArea = createElement.bind(null, "textarea", "autocomplete
 export const createLabel = createElement.bind(null, "label", "for,html,text");
 
 /**
- * Resolves a select element content
- * @param {*} item 
- * @returns {HTMLOptionElement|HTMLOptGroupElement}
- * @private
- */
-const selectContentResolver = (item) => {
-    if (isHTMLElement(item, ["option", "optgroup"])) {
-        return item;
-    }
-
-    if (Array.isArray(item)) {
-        return createOptionGroup(null, item);
-    }
-
-    return createOption(null, item);
-};
-
-/**
  * Creates a `<select>` element with some attributes
  * @function createSelect
  * @param {object} _attribute 
@@ -789,7 +741,7 @@ const selectContentResolver = (item) => {
  * @returns {HTMLSelectElement}
  * @memberof DOM
  */
-export const createSelect = createElementX.bind(null, 'select', "autocomplete,autofocus,disabled,html,multiple,name,required,size", selectContentResolver);
+export const createSelect = createElement.bind(null, 'select', "autocomplete,autofocus,disabled,html,multiple,name,required,size");
 
 /**
  * Creates a `<option>` element with some attributes
@@ -801,8 +753,6 @@ export const createSelect = createElementX.bind(null, 'select', "autocomplete,au
  */
 export const createOption = createElement.bind(null, "option", "disabled,html,label,selected,text,value");
 
-const optiongroupContentResolver = (item) => isHTMLElement(item, "option") ? item : createOption(null, item);
-
 /**
  * Creates a `<optgroup>` element with some attributes
  * @function createOptionGroup
@@ -811,7 +761,7 @@ const optiongroupContentResolver = (item) => isHTMLElement(item, "option") ? ite
  * @returns {HTMLOptGroupElement}
  * @memberof DOM
  */
-export const createOptionGroup = createElementX.bind(null, "optgroup", "disabled,html,label", optiongroupContentResolver);
+export const createOptionGroup = createElement.bind(null, "optgroup", "disabled,html,label");
 
 /**
  * Creates a `<fieldset>` element with some attributes
@@ -841,7 +791,7 @@ export const createLegend = createElement.bind(null, "legend", "html,text");
  * @returns {HTMLTextAreaElement}
  * @memberof DOM
  */
-export const createDataList = createElementX.bind(null, "datalist", "html", optiongroupContentResolver);
+export const createDataList = createElement.bind(null, "datalist", "html");
 
 /**
  * Creates a `<meter>` element with some attributes
@@ -905,8 +855,6 @@ export const createTable = createElement.bind(null, "table", "html");
  */
 export const createCaption = createElement.bind(null, "caption", "html,text");
 
-const tablerowContentResolver = (item) => isHTMLElement(item, "tr") ? item : createTableRow(null, item);
-
 /**
  * Creates a `<thead>` element with some attributes
  * @function createTableHeader
@@ -915,7 +863,7 @@ const tablerowContentResolver = (item) => isHTMLElement(item, "tr") ? item : cre
  * @returns {HTMLTableSectionElement}
  * @memberof DOM
  */
-export const createTableHeader = createElementX.bind(null, "thead", "html", tablerowContentResolver);
+export const createTableHeader = createElement.bind(null, "thead", "html");
 
 /**
  * Creates a `<tbody>` element with some attributes
@@ -925,7 +873,7 @@ export const createTableHeader = createElementX.bind(null, "thead", "html", tabl
  * @returns {HTMLTableSectionElement}
  * @memberof DOM
  */
-export const createTableBody = createElementX.bind(null, "tbody", "html", tablerowContentResolver);
+export const createTableBody = createElement.bind(null, "tbody", "html");
 
 /**
  * Creates a `<tfoot>` element with some attributes
@@ -935,7 +883,7 @@ export const createTableBody = createElementX.bind(null, "tbody", "html", tabler
  * @returns {HTMLTableSectionElement}
  * @memberof DOM
  */
-export const createTableFooter = createElementX.bind(null, "tfoot", "html", tablerowContentResolver);
+export const createTableFooter = createElement.bind(null, "tfoot", "html");
 
 /**
  * Creates a `<col>` element with some attributes
@@ -947,8 +895,6 @@ export const createTableFooter = createElementX.bind(null, "tfoot", "html", tabl
  */
 export const createTableColumn = createEmptyElement.bind(null, "col", "span");
 
-const tablecolContentResolver = (item) => isHTMLElement(item, "col") ? item : null;
-
 /**
  * Creates a `<colgroup>` element with some attributes
  * @function createTableColumnGroup
@@ -957,9 +903,7 @@ const tablecolContentResolver = (item) => isHTMLElement(item, "col") ? item : nu
  * @returns {HTMLTableColElement}
  * @memberof DOM
  */
-export const createTableColumnGroup = createElementX.bind(null, "colgroup", "html,span", tablecolContentResolver);
-
-const tablecellContentResolver = (item) => isHTMLElement(item, ["th", "td"]) ? item : createTableCell(null, item);
+export const createTableColumnGroup = createElement.bind(null, "colgroup", "html,span");
 
 /**
  * Creates a `<tr>` element with some attributes
@@ -969,7 +913,7 @@ const tablecellContentResolver = (item) => isHTMLElement(item, ["th", "td"]) ? i
  * @returns {HTMLTableRowElement}
  * @memberof DOM
  */
-export const createTableRow = createElementX.bind(null, "tr", "html", tablecellContentResolver);
+export const createTableRow = createElement.bind(null, "tr", "html");
 
 /**
  * Creates a `<th>` element with some attributes
@@ -999,21 +943,15 @@ export const createTableCell = createElement.bind(null, "td", "colspan,html,rows
  * @memberof DOM
  */
 /* istanbul ignore next */
-function addContent(element, content, resolver) {
+function addContent(element, content) {
     if (!(isNode(content) || isIterable(content))) {
         return element;
     }
 
-    if (isDocumentFragment(content)) {
-        element.appendChild(content);
+    if (isNode(content) || isString(content)) {
+        element.append(content);
     } else {
-        let children = Array.isArray(content) ? content : [content];
-
-        if (isFunction(resolver)) {
-            children = children.map(child => resolver(child));
-        }
-
-        appendChildren(element, children);
+        element.append(...content);
     }
 
     return element;

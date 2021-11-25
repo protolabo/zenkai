@@ -18,5 +18,5 @@ export function boolToInt(value) { return value ? 1 : 0; }
 export function toBoolean(value) {
     var val = valOrDefault(value, false);
 
-    return (isString(val) && val.toLowerCase() === "true") || (Number.isInteger(val) && val === 1) || val === true;
+    return isString(val) && val.toLowerCase() === "true" || Number.isInteger(val) && val === 1 || val === true;
 }

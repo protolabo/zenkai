@@ -2,9 +2,9 @@
 require('jsdom-global')();
 
 const expect = require('chai').expect;
-const { 
-    capitalize, capitalizeFirstLetter, formatCase,
-    camelCase, pascalCase, removeAccents 
+const {
+    capitalize, capitalizeFirstLetter, formatCase, camelCase, pascalCase,
+    isVowel, isConsonant, isUpperCase, isLowerCase, removeAccents
 } = require('@std/std-string.js');
 
 describe('String helpers', function () {
@@ -61,6 +61,122 @@ describe('String helpers', function () {
             values.forEach((val) => {
                 var result = pascalCase(val);
                 expect(result).to.be.equal(val);
+            });
+        });
+    });
+    describe('#isVowel(char)', function () {
+        it("should return true if the char is a vowel", function () {
+            var values = ["a", "e", "i", "o", "u"];
+
+            values.forEach((val) => {
+                var result = isVowel(val);
+
+                expect(result).to.be.true;
+            });
+        });
+        it("should return false if the value is not a char", function () {
+            var values = [100, true, {}, null, undefined, []];
+
+            values.forEach((val) => {
+                var result = isVowel(val);
+
+                expect(result).to.be.false;
+            });
+        });
+        it("should return false if the value is not a vowel", function () {
+            var values = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z", "0", "1", "2", "3"];
+
+            values.forEach((val) => {
+                var result = isVowel(val);
+
+                expect(result).to.be.false;
+            });
+        });
+    });
+    describe('#isConsonant(char)', function () {
+        it("should return true if the char is a consonant", function () {
+            var values = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"];
+
+            values.forEach((val) => {
+                var result = isConsonant(val);
+
+                expect(result).to.be.true;
+            });
+        });
+        it("should return false if the value is not a char", function () {
+            var values = [100, true, {}, null, undefined, []];
+
+            values.forEach((val) => {
+                var result = isConsonant(val);
+
+                expect(result).to.be.false;
+            });
+        });
+        it("should return false if the value is not a consonant", function () {
+            var values = ["a", "e", "i", "o", "u"];
+
+            values.forEach((val) => {
+                var result = isConsonant(val);
+
+                expect(result).to.be.false;
+            });
+        });
+    });
+    describe('#isUpperCase(char)', function () {
+        it("should return true if the char is in uppercase", function () {
+            var values = ["A", "E", "I", "O", "U", "B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"];
+
+            values.forEach((val) => {
+                var result = isUpperCase(val);
+
+                expect(result).to.be.true;
+            });
+        });
+        it("should return false if the value is not a char", function () {
+            var values = [100, true, {}, null, undefined, []];
+
+            values.forEach((val) => {
+                var result = isUpperCase(val);
+
+                expect(result).to.be.false;
+            });
+        });
+        it("should return false if the value is not in uppercase", function () {
+            var values = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+
+            values.forEach((val) => {
+                var result = isUpperCase(val);
+
+                expect(result).to.be.false;
+            });
+        });
+    });
+    describe('#isLowerCase(char)', function () {
+        it("should return true if the char is in lowercase", function () {
+            var values = ["a", "e", "i", "o", "u", "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"];
+
+            values.forEach((val) => {
+                var result = isLowerCase(val);
+
+                expect(result).to.be.true;
+            });
+        });
+        it("should return false if the value is not a char", function () {
+            var values = [100, true, {}, null, undefined, []];
+
+            values.forEach((val) => {
+                var result = isLowerCase(val);
+
+                expect(result).to.be.false;
+            });
+        });
+        it("should return false if the value is not in lowercase", function () {
+            var values = ["B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+
+            values.forEach((val) => {
+                var result = isLowerCase(val);
+
+                expect(result).to.be.false;
             });
         });
     });

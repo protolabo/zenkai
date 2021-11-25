@@ -18,7 +18,9 @@ function buildExport(input, output, _minfied) {
         output: output,
         plugins: null
     };
-    out.plugins = minfied ? [babel({ exclude: 'node_modules/**' }), uglify()] : [babel({ exclude: 'node_modules/**' })];
+    out.plugins = minfied ?
+        [babel({ exclude: 'node_modules/**' }), uglify()] :
+        [babel({ exclude: 'node_modules/**' })];
 
     return out;
 }
@@ -29,12 +31,12 @@ export default [
     buildExport('./src/index.js', buildOutput('zenkai.js', 'zenkai', { sourcemap: false })),
     buildExport('./src/index.js', buildOutput('zenkai.esm.js', 'zenkai', { sourcemap: false, format: 'esm' })),
     // UI bundle
-    buildExport('./src/ui/index.js', buildOutput('zenkai-ui.min.js', 'zui')),
-    buildExport('./src/ui/index.js', buildOutput('zenkai-ui.js', 'zui', { sourcemap: false })),
+    buildExport('./src/ui/index.js', buildOutput('zenkai-ui.min.js', 'zenui')),
+    buildExport('./src/ui/index.js', buildOutput('zenkai-ui.js', 'zenui', { sourcemap: false })),
     // DOM bundle
-    buildExport('./src/dom/index.js', buildOutput('zenkai-dom.min.js', 'zdom')),
-    buildExport('./src/dom/index.js', buildOutput('zenkai-dom.js', 'zdom', { sourcemap: false })),
+    buildExport('./src/dom/index.js', buildOutput('zenkai-dom.min.js', 'zendom')),
+    buildExport('./src/dom/index.js', buildOutput('zenkai-dom.js', 'zendom', { sourcemap: false })),
     // STD bundle
-    buildExport('./src/std/index.js', buildOutput('zenkai-std.min.js', 'zstd')),
-    buildExport('./src/std/index.js', buildOutput('zenkai-std.js', 'zstd', { sourcemap: false }), false)
+    buildExport('./src/std/index.js', buildOutput('zenkai-std.min.js', 'zenstd')),
+    buildExport('./src/std/index.js', buildOutput('zenkai-std.js', 'zenstd', { sourcemap: false }), false)
 ];

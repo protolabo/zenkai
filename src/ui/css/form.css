@@ -34,58 +34,8 @@ label[data-type=placeholder] {
 
 select[data-custom="select"] { visibility: hidden; }
 
-.select-container {
-    position: relative;
-    display: inline-block;
-    padding: 5px 15px 1px 2px;
-    border-bottom: 1px solid #999;;
-}
-    .select-container:after {
-        content: '▼';
-        position: absolute;
-        color: #333;
-        top: 9px; right: 0;
-        font-size: 0.8em;
-    }
-
-.label-select {
-    position: relative;
-    display: inline-block;
-    padding-right: 20px;
-    background: transparent;
-    outline: none;
-    border: 0 none; border-bottom: 1px solid #808080;
-}
-    .label-select:focus { 
-        border-color: #16ABC8;
-        box-shadow: 0 1px 0 #16ABC8;
-    }
-    .label-select:before { 
-        content: "▼";
-        position: absolute;
-        top: 0; right: 5px;
-        font-size: 0.8em;
-        transform: scaleX(1.5);
-    }
 
 .label-float { font-size: 1.2em; }
-
-.tag {
-    position: relative;
-    display: inline-block;
-    padding: 3px 20px 2px 5px;
-    max-width: 100px;
-    box-sizing: border-box;
-    border-radius: 2px;
-    background-color: #e0e0e0;
-}
-    .tag:after {
-        content: '✖';
-        position: absolute;
-        top: 2px; right: 5px;
-        font-size: 0.9em; font-weight: 300;
-    }
-    .tag:not(:last-child) { margin-right: 5px; }
 
 .btn-modal {
     font-size: 1.6em;
@@ -93,54 +43,57 @@ select[data-custom="select"] { visibility: hidden; }
 }
 
 /* Form component: Switch */
-input.switch { display: none; }
+.zenui-switch-input { display: none; }
 
-.switch-label { 
-    position: relative; z-index: 5;    
-    padding-right: 60px;
+.zenui-switch { 
+    position: relative;
+    padding-top: 2px; padding-bottom: 2px; padding-right: 50px;
+    z-index: 5;
 }
-    .switch-label:before,
-    .switch-label:after {
+    .zenui-switch:before,
+    .zenui-switch:after {
         content: "";
         position: absolute;
     }
-    .switch-label:before {
-        top: calc(50% - 11px);
-        right: 28px;
-        width: 22px; 
-        height: 22px;
+    .zenui-switch:before {
+        top: calc(50% - 12px); right: 0;
+        width: 24px; 
+        height: 24px;
         border-radius: 50%;
-        background-color: #f9f9f9;
-        box-shadow: 0 1px 2px #777, 0 -1px #d5d5d5;
+        background-color: #555;
+        box-shadow: 0 1px 2px #999, 0 -1px #d5d5d5;
         z-index: -1;
+        transform: translateX(-18px);
         transition: transform .2s;
     }
-    .switch-label:after {
+    .zenui-switch:after {
         top: calc(50% - 8px); 
         right: 0;
-        height: 15px;
-        width: 50px;
+        height: 16px;
+        width: 42px;
         border-radius: 180px;
-        background-color: #c0c0c0;
+        background-color: #d5d5d5;
         z-index: -2;
         transition: background-color .2s .1s
     }
 
-    .switch-label[data-state="on"]:before { 
-        background-color: #fff; 
+    .zenui-switch--checked:before { 
+        background-color: royalblue; 
         box-shadow: 0 2px 3px #999, 0 -1px #d5d5d5;
-        transform: translateX(28px) scale(1.02); 
-    }
-    .switch-label[data-state="on"]:after { 
-        content:attr(data-on-message); 
+        transform: translateX(0) scale(1.02); 
     }
 
 /* Form component: Selector */
-.selector { display: flex; border: 1px solid; border-radius: 5px; }
+.selector { 
+    display: flex; 
+    border-radius: 5px; 
+}
 
-    .selector-item { flex-grow: 1; padding: 5px 1%; text-align: center; }
-        .selector-item:not(:last-child) { border-right: 1px solid; }
-        .selector-item[data-state="on"] { color: #fff; }
+    .selector-item { 
+        flex-grow: 1; 
+        padding: 5px 1%; 
+        text-align: center; 
+    }
 
     .selector input { display: none; }
 

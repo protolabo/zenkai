@@ -1,6 +1,5 @@
 /** @namespace DOM */
 
-export * from './dom-append.js';
 export * from './dom-create.js';
 export * from './dom-parse.js';
 export * from './dom-query.js';

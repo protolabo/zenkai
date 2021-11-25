@@ -1,4 +1,4 @@
-var zstd = (function (exports) {
+var zenstd = (function (exports) {
   'use strict';
 
   function _typeof(obj) {
@@ -274,166 +274,6 @@ var zstd = (function (exports) {
     return array[0];
   }
 
-  var HttpResponse = {
-    // Successful
-    OK: 200,
-    Created: 201,
-    Accepted: 202,
-    NoContent: 204,
-    // Client Error
-    BadRequest: 400,
-    Unauthorized: 401,
-    Forbidden: 403,
-    NotFound: 404,
-    MethodNotAllowed: 405,
-    NotAcceptable: 406,
-    UnsupportedMediaType: 415,
-    // Server Error
-    InternalServerError: 500,
-    NotImplemented: 501,
-    BadGateway: 502,
-    ServiceUnavaible: 503,
-    GatewayTimeout: 504
-  };
-  var State = {
-    OPENED: 1,
-    RECEIVED: 2,
-    LOADING: 3,
-    DONE: 4
-  };
-  /**
-   * An XHR resposne
-   * @private
-   * @typedef {Object} xhrResponse
-   * @property {number} status - The response status code
-   * @property {string} message - The response content
-   */
-
-  /**
-   * @callback xhrCallback
-   * @param  {xhrResponse} response - The XHR response object
-   * @private
-   */
-
-  /**
-   * This function creates and arranges the XMLHttpRequest object
-   * @param {('GET'|'POST'|'PUT'|'DELETE')} type The HTTP method
-   * @param {string} url The URL to send the request 
-   * @param {*} successPred The success condition
-   * @param {xhrCallback} successCb A callback function to handle a successful request
-   * @param {xhrCallback} passCb A callback function to handle a valid request
-   * @param {xhrCallback} failureCb A callback function to handle a failed request
-   * @private
-   */
-
-  var xhrHandler = function xhrHandler(type, url, successPred, successCb, failureCb, passCb) {
-    var xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function () {
-      var callback;
-
-      if (xhr.readyState === State.DONE) {
-        var response = createResponse(xhr.status, xhr.responseText);
-
-        if (successPred(xhr.status)) {
-          callback = successCb;
-        } else {
-          callback = failureCb;
-
-          if (xhr.status >= 200 && xhr.status < 300 && isFunction(passCb)) {
-            callback = passCb;
-          }
-        }
-
-        if (isFunction(callback)) {
-          callback(response);
-        }
-      }
-    };
-
-    xhr.open(type, url, true);
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    return xhr;
-  };
-
-  function createResponse(status, content) {
-    return {
-      status: status,
-      message: content
-    };
-  }
-  /**
-   * Sends a GET request
-   * @param {string} url The URL to send the request 
-   * @param {xhrCallback} [success] A callback function to handle a successful request
-   * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof STD
-   */
-
-
-  function GET(url, success, fail, options) {
-    options = valOrDefault(options, {});
-    var _successPred = options.successPred;
-    var successPred = isFunction(_successPred) ? _successPred : function (status) {
-      return status === HttpResponse.OK;
-    };
-    var xhr = xhrHandler('GET', url, successPred, success, fail, options.pass);
-    xhr.send();
-  }
-  /**
-   * Sends a POST request
-   * @param {string} url The URL to send the request 
-   * @param {*} data The data to be sent in the request
-   * @param {xhrCallback} [success] A callback function to handle a successful request
-   * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof STD
-   */
-
-  function POST(url, data, success, fail, options) {
-    options = valOrDefault(options, {});
-    var _successPred = options.successPred;
-    var successPred = isFunction(_successPred) ? _successPred : function (status) {
-      return [HttpResponse.OK, HttpResponse.Created].includes(status);
-    };
-    var xhr = xhrHandler('POST', url, successPred, success, fail, options.pass);
-    xhr.send(data);
-  }
-  /**
-   * Sends a PUT request
-   * @param {string} url The URL to send the request 
-   * @param {*} data The data to be sent in the request
-   * @param {xhrCallback} [success] A callback function to handle a successful request
-   * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof STD
-   */
-
-  function PUT(url, data, success, fail, options) {
-    options = valOrDefault(options, {});
-    var _successPred = options.successPred;
-    var successPred = isFunction(_successPred) ? _successPred : function (status) {
-      return [HttpResponse.OK, HttpResponse.NoContent].includes(status);
-    };
-    var xhr = xhrHandler('PUT', url, successPred, success, fail, options.pass);
-    xhr.send(data);
-  }
-  /**
-   * Sends a DELETE request
-   * @param {string} url The URL to send the request 
-   * @param {*} data The data to be sent in the request
-   * @param {xhrCallback} [success] A callback function to handle a successful request
-   * @param {xhrCallback} [fail] A callback function to handle a failed request
-   * @memberof STD
-   */
-
-  function DELETE(url, data, success, fail, options) {
-    options = valOrDefault(options, {});
-    var _successPred = options.successPred;
-    var successPred = isFunction(_successPred) ? _successPred : function (status) {
-      return [HttpResponse.OK, HttpResponse.Accepted, HttpResponse.NoContent].includes(status);
-    };
-    var xhr = xhrHandler('DELETE', url, successPred, success, fail, options.pass);
-    xhr.send(data);
-  }
   /**
    * Creates a fetch request with a time limit to resolve the request
    * @param {URI} uri 
@@ -441,7 +281,6 @@ var zstd = (function (exports) {
    * @param {number} time 
    * @memberof STD
    */
-
   function fetchWithTimeout(uri) {
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5000;
@@ -751,6 +590,58 @@ var zstd = (function (exports) {
 
     return str.replace(/[àâäæ]/gi, 'a').replace(/[ç]/gi, 'c').replace(/[éèê]/gi, 'e').replace(/[îï]/gi, 'i').replace(/[ôœ]/gi, 'o').replace(/[ùûü]/gi, 'u');
   }
+  /**
+   * Verifies that a character is a vowel
+   * @param {string} char String character
+   */
+
+  function isVowel(_char) {
+    if (!isString(_char)) {
+      return false;
+    }
+
+    return "aeiou".includes(_char.toLowerCase());
+  }
+  /**
+   * Verifies that a character is a consonant
+   * @param {string} char String character
+   */
+
+  function isConsonant(_char2) {
+    if (!isString(_char2)) {
+      return false;
+    }
+
+    return "bcdfghjklmnpqrstvwxyz".includes(_char2.toLowerCase());
+  }
+  /**
+   * Verifies that a character is uppercase
+   * @param {string} char String character
+   */
+
+  function isUpperCase(_char3) {
+    if (!isString(_char3)) {
+      return false;
+    }
+
+    var charCode = _char3.charCodeAt(0);
+
+    return charCode >= 65 && charCode <= 90;
+  }
+  /**
+   * Verifies that a character is lowercase
+   * @param {string} char String character
+   */
+
+  function isLowerCase(_char4) {
+    if (!isString(_char4)) {
+      return false;
+    }
+
+    var charCode = _char4.charCodeAt(0);
+
+    return charCode >= 97 && charCode <= 122;
+  }
 
   /**
    * Converts the received boolean value to an integer
@@ -1036,10 +927,6 @@ var zstd = (function (exports) {
     return me;
   }
 
-  exports.DELETE = DELETE;
-  exports.GET = GET;
-  exports.POST = POST;
-  exports.PUT = PUT;
   exports.addPath = addPath;
   exports.all = all;
   exports.assert = assert;
@@ -1059,17 +946,21 @@ var zstd = (function (exports) {
   exports.hasOwn = hasOwn;
   exports.insert = insert;
   exports.isCollection = isCollection;
+  exports.isConsonant = isConsonant;
   exports.isDate = isDate;
   exports.isDerivedOf = isDerivedOf;
   exports.isEmpty = isEmpty;
   exports.isFunction = isFunction;
   exports.isIterable = isIterable;
+  exports.isLowerCase = isLowerCase;
   exports.isNull = isNull;
   exports.isNullOrUndefined = isNullOrUndefined;
   exports.isNullOrWhitespace = isNullOrWhitespace;
   exports.isObject = isObject;
   exports.isString = isString;
   exports.isUndefined = isUndefined;
+  exports.isUpperCase = isUpperCase;
+  exports.isVowel = isVowel;
   exports.last = last;
   exports.lone = lone;
   exports.no = no;

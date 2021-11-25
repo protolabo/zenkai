@@ -41,8 +41,8 @@
     function activateComponents(container) {
         ken.floatingLabel(container);
         ken.inputCounter(container);
-        ken.Selector(container);
-        ken.Switch(container);
+        ken.SelectorManager.activate(container);
+        ken.SwitchManager.activate(container);
         ken.Collapsible(container);
         ken.Accordion(container);
     }
@@ -87,7 +87,7 @@
                 }));
             }
         }
-        ken.appendChildren(output, attributes);
+        output.append(...attributes);
 
         return output;
     }

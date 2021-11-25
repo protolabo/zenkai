@@ -1,7 +1,7 @@
 import { getElement, getElements, isHTMLElement, findAncestor } from '@dom/index.js';
 import { isNullOrUndefined, isFunction, valOrDefault, hasOwn } from '@std/index.js';
 import { show, hide } from './utils.js';
-import { getComponentElement } from './form/utils.js';
+import { getComponents } from './form/utils.js';
 
 const ATTRIBUTE = 'collapsible';
 
@@ -220,7 +220,7 @@ const AccordionFactory = {
  * @param {Object} [options]
  */
 export function Collapsible(container, _options) {
-    var collapsibleElements = getComponentElement(container, isCollapsible, '[data-collapsible]');
+    var collapsibleElements = getComponents(container, isCollapsible, '[data-collapsible]');
     var options = valOrDefault(_options, {});
 
     if (isNullOrUndefined(collapsibleElements)) {
@@ -248,7 +248,7 @@ export function Collapsible(container, _options) {
  * @param {Object} [_options]
  */
 export function Accordion(container, _options) {
-    var accordionElements = getComponentElement(container, isAccordion, '[data-boost=accordion]');
+    var accordionElements = getComponents(container, isAccordion, '[data-boost=accordion]');
     var options = valOrDefault(_options, {});
 
     if (isNullOrUndefined(accordionElements)) {
