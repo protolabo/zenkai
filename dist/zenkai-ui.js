@@ -3273,7 +3273,7 @@ var zenui = (function (exports) {
    */
 
   function Collapsible(container, _options) {
-    var collapsibleElements = getComponents(container, isCollapsible);
+    var collapsibleElements = isCollapsible(container) ? [container] : getComponents('[data-collapsible]', container);
     var options = valOrDefault(_options, {});
 
     if (isNullOrUndefined(collapsibleElements)) {
@@ -3302,7 +3302,7 @@ var zenui = (function (exports) {
    */
 
   function Accordion(container, _options) {
-    var accordionElements = getComponents(container, isAccordion);
+    var accordionElements = isAccordion(container) ? [container] : getComponents('[data-boost=accordion]', container);
     var options = valOrDefault(_options, {});
 
     if (isNullOrUndefined(accordionElements)) {

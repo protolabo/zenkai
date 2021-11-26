@@ -220,7 +220,7 @@ const AccordionFactory = {
  * @param {Object} [options]
  */
 export function Collapsible(container, _options) {
-    var collapsibleElements = getComponents(container, isCollapsible, '[data-collapsible]');
+    var collapsibleElements = isCollapsible(container) ? [container] : getComponents('[data-collapsible]', container);
     var options = valOrDefault(_options, {});
 
     if (isNullOrUndefined(collapsibleElements)) {
@@ -248,7 +248,7 @@ export function Collapsible(container, _options) {
  * @param {Object} [_options]
  */
 export function Accordion(container, _options) {
-    var accordionElements = getComponents(container, isAccordion, '[data-boost=accordion]');
+    var accordionElements = isAccordion(container) ? [container] : getComponents('[data-boost=accordion]', container);
     var options = valOrDefault(_options, {});
 
     if (isNullOrUndefined(accordionElements)) {
