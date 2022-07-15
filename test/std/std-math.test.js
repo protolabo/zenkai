@@ -9,6 +9,7 @@ describe('Math helpers', function () {
             var min = 1;
             var max = 10;
             var result = random(min, max);
+            
             expect(result).to.be.within(min, max);
         });
         it("should return a value between 0 and the passed value if no max is provided", function () {

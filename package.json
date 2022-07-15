@@ -3,7 +3,7 @@
   "version": "0.10.2",
   "description": "Data types helpers, DOM manipulations and UI components",
   "main": "dist/zenkai.esm.js",
-  "module": "src/index.js",
+  "module": "dist/zenkai.esm.js",
   "scripts": {
     "prebuild": "rimraf dist/*",
     "build": "npm-run-all build:*",
