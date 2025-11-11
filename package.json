@@ -1,28 +1,19 @@
 {
   "name": "zenkai",
-  "version": "0.10.2",
-  "description": "Data types helpers, DOM manipulations and UI components",
+  "version": "0.11.0",
+  "description": "Data types helpers and DOM manipulations",
   "main": "dist/zenkai.esm.js",
   "module": "dist/zenkai.esm.js",
   "scripts": {
-    "prebuild": "rimraf dist/*",
-    "build": "npm-run-all build:*",
-    "build:css": "node scripts/build.js",
-    "build:js": "cross-env NODE_ENV=prod rollup -c",
-
-    "watch": "npm-run-all --parallel watch:*",
-    "watch:css": "onchange \"src/**/*.css\" -- npm run build:css",
-    "watch:js": "onchange \"src/**/*.js\" -- npm run build:js",
-
+    "prebuild": "rimraf -g dist/*",
+    "build": "cross-env NODE_ENV=prod rollup -c",
     "docs": "npm-run-all docs:*",
     "docs:utils": "documentation build src/utils/index.js -f html -o docs/utils",
     "docs:dom": "documentation build src/dom/index.js -f html -o docs/dom",
     "docs:std": "documentation build src/std/index.js -f html -o docs/std",
-
     "test": "cross-env NODE_ENV=test nyc mocha test/**/*.test.js --require @babel/register",
     "test:dom": "cross-env NODE_ENV=test nyc mocha test/dom/**/*.test.js --require @babel/register",
     "test:std": "cross-env NODE_ENV=test nyc mocha test/std/**/*.test.js --require @babel/register",
-    
     "report-coverage": "nyc report --reporter=cobertura"
   },
   "repository": {
@@ -43,25 +34,23 @@
   },
   "homepage": "https://protolabo.github.io/zenkai/index.html",
   "devDependencies": {
-    "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.10.2",
-    "@babel/preset-env": "^7.10.2",
-    "@babel/register": "^7.10.1",
-    "babel-plugin-module-resolver": "^4.0.0",
-    "chai": "^4.2.0",
-    "clean-css": "^4.2.3",
-    "coffeescript": "^2.5.1",
-    "cross-env": "^7.0.2",
-    "jsdom": "^16.2.2",
+    "@babel/cli": "^7.21.5",
+    "@babel/core": "^7.21.8",
+    "@babel/preset-env": "^7.21.5",
+    "@babel/register": "^7.21.0",
+    "@rollup/plugin-terser": "^0.4.3",
+    "babel-plugin-module-resolver": "^5.0.0",
+    "chai": "^4.3.7",
+    "clean-css": "^5.3.2",
+    "coffeescript": "^2.7.0",
+    "cross-env": "^7.0.3",
+    "jsdom": "^22.0.0",
     "jsdom-global": "^3.0.2",
-    "mocha": "^7.2.0",
+    "mocha": "^10.2.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
-    "onchange": "^7.0.2",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.13.1",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-uglify": "^6.0.4"
-  },
-  "dependencies": {}
+    "onchange": "^7.1.0",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.23.0"
+  }
 }

@@ -1,0 +1,98 @@
+{
+  "name": "@zenkai/std",
+  "version": "1.0.0",
+  "description": "A comprehensive, type-safe utility library for common programming tasks",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./std-array": {
+      "import": "./dist/std-array.js",
+      "types": "./dist/std-array.d.ts"
+    },
+    "./std-convert": {
+      "import": "./dist/std-convert.js",
+      "types": "./dist/std-convert.d.ts"
+    },
+    "./std-datetime": {
+      "import": "./dist/std-datetime.js",
+      "types": "./dist/std-datetime.d.ts"
+    },
+    "./std-logic": {
+      "import": "./dist/std-logic.js",
+      "types": "./dist/std-logic.d.ts"
+    },
+    "./std-math": {
+      "import": "./dist/std-math.js",
+      "types": "./dist/std-math.d.ts"
+    },
+    "./std-object": {
+      "import": "./dist/std-object.js",
+      "types": "./dist/std-object.d.ts"
+    },
+    "./std-parse": {
+      "import": "./dist/std-parse.js",
+      "types": "./dist/std-parse.d.ts"
+    },
+    "./std-path": {
+      "import": "./dist/std-path.js",
+      "types": "./dist/std-path.d.ts"
+    },
+    "./std-string": {
+      "import": "./dist/std-string.js",
+      "types": "./dist/std-string.d.ts"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.ts\"",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "utility",
+    "utils",
+    "helpers",
+    "typescript",
+    "lodash",
+    "string",
+    "array",
+    "object",
+    "date",
+    "type-checking"
+  ],
+  "author": "Protolabo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/protolabo/zenkai"
+  },
+  "bugs": {
+    "url": "https://github.com/protolabo/zenkai/issues"
+  },
+  "homepage": "https://github.com/protolabo/zenkai/std#readme",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

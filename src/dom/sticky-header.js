@@ -16,7 +16,7 @@ function stickyHeader(header, target) {
         }
 
         timeout = window.requestAnimationFrame(function () {
-            if (window.pageYOffset >= sticky) {
+            if (window.scrollY >= sticky) {
                 header.classList.add(css_sticky);
             } else {
                 header.classList.remove(css_sticky);

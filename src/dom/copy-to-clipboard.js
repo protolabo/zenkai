@@ -1,5 +1,4 @@
 import { isNullOrUndefined } from '@std/index.js';
-import { createTextArea } from './dom-create.js';
 import { isHTMLElement } from './dom-parse.js';
 
 /**
@@ -8,24 +7,20 @@ import { isHTMLElement } from './dom-parse.js';
  * @returns {boolean} Value indicating whether the content has been succesfully copied to the clipboard
  * @memberof DOM
  */
-export function copytoClipboard(value) {
+export function copyToClipboard(value) {
     if (isNullOrUndefined(value)) {
         return false;
     }
 
-    var element = createTextArea({
-        value: isHTMLElement(value) ? value.textContent : value.toString(),
-        readonly: true
+    let text = isHTMLElement(value) ? value.textContent : value.toString();
+    
+    navigator.clipboard.writeText(text)
+    .then(() => {
+        console.log('Text copied to clipboard successfully:', text);
+    })
+    .catch(err => {
+        console.error('Unable to copy text to clipboard:', err);
     });
-
-    if(!isHTMLElement(element)) {
-        return false;
-    }
-
-    document.body.appendChild(element);
-    element.select();
-    document.execCommand('copy');
-    element.remove();
 
     return true;
 }

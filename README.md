@@ -4,7 +4,7 @@
 
 Boost your productivity.
 
-**Please, be informed that Zenkai is currently in alpha. Proceed with caution.**
+**Please, be informed that Zenkai is currently in beta. Proceed with caution.**
 
 ## Libraries
 
@@ -19,18 +19,6 @@ The Document library (DOM) primary goal is to provide a richer and more direct A
 This library enforces structure validation to stay conform to the web standards and as a bonus always yields valid elements.
 
 [User guide](docs/guide-dom.md)
-
-### UI
-
-The User Interface library (UI) offers a collection of modular styled components to create a better user experience.
-They are highly configurable and can be integrated to any design or theme of your choice. The components include:
-
-- Floating Label
-- Input counter
-- Selector
-- Switch
-- Collapsible
-- Accordion
 
 ## Documentation
 

@@ -228,6 +228,22 @@ export function addAttributes(element, attribute, validAttributes) {
 }
 
 /**
+ * Object equality
+ * @param {HTMLOptionElement} option 
+ * @param {*} obj 
+ * @private
+ */
+const objectEq = (option, obj) => option.value === obj.value || option.text === obj.text;
+
+/**
+ * String equality
+ * @param {HTMLOptionElement} option 
+ * @param {string} value 
+ * @private
+ */
+const stringEq = (option, value) => option.value === value;
+
+/**
  * Changes the selected option of a `<select>` element
  * @param {!HTMLSelectElement} select
  * @param {!string} optValue option value to select
@@ -242,20 +258,6 @@ export function changeSelectedValue(select, optValue) {
     if (!(isString(optValue) || isObject(optValue))) {
         throw new TypeError("Bad argument: The given 'optValue' argument is a null or undefined");
     }
-
-    /**
-     * Object equality
-     * @param {HTMLOptionElement} option 
-     * @param {*} obj 
-     */
-    const objectEq = (option, obj) => option.value === obj.value || option.text === obj.text;
-
-    /**
-     * String equality
-     * @param {HTMLOptionElement} option 
-     * @param {string} obj 
-     */
-    const stringEq = (option, value) => option.value === value;
 
     const eqHandler = isString(optValue) ? stringEq : objectEq;
 

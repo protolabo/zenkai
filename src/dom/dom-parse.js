@@ -171,36 +171,3 @@ export const htmlToElement = _htmlToElement.bind(null, 'firstChild');
  */
 export const htmlToElements = _htmlToElement.bind(null, 'childNodes');
 
-/**
- * Verifies that an element is visible
- * @param {!HTMLElement} element 
- * @returns {boolean}
- * @memberof DOM
- */
-export function isInViewport(element) {
-    if (!isHTMLElement(element)) {
-        throw new TypeError("Bad argument: The given 'element' is not a valid HTML Element");
-    }
-
-    const { top, right, bottom, left } = element.getBoundingClientRect();
-
-    return top >= 0 && left >= 0 && bottom <= windowHeight() && right <= windowWidth();
-}
-
-/**
- * Verifies that an element is displayed inside a target element
- * @param {!HTMLElement} element 
- * @param {!HTMLElement} target
- * @returns {boolean}
- * @memberof DOM
- */
-export function isInElement(element, target) {
-    if (!all([element, target], isHTMLElement)) {
-        throw new TypeError("Bad argument: The given 'element' is not a valid HTML Element");
-    }
-
-    const { top: top1, right: right1, bottom: bottom1, left: left1 } = element.getBoundingClientRect();
-    const { top: top2, right: right2, bottom: bottom2, left: left2 } = target.getBoundingClientRect();
-
-    return all([[top2, top1], [left2, left1], [right1, right2], [bottom1, bottom2]], (inner, outer) => inner <= outer);
-}
