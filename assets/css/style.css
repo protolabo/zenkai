@@ -1,7 +1,0 @@
-.selector-item[data-checked=on] {
-    background-color: #4169e1;
-}
-
-.selector-item:not(:last-child) {
-    border-color: #4169e1;
-}

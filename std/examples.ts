@@ -1,7 +1,7 @@
 /**
- * STD Library - Usage Examples
+ * @protolabo/zenjs Library - Usage Examples
  * 
- * This file demonstrates common use cases for the STD utility library
+ * This file demonstrates common use cases for the @protolabo/zenjs utility library
  */
 
 import {
@@ -17,9 +17,7 @@ import {
     cloneObject, findByPath,
     // Date utilities
     formatDate, shortDate, compareTime,
-    // Math utilities
-    random
-} from './index.js';
+} from './src';
 
 // ============================================
 // 1. ARRAY UTILITIES
@@ -133,15 +131,6 @@ console.log('Short date:', shortDate(now));               // "2025-11-11"
 console.log('10:30 vs 09:45:', compareTime("10:30", "09:45"));  // 1 (later)
 console.log('10:30 vs 10:30:', compareTime("10:30", "10:30"));  // 0 (equal)
 console.log('10:30 vs 11:00:', compareTime("10:30", "11:00"));  // -1 (earlier)
-
-// ============================================
-// 7. MATH UTILITIES
-// ============================================
-
-// Random numbers
-console.log('Random 0-10:', random(10));
-console.log('Random 5-10:', random(5, 10));
-console.log('Secure random:', random(1, 100, true));
 
 // ============================================
 // 8. REAL-WORLD EXAMPLE: User Validation

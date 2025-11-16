@@ -1,0 +1,88 @@
+{
+  "name": "@protolabo/zendom",
+  "version": "0.1.0",
+  "description": "A lightweight TypeScript DOM manipulation library with type-safe element creation, querying, and spatial navigation",
+  "type": "module",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./dom-create": {
+      "import": "./dist/dom-create.js",
+      "types": "./dist/dom-create.d.ts"
+    },
+    "./dom-parse": {
+      "import": "./dist/dom-parse.js",
+      "types": "./dist/dom-parse.d.ts"
+    },
+    "./dom-query": {
+      "import": "./dist/dom-query.js",
+      "types": "./dist/dom-query.d.ts"
+    },
+    "./dom-remove": {
+      "import": "./dist/dom-remove.js",
+      "types": "./dist/dom-remove.d.ts"
+    },
+    "./dom-view": {
+      "import": "./dist/dom-view.js",
+      "types": "./dist/dom-view.d.ts"
+    },
+    "./dom-manip": {
+      "import": "./dist/dom-manip.js",
+      "types": "./dist/dom-manip.d.ts"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.ts\"",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "utility",
+    "dom",
+    "helpers",
+    "typescript",
+    "jquery"
+  ],
+  "author": "Protolabo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/protolabo/zenkai"
+  },
+  "bugs": {
+    "url": "https://github.com/protolabo/zenkai/issues"
+  },
+  "homepage": "https://github.com/protolabo/zenkai/dom#readme",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitest/coverage-v8": "^4.0.8",
+    "@vitest/ui": "^4.0.8",
+    "eslint": "^8.0.0",
+    "happy-dom": "^20.0.10",
+    "jsdom": "^27.2.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.8"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@protolabo/zenjs": "^0.2.1"
+  }
+}

@@ -1,11 +1,11 @@
 # Quick Start Guide
 
-Get up and running with the STD utility library in minutes.
+Get up and running with the @protolabo/zenjs utility library in minutes.
 
 ## 📥 Installation
 
 ```bash
-npm install @zenkai/std
+npm install @protolabo/zenjs
 ```
 
 ## 🚀 Basic Usage
@@ -13,7 +13,7 @@ npm install @zenkai/std
 ### Import Everything
 
 ```typescript
-import * as STD from '@zenkai/std';
+import * as STD from '@protolabo/zenjs';
 
 STD.capitalize("hello world");  // "Hello World"
 STD.random(1, 10);              // Random number 1-10
@@ -23,7 +23,7 @@ STD.last([1, 2, 3]);            // 3
 ### Import Specific Functions (Recommended)
 
 ```typescript
-import { capitalize, random, last } from '@zenkai/std';
+import { capitalize, random, last } from '@protolabo/zenjs';
 
 capitalize("hello world");  // "Hello World"
 random(1, 10);              // Random number 1-10
@@ -33,9 +33,9 @@ last([1, 2, 3]);            // 3
 ### Import by Module (Best for Tree-Shaking)
 
 ```typescript
-import { capitalize } from '@zenkai/std/std-string';
-import { random } from '@zenkai/std/std-math';
-import { last } from '@zenkai/std/std-array';
+import { capitalize } from '@protolabo/zenjs/std-string';
+import { random } from '@protolabo/zenjs/std-math';
+import { last } from '@protolabo/zenjs/std-array';
 ```
 
 ## 💡 Common Use Cases
@@ -43,7 +43,7 @@ import { last } from '@zenkai/std/std-array';
 ### 1. Type Checking
 
 ```typescript
-import { isString, isNullOrUndefined, isEmpty } from '@zenkai/std';
+import { isString, isNullOrUndefined, isEmpty } from '@protolabo/zenjs';
 
 function processInput(value: unknown) {
     if (isNullOrUndefined(value)) {
@@ -61,7 +61,7 @@ function processInput(value: unknown) {
 ### 2. String Formatting
 
 ```typescript
-import { capitalize, camelCase, removeAccents } from '@zenkai/std';
+import { capitalize, camelCase, removeAccents } from '@protolabo/zenjs';
 
 // User input normalization
 const input = "café-résumé";
@@ -75,7 +75,7 @@ const displayName = capitalize("john doe");  // "John Doe"
 ### 3. Array Operations
 
 ```typescript
-import { first, last, insert } from '@zenkai/std';
+import { first, last, insert } from '@protolabo/zenjs';
 
 const items = [1, 2, 3, 4, 5];
 
@@ -91,7 +91,7 @@ insert(newItems, 2, 99);  // [1, 2, 99, 3, 4, 5]
 ### 4. Object Manipulation
 
 ```typescript
-import { cloneObject, findByPath } from '@zenkai/std';
+import { cloneObject, findByPath } from '@protolabo/zenjs';
 
 const user = {
     name: "John",
@@ -109,7 +109,7 @@ const city = findByPath<string>(user, 'address.city') ?? 'Unknown';
 ### 5. Validation Logic
 
 ```typescript
-import { all, some, one } from '@zenkai/std';
+import { all, some, one } from '@protolabo/zenjs';
 
 const ages = [15, 18, 21, 25];
 const isAdult = (age: number) => age >= 18;
@@ -130,7 +130,7 @@ if (one(ages, (age) => age < 18)) {
 ### 6. Date Formatting
 
 ```typescript
-import { formatDate, shortDate, compareTime } from '@zenkai/std';
+import { formatDate, shortDate, compareTime } from '@protolabo/zenjs';
 
 const now = new Date();
 
@@ -159,7 +159,7 @@ import {
     all,
     findByPath,
     shortDate
-} from '@zenkai/std';
+} from '@protolabo/zenjs';
 
 interface UserData {
     firstName?: string;
@@ -285,7 +285,7 @@ console.log(result);
 
 2. **Leverage tree-shaking** by importing specific modules:
    ```typescript
-   import { capitalize } from '@zenkai/std/std-string';
+   import { capitalize } from '@protolabo/zenjs/std-string';
    ```
 
 3. **Handle undefined returns**:

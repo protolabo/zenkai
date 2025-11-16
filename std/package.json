@@ -1,6 +1,6 @@
 {
-  "name": "@zenkai/std",
-  "version": "1.0.0",
+  "name": "@protolabo/zenjs",
+  "version": "0.2.1",
   "description": "A comprehensive, type-safe utility library for common programming tasks",
   "type": "module",
   "main": "./dist/index.js",
