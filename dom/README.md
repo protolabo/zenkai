@@ -318,26 +318,6 @@ import { getElement } from './dom-query.js';
 import { getElement } from '@yourorg/dom-utils';
 ```
 
-## 🐛 Fixed Issues
-
-| Issue | Severity | Status |
-|-------|----------|--------|
-| Missing imports (isHidden, pixelToNumber, etc.) | 🔴 Critical | ✅ Fixed |
-| Hardcoded class checks ("badge") | 🟡 Medium | ✅ Fixed |
-| Floating-point precision issues | 🟡 Medium | ✅ Fixed |
-| Missing null checks | 🟢 Low | ✅ Fixed |
-
-## 📊 Comparison with Similar Libraries
-
-| Feature | This Library | jQuery | cash.js |
-|---------|-------------|--------|---------|
-| TypeScript Native | ✅ | ❌ | ⚠️ Types |
-| Element Creation | ✅ 100+ | ⚠️ Basic | ⚠️ Basic |
-| Spatial Navigation | ✅ | ❌ | ❌ |
-| Bundle Size | ~20KB | ~90KB | ~6KB |
-| Tree Shakeable | ✅ | ❌ | ✅ |
-| Modern Browsers Only | ✅ | ❌ | ✅ |
-
 ## 💡 Tips
 
 1. **Use type guards** for safer code:
@@ -380,8 +360,3 @@ MIT License
 ## 🔗 Related
 
 - [@protolabo/zenjs](https://www.npmjs.com/package/@protolabo/zenjs) - Core utilities
-- [DOM API](https://developer.mozilla.org/en-US/docs/Web/API) - MDN reference
-
----
-
-**Note**: This TypeScript version includes all the element creation functions from the original (~100+ functions). See `dom-create.ts` for the complete list or the pattern for adding more.

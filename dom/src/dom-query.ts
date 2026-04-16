@@ -1,5 +1,5 @@
 import { isFunction, isNullOrUndefined, valOrDefault, isNullOrWhitespace } from '@protolabo/zenjs';
-import { isElement, isHTMLElement, isDocumentFragment, isNode } from './dom-parse';
+import { isElement, isHTMLElement, isDocumentFragment, isNode } from './dom-parse.js';
 
 /**
  * Checks whether the selector represents a `class`

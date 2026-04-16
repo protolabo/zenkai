@@ -9,8 +9,8 @@
  */
 
 import { isNullOrUndefined, isObject, isString } from "@protolabo/zenjs";
-import { isHTMLElement, isNode } from "./dom-parse";
-import { addAttributes } from "./dom-manip";
+import { isHTMLElement, isNode } from "./dom-parse.js";
+import { addAttributes } from "./dom-manip.js";
 
 /**
  * Content type for element creation

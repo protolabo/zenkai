@@ -1,5 +1,5 @@
 import { isObject, isNullOrUndefined, isIterable, isNullOrWhitespace, isString } from "@protolabo/zenjs";
-import { isHTMLElement } from './dom-parse';
+import { isHTMLElement } from './dom-parse.js';
 
 /**
  * Attribute value type

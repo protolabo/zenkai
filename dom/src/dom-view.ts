@@ -1,5 +1,5 @@
 import { isFunction } from "@protolabo/zenjs";
-import { isHTMLElement } from './dom-parse';
+import { isHTMLElement } from './dom-parse.js';
 
 /**
  * Epsilon for floating-point comparisons

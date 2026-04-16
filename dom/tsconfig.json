@@ -6,8 +6,8 @@
       "ES2020",
       "DOM"
     ],
-    "module": "ES2020",
-    "moduleResolution": "node",
+    "module": "Node16",
+    "moduleResolution": "node16",
     /* Emit */
     "declaration": true,
     "declarationMap": true,
@@ -16,7 +16,6 @@
     "outDir": "./dist",
     "removeComments": false,
     "importHelpers": false,
-    "downlevelIteration": true,
     /* Interop Constraints */
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

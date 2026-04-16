@@ -246,9 +246,3 @@ const clonedUsers = users.map(u => cloneObject(u));
 ## 📄 License
 
 MIT License - feel free to use in your projects!
-
-## 🔗 Related
-
-- [Lodash](https://lodash.com/) - More comprehensive utility library
-- [Ramda](https://ramdajs.com/) - Functional programming utilities
-- [date-fns](https://date-fns.org/) - Modern date utility library

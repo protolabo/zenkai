@@ -1,5 +1,5 @@
 import { isFunction } from '@protolabo/zenjs';
-import { isNode } from './dom-parse';
+import { isNode } from './dom-parse.js';
 
 /**
  * Removes all children of a node from the DOM or 

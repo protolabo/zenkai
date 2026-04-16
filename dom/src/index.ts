@@ -4,20 +4,20 @@
  */
 
 // Array utilities
-export * from './dom-create';
+export * from './dom-create.js';
 
 // Conversion utilities
-export * from './dom-manip';
+export * from './dom-manip.js';
 
 // Date/Time utilities
-export * from './dom-parse';
+export * from './dom-parse.js';
 
 // Logic utilities
-export * from './dom-query';
+export * from './dom-query.js';
 
 // Object utilities
-export * from './dom-remove';
+export * from './dom-remove.js';
 
 // Parsing/Type checking utilities
-export * from './dom-view';
+export * from './dom-view.js';
 
