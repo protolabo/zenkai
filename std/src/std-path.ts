@@ -1,4 +1,4 @@
-import { isNullOrWhitespace, isNullOrUndefined } from './std-parse';
+import { isNullOrWhitespace, isNullOrUndefined } from './std-parse.js';
 
 /**
  * Append the path to the current path

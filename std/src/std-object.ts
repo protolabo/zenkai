@@ -1,4 +1,4 @@
-import { isObject, isNullOrUndefined } from "./std-parse";
+import { isObject, isNullOrUndefined } from "./std-parse.js";
 
 /** @private */
 const hasOwnProperty = Object.prototype.hasOwnProperty;

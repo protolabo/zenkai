@@ -1,5 +1,5 @@
-import { isNullOrWhitespace, isString } from "./std-parse";
-import { hasOwn } from "./std-object";
+import { isNullOrWhitespace, isString } from "./std-parse.js";
+import { hasOwn } from "./std-object.js";
 
 /**
  * Case conversion function type

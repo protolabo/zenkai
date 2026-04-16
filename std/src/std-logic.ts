@@ -1,4 +1,4 @@
-import { isFunction } from "./std-parse";
+import { isFunction } from "./std-parse.js";
 
 /**
  * Predicate function type

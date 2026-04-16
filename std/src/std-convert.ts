@@ -1,4 +1,4 @@
-import { valOrDefault, isString } from "./std-parse";
+import { valOrDefault, isString } from "./std-parse.js";
 
 /**
  * Converts the received boolean value to an integer

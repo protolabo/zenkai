@@ -1,4 +1,4 @@
-import { isEmpty } from "./std-parse";
+import { isEmpty } from "./std-parse.js";
 
 /**
  * Inserts an item in an array at the specified index

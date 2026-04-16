@@ -1,4 +1,4 @@
-import { isNullOrUndefined, isDate } from './std-parse';
+import { isNullOrUndefined, isDate } from './std-parse.js';
 
 /**
  * Compare 2 times
