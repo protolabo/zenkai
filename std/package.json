@@ -1,6 +1,6 @@
 {
   "name": "@protolabo/zenjs",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A comprehensive, type-safe utility library for common programming tasks",
   "type": "module",
   "main": "./dist/index.js",

@@ -4,25 +4,25 @@
  */
 
 // Array utilities
-export * from './std-array';
+export * from './std-array.js';
 
 // Conversion utilities
-export * from './std-convert';
+export * from './std-convert.js';
 
 // Date/Time utilities
-export * from './std-datetime';
+export * from './std-datetime.js';
 
 // Logic utilities
-export * from './std-logic';
+export * from './std-logic.js';
 
 // Object utilities
-export * from './std-object';
+export * from './std-object.js';
 
 // Parsing/Type checking utilities
-export * from './std-parse';
+export * from './std-parse.js';
 
 // Path utilities
-export * from './std-path';
+export * from './std-path.js';
 
 // String utilities
-export * from './std-string';
+export * from './std-string.js';
