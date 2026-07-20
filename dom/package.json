@@ -1,6 +1,6 @@
 {
   "name": "@protolabo/zendom",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A lightweight TypeScript DOM manipulation library with type-safe element creation, querying, and spatial navigation",
   "type": "module",
   "main": "./dist/src/index.js",

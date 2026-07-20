@@ -2,13 +2,13 @@
 
 A comprehensive, type-safe DOM manipulation library for modern web applications.
 
-## 📦 Installation
+## Installation
 
 ```bash
-npm install @yourorg/dom-utils
+npm install @protolabo/zendom
 ```
 
-## 🚀 Features
+## Features
 
 - **Full TypeScript support** with proper DOM types
 - **Tree-shakeable** - import only what you need
@@ -17,12 +17,12 @@ npm install @yourorg/dom-utils
 - **Spatial positioning** - Advanced element positioning utilities
 - **Well-documented** - Full JSDoc comments
 
-## 📚 API Reference
+## API Reference
 
-### DOM Parsing & Type Checking (`dom-parse`)
+### DOM Parsing & Type Checking
 
 ```typescript
-import { isElement, isHTMLElement, htmlToElement } from '@yourorg/dom-utils';
+import { isElement, isHTMLElement, htmlToElement } from '@protolabo/zendom';
 
 // Type checking with type guards
 if (isHTMLElement(el)) {
@@ -41,7 +41,7 @@ const div = htmlToElement('<div>Hello</div>');
 const nodes = htmlToElements('<p>One</p><p>Two</p>');
 ```
 
-### DOM Querying (`dom-query`)
+### DOM Querying
 
 ```typescript
 import { 
@@ -49,7 +49,7 @@ import {
     getElements, 
     findAncestor,
     getPreviousElementSibling 
-} from '@yourorg/dom-utils';
+} from '@protolabo/zendom';
 
 // Optimized selectors (uses getElementById for #id, getElementsByClassName for .class)
 const header = getElement('#header');
@@ -63,10 +63,10 @@ const prev = getPreviousElementSibling(el);
 const next = getNextElementSibling(el, (el) => !el.classList.contains('hidden'));
 ```
 
-### DOM Manipulation (`element-manip`)
+### DOM Manipulation
 
 ```typescript
-import { addAttributes, changeSelectedValue } from '@yourorg/dom-utils';
+import { addAttributes, changeSelectedValue } from '@protolabo/zendom';
 
 // Add attributes to element
 addAttributes(button, {
@@ -81,7 +81,7 @@ const select = document.querySelector('select');
 changeSelectedValue(select, 'option-2');
 ```
 
-### Element Creation (`dom-create`)
+### Element Creation
 
 ```typescript
 import { 
@@ -91,7 +91,7 @@ import {
     createTable,
     createTableRow,
     createTableCell 
-} from '@yourorg/dom-utils';
+} from '@protolabo/zendom';
 
 // Create elements with attributes and content
 const button = createButton(
@@ -114,7 +114,7 @@ const row = createTableRow(null, [
 ]);
 ```
 
-### Viewport & Positioning (`dom-view`)
+### Viewport & Positioning
 
 ```typescript
 import { 
@@ -122,7 +122,7 @@ import {
     getClosest,
     getElementTop,
     getVisibleElement 
-} from '@yourorg/dom-utils';
+} from '@protolabo/zendom';
 
 // Check if element is visible in viewport
 if (isInViewport(element)) {
@@ -145,10 +145,10 @@ const visibleAbove = getElementTop(
 );
 ```
 
-### Node Removal (`dom-remove`)
+### Node Removal
 
 ```typescript
-import { removeChildren } from '@yourorg/dom-utils';
+import { removeChildren } from '@protolabo/zendom';
 
 // Remove all children
 removeChildren(container);
@@ -200,7 +200,7 @@ document.body.appendChild(form);
 ### Keyboard Navigation Grid
 
 ```typescript
-import { getClosest, isHTMLElement } from '@yourorg/dom-utils';
+import { getClosest, isHTMLElement } from 'protolabo/zendom';
 
 function setupGridNavigation(container: HTMLElement) {
     let currentCell: HTMLElement | null = null;
@@ -240,7 +240,7 @@ import {
     createTableRow,
     createTableHeaderCell,
     createTableCell 
-} from '@yourorg/dom-utils';
+} from 'protolabo/zendom';
 
 interface User {
     name: string;
@@ -272,52 +272,6 @@ function createUserTable(users: User[]): HTMLTableElement {
 }
 ```
 
-## 🔄 Migration from JavaScript
-
-The TypeScript version maintains API compatibility with improvements:
-
-```typescript
-// Before (JavaScript) - hardcoded class filtering
-getElementTop(source, container);
-
-// After (TypeScript) - flexible predicate filtering
-getElementTop(source, container, true, (el) => 
-    !el.classList.contains('hidden')
-);
-```
-
-### Key Improvements
-
-1. **Type Safety**: All functions properly typed
-2. **Flexible Filtering**: Predicates instead of hardcoded checks
-3. **Missing Functions**: Added utility functions (isHidden, pixelToNumber, etc.)
-4. **Better Precision**: Epsilon tolerance for floating-point comparisons
-5. **Consistent API**: Unified optional parameters
-
-## ⚠️ Breaking Changes
-
-### 1. Positioning Functions Accept Predicates
-
-```typescript
-// Old: Hardcoded badge filtering
-getElementTop(source, container);
-
-// New: Custom filtering with predicates
-getElementTop(source, container, true, (el) => 
-    !el.hasAttribute('data-skip')
-);
-```
-
-### 2. Import Paths
-
-```typescript
-// Before
-import { getElement } from './dom-query.js';
-
-// After
-import { getElement } from '@yourorg/dom-utils';
-```
-
 ## 💡 Tips
 
 1. **Use type guards** for safer code:
@@ -329,7 +283,7 @@ import { getElement } from '@yourorg/dom-utils';
 
 2. **Leverage tree-shaking**:
    ```typescript
-   import { createDiv } from '@yourorg/dom-utils/dom-create';
+   import { createDiv } from '@protolabo/zendom/dom-create';
    ```
 
 3. **Use predicates for flexible filtering**:
@@ -344,19 +298,10 @@ import { getElement } from '@yourorg/dom-utils';
    const form = findAncestor(input, (el) => isHTMLElement(el, 'form'));
    ```
 
-## 🤝 Contributing
-
-Contributions welcome! Please ensure:
-
-1. All functions have proper TypeScript types
-2. JSDoc comments are complete
-3. Tests are added for new functionality
-4. Follow existing code style
-
-## 📄 License
+## License
 
 MIT License
 
-## 🔗 Related
+## Related
 
 - [@protolabo/zenjs](https://www.npmjs.com/package/@protolabo/zenjs) - Core utilities

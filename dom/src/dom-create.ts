@@ -1,30 +1,17 @@
-/**
- * IMPROVED dom-create.ts
- * Key improvements:
- * 1. Generic factory function to reduce duplication
- * 2. Type-safe element specifications
- * 3. Better tree-shaking
- * 4. Fluent API option
- * 5. Reduced bundle size
- */
-
 import { isNullOrUndefined, isObject, isString } from "@protolabo/zenjs";
-import { isHTMLElement, isNode } from "./dom-parse.js";
+import { isNode } from "./dom-parse.js";
 import { addAttributes } from "./dom-manip.js";
 
 /**
  * Content type for element creation
  */
-export type ElementContent = Text | Node | HTMLElement | (Text | Node | HTMLElement)[];
+export type ElementContent = string | Text | Node | HTMLElement | (string | Text | Node | HTMLElement)[];
 
 /**
  * Attributes type
  */
 export type ElementAttributes = Record<string, any>;
 
-/******************************************************************************
- * IMPROVEMENT #1: Generic Factory with Type Safety
- *****************************************************************************/
 
 /**
  * Element specification for type-safe creation
@@ -44,12 +31,8 @@ function createElementFactory<K extends keyof HTMLElementTagNameMap>(
     return (
         attributes?: ElementAttributes,
         content?: ElementContent
-    ): HTMLElementTagNameMap[K] | null => {
+    ): HTMLElementTagNameMap[K] => {
         const element = document.createElement(spec.tag);
-
-        if (!isHTMLElement(element)) {
-            return null;
-        }
 
         if (isObject(attributes)) {
             addAttributes(element, attributes, spec.validAttributes || "");
@@ -59,7 +42,7 @@ function createElementFactory<K extends keyof HTMLElementTagNameMap>(
             addContent(element, content);
         }
 
-        return element as HTMLElementTagNameMap[K];
+        return element;
     };
 }
 
@@ -88,10 +71,6 @@ function addContent(element: DocumentFragment | Element, content: ElementContent
     return element;
 }
 
-/******************************************************************************
- * IMPROVEMENT #2: Element Specifications Registry
- * Centralized, easy to maintain, better for tree-shaking
- *****************************************************************************/
 
 /**
  * Element specifications - single source of truth
@@ -164,9 +143,6 @@ const ElementSpecs = {
 } as const;
 
 
-/******************************************************************************
- * IMPROVEMENT #3: Auto-generated Functions with Better Types
- *****************************************************************************/
 
 /**
  * Create all element functions programmatically
@@ -228,10 +204,6 @@ export const createUList = createElementFactory(ElementSpecs.ul);
 export const createOList = createElementFactory(ElementSpecs.ol);
 export const createListItem = createElementFactory(ElementSpecs.li);
 
-/******************************************************************************
- * IMPROVEMENT #4: Generic createElement Function
- * Allows creating any element without predefined function
- *****************************************************************************/
 
 /**
  * Generic element creator - creates any HTML element
@@ -241,12 +213,8 @@ export function createElement<K extends keyof HTMLElementTagNameMap>(
     tag: K,
     attributes?: ElementAttributes,
     content?: ElementContent | ElementContent[]
-): HTMLElementTagNameMap[K] | null {
+): HTMLElementTagNameMap[K] {
     const element = document.createElement(tag);
-
-    if (!isHTMLElement(element)) {
-        return null;
-    }
 
     if (isObject(attributes)) {
         addAttributes(element, attributes);
@@ -256,13 +224,9 @@ export function createElement<K extends keyof HTMLElementTagNameMap>(
         addContent(element, content);
     }
 
-    return element as HTMLElementTagNameMap[K];
+    return element;
 }
 
-/******************************************************************************
- * IMPROVEMENT #5: Fluent API Builder Pattern
- * More intuitive and chainable
- *****************************************************************************/
 
 /**
  * Element builder for fluent API
@@ -379,7 +343,7 @@ export function build<K extends keyof HTMLElementTagNameMap>(tag: K): ElementBui
 }
 
 /******************************************************************************
- * IMPROVEMENT #6: Utility Functions
+ * Utility Functions
  *****************************************************************************/
 
 /**
@@ -396,14 +360,28 @@ export function createDocFragment(children?: ElementContent): DocumentFragment {
 }
 
 /**
+ * Document fragment helper alias
+ */
+export function fragment(children?: ElementContent): DocumentFragment {
+    return createDocFragment(children);
+}
+
+/**
  * Text node helper
  */
 export function createTextNode(text: string): Text {
     return document.createTextNode(text);
 }
 
+/**
+ * Text node helper alias
+ */
+export function text(text: string): Text {
+    return createTextNode(text);
+}
+
 /******************************************************************************
- * IMPROVEMENT #7: JSX-like Syntax Helper
+ * JSX-like Syntax Helper
  *****************************************************************************/
 
 /**
@@ -421,7 +399,7 @@ export function h<K extends keyof HTMLElementTagNameMap>(
     tag: K,
     props?: ElementAttributes | null,
     ...children: (ElementContent | ElementContent[])[]
-): HTMLElementTagNameMap[K] | null {
+): HTMLElementTagNameMap[K] {
     // flatten one level
     const flatChildren: ElementContent[] = children.flat() as ElementContent[];
 
@@ -435,7 +413,7 @@ export function h<K extends keyof HTMLElementTagNameMap>(
 }
 
 /******************************************************************************
- * IMPROVEMENT #8: Template Literals Helper
+ * Template Literals Helper
  *****************************************************************************/
 
 /**

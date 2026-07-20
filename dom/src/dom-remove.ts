@@ -9,10 +9,7 @@ import { isNode } from './dom-parse.js';
  * @returns The node (for chaining)
  * @memberof DOM
  */
-export function removeChildren(
-    node: Node, 
-    callback?: (node: Node) => boolean
-): Node {
+export function removeChildren(node: Node,  callback?: (node: Node) => boolean): Node {
     if (!isNode(node)) {
         throw new TypeError("removeChildren: node must be a valid Node");
     }

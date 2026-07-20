@@ -170,11 +170,7 @@ export function getNextElementSibling(
  * @returns Matching ancestor element or null
  * @memberof DOM
  */
-export function findAncestor(
-    target: Element, 
-    pred: (el: Element) => boolean, 
-    max?: number
-): Element | null {
+export function findAncestor(target: Element, pred: (el: Element) => boolean, max?: number): Element | null {
     if (!isElement(target)) {
         throw new TypeError("findAncestor: target must be a valid HTML Element");
     }
@@ -219,11 +215,7 @@ function findAncestorInf(target: Element | null, pred: (el: Element) => boolean)
  * @returns Matching element or null
  * @private
  */
-function findAncestorIter(
-    target: Element | null, 
-    pred: (el: Element) => boolean, 
-    max: number
-): Element | null {
+function findAncestorIter(target: Element | null, pred: (el: Element) => boolean, max: number): Element | null {
     if (isNullOrUndefined(target) || max === 0) {
         return null;
     }

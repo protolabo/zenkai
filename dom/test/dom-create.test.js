@@ -1,5 +1,5 @@
 // require jsdom-global and run
-var jsdom = require('jsdom-global');
+var jsdom = require('jsdom');
 
 // require chai for BDD
 var expect = require('chai').expect;
@@ -19,7 +19,7 @@ const NodeType = {
 
 
 // import our library
-const {
+import {
     createDocFragment, createTextNode, createLink, createTemplate, createTitle, createMeta,
     // Sectionning element
     createHeader, createMain, createArticle, createSection, createNav, createAside, createFooter,
@@ -41,7 +41,7 @@ const {
     // Table element
     createTable, createCaption, createTableHeader, createTableBody, createTableFooter,
     createTableColumn, createTableColumnGroup, createTableRow, createTableHeaderCell, createTableCell
-} = require('@dom/dom-create.js');
+} from './../src/dom-create.js';
 
 const ATTRIBUTE_MAPPER = {
     accesskey: 'accessKey',
